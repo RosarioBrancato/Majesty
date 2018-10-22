@@ -1,4 +1,4 @@
-package ch.fhnw.projectbois.mvc;
+package ch.fhnw.projectbois._mvc;
 
 /**
  * Copyright 2015, FHNW, Prof. Dr. Brad Richards. All rights reserved. This code
