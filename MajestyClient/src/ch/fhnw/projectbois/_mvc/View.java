@@ -1,4 +1,4 @@
-package ch.fhnw.projectbois.mvc;
+package ch.fhnw.projectbois._mvc;
 
 import java.io.IOException;
 import java.net.URL;

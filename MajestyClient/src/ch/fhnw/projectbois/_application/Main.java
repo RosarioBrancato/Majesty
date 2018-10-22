@@ -13,6 +13,8 @@ public class Main extends Application {
 			
 			LoginController.createMvc();
 			
+			primaryStage.setTitle("Majesty - For The Realm");
+			primaryStage.setMaximized(true);
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
