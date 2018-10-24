@@ -22,7 +22,7 @@ public class Lobby {
 	}
 
 	public void doMove(String clientToken, String json) {
-		System.out.println("Client Token: " + clientToken + " JSON: " + json);
+		System.out.println("Lobby.doMove() - Token: " + clientToken + " JSON: " + json);
 	}
 
 	public void updateGameState(String json) {
