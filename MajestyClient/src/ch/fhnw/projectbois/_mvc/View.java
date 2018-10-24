@@ -6,11 +6,7 @@ import ch.fhnw.projectbois.fxml.FXMLUtils;
 import javafx.scene.Parent;
 
 /**
- * Copyright 2015, FHNW, Prof. Dr. Brad Richards. All rights reserved. This code
- * is licensed under the terms of the BSD 3-clause license (see the file
- * license.txt).
- * 
- * @author Brad Richards
+ * Based on example from course Java 2 
  */
 public abstract class View<M extends Model> {
 	protected Parent root;
@@ -36,7 +32,7 @@ public abstract class View<M extends Model> {
 	}
 
 	protected abstract URL getFXML();
-	
+
 	public Parent getRoot() {
 		return this.root;
 	}

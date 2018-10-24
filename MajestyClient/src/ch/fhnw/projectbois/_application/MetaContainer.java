@@ -4,6 +4,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Based on example from course Java 2 
+ */
 public class MetaContainer {
 
 	private static MetaContainer instance = null;
@@ -28,7 +31,7 @@ public class MetaContainer {
 	public Stage getMainStage() {
 		return this.mainStage;
 	}
-	
+
 	public void setRoot(Parent root) {
 		Scene scene = new Scene(root);
 		this.mainStage.setScene(scene);

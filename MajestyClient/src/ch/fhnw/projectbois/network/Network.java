@@ -33,16 +33,15 @@ public class Network {
 			Request request = new Request("TEST-TOKEN", RequestId.DO_MOVE, "{}");
 			
 			String json = JsonUtils.Serialize(request);
+			System.out.println("Network.sendTest() - JSON: " + json);
 			
 			OutputStream stream = this.socket.getOutputStream();
 			PrintWriter writer = new PrintWriter(stream);
 
-			System.out.println("Client writes: " + json);
-
 			writer.println(json);
 			writer.flush();
+			
 		} catch (Exception ex) {
-
 		}
 	}
 	
@@ -62,7 +61,7 @@ public class Network {
 						String json;
 						while ((json = reader.readLine()) != null && !socket.isClosed()) {
 
-							System.out.println("ServerClient Json: " + json);
+							System.out.println("Network Runnable Json: " + json);
 						}
 					} catch (Exception ex) {
 						// System.out.println("Error ClientMain: " + ex.getMessage());
