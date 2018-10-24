@@ -1,12 +1,9 @@
 package ch.fhnw.projectbois._mvc;
 
-import java.io.IOException;
 import java.net.URL;
 
-import ch.fhnw.projectbois._application.MetaContainer;
-import javafx.fxml.FXMLLoader;
+import ch.fhnw.projectbois.fxml.FXMLUtils;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 
 /**
  * Copyright 2015, FHNW, Prof. Dr. Brad Richards. All rights reserved. This code
@@ -16,7 +13,7 @@ import javafx.scene.Scene;
  * @author Brad Richards
  */
 public abstract class View<M extends Model> {
-	protected Scene scene;
+	protected Parent root;
 	protected M model;
 
 	/**
@@ -27,41 +24,21 @@ public abstract class View<M extends Model> {
 	 */
 	protected View(M model) {
 		this.model = model;
-		this.scene = createScene();
-
-		MetaContainer.getInstance().getMainStage().setScene(this.scene);
+		this.root = createRoot();
 	}
 
-	protected Scene createScene() {
-		Parent root = null;
-
+	protected Parent createRoot() {
 		// FXML
-		try {
-			URL fxml = getFXML();
-			if (fxml != null) {
-				root = FXMLLoader.load(fxml);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		URL url = getFXML();
+		Parent root = FXMLUtils.loadFXML(url);
 
-		Scene scene = new Scene(root);
-
-		// CSS
-		String css = getCSS();
-		if (css != null) {
-			scene.getStylesheets().add(css);
-		}
-
-		return scene;
+		return root;
 	}
 
 	protected abstract URL getFXML();
-
-	protected abstract String getCSS();
-
-	public Scene getScene() {
-		return this.scene;
+	
+	public Parent getRoot() {
+		return this.root;
 	}
 
 }

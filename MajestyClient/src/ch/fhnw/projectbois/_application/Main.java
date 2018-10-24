@@ -10,11 +10,10 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			MetaContainer.getInstance().setMainStage(primaryStage);
-			
-			LoginController.createMvc();
+			MetaContainer.getInstance().setRoot(LoginController.initMVC().getViewRoot());
 			
 			primaryStage.setTitle("Majesty - For The Realm");
-			primaryStage.setMaximized(true);
+			primaryStage.setMaximized(false);
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();

@@ -1,6 +1,7 @@
 package ch.fhnw.projectbois._mvc;
 
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 
 /**
  * Copyright 2015, FHNW, Prof. Dr. Brad Richards. All rights reserved. This code
@@ -22,6 +23,10 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 	protected Controller(M model, V view) {
 		this.model = model;
 		this.view = view;
+	}
+	
+	public Parent getViewRoot() {
+		return this.view.getRoot(); 
 	}
 
 	@FXML
