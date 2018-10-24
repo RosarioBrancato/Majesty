@@ -28,10 +28,12 @@ public class Server {
 						try {
 							Socket socket = server.accept();
 							clients.add(new ServerClient(instance, socket));
-
+							
 						} catch (Exception ex) {
-							System.out.println("Error Runnable: " + ex.getMessage());
+							System.out.println("Server ex: " + ex.getMessage());
 						}
+						
+						printClientSize();
 					}
 				}
 			};
@@ -40,7 +42,7 @@ public class Server {
 			t.start();
 
 		} catch (Exception ex) {
-			System.out.println("Error on start: " + ex.getMessage());
+			System.out.println("Server ex on start: " + ex.getMessage());
 			success = false;
 		}
 		
@@ -48,7 +50,7 @@ public class Server {
 	}
 
 	public void stopServer() {
-		System.out.println("Stop server");
+		System.out.println("Server.stopServer()");
 
 		for (ServerClient s : this.clients) {
 			try {
@@ -68,6 +70,7 @@ public class Server {
 
 	public void remove(ServerClient client) {
 		this.clients.remove(client);
+		this.printClientSize();
 	}
 
 	public int getClientsCount() {
@@ -80,6 +83,10 @@ public class Server {
 		lobby.addClient(client);
 		
 		this.lobbies.add(lobby);
+	}
+	
+	private void printClientSize() {
+		System.out.println("Server - Clients connected: " + clients.size());
 	}
 
 }

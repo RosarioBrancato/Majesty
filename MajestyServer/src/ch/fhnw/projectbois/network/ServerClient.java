@@ -12,7 +12,7 @@ import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.json.JsonUtils;
 
 public class ServerClient {
-	
+
 	private Socket socket = null;
 	private String token = null;
 
@@ -29,18 +29,25 @@ public class ServerClient {
 				try {
 					BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 					String json;
+					
 					while ((json = reader.readLine()) != null && !socket.isClosed()) {
+						
+						try {
+							System.out.println("ServerClient Json: " + json);
 
-						System.out.println("ServerClient Json: " + json);
+							Request request = JsonUtils.Deserialize(json, Request.class);
+							System.out.println("Server Request: " + request.toString());
 
-						Request request = JsonUtils.Deserialize(json, Request.class);
+							if (request.getRequestId() == RequestId.CREATE_LOBBY) {
+								server.createLobby(instance);
 
-						if(request.getRequestId() == RequestId.CREATE_LOBBY) {
-							server.createLobby(instance);
-							
-						} else if (request.getRequestId() == RequestId.DO_MOVE) {
-							lobby.doMove(token, request.getJsonDataObject());
+							} else if (request.getRequestId() == RequestId.DO_MOVE) {
+								lobby.doMove(token, request.getJsonDataObject());
+							}
+						} catch (Exception e) {
+							System.out.println("ServerClientLoop: " + e.getMessage());
 						}
+						
 					}
 				} catch (Exception ex) {
 					// System.out.println("Error ClientMain: " + ex.getMessage());
@@ -63,18 +70,13 @@ public class ServerClient {
 
 	public void sendGameState(String json) {
 		try {
-			try {
-				OutputStream stream = this.socket.getOutputStream();
-				PrintWriter writer = new PrintWriter(stream);
+			OutputStream stream = this.socket.getOutputStream();
+			PrintWriter writer = new PrintWriter(stream);
 
-				System.out.println("ServerClient writes: " + json);
+			System.out.println("ServerClient writes: " + json);
 
-				writer.println(json);
-				writer.flush();
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			writer.println(json);
+			writer.flush();
 		} catch (Exception ex) {
 
 		}
@@ -87,11 +89,11 @@ public class ServerClient {
 	public Lobby getLobby() {
 		return this.lobby;
 	}
-	
+
 	public void setToken(String token) {
 		this.token = token;
 	}
-	
+
 	public String getToken() {
 		return this.token;
 	}
