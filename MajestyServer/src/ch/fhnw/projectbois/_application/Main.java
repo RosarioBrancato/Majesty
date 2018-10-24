@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 
 import ch.fhnw.projectbois.network.Server;
 
-public class MainCore {
+public class Main {
 
 	public static void main(String[] args) {
 		System.out.println("Starting Majesty...");

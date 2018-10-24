@@ -1,5 +1,7 @@
 package ch.fhnw.projectbois._application;
 
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class MetaContainer {
@@ -25,6 +27,11 @@ public class MetaContainer {
 
 	public Stage getMainStage() {
 		return this.mainStage;
+	}
+	
+	public void setRoot(Parent root) {
+		Scene scene = new Scene(root);
+		this.mainStage.setScene(scene);
 	}
 
 }
