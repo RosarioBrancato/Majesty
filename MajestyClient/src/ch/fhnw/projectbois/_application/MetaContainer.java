@@ -28,10 +28,6 @@ public class MetaContainer {
 		this.mainStage = stage;
 	}
 
-	public Stage getMainStage() {
-		return this.mainStage;
-	}
-
 	public void setRoot(Parent root) {
 		Scene scene = new Scene(root);
 		this.mainStage.setScene(scene);

@@ -6,7 +6,7 @@ import ch.fhnw.projectbois.fxml.FXMLUtils;
 import javafx.scene.Parent;
 
 /**
- * Based on example from course Java 2 
+ * Based on example from course Java 2
  */
 public abstract class View<M extends Model> {
 	protected Parent root;
@@ -23,18 +23,18 @@ public abstract class View<M extends Model> {
 		this.root = createRoot();
 	}
 
+	public Parent getRoot() {
+		return this.root;
+	}
+
+	protected abstract URL getFXML();
+
 	protected Parent createRoot() {
 		// FXML
 		URL url = getFXML();
 		Parent root = FXMLUtils.loadFXML(url);
 
 		return root;
-	}
-
-	protected abstract URL getFXML();
-
-	public Parent getRoot() {
-		return this.root;
 	}
 
 }
