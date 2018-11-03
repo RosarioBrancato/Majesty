@@ -6,7 +6,7 @@ import ch.fhnw.projectbois._mvc.View;
 
 public class MenuBarView extends View<MenuBarModel> {
 
-	protected MenuBarView(MenuBarModel model) {
+	public MenuBarView(MenuBarModel model) {
 		super(model);
 	}
 

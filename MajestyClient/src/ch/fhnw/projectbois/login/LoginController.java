@@ -11,11 +11,4 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		super(model, view);
 	}
 
-	public static LoginController initMVC() {
-		LoginModel m = new LoginModel();
-		LoginView v = new LoginView(m);
-
-		return new LoginController(m, v);
-	}
-
 }

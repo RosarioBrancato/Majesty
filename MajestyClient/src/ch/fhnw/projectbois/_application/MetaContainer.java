@@ -6,6 +6,8 @@ import javafx.stage.Stage;
 
 /**
  * Based on example from course Java 2 
+ * 
+ * @author Rosario Brancato
  */
 public class MetaContainer {
 

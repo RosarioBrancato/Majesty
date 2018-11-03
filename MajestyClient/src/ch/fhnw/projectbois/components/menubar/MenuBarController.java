@@ -15,13 +15,6 @@ public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 		super(model, view);
 	}
 
-	public static MenuBarController initMVC() {
-		MenuBarModel model = new MenuBarModel();
-		MenuBarView view = new MenuBarView(model);
-
-		return new MenuBarController(model, view);
-	}
-
 	@FXML
 	private void btnText_Click(ActionEvent event) {
 		Network.getInstance().sendTest();
