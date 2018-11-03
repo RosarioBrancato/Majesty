@@ -7,6 +7,8 @@ import javafx.scene.Parent;
 
 /**
  * Based on example from course Java 2
+ * 
+ * @author Rosario Brancato
  */
 public abstract class View<M extends Model> {
 	protected Parent root;
