@@ -10,6 +10,7 @@ import java.net.Socket;
 import ch.fhnw.projectbois.communication.Request;
 import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.json.JsonUtils;
+import ch.fhnw.projectbois.lobby.LobbyDTO;
 
 public class ServerClient {
 
@@ -40,6 +41,16 @@ public class ServerClient {
 
 							if (request.getRequestId() == RequestId.CREATE_LOBBY) {
 								server.createLobby(instance);
+								
+							} else if(request.getRequestId() == RequestId.JOIN_LOBBY) {
+								LobbyDTO lobbyDTO = JsonUtils.Deserialize(request.getJsonDataObject(), LobbyDTO.class);
+								server.joinLobby(instance, lobbyDTO);
+								
+							} else if(request.getRequestId() == RequestId.LEAVE_LOBBY) {
+								lobby.removeClient(instance);
+								
+							} else if(request.getRequestId() == RequestId.GET_LOBBIES) {
+								//TO-DO: Send lobbies arraylist to client
 
 							} else if (request.getRequestId() == RequestId.DO_MOVE) {
 								lobby.doMove(token, request.getJsonDataObject());
