@@ -4,6 +4,12 @@ import java.net.URL;
 
 import ch.fhnw.projectbois._mvc.View;
 
+/**
+ * 
+ * @author Dario Stöckli
+ *
+ */
+
 public class PlayScreenView extends View<PlayScreenModel> {
 
 	public PlayScreenView(PlayScreenModel model) {

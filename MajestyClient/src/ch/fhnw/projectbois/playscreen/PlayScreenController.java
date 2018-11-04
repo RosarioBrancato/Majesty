@@ -2,6 +2,12 @@ package ch.fhnw.projectbois.playscreen;
 
 import ch.fhnw.projectbois._mvc.Controller;
 
+/**
+ * 
+ * @author Dario Stöckli
+ *
+ */
+
 public class PlayScreenController extends Controller<PlayScreenModel, PlayScreenView> {
 
 	public PlayScreenController() {
