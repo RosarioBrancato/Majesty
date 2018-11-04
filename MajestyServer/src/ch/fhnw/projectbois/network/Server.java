@@ -4,6 +4,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import ch.fhnw.projectbois.lobby.LobbyDTO;
+
 public class Server {
 
 	private ServerSocket server = null;
@@ -84,6 +86,33 @@ public class Server {
 		
 		this.lobbies.add(lobby);
 	}
+	
+	public boolean joinLobby(ServerClient client, LobbyDTO lobbyDTO) {
+		boolean success = false;
+		
+		Lobby lobby = this.lobbies.stream().filter(f -> f.getId() == lobbyDTO.getId()).findFirst().get();
+		if(lobby != null) {
+			success = lobby.addClient(client);
+		}
+		
+		return success;
+	}
+	
+	public ArrayList<LobbyDTO> getLobbies() {
+		ArrayList<LobbyDTO> lobbies = new ArrayList<>();
+		
+		for(Lobby l : this.lobbies) {
+			LobbyDTO lobbyDTO =  new LobbyDTO();
+			lobbyDTO.setId(l.getId());
+			
+			//lobbyDTO.setPlayers(); TO-DO
+			
+			lobbies.add(lobbyDTO);
+		}
+		
+		return lobbies;
+	}
+	
 	
 	private void printClientSize() {
 		System.out.println("Server - Clients connected: " + clients.size());
