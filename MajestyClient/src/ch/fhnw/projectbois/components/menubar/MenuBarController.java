@@ -19,5 +19,10 @@ public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 	private void btnText_Click(ActionEvent event) {
 		Network.getInstance().sendTest();
 	}
+	
+	@FXML
+	private void btn_menubarview_play_view(ActionEvent event) {
+		
+	}
 
 }
