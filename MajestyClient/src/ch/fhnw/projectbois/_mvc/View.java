@@ -1,8 +1,9 @@
 package ch.fhnw.projectbois._mvc;
 
+import java.io.IOException;
 import java.net.URL;
 
-import ch.fhnw.projectbois.fxml.FXMLUtils;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
 /**
@@ -22,7 +23,6 @@ public abstract class View<M extends Model> {
 	 */
 	protected View(M model) {
 		this.model = model;
-		this.root = createRoot();
 	}
 
 	public Parent getRoot() {
@@ -31,12 +31,18 @@ public abstract class View<M extends Model> {
 
 	protected abstract URL getFXML();
 
-	protected Parent createRoot() {
-		// FXML
-		URL url = getFXML();
-		Parent root = FXMLUtils.loadFXML(url);
+	@SuppressWarnings("rawtypes")
+	public <T extends Controller> void loadRoot(T controller) {
+		URL url = this.getFXML();
+		FXMLLoader loader = new FXMLLoader(url);
+		loader.setController(controller);
 
-		return root;
+		try {
+			this.root = loader.load();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
