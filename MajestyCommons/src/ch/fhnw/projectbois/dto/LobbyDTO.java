@@ -1,4 +1,4 @@
-package ch.fhnw.projectbois.lobby;
+package ch.fhnw.projectbois.dto;
 
 import java.util.ArrayList;
 

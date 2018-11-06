@@ -27,6 +27,9 @@ public class Main {
 					if (input.equals("SHUTDOWN")) {
 						server.stopServer();
 						shutdown = true;
+						
+					} else if(input.equals("test")) {
+						server.broadcastTest();
 					}
 				} while (!shutdown);
 

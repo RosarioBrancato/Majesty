@@ -4,7 +4,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import ch.fhnw.projectbois.lobby.LobbyDTO;
+import ch.fhnw.projectbois.communication.RequestId;
+import ch.fhnw.projectbois.communication.Response;
+import ch.fhnw.projectbois.dto.LobbyDTO;
+import ch.fhnw.projectbois.json.JsonUtils;
 
 public class Server {
 
@@ -85,6 +88,14 @@ public class Server {
 		lobby.addClient(client);
 		
 		this.lobbies.add(lobby);
+		System.out.println("Server.createLobby() - Lobby created!");
+		
+		LobbyDTO lobbyDTO = new LobbyDTO();
+		lobbyDTO.setId(lobby.getId());
+		Response response = new Response(RequestId.CREATE_LOBBY, JsonUtils.Serialize(lobbyDTO));
+		
+		client.sendResponse(response);
+		System.out.println("Server.createLobby() - Response sent!");
 	}
 	
 	public boolean joinLobby(ServerClient client, LobbyDTO lobbyDTO) {
@@ -111,6 +122,16 @@ public class Server {
 		}
 		
 		return lobbies;
+	}
+	
+	
+	public void broadcastTest() {
+		Response r = new Response();
+		r.setRequest(RequestId.TEST);
+		
+		for(ServerClient c : this.clients) {
+			c.sendResponse(r);
+		}
 	}
 	
 	

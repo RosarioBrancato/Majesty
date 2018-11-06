@@ -20,13 +20,14 @@ public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 	private void btnText_Click(ActionEvent event) {
 		Network.getInstance().sendTest();
 	}
-	
+
 	@FXML
 	private void btn_menubarview_play_view(ActionEvent event) {
-		PlayScreenController controller = Controller.initMVC(PlayScreenController.class, PlayScreenModel.class, PlayScreenView.class);
-		
+		PlayScreenController controller = Controller.initMVC(PlayScreenController.class, PlayScreenModel.class,
+				PlayScreenView.class);
+
 		Parent root = this.view.getRoot();
-		BorderPane pane = (BorderPane)root;
+		BorderPane pane = (BorderPane) root;
 		pane.setCenter(controller.getViewRoot());
 	}
 

@@ -9,8 +9,9 @@ import java.net.Socket;
 
 import ch.fhnw.projectbois.communication.Request;
 import ch.fhnw.projectbois.communication.RequestId;
+import ch.fhnw.projectbois.communication.Response;
+import ch.fhnw.projectbois.dto.LobbyDTO;
 import ch.fhnw.projectbois.json.JsonUtils;
-import ch.fhnw.projectbois.lobby.LobbyDTO;
 
 public class ServerClient {
 
@@ -90,6 +91,22 @@ public class ServerClient {
 			writer.flush();
 		} catch (Exception ex) {
 
+		}
+	}
+	
+	public void sendResponse(Response response) {
+		try {
+			String json = JsonUtils.Serialize(response);
+			
+			OutputStream stream = this.socket.getOutputStream();
+			PrintWriter writer = new PrintWriter(stream);
+
+			System.out.println("S to C: " + json);
+
+			writer.println(json);
+			writer.flush();
+			
+		} catch (Exception ex) {
 		}
 	}
 
