@@ -9,16 +9,19 @@ import java.net.Socket;
 
 import ch.fhnw.projectbois.communication.Request;
 import ch.fhnw.projectbois.communication.RequestId;
+import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.json.JsonUtils;
+import javafx.beans.property.SimpleObjectProperty;
 
 public class Network {
 
 	private static Network instance = null;
 
 	private Socket socket = null;
+	private SimpleObjectProperty<Response> response = null;
 
 	private Network() {
-
+		this.response = new SimpleObjectProperty<>();
 	}
 
 	public static Network getInstance() {
@@ -28,25 +31,42 @@ public class Network {
 		return instance;
 	}
 
+	public SimpleObjectProperty<Response> getResponse() {
+		return this.response;
+	}
+
+	public void sendRequest(Request request) {
+		try {
+			String json = JsonUtils.Serialize(request);
+			System.out.println("Network.sendRequest() - JSON: " + json);
+
+			OutputStream stream = this.socket.getOutputStream();
+			PrintWriter writer = new PrintWriter(stream);
+
+			writer.print(json);
+			writer.flush();
+
+		} catch (Exception ex) {
+		}
+	}
+
 	public void sendTest() {
 		try {
 			Request request = new Request("TEST-TOKEN", RequestId.DO_MOVE, "{}");
-			
+
 			String json = JsonUtils.Serialize(request);
 			System.out.println("Network.sendTest() - JSON: " + json);
-			
+
 			OutputStream stream = this.socket.getOutputStream();
 			PrintWriter writer = new PrintWriter(stream);
 
 			writer.println(json);
 			writer.flush();
-			
+
 		} catch (Exception ex) {
 		}
 	}
-	
-	
-	
+
 	public void initConnection(String host, int port) {
 		try {
 			this.stopConnection();
@@ -60,8 +80,9 @@ public class Network {
 						BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 						String json;
 						while ((json = reader.readLine()) != null && !socket.isClosed()) {
+							System.out.println("Network.Runnable() JSON: " + json);
 
-							System.out.println("Network Runnable Json: " + json);
+							response.setValue(JsonUtils.Deserialize(json, Response.class));
 						}
 					} catch (Exception ex) {
 						// System.out.println("Error ClientMain: " + ex.getMessage());
