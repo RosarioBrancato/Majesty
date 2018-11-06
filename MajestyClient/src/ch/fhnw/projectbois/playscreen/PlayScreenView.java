@@ -18,7 +18,7 @@ public class PlayScreenView extends View<PlayScreenModel> {
 
 	@Override
 	protected URL getFXML() {
-		return this.getClass().getResource("PlayScreenView.fmxl");
+		return this.getClass().getResource("PlayScreenView.fxml");
 	}
 	
 }

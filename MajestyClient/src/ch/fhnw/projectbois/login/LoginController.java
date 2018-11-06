@@ -4,9 +4,6 @@ import ch.fhnw.projectbois._mvc.Controller;
 
 public class LoginController extends Controller<LoginModel, LoginView> {
 
-	public LoginController() {
-	}
-
 	public LoginController(LoginModel model, LoginView view) {
 		super(model, view);
 	}

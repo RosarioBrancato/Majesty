@@ -21,14 +21,5 @@ public class LoginView extends View<LoginModel> {
 	protected URL getFXML() {
 		return this.getClass().getResource("LoginView.fxml");
 	}
-	
-	@Override
-	protected Parent createRoot() {
-		BorderPane root = new BorderPane();
-		root.setLeft(Controller.initMVC(MenuBarController.class, MenuBarModel.class, MenuBarView.class).getViewRoot());
-		root.setCenter(FXMLUtils.loadFXML(this.getFXML()));
-		
-		return root;
-	}
 
 }

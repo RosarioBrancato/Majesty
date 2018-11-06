@@ -1,9 +1,9 @@
 package ch.fhnw.projectbois._application;
 
 import ch.fhnw.projectbois._mvc.Controller;
-import ch.fhnw.projectbois.login.LoginController;
-import ch.fhnw.projectbois.login.LoginModel;
-import ch.fhnw.projectbois.login.LoginView;
+import ch.fhnw.projectbois.components.menubar.MenuBarController;
+import ch.fhnw.projectbois.components.menubar.MenuBarModel;
+import ch.fhnw.projectbois.components.menubar.MenuBarView;
 import ch.fhnw.projectbois.network.Network;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -20,8 +20,9 @@ public class Main extends Application {
 		try {
 			MetaContainer.getInstance().setMainStage(primaryStage);
 
-			LoginController login = Controller.initMVC(LoginController.class, LoginModel.class, LoginView.class);
-			MetaContainer.getInstance().setRoot(login.getViewRoot());
+			//LoginController login = Controller.initMVC(LoginController.class, LoginModel.class, LoginView.class);
+			MenuBarController menu = Controller.initMVC(MenuBarController.class, MenuBarModel.class, MenuBarView.class);
+			MetaContainer.getInstance().setRoot(menu.getViewRoot());
 
 			primaryStage.setTitle("Majesty - For The Realm");
 			primaryStage.setMaximized(false);
