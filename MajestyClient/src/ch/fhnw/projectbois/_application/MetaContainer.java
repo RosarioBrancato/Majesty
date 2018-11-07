@@ -33,6 +33,8 @@ public class MetaContainer {
 	public void setRoot(Parent root) {
 		Scene scene = new Scene(root);
 		this.mainStage.setScene(scene);
+		
+		System.gc();
 	}
 
 }

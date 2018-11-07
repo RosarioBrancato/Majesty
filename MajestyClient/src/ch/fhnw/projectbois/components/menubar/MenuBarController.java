@@ -1,6 +1,9 @@
 package ch.fhnw.projectbois.components.menubar;
 
 import ch.fhnw.projectbois._mvc.Controller;
+import ch.fhnw.projectbois.game.GameController;
+import ch.fhnw.projectbois.game.GameModel;
+import ch.fhnw.projectbois.game.GameView;
 import ch.fhnw.projectbois.network.Network;
 import ch.fhnw.projectbois.playscreen.PlayScreenController;
 import ch.fhnw.projectbois.playscreen.PlayScreenModel;
@@ -16,6 +19,15 @@ public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 		super(model, view);
 	}
 
+	private void switchCenter(Parent pane) {
+		Parent root = this.getViewRoot();
+
+		BorderPane borderPane = (BorderPane) root;
+		borderPane.setCenter(pane);
+
+		System.gc();
+	}
+
 	@FXML
 	private void btnText_Click(ActionEvent event) {
 		Network.getInstance().sendTest();
@@ -26,9 +38,13 @@ public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 		PlayScreenController controller = Controller.initMVC(PlayScreenController.class, PlayScreenModel.class,
 				PlayScreenView.class);
 
-		Parent root = this.view.getRoot();
-		BorderPane pane = (BorderPane) root;
-		pane.setCenter(controller.getViewRoot());
+		this.switchCenter(controller.getViewRoot());
+	}
+
+	@FXML
+	private void btnGame_Click(ActionEvent event) {
+		GameController controller = Controller.initMVC(GameController.class, GameModel.class, GameView.class);
+		this.switchCenter(controller.getViewRoot());
 	}
 
 }

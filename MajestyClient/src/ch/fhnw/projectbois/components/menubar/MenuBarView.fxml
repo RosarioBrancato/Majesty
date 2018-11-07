@@ -10,6 +10,7 @@
          <children>
             <Button fx:id="btn_menubarview_play" mnemonicParsing="false" onAction="#btn_menubarview_play_view" prefHeight="78.0" prefWidth="200.0" text="Play" />
             <Button mnemonicParsing="false" onAction="#btnText_Click" prefHeight="85.0" prefWidth="600.0" text="Shitty Button Edited" />
+            <Button mnemonicParsing="false" onAction="#btnGame_Click" prefHeight="85.0" prefWidth="600.0" text="(TEMP) Game" />
          </children>
       </VBox>
    </left>

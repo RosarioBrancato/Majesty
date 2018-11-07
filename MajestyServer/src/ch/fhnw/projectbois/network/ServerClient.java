@@ -79,20 +79,6 @@ public class ServerClient {
 		} catch (IOException e) {
 		}
 	}
-
-	public void sendGameState(String json) {
-		try {
-			OutputStream stream = this.socket.getOutputStream();
-			PrintWriter writer = new PrintWriter(stream);
-
-			System.out.println("ServerClient writes: " + json);
-
-			writer.println(json);
-			writer.flush();
-		} catch (Exception ex) {
-
-		}
-	}
 	
 	public void sendResponse(Response response) {
 		try {

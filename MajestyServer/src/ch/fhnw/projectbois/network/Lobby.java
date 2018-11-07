@@ -2,6 +2,12 @@ package ch.fhnw.projectbois.network;
 
 import java.util.ArrayList;
 
+import ch.fhnw.projectbois.communication.RequestId;
+import ch.fhnw.projectbois.communication.Response;
+import ch.fhnw.projectbois.communication.ResponseId;
+import ch.fhnw.projectbois.gameobjects.GameState;
+import ch.fhnw.projectbois.json.JsonUtils;
+
 public class Lobby {
 
 	private static int NEXT_ID = 1;
@@ -37,9 +43,12 @@ public class Lobby {
 		System.out.println("Lobby.doMove() - Token: " + clientToken + " JSON: " + json);
 	}
 
-	public void updateGameState(String json) {
+	public void updateGameState(GameState gameState) {
 		for (ServerClient client : this.clients) {
-			client.sendGameState(json);
+			String json = JsonUtils.Serialize(gameState);
+			Response response = new Response(ResponseId.UPDATE_GAMESTATE, RequestId.DO_MOVE, json);
+			
+			client.sendResponse(response);
 		}
 	}
 

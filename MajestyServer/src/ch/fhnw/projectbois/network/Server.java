@@ -6,7 +6,9 @@ import java.util.ArrayList;
 
 import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
+import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.dto.LobbyDTO;
+import ch.fhnw.projectbois.gameobjects.GameState;
 import ch.fhnw.projectbois.json.JsonUtils;
 
 public class Server {
@@ -35,7 +37,7 @@ public class Server {
 							clients.add(new ServerClient(instance, socket));
 							
 						} catch (Exception ex) {
-							System.out.println("Server ex: " + ex.getMessage());
+							System.out.println("Server.Runnable() Ex: " + ex.getMessage());
 						}
 						
 						printClientSize();
@@ -47,7 +49,7 @@ public class Server {
 			t.start();
 
 		} catch (Exception ex) {
-			System.out.println("Server ex on start: " + ex.getMessage());
+			System.out.println("Server.startServer() Ex: " + ex.getMessage());
 			success = false;
 		}
 		
@@ -92,7 +94,9 @@ public class Server {
 		
 		LobbyDTO lobbyDTO = new LobbyDTO();
 		lobbyDTO.setId(lobby.getId());
-		Response response = new Response(RequestId.CREATE_LOBBY, JsonUtils.Serialize(lobbyDTO));
+		
+		String json = JsonUtils.Serialize(lobbyDTO);
+		Response response = new Response(ResponseId.PLAYERS_LOBBY, RequestId.CREATE_LOBBY, json);
 		
 		client.sendResponse(response);
 		System.out.println("Server.createLobby() - Response sent!");
@@ -126,8 +130,9 @@ public class Server {
 	
 	
 	public void broadcastTest() {
-		Response r = new Response();
-		r.setRequest(RequestId.TEST);
+		GameState gameState = new GameState();
+		String json = JsonUtils.Serialize(gameState);
+		Response r = new Response(ResponseId.UPDATE_GAMESTATE, RequestId.EMPTY, json);
 		
 		for(ServerClient c : this.clients) {
 			c.sendResponse(r);
