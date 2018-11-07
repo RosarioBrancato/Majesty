@@ -1,37 +1,39 @@
 package ch.fhnw.projectbois.communication;
 
 public class Response {
-	
-	/**
-	 * Response to request
-	 */
+
+	private ResponseId response;
 	private RequestId request;
 	private String jsonDataObject = null;
-	
-	
+
 	public Response() {
 	}
-	
-	public Response(RequestId request, String jsonDataObject) {
+
+	public Response(ResponseId response, RequestId request, String jsonDataObject) {
+		this.response = response;
 		this.request = request;
 		this.jsonDataObject = jsonDataObject;
 	}
 
+	public ResponseId getResponse() {
+		return response;
+	}
+
+	public void setResponse(ResponseId response) {
+		this.response = response;
+	}
 
 	public RequestId getRequest() {
 		return request;
 	}
 
-
 	public void setRequest(RequestId request) {
 		this.request = request;
 	}
 
-
 	public String getJsonDataObject() {
 		return jsonDataObject;
 	}
-
 
 	public void setJsonDataObject(String jsonDataObject) {
 		this.jsonDataObject = jsonDataObject;

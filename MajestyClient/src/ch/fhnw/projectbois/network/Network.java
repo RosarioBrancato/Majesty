@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-
 import ch.fhnw.projectbois.communication.Request;
 import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
@@ -80,9 +79,14 @@ public class Network {
 						BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 						String json;
 						while ((json = reader.readLine()) != null && !socket.isClosed()) {
-							System.out.println("Network.Runnable() JSON: " + json);
-
-							response.setValue(JsonUtils.Deserialize(json, Response.class));
+							try {
+								System.out.println("Network.Runnable() JSON: " + json);
+								
+								response.setValue(JsonUtils.Deserialize(json, Response.class));
+								
+							} catch (Exception ex) {
+								System.out.println("Network.Runnable() Ex: " + ex.getMessage());
+							}
 						}
 					} catch (Exception ex) {
 						// System.out.println("Error ClientMain: " + ex.getMessage());

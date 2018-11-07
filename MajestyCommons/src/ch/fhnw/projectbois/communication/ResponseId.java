@@ -5,13 +5,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum RequestId {
+public enum ResponseId {
 
-	EMPTY(0), LOGIN(1), LOGOUT(2), CREATE_LOBBY(90), JOIN_LOBBY(91), GET_LOBBIES(95), LEAVE_LOBBY(99), DO_MOVE(100), QUIT_GAME(120), TEST(999);
-
+	EMPTY(0), PLAYERS_LOBBY(40), UPDATE_GAMESTATE(50), TEST(999);
+	
 	private final int id;
 
-	private RequestId(int id) {
+	private ResponseId(int id) {
 		this.id = id;
 	}
 
@@ -29,4 +29,5 @@ public enum RequestId {
 		return this.name();
 	}
 
+	
 }

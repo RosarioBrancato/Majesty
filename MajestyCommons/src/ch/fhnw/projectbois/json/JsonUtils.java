@@ -12,7 +12,7 @@ public class JsonUtils {
 
 		try {
 			ObjectMapper mapper = new ObjectMapper();
-			
+
 			json = mapper.writeValueAsString(state);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
@@ -24,12 +24,14 @@ public class JsonUtils {
 	public static <T> T Deserialize(String json, Class<T> valueType) {
 		T state = null;
 
-		try {
-			ObjectMapper mapper = new ObjectMapper();
-			
-			state = (T) mapper.readValue(json, valueType);
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (json != null) {
+			try {
+				ObjectMapper mapper = new ObjectMapper();
+
+				state = (T) mapper.readValue(json, valueType);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		return state;
