@@ -1,14 +1,18 @@
 ***REMOVED***
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="400.0" prefWidth="793.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="400.0" prefWidth="793.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <left>
       <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="btn_menubarview_play" mnemonicParsing="false" onAction="#btn_menubarview_play_view" prefHeight="78.0" prefWidth="200.0" text="Play" />
+            <Button fx:id="btn_menubarview_leaderboard" mnemonicParsing="false" onAction="#btn_menubarview_leaderboard_view" prefHeight="85.0" prefWidth="200.0" text="Leaderboard" />
             <Button mnemonicParsing="false" onAction="#btnText_Click" prefHeight="85.0" prefWidth="600.0" text="Shitty Button Edited" />
             <Button mnemonicParsing="false" onAction="#btnGame_Click" prefHeight="85.0" prefWidth="600.0" text="(TEMP) Game" />
          </children>
