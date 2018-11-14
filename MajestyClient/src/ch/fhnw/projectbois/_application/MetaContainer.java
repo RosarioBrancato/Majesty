@@ -36,5 +36,9 @@ public class MetaContainer {
 		
 		System.gc();
 	}
+	
+	public Scene getScene() {
+		return this.mainStage.getScene();
+	}
 
 }
