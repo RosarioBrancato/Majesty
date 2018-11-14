@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1173.0" prefWidth="827.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button layoutX="20.0" layoutY="14.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="120.0" text="Close" />
+      <Button layoutX="639.0" layoutY="1004.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="169.0" text="Send" />
+      <TextArea layoutX="20.0" layoutY="112.0" prefHeight="853.0" prefWidth="788.0" />
+      <TextArea layoutX="20.0" layoutY="1004.0" prefHeight="140.0" prefWidth="603.0" />
+   </children>
 </AnchorPane>
-
