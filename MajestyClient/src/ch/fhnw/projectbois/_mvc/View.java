@@ -37,8 +37,7 @@ public abstract class View<M extends Model> {
 
 	protected abstract URL getFXML();
 
-	@SuppressWarnings("rawtypes")
-	public <T extends Controller> void loadRoot(T controller) {
+	public <T extends Controller<M, ? extends View<M>>> void loadRoot(T controller) {
 		URL url = this.getFXML();
 		FXMLLoader loader = new FXMLLoader(url);
 		loader.setController(controller);

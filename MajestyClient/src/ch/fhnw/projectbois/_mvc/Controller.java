@@ -1,6 +1,7 @@
 package ch.fhnw.projectbois._mvc;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import ch.fhnw.projectbois.log.LoggerFactory;
@@ -36,7 +37,7 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 	public static <C extends Controller<M, V>, V extends View<M>, M extends Model> C initMVC(Class<C> controllerClass,
 			Class<M> modelClass, Class<V> viewClass) {
 
-		Logger log = LoggerFactory.getLogger(Controller.class);
+		Logger logger = LoggerFactory.getLogger(Controller.class);
 		C controller = null;
 
 		try {
@@ -50,7 +51,7 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
 
-			log.severe(e.getMessage());
+			logger.log(Level.SEVERE, "Controller.initMVC()", e);
 		}
 
 		return controller;
