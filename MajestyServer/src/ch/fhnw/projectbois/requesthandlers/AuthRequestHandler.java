@@ -9,8 +9,6 @@ public class AuthRequestHandler extends RequestHandler {
 
 	public AuthRequestHandler(Request request, Server server, ServerClient client) {
 		super(request, server, client);
-
-		this.handleRequest();
 	}
 
 	@Override

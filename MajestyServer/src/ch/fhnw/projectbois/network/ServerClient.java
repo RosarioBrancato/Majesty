@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import ch.fhnw.projectbois.communication.Request;
 import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
+import ch.fhnw.projectbois.dto.UserDTO;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.log.LoggerFactory;
 import ch.fhnw.projectbois.requesthandlers.AuthRequestHandler;
@@ -20,12 +21,17 @@ import ch.fhnw.projectbois.requesthandlers.GameRequestHandler;
 import ch.fhnw.projectbois.requesthandlers.LeaderboardRequestHandler;
 import ch.fhnw.projectbois.requesthandlers.LobbyRequestHandler;
 
+/**
+ * 
+ * @author Rosario Brancato
+ *
+ */
 public class ServerClient {
 
 	private Logger logger = null;
 
 	private Socket socket = null;
-	private String token = null;
+	private UserDTO user = null;
 
 	private Lobby lobby = null;
 
@@ -56,17 +62,17 @@ public class ServerClient {
 
 								new AuthRequestHandler(request, server, client);
 
-							} else if (token != null) {
+							} else if (user != null) {
 								// if user is logged in...
 								if (request.getRequestId() > RequestId.LOBBY_RANGE_START
 										&& request.getRequestId() < RequestId.LOBBY_RANGE_END) {
 
-									new LobbyRequestHandler(request, server, client, lobby);
+									new LobbyRequestHandler(request, server, client);
 
 								} else if (request.getRequestId() > RequestId.GAME_RANGE_START
 										&& request.getRequestId() < RequestId.GAME_RANGE_END) {
 
-									new GameRequestHandler(request, server, client, lobby);
+									new GameRequestHandler(request, server, client);
 
 								} else if (request.getRequestId() > RequestId.LEADERBOARD_RANGE_START
 										&& request.getRequestId() < RequestId.LEADERBOARD_RANGE_END) {
@@ -76,7 +82,7 @@ public class ServerClient {
 								} else if (request.getRequestId() > RequestId.CHAT_RANGE_START
 										&& request.getRequestId() < RequestId.CHAT_RANGE_END) {
 
-									new ChatRequestHandler(request, server, client, lobby);
+									new ChatRequestHandler(request, server, client);
 								}
 							}
 
@@ -88,7 +94,7 @@ public class ServerClient {
 				} catch (Exception ex) {
 				}
 
-				server.remove(client);
+				server.removeClient(client);
 			}
 		};
 
@@ -127,12 +133,12 @@ public class ServerClient {
 		return this.lobby;
 	}
 
-	public void setToken(String token) {
-		this.token = token;
+	public void setUser(UserDTO user) {
+		this.user = user;
 	}
 
-	public String getToken() {
-		return this.token;
+	public UserDTO getUser() {
+		return this.user;
 	}
 
 }

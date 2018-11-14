@@ -7,22 +7,29 @@ import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.dto.MessageDTO;
+import ch.fhnw.projectbois.dto.UserDTO;
 import ch.fhnw.projectbois.gameobjects.GameState;
+import ch.fhnw.projectbois.general.IdFactory;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.log.LoggerFactory;
 
+/**
+ * 
+ * @author Rosario Brancato
+ *
+ */
 public class Lobby {
 
-	private static int NEXT_ID = 1;
-	
 	private Logger logger = null;
 
 	private int id = -1;
+	private boolean cardSideA = true;
+
 	private ArrayList<ServerClient> clients = new ArrayList<>();
 
 	public Lobby() {
 		this.logger = LoggerFactory.getLogger(this.getClass());
-		this.id = getNewId();
+		this.id = IdFactory.getInstance().getNewId(this.getClass().getName());
 	}
 
 	public boolean addClient(ServerClient client) {
@@ -38,41 +45,57 @@ public class Lobby {
 	}
 
 	public boolean removeClient(ServerClient client) {
-		return this.clients.removeIf(f -> f.getToken().equals(client.getToken()));
+		return this.clients.removeIf(f -> f.getUser().getId() == client.getUser().getId());
 	}
 
 	public boolean isNotFull() {
 		return this.clients.size() < 4;
 	}
 
-	public void doMove(String clientToken, String json) {
-		this.logger.info("Lobby.doMove() - Token: " + clientToken + " JSON: " + json);
+	public boolean isEmpty() {
+		return this.clients.size() <= 0;
+	}
+	
+	public void startGame() {
+		
+	}
+
+	public void doMove(UserDTO user, String json) {
+		this.logger.info("Lobby.doMove() - Token: " + user.getToken() + " JSON: " + json);
 	}
 
 	public void updateGameState(GameState gameState) {
 		for (ServerClient client : this.clients) {
 			String json = JsonUtils.Serialize(gameState);
 			Response response = new Response(ResponseId.UPDATE_GAMESTATE, RequestId.DO_MOVE, json);
-			
+
 			client.sendResponse(response);
 		}
 	}
-	
+
 	public void sendMessage(MessageDTO message) {
 		for (ServerClient client : this.clients) {
 			String json = JsonUtils.Serialize(message);
 			Response response = new Response(ResponseId.RECEIVE_MSG, RequestId.CHAT_SEND_MSG, json);
-			
+
 			client.sendResponse(response);
 		}
 	}
 
-	private static int getNewId() {
-		return NEXT_ID++;
-	}
-
 	public int getId() {
 		return this.id;
+	}
+
+	public ArrayList<ServerClient> getClients() {
+		return this.clients;
+	}
+
+	public boolean isCardSideA() {
+		return cardSideA;
+	}
+
+	public void setCardSideA(boolean cardSideA) {
+		this.cardSideA = cardSideA;
 	}
 
 }
