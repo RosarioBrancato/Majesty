@@ -6,14 +6,19 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import ch.fhnw.projectbois.communication.Request;
 import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.dto.LobbyDTO;
 import ch.fhnw.projectbois.json.JsonUtils;
+import ch.fhnw.projectbois.log.LoggerFactory;
 
 public class ServerClient {
+	
+	private Logger logger = null;
 
 	private Socket socket = null;
 	private String token = null;
@@ -21,6 +26,8 @@ public class ServerClient {
 	private Lobby lobby = null;
 
 	public ServerClient(Server server, Socket socket) {
+		this.logger = LoggerFactory.getLogger(this.getClass());
+		
 		this.socket = socket;
 
 		ServerClient instance = this;
@@ -56,13 +63,13 @@ public class ServerClient {
 							} else if (request.getRequestId() == RequestId.DO_MOVE) {
 								lobby.doMove(token, request.getJsonDataObject());
 							}
+							
 						} catch (Exception e) {
-							System.out.println("ServerClientLoop: " + e.getMessage());
+							logger.log(Level.SEVERE, "ServerClient.Runnable()", e);
 						}
 						
 					}
 				} catch (Exception ex) {
-					// System.out.println("Error ClientMain: " + ex.getMessage());
 				}
 
 				server.remove(instance);
@@ -87,7 +94,7 @@ public class ServerClient {
 			OutputStream stream = this.socket.getOutputStream();
 			PrintWriter writer = new PrintWriter(stream);
 
-			System.out.println("S to C: " + json);
+			this.logger.info("S to C: " + json);
 
 			writer.println(json);
 			writer.flush();

@@ -6,20 +6,27 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import ch.fhnw.projectbois.communication.Request;
 import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.json.JsonUtils;
+import ch.fhnw.projectbois.log.LoggerFactory;
 import javafx.beans.property.SimpleObjectProperty;
 
 public class Network {
 
 	private static Network instance = null;
+	
+	private Logger logger = null;
 
 	private Socket socket = null;
 	private SimpleObjectProperty<Response> response = null;
 
 	private Network() {
+		this.logger = LoggerFactory.getLogger(this.getClass());
 		this.response = new SimpleObjectProperty<>();
 	}
 
@@ -37,7 +44,7 @@ public class Network {
 	public void sendRequest(Request request) {
 		try {
 			String json = JsonUtils.Serialize(request);
-			System.out.println("Network.sendRequest() - JSON: " + json);
+			this.logger.info("Network.sendRequest() - JSON: " + json);
 
 			OutputStream stream = this.socket.getOutputStream();
 			PrintWriter writer = new PrintWriter(stream);
@@ -54,7 +61,7 @@ public class Network {
 			Request request = new Request("TEST-TOKEN", RequestId.DO_MOVE, "{}");
 
 			String json = JsonUtils.Serialize(request);
-			System.out.println("Network.sendTest() - JSON: " + json);
+			this.logger.info("Network.sendTest() - JSON: " + json);
 
 			OutputStream stream = this.socket.getOutputStream();
 			PrintWriter writer = new PrintWriter(stream);
@@ -80,16 +87,15 @@ public class Network {
 						String json;
 						while ((json = reader.readLine()) != null && !socket.isClosed()) {
 							try {
-								System.out.println("Network.Runnable() JSON: " + json);
+								logger.info("Network.Runnable() JSON: " + json);
 								
 								response.setValue(JsonUtils.Deserialize(json, Response.class));
 								
 							} catch (Exception ex) {
-								System.out.println("Network.Runnable() Ex: " + ex.getMessage());
+								logger.log(Level.SEVERE, "Network.Runnable()", ex);
 							}
 						}
 					} catch (Exception ex) {
-						// System.out.println("Error ClientMain: " + ex.getMessage());
 					}
 				}
 			};
@@ -98,7 +104,7 @@ public class Network {
 			t.start();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.log(Level.SEVERE, "Network.initConnection()", e);
 		}
 	}
 

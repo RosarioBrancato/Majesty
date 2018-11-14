@@ -33,9 +33,8 @@ public class GameModel extends Model {
 					GameState gameState = JsonUtils.Deserialize(json, GameState.class);
 
 					gameStateProperty.setValue(gameState);
-					System.out.println("GameModel - GameStateProperty updated!");
+					logger.info("GameModel - GameStateProperty updated!");
 				}
-
 			}
 		};
 	}

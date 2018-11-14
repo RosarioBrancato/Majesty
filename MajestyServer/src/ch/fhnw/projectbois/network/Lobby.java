@@ -1,21 +1,26 @@
 package ch.fhnw.projectbois.network;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.gameobjects.GameState;
 import ch.fhnw.projectbois.json.JsonUtils;
+import ch.fhnw.projectbois.log.LoggerFactory;
 
 public class Lobby {
 
 	private static int NEXT_ID = 1;
+	
+	private Logger logger = null;
 
 	private int id = -1;
 	private ArrayList<ServerClient> clients = new ArrayList<>();
 
 	public Lobby() {
+		this.logger = LoggerFactory.getLogger(this.getClass());
 		this.id = getNewId();
 	}
 
@@ -40,7 +45,7 @@ public class Lobby {
 	}
 
 	public void doMove(String clientToken, String json) {
-		System.out.println("Lobby.doMove() - Token: " + clientToken + " JSON: " + json);
+		this.logger.info("Lobby.doMove() - Token: " + clientToken + " JSON: " + json);
 	}
 
 	public void updateGameState(GameState gameState) {

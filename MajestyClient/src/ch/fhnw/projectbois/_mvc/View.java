@@ -2,7 +2,9 @@ package ch.fhnw.projectbois._mvc;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Logger;
 
+import ch.fhnw.projectbois.log.LoggerFactory;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
@@ -12,6 +14,8 @@ import javafx.scene.Parent;
  * @author Rosario Brancato
  */
 public abstract class View<M extends Model> {
+	protected Logger logger;
+	
 	protected Parent root;
 	protected M model;
 
@@ -22,6 +26,8 @@ public abstract class View<M extends Model> {
 	 * @param model
 	 */
 	protected View(M model) {
+		this.logger = LoggerFactory.getLogger(this.getClass());
+		
 		this.model = model;
 	}
 
