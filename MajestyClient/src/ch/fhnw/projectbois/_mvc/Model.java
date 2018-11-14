@@ -18,7 +18,7 @@ public abstract class Model {
 
 	private SimpleObjectProperty<Response> responseProperty;
 
-	protected Model() {
+	public Model() {
 		this.logger = LoggerFactory.getLogger(this.getClass());
 	}
 

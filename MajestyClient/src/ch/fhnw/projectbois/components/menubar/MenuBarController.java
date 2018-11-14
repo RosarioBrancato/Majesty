@@ -1,5 +1,6 @@
 package ch.fhnw.projectbois.components.menubar;
 
+import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.game.GameController;
 import ch.fhnw.projectbois.game.GameModel;
@@ -55,7 +56,7 @@ public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 	@FXML
 	private void btnGame_Click(ActionEvent event) {
 		GameController controller = Controller.initMVC(GameController.class, GameModel.class, GameView.class);
-		this.switchCenter(controller.getViewRoot());
+		MetaContainer.getInstance().setRoot(controller.getViewRoot());
 	}
 
 }

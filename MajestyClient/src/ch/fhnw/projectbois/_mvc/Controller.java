@@ -19,7 +19,7 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 	protected M model;
 	protected V view;
 
-	protected Controller(M model, V view) {
+	public Controller(M model, V view) {
 		this.logger = LoggerFactory.getLogger(this.getClass());
 		
 		this.model = model;
@@ -62,6 +62,6 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 	}
 
 	@FXML
-	private void initialize() {
+	protected void initialize() {
 	}
 }

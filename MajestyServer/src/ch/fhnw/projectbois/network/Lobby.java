@@ -8,6 +8,7 @@ import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.dto.MessageDTO;
 import ch.fhnw.projectbois.dto.UserDTO;
+import ch.fhnw.projectbois.game.GameStateServer;
 import ch.fhnw.projectbois.gameobjects.GameState;
 import ch.fhnw.projectbois.general.IdFactory;
 import ch.fhnw.projectbois.json.JsonUtils;
@@ -26,6 +27,9 @@ public class Lobby {
 	private boolean cardSideA = true;
 
 	private ArrayList<ServerClient> clients = new ArrayList<>();
+
+	private GameState gameState;
+	private GameStateServer gameStateServer;
 
 	public Lobby() {
 		this.logger = LoggerFactory.getLogger(this.getClass());
@@ -55,9 +59,10 @@ public class Lobby {
 	public boolean isEmpty() {
 		return this.clients.size() <= 0;
 	}
-	
+
 	public void startGame() {
-		
+		this.gameState = new GameState();
+		this.gameStateServer = new GameStateServer();
 	}
 
 	public void doMove(UserDTO user, String json) {
@@ -96,6 +101,22 @@ public class Lobby {
 
 	public void setCardSideA(boolean cardSideA) {
 		this.cardSideA = cardSideA;
+	}
+
+	public GameState getGameState() {
+		return gameState;
+	}
+
+	public void setGameState(GameState gameState) {
+		this.gameState = gameState;
+	}
+
+	public GameStateServer getGameStateServer() {
+		return gameStateServer;
+	}
+
+	public void setGameStateServer(GameStateServer gameStateServer) {
+		this.gameStateServer = gameStateServer;
 	}
 
 }

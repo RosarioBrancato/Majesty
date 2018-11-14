@@ -6,7 +6,7 @@ import ch.fhnw.projectbois._mvc.View;
 
 public class ChatView extends View<ChatModel> {
 
-	protected ChatView(ChatModel model) {
+	public ChatView(ChatModel model) {
 		super(model);
 	}
 
