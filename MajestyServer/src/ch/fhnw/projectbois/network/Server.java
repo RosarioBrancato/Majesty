@@ -45,11 +45,10 @@ public class Server {
 							Socket socket = server.accept();
 							clients.add(new ServerClient(instance, socket));
 							
+							printClientSize();
+							
 						} catch (Exception ex) {
-							logger.log(Level.SEVERE, "Server.Runnable()", ex);
 						}
-						
-						printClientSize();
 					}
 				}
 			};

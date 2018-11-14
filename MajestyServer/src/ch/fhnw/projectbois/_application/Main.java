@@ -3,6 +3,7 @@ package ch.fhnw.projectbois._application;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,9 +11,12 @@ import ch.fhnw.projectbois.log.LoggerFactory;
 import ch.fhnw.projectbois.network.Server;
 
 public class Main {
+	
 
 	public static void main(String[] args) {
 		System.out.println("Starting Majesty...");
+		
+		Locale.setDefault(new Locale("en"));
 		Logger logger = LoggerFactory.getLogger(Main.class);
 		
 		Server server = new Server();

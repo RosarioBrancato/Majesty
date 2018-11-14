@@ -1,5 +1,6 @@
 package ch.fhnw.projectbois._application;
 
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,6 +43,8 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
+		Locale.setDefault(new Locale("en"));
+		
 		launch(args);
 	}
 
