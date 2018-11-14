@@ -2,33 +2,33 @@ package ch.fhnw.projectbois.communication;
 
 public class Response {
 
-	private ResponseId response;
-	private RequestId request;
+	private int responseId;
+	private int requestId;
 	private String jsonDataObject = null;
 
 	public Response() {
 	}
 
-	public Response(ResponseId response, RequestId request, String jsonDataObject) {
-		this.response = response;
-		this.request = request;
+	public Response(int responseId, int requestId, String jsonDataObject) {
+		this.responseId = responseId;
+		this.requestId = requestId;
 		this.jsonDataObject = jsonDataObject;
 	}
 
-	public ResponseId getResponse() {
-		return response;
+	public int getResponseId() {
+		return responseId;
 	}
 
-	public void setResponse(ResponseId response) {
-		this.response = response;
+	public void setResponseId(int responseId) {
+		this.responseId = responseId;
 	}
 
-	public RequestId getRequest() {
-		return request;
+	public int getRequestId() {
+		return requestId;
 	}
 
-	public void setRequest(RequestId request) {
-		this.request = request;
+	public void setRequestId(int requestId) {
+		this.requestId = requestId;
 	}
 
 	public String getJsonDataObject() {
@@ -41,7 +41,7 @@ public class Response {
 
 	@Override
 	public String toString() {
-		return "Request: " + this.request.getName() + " JSON " + this.jsonDataObject;
+		return "Response: " + this.responseId + " Request: " + this.requestId + " JSON " + this.jsonDataObject;
 	}
 
 }

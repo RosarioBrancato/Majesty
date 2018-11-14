@@ -28,7 +28,7 @@ public class GameModel extends Model {
 			@Override
 			public void changed(ObservableValue<? extends Response> observable, Response oldValue, Response newValue) {
 
-				if (newValue.getResponse() == ResponseId.UPDATE_GAMESTATE) {
+				if (newValue.getResponseId() == ResponseId.UPDATE_GAMESTATE) {
 					String json = newValue.getJsonDataObject();
 					GameState gameState = JsonUtils.Deserialize(json, GameState.class);
 

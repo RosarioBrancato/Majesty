@@ -1,32 +1,37 @@
 package ch.fhnw.projectbois.communication;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonValue;
+public class RequestId {
 
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum RequestId {
+	public static final int EMPTY = -1;
 
-	EMPTY(0), LOGIN(1), LOGOUT(2), CREATE_LOBBY(90), JOIN_LOBBY(91), GET_LOBBIES(95), LEAVE_LOBBY(99), DO_MOVE(100), QUIT_GAME(120), TEST(999);
+	public static final int AUTH_RANGE_START = 0;
+	public static final int LOGIN = 1;
+	public static final int LOGOUT = 2;
+	public static final int REGISTER = 3;
+	public static final int LOAD_PROFILE = 4;
+	public static final int SAVE_PROFILE = 5;
+	public static final int AUTH_RANGE_END = 99;
 
-	private final int id;
+	public static final int LOBBY_RANGE_START = 100;
+	public static final int CREATE_LOBBY = 101;
+	public static final int JOIN_LOBBY = 102;
+	public static final int LEAVE_LOBBY = 103;
+	public static final int GET_LOBBIES = 104;
+	public static final int LOBBY_RANGE_END = 199;
 
-	private RequestId(int id) {
-		this.id = id;
-	}
+	public static final int GAME_RANGE_START = 200;
+	public static final int DO_MOVE = 100;
+	public static final int QUIT_GAME = 120;
+	public static final int GAME_RANGE_END = 299;
 
-	public int getValue() {
-		return id;
-	}
+	public static final int LEADERBOARD_RANGE_START = 300;
+	public static final int GET_LEADERBOARD = 301;
+	public static final int LEADERBOARD_RANGE_END = 399;
 
-	@JsonCreator
-	public static RequestId forValue(String value) {
-		return Enum.valueOf(RequestId.class, value);
-	}
-	
-	@JsonValue
-	public String getName() {
-		return this.name();
-	}
+	public static final int CHAT_RANGE_START = 400;
+	public static final int CHAT_SEND_MSG = 401;
+	public static final int CHAT_RANGE_END = 499;
+
+	public static final int TEST = 999;
 
 }
