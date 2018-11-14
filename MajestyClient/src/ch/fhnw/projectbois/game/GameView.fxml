@@ -1,11 +1,29 @@
 ***REMOVED***
 
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.60">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label text="GAME" />
+      <AnchorPane layoutY="543.0" prefHeight="57.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Button layoutX="18.0" layoutY="161.0" mnemonicParsing="false" onAction="#btnLeave_Click" text="Leave" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="18.0" />
+            <Label alignment="CENTER_RIGHT" layoutX="76.0" layoutY="20.0" prefHeight="50.0" prefWidth="721.0" text="Meeples: 0 Points: 0 Round: 1/12" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="76.0" AnchorPane.rightAnchor="3.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="2.0" layoutY="388.0" prefHeight="155.0" prefWidth="800.0" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <HBox fx:id="pnlPlayer1Cards" alignment="CENTER" layoutY="-22.0" prefHeight="152.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="6.0" layoutY="104.0" prefHeight="284.0" prefWidth="800.0" AnchorPane.bottomAnchor="212.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="104.0">
+         <children>
+            <HBox fx:id="pnlDisplay" alignment="CENTER" layoutY="-22.0" prefHeight="152.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
