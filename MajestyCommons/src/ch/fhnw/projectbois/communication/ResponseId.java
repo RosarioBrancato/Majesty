@@ -1,33 +1,27 @@
 package ch.fhnw.projectbois.communication;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonValue;
+public class ResponseId {
 
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum ResponseId {
+	public static final int EMPTY = -1;
 
-	EMPTY(0), PLAYERS_LOBBY(40), UPDATE_GAMESTATE(50), TEST(999);
-	
-	private final int id;
+	public static final int AUTH_RANGE_START = 0;
+	public static final int AUTH_RANGE_END = 99;
 
-	private ResponseId(int id) {
-		this.id = id;
-	}
+	public static final int LOBBY_RANGE_START = 100;
+	public static final int PLAYERS_LOBBY = 101;
+	public static final int LOBBY_RANGE_END = 199;
 
-	public int getValue() {
-		return id;
-	}
+	public static final int GAME_RANGE_START = 200;
+	public static final int UPDATE_GAMESTATE = 201;
+	public static final int GAME_RANGE_END = 299;
 
-	@JsonCreator
-	public static RequestId forValue(String value) {
-		return Enum.valueOf(RequestId.class, value);
-	}
-	
-	@JsonValue
-	public String getName() {
-		return this.name();
-	}
+	public static final int LEADERBOARD_RANGE_START = 300;
+	public static final int LEADERBOARD_RANGE_END = 399;
 
-	
+	public static final int CHAT_RANGE_START = 400;
+	public static final int RECEIVE_MSG = 401;
+	public static final int CHAT_RANGE_END = 499;
+
+	public static final int TEST = 999;
+
 }

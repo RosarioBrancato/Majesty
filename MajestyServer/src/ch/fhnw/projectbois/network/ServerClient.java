@@ -12,12 +12,16 @@ import java.util.logging.Logger;
 import ch.fhnw.projectbois.communication.Request;
 import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
-import ch.fhnw.projectbois.dto.LobbyDTO;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.log.LoggerFactory;
+import ch.fhnw.projectbois.requesthandlers.AuthRequestHandler;
+import ch.fhnw.projectbois.requesthandlers.ChatRequestHandler;
+import ch.fhnw.projectbois.requesthandlers.GameRequestHandler;
+import ch.fhnw.projectbois.requesthandlers.LeaderboardRequestHandler;
+import ch.fhnw.projectbois.requesthandlers.LobbyRequestHandler;
 
 public class ServerClient {
-	
+
 	private Logger logger = null;
 
 	private Socket socket = null;
@@ -27,10 +31,10 @@ public class ServerClient {
 
 	public ServerClient(Server server, Socket socket) {
 		this.logger = LoggerFactory.getLogger(this.getClass());
-		
+
 		this.socket = socket;
 
-		ServerClient instance = this;
+		ServerClient client = this;
 
 		Runnable r = new Runnable() {
 			@Override
@@ -38,41 +42,53 @@ public class ServerClient {
 				try {
 					BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 					String json;
-					
+
 					while ((json = reader.readLine()) != null && !socket.isClosed()) {
-						
+
 						try {
-							System.out.println("ServerClient Json: " + json);
+							logger.info("ServerClient Json: " + json);
 
 							Request request = JsonUtils.Deserialize(json, Request.class);
-							System.out.println("Server Request: " + request.toString());
+							logger.info("Server Request: " + request.toString());
 
-							if (request.getRequestId() == RequestId.CREATE_LOBBY) {
-								server.createLobby(instance);
-								
-							} else if(request.getRequestId() == RequestId.JOIN_LOBBY) {
-								LobbyDTO lobbyDTO = JsonUtils.Deserialize(request.getJsonDataObject(), LobbyDTO.class);
-								server.joinLobby(instance, lobbyDTO);
-								
-							} else if(request.getRequestId() == RequestId.LEAVE_LOBBY) {
-								lobby.removeClient(instance);
-								
-							} else if(request.getRequestId() == RequestId.GET_LOBBIES) {
-								//TO-DO: Send lobbies arraylist to client
+							if (request.getRequestId() > RequestId.AUTH_RANGE_START
+									&& request.getRequestId() < RequestId.AUTH_RANGE_END) {
 
-							} else if (request.getRequestId() == RequestId.DO_MOVE) {
-								lobby.doMove(token, request.getJsonDataObject());
+								new AuthRequestHandler(request, server, client);
+
+							} else if (token != null) {
+								// if user is logged in...
+								if (request.getRequestId() > RequestId.LOBBY_RANGE_START
+										&& request.getRequestId() < RequestId.LOBBY_RANGE_END) {
+
+									new LobbyRequestHandler(request, server, client, lobby);
+
+								} else if (request.getRequestId() > RequestId.GAME_RANGE_START
+										&& request.getRequestId() < RequestId.GAME_RANGE_END) {
+
+									new GameRequestHandler(request, server, client, lobby);
+
+								} else if (request.getRequestId() > RequestId.LEADERBOARD_RANGE_START
+										&& request.getRequestId() < RequestId.LEADERBOARD_RANGE_END) {
+
+									new LeaderboardRequestHandler(request, server, client);
+
+								} else if (request.getRequestId() > RequestId.CHAT_RANGE_START
+										&& request.getRequestId() < RequestId.CHAT_RANGE_END) {
+
+									new ChatRequestHandler(request, server, client, lobby);
+								}
 							}
-							
+
 						} catch (Exception e) {
 							logger.log(Level.SEVERE, "ServerClient.Runnable()", e);
 						}
-						
+
 					}
 				} catch (Exception ex) {
 				}
 
-				server.remove(instance);
+				server.remove(client);
 			}
 		};
 
@@ -86,11 +102,11 @@ public class ServerClient {
 		} catch (IOException e) {
 		}
 	}
-	
+
 	public void sendResponse(Response response) {
 		try {
 			String json = JsonUtils.Serialize(response);
-			
+
 			OutputStream stream = this.socket.getOutputStream();
 			PrintWriter writer = new PrintWriter(stream);
 
@@ -98,7 +114,7 @@ public class ServerClient {
 
 			writer.println(json);
 			writer.flush();
-			
+
 		} catch (Exception ex) {
 		}
 	}

@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
+import ch.fhnw.projectbois.dto.MessageDTO;
 import ch.fhnw.projectbois.gameobjects.GameState;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.log.LoggerFactory;
@@ -52,6 +53,15 @@ public class Lobby {
 		for (ServerClient client : this.clients) {
 			String json = JsonUtils.Serialize(gameState);
 			Response response = new Response(ResponseId.UPDATE_GAMESTATE, RequestId.DO_MOVE, json);
+			
+			client.sendResponse(response);
+		}
+	}
+	
+	public void sendMessage(MessageDTO message) {
+		for (ServerClient client : this.clients) {
+			String json = JsonUtils.Serialize(message);
+			Response response = new Response(ResponseId.RECEIVE_MSG, RequestId.CHAT_SEND_MSG, json);
 			
 			client.sendResponse(response);
 		}

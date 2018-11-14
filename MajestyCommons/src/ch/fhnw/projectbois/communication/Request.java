@@ -3,7 +3,7 @@ package ch.fhnw.projectbois.communication;
 public class Request {
 
 	private String token = null;
-	private RequestId requestId = null;
+	private int requestId = RequestId.EMPTY;
 
 	private String jsonDataObject = null;
 
@@ -13,7 +13,7 @@ public class Request {
 	public Request() {
 	}
 
-	public Request(String token, RequestId requestId, String jsonDataObject) {
+	public Request(String token, int requestId, String jsonDataObject) {
 		this.token = token;
 		this.requestId = requestId;
 		this.jsonDataObject = jsonDataObject;
@@ -23,7 +23,7 @@ public class Request {
 		return this.token;
 	}
 
-	public RequestId getRequestId() {
+	public int getRequestId() {
 		return this.requestId;
 	}
 
@@ -33,7 +33,7 @@ public class Request {
 
 	@Override
 	public String toString() {
-		return "Token: " + this.token + " RequestId: " + this.requestId.name();
+		return "Token: " + this.token + " RequestId: " + this.requestId;
 	}
 
 }
