@@ -3,6 +3,8 @@ package ch.fhnw.projectbois.network;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
@@ -10,17 +12,24 @@ import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.dto.LobbyDTO;
 import ch.fhnw.projectbois.gameobjects.GameState;
 import ch.fhnw.projectbois.json.JsonUtils;
+import ch.fhnw.projectbois.log.LoggerFactory;
 
 public class Server {
 
+	private Logger logger = null;
+	
 	private ServerSocket server = null;
 	private boolean stop = false;
 	
 	private ArrayList<ServerClient> clients = new ArrayList<>();
 	private ArrayList<Lobby> lobbies = new ArrayList<>();
 
+	public Server() {
+		this.logger = LoggerFactory.getLogger(this.getClass());
+	}
+	
 	public boolean startServer(int port) {
-		System.out.println("Starting server...");
+		this.logger.info("Starting server...");
 		boolean success = true;
 
 		try {
@@ -37,7 +46,7 @@ public class Server {
 							clients.add(new ServerClient(instance, socket));
 							
 						} catch (Exception ex) {
-							System.out.println("Server.Runnable() Ex: " + ex.getMessage());
+							logger.log(Level.SEVERE, "Server.Runnable()", ex);
 						}
 						
 						printClientSize();
@@ -49,7 +58,7 @@ public class Server {
 			t.start();
 
 		} catch (Exception ex) {
-			System.out.println("Server.startServer() Ex: " + ex.getMessage());
+			this.logger.log(Level.SEVERE, "Server.startServer()", ex);
 			success = false;
 		}
 		
@@ -57,7 +66,7 @@ public class Server {
 	}
 
 	public void stopServer() {
-		System.out.println("Server.stopServer()");
+		this.logger.info("Server.stopServer()");
 
 		for (ServerClient s : this.clients) {
 			try {
@@ -90,7 +99,7 @@ public class Server {
 		lobby.addClient(client);
 		
 		this.lobbies.add(lobby);
-		System.out.println("Server.createLobby() - Lobby created!");
+		this.logger.info("Server.createLobby() - Lobby created!");
 		
 		LobbyDTO lobbyDTO = new LobbyDTO();
 		lobbyDTO.setId(lobby.getId());
@@ -99,7 +108,7 @@ public class Server {
 		Response response = new Response(ResponseId.PLAYERS_LOBBY, RequestId.CREATE_LOBBY, json);
 		
 		client.sendResponse(response);
-		System.out.println("Server.createLobby() - Response sent!");
+		this.logger.info("Server.createLobby() - Response sent!");
 	}
 	
 	public boolean joinLobby(ServerClient client, LobbyDTO lobbyDTO) {
@@ -141,7 +150,7 @@ public class Server {
 	
 	
 	private void printClientSize() {
-		System.out.println("Server - Clients connected: " + clients.size());
+		logger.info("Server - Clients connected: " + clients.size());
 	}
 
 }

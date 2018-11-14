@@ -1,7 +1,9 @@
 package ch.fhnw.projectbois._mvc;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Logger;
 
+import ch.fhnw.projectbois.log.LoggerFactory;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 
@@ -11,10 +13,14 @@ import javafx.scene.Parent;
  * @author Rosario Brancato
  */
 public abstract class Controller<M extends Model, V extends View<M>> {
+	protected Logger logger;
+	
 	protected M model;
 	protected V view;
 
 	protected Controller(M model, V view) {
+		this.logger = LoggerFactory.getLogger(this.getClass());
+		
 		this.model = model;
 		this.view = view;
 	}
@@ -30,6 +36,7 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 	public static <C extends Controller<M, V>, V extends View<M>, M extends Model> C initMVC(Class<C> controllerClass,
 			Class<M> modelClass, Class<V> viewClass) {
 
+		Logger log = LoggerFactory.getLogger(Controller.class);
 		C controller = null;
 
 		try {
@@ -43,7 +50,7 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
 
-			e.printStackTrace();
+			log.severe(e.getMessage());
 		}
 
 		return controller;
