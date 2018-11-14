@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class LobbyDTO {
 
 	private int id = -1;
+	private boolean cardSideA = true;
+
 	private ArrayList<String> players = new ArrayList<>();
 	
 	public int getId() {
@@ -17,6 +19,10 @@ public class LobbyDTO {
 	
 	public ArrayList<String> getPlayers() {
 		return this.players;
+	}
+	
+	public void addPlayer(String player) {
+		this.players.add(player);
 	}
 	
 	public void setPlayers(ArrayList<String> players) {
@@ -32,6 +38,14 @@ public class LobbyDTO {
 		}
 		
 		return players;
+	}
+	
+	public boolean isCardSideA() {
+		return cardSideA;
+	}
+
+	public void setCardSideA(boolean cardSideA) {
+		this.cardSideA = cardSideA;
 	}
 	
 }
