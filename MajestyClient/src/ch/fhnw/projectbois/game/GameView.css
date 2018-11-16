@@ -1,0 +1,5 @@
+.display:hover { 
+	-fx-border-style: solid;
+	-fx-border-width: 5px;
+	-fx-border-color: red;
+}
