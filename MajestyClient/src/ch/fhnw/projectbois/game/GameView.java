@@ -40,6 +40,9 @@ public class GameView extends View<GameModel> {
 		borderPane.setRight(chat);
 		
 		this.root = borderPane;
+
+		String displayCSS = this.getClass().getResource("GameView.css").toExternalForm();
+		this.root.getStylesheets().add(displayCSS);
 	}
 
 }

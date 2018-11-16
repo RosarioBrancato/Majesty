@@ -2,9 +2,12 @@ package ch.fhnw.projectbois.game;
 
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.gameobjects.GameState;
+import javafx.beans.binding.Bindings;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
 public class GameController extends Controller<GameModel, GameView> {
@@ -20,6 +23,7 @@ public class GameController extends Controller<GameModel, GameView> {
 
 	public GameController(GameModel model, GameView view) {
 		super(model, view);
+		
 	}
 
 	@Override
@@ -63,8 +67,15 @@ public class GameController extends Controller<GameModel, GameView> {
 			ImageView v = new ImageView(c);
 			v.setPreserveRatio(true);
 			v.setFitWidth(100);
+			
+			v.setOnMouseClicked((e) -> {
+				logger.info("Image clicked!");
+			});
 
-			this.pnlDisplay.getChildren().add(v);
+			BorderPane borderPane = new BorderPane(v);
+			borderPane.getStyleClass().add("display");
+
+			this.pnlDisplay.getChildren().add(borderPane);
 		}
 	}
 
