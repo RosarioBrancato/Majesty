@@ -57,14 +57,19 @@ public class ServerClient {
 							Request request = JsonUtils.Deserialize(json, Request.class);
 							logger.info("Server Request: " + request.toString());
 
-							if (request.getRequestId() > RequestId.AUTH_RANGE_START
-									&& request.getRequestId() < RequestId.AUTH_RANGE_END) {
+							if (request.getRequestId() == RequestId.LOGIN
+									|| request.getRequestId() == RequestId.REGISTER) {
 
 								new AuthRequestHandler(request, server, client);
 
 							} else if (user != null) {
 								// if user is logged in...
-								if (request.getRequestId() > RequestId.LOBBY_RANGE_START
+								if (request.getRequestId() > RequestId.AUTH_RANGE_START
+										&& request.getRequestId() < RequestId.AUTH_RANGE_END) {
+
+									new AuthRequestHandler(request, server, client);
+									
+								} else if (request.getRequestId() > RequestId.LOBBY_RANGE_START
 										&& request.getRequestId() < RequestId.LOBBY_RANGE_END) {
 
 									new LobbyRequestHandler(request, server, client);
