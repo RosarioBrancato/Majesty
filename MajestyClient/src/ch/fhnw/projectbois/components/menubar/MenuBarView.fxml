@@ -11,9 +11,10 @@
    <left>
       <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btn_menubarview_play" mnemonicParsing="false" onAction="#btn_menubarview_play_view" prefHeight="78.0" prefWidth="200.0" text="Play" />
-            <Button fx:id="btn_menubarview_leaderboard" mnemonicParsing="false" onAction="#btn_menubarview_leaderboard_view" prefHeight="85.0" prefWidth="200.0" text="Leaderboard" />
-            <Button mnemonicParsing="false" onAction="#btnText_Click" prefHeight="85.0" prefWidth="600.0" text="Shitty Button Edited" />
+            <Button fx:id="btnPlay" mnemonicParsing="false" onAction="#btnPlay_Click" prefHeight="78.0" prefWidth="200.0" text="Play" />
+            <Button fx:id="btnProfile" mnemonicParsing="false" onAction="#btnProfile_Click" prefHeight="78.0" prefWidth="200.0" text="Profile" />
+            <Button fx:id="btnLeaderboard" mnemonicParsing="false" onAction="#btnLeaderboard_Click" prefHeight="85.0" prefWidth="200.0" text="Leaderboard" />
+            <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#btnLogout_Click" prefHeight="78.0" prefWidth="200.0" text="Logout" />
             <Button mnemonicParsing="false" onAction="#btnGame_Click" prefHeight="85.0" prefWidth="600.0" text="(TEMP) Game" />
          </children>
       </VBox>

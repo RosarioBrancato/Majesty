@@ -9,10 +9,12 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import ch.fhnw.projectbois.auth.TokenFactory;
 import ch.fhnw.projectbois.communication.Request;
 import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.dto.UserDTO;
+import ch.fhnw.projectbois.general.IdFactory;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.log.LoggerFactory;
 import ch.fhnw.projectbois.requesthandlers.AuthRequestHandler;
@@ -37,6 +39,13 @@ public class ServerClient {
 
 	public ServerClient(Server server, Socket socket) {
 		this.logger = LoggerFactory.getLogger(this.getClass());
+		
+		//TEMP USER
+		int id = IdFactory.getInstance().getNewId(UserDTO.class.getName());
+		this.user = new UserDTO();
+		this.user.setId(id);
+		this.user.setToken(TokenFactory.getInstance().getNewToken());
+		this.user.setUsername("TEMP_USER_" + id);
 
 		this.socket = socket;
 

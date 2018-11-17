@@ -49,7 +49,7 @@ public class Network {
 			OutputStream stream = this.socket.getOutputStream();
 			PrintWriter writer = new PrintWriter(stream);
 
-			writer.print(json);
+			writer.println(json);
 			writer.flush();
 
 		} catch (Exception ex) {

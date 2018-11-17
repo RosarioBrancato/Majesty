@@ -49,7 +49,7 @@ public class Server {
 							Socket socket = server.accept();
 							clients.add(new ServerClient(instance, socket));
 
-							printClientSize();
+							printInfos();
 
 						} catch (Exception ex) {
 						}
@@ -88,8 +88,20 @@ public class Server {
 	}
 
 	public void removeClient(ServerClient client) {
+		// remove client from his lobby
+		Lobby lobby = client.getLobby();
+		if (lobby != null) {
+			lobby.removeClient(client);
+
+			// if lobby is empty, remove it
+			if (lobby.isEmpty()) {
+				lobbies.remove(lobby);
+			}
+		}
+
+		//remove client
 		this.clients.remove(client);
-		this.printClientSize();
+		this.printInfos();
 	}
 
 	public int getClientsCount() {
@@ -105,32 +117,31 @@ public class Server {
 	public void broadcastTest() {
 		GameState gameState = new GameState();
 		gameState.setId(IdFactory.getInstance().getNewId(GameState.class.getName()));
-		
+
 		DisplayCard card = new DisplayCard();
 		card.setCardType(CardType.Miller);
 		gameState.getBoard().getDisplay().add(card);
-		
+
 		card = new DisplayCard();
 		card.setCardType(CardType.Miller);
 		gameState.getBoard().getDisplay().add(card);
-		
+
 		card = new DisplayCard();
 		card.setCardType(CardType.Brewer);
 		gameState.getBoard().getDisplay().add(card);
-		
+
 		card = new DisplayCard();
 		card.setCardType(CardType.Knight);
 		gameState.getBoard().getDisplay().add(card);
-		
+
 		card = new DisplayCard();
 		card.setCardType(CardType.Noble);
 		gameState.getBoard().getDisplay().add(card);
-		
+
 		card = new DisplayCard();
 		card.setCardType(CardType.Witch);
 		gameState.getBoard().getDisplay().add(card);
-		
-		
+
 		String json = JsonUtils.Serialize(gameState);
 		Response response = new Response(ResponseId.UPDATE_GAMESTATE, RequestId.EMPTY, json);
 
@@ -139,8 +150,8 @@ public class Server {
 		}
 	}
 
-	private void printClientSize() {
-		logger.info("Server - Clients connected: " + clients.size());
+	private void printInfos() {
+		logger.info("Server - Clients: " + clients.size() + " Lobbies: " + this.lobbies.size());
 	}
 
 }
