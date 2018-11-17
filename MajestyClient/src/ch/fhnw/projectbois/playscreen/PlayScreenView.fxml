@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.paint.*?>
@@ -7,7 +9,6 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
-
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <center>
@@ -22,7 +23,7 @@
                <children>
                   <Label prefHeight="41.0" prefWidth="59.0" text="CARD SIDE" />
                   <ChoiceBox fx:id="choicebx_playscreen_cardside" prefHeight="70.0" prefWidth="150.0" />
-                  <Button fx:id="btn_playscreen_start" mnemonicParsing="false" onAction="#btn_playscreen_start_test" text="START">
+                  <Button fx:id="btn_playscreen_start" mnemonicParsing="false" onAction="#btn_playscreen_start" text="START">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -41,16 +42,4 @@
          </children>
       </VBox>
    </center>
-   <top>
-      <Label text="TOP" BorderPane.alignment="CENTER" />
-   </top>
-   <right>
-      <Label text="RIGHT" BorderPane.alignment="CENTER" />
-   </right>
-   <bottom>
-      <Label text="BOTTOM" BorderPane.alignment="CENTER" />
-   </bottom>
-   <left>
-      <Label text="LEFT" BorderPane.alignment="CENTER" />
-   </left>
 </BorderPane>
