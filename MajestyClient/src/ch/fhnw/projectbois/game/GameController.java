@@ -1,11 +1,13 @@
 package ch.fhnw.projectbois.game;
 
+import java.util.ArrayList;
+
 import ch.fhnw.projectbois._mvc.Controller;
-import ch.fhnw.projectbois.gameobjects.GameState;
-import javafx.beans.binding.Bindings;
-import javafx.beans.value.ObservableValue;
+import ch.fhnw.projectbois.gameobjects.*;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -15,6 +17,8 @@ public class GameController extends Controller<GameModel, GameView> {
 	private final String PATH_TO_CARD = "cards/character cards/";
 	private final String PATH_TO_LOCATION_A = "locations/Side A/";
 
+	private GameState gameState = null;
+
 	@FXML
 	private HBox pnlDisplay;
 
@@ -23,7 +27,7 @@ public class GameController extends Controller<GameModel, GameView> {
 
 	public GameController(GameModel model, GameView view) {
 		super(model, view);
-		
+
 	}
 
 	@Override
@@ -31,7 +35,6 @@ public class GameController extends Controller<GameModel, GameView> {
 		super.initialize();
 
 		this.initLocations();
-		this.initDisplay();
 
 		this.model.getGameStateProperty().addListener((observer, oldValue, newValue) -> {
 			loadGameState(newValue);
@@ -58,29 +61,69 @@ public class GameController extends Controller<GameModel, GameView> {
 		}
 	}
 
-	private void initDisplay() {
-		String[] chars = new String[] { PATH_TO_CARD + "Blue.jpg", PATH_TO_CARD + "Brown.jpg",
-				PATH_TO_CARD + "Green.jpg", PATH_TO_CARD + "Orange.jpg", PATH_TO_CARD + "Red.jpg",
-				PATH_TO_CARD + "Violet.jpg", PATH_TO_CARD + "Yellow.jpg" };
+	private void loadGameState(GameState gameState) {
+		this.logger.info("GameController.loadGameState()");
 
-		for (String c : chars) {
-			ImageView v = new ImageView(c);
+		if (this.gameState == null || gameState.getId() > this.gameState.getId()) {
+			this.gameState = gameState;
+			this.drawGui();
+		}
+	}
+
+	private void drawGui() {
+		Board board = this.gameState.getBoard();
+
+		this.drawDisplay(board.getDisplay());
+	}
+
+	private void drawDisplay(ArrayList<DisplayCard> displayCards) {
+		Platform.runLater(() -> {
+			this.pnlDisplay.getChildren().clear();
+		});
+		for (DisplayCard card : displayCards) {
+			ImageView v = new ImageView();
+
+			switch (card.getCardType()) {
+			case Miller:
+				v.setImage(new Image(PATH_TO_CARD + "Orange.jpg"));
+				break;
+			case Brewer:
+				v.setImage(new Image(PATH_TO_CARD + "Brown.jpg"));
+				break;
+			case Guard:
+				v.setImage(new Image(PATH_TO_CARD + "Blue.jpg"));
+				break;
+			case Innkeeper:
+				v.setImage(new Image(PATH_TO_CARD + "Yellow.jpg"));
+				break;
+			case Knight:
+				v.setImage(new Image(PATH_TO_CARD + "Red.jpg"));
+				break;
+			case Noble:
+				v.setImage(new Image(PATH_TO_CARD + "Violet.jpg"));
+				break;
+			case Witch:
+				v.setImage(new Image(PATH_TO_CARD + "Green.jpg"));
+				break;
+			default:
+				break;
+			}
+
 			v.setPreserveRatio(true);
-			v.setFitWidth(100);
-			
+			v.setFitHeight(100);
+
 			v.setOnMouseClicked((e) -> {
 				logger.info("Image clicked!");
+				model.sendMove();
 			});
 
 			BorderPane borderPane = new BorderPane(v);
 			borderPane.getStyleClass().add("display");
 
-			this.pnlDisplay.getChildren().add(borderPane);
+			Platform.runLater(() -> {
+				this.pnlDisplay.getChildren().add(borderPane);
+			});
 		}
-	}
-
-	private void loadGameState(GameState gameState) {
-		logger.info("GameController.loadGameState()");
 	}
 
 }
