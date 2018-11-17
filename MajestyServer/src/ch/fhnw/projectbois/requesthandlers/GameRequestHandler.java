@@ -15,8 +15,14 @@ public class GameRequestHandler extends RequestHandler {
 	@Override
 	protected void handleRequest() {
 		if (request.getRequestId() == RequestId.DO_MOVE) {
-			client.getLobby().doMove(client.getUser(), request.getJsonDataObject());
+			this.doMove();
 		}
 	}
 
+	private void doMove() {
+		//TO-DO
+		//client.getLobby().doMove(client.getUser(), request.getJsonDataObject());
+	}
+	
+	
 }

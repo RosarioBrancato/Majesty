@@ -36,7 +36,7 @@ public class GameView extends View<GameModel> {
 		
 		AnchorPane chat = (AnchorPane)Controller.initMVC(ChatController.class, ChatModel.class, ChatView.class).getViewRoot();
 		chat.prefHeightProperty().bind(borderPane.heightProperty());
-		chat.setStyle("-fx-background-color: yellow");
+		chat.setStyle("-fx-background-color: yellow; -fx-width: 100px;");
 		borderPane.setRight(chat);
 		
 		this.root = borderPane;

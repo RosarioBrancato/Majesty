@@ -8,7 +8,8 @@ import java.util.logging.Logger;
 import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
-import ch.fhnw.projectbois.gameobjects.GameState;
+import ch.fhnw.projectbois.gameobjects.*;
+import ch.fhnw.projectbois.general.IdFactory;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.log.LoggerFactory;
 
@@ -103,6 +104,33 @@ public class Server {
 
 	public void broadcastTest() {
 		GameState gameState = new GameState();
+		gameState.setId(IdFactory.getInstance().getNewId(GameState.class.getName()));
+		
+		DisplayCard card = new DisplayCard();
+		card.setCardType(CardType.Miller);
+		gameState.getBoard().getDisplay().add(card);
+		
+		card = new DisplayCard();
+		card.setCardType(CardType.Miller);
+		gameState.getBoard().getDisplay().add(card);
+		
+		card = new DisplayCard();
+		card.setCardType(CardType.Brewer);
+		gameState.getBoard().getDisplay().add(card);
+		
+		card = new DisplayCard();
+		card.setCardType(CardType.Knight);
+		gameState.getBoard().getDisplay().add(card);
+		
+		card = new DisplayCard();
+		card.setCardType(CardType.Noble);
+		gameState.getBoard().getDisplay().add(card);
+		
+		card = new DisplayCard();
+		card.setCardType(CardType.Witch);
+		gameState.getBoard().getDisplay().add(card);
+		
+		
 		String json = JsonUtils.Serialize(gameState);
 		Response response = new Response(ResponseId.UPDATE_GAMESTATE, RequestId.EMPTY, json);
 

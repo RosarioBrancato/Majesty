@@ -1,5 +1,10 @@
+.display {
+	-fx-padding: 3px;
+}
+
 .display:hover { 
 	-fx-border-style: solid;
-	-fx-border-width: 5px;
 	-fx-border-color: red;
+	-fx-border-width: 3px;
+	-fx-padding: 0px;
 }
