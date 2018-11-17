@@ -8,6 +8,7 @@ import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.dto.LobbyDTO;
+import ch.fhnw.projectbois.dto.LobbyListDTO;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.network.Lobby;
 import ch.fhnw.projectbois.network.Server;
@@ -56,6 +57,7 @@ public class LobbyRequestHandler extends RequestHandler {
 
 		// send response to client
 		lobbyDTO.setId(lobby.getId());
+		lobbyDTO.addPlayer(client.getUser().getUsername());
 		json = JsonUtils.Serialize(lobbyDTO);
 		Response response = new Response(ResponseId.LOBBY_CREATED, request.getRequestId(), json);
 
@@ -79,10 +81,14 @@ public class LobbyRequestHandler extends RequestHandler {
 		// send response
 		Response response;
 		if (success) {
-			response = new Response(ResponseId.LOBBY_JOINED, request.getRequestId(), request.getJsonDataObject());
+			lobbyDTO.addPlayer(client.getUser().getUsername());
+			String json = JsonUtils.Serialize(lobbyDTO);
+			response = new Response(ResponseId.LOBBY_JOINED, request.getRequestId(), json);
+			
 		} else {
 			response = new Response(ResponseId.LOBBY_ERROR, request.getRequestId(), request.getJsonDataObject());
 		}
+		
 		client.sendResponse(response);
 
 		return success;
@@ -100,7 +106,7 @@ public class LobbyRequestHandler extends RequestHandler {
 	}
 
 	private void sendLobbies() {
-		ArrayList<LobbyDTO> lobbyDTOs = new ArrayList<>();
+		LobbyListDTO lobbyList = new LobbyListDTO();
 
 		// get lobbies, which are not full
 		ArrayList<Lobby> lobbies = (ArrayList<Lobby>) server.getLobbies().stream().filter(f -> f.isNotFull())
@@ -115,11 +121,11 @@ public class LobbyRequestHandler extends RequestHandler {
 				lobbyDTO.addPlayer(client.getUser().getUsername());
 			}
 
-			lobbyDTOs.add(lobbyDTO);
+			lobbyList.getLobbies().add(lobbyDTO);
 		}
 
 		// send DTOs to client
-		String json = JsonUtils.Serialize(lobbyDTOs);
+		String json = JsonUtils.Serialize(lobbyList);
 		Response response = new Response(ResponseId.UPDATE_LOBBIES, request.getRequestId(), json);
 
 		client.sendResponse(response);

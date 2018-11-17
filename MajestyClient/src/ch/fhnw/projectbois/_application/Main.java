@@ -25,6 +25,8 @@ public class Main extends Application {
 		Logger logger = LoggerFactory.getLogger(Main.class);
 		
 		try {
+			Network.getInstance().initConnection("localhost", 8200);
+			
 			MetaContainer.getInstance().setMainStage(primaryStage);
 
 			//LoginController login = Controller.initMVC(LoginController.class, LoginModel.class, LoginView.class);
@@ -34,8 +36,6 @@ public class Main extends Application {
 			primaryStage.setTitle("Majesty - For The Realm");
 			primaryStage.setMaximized(false);
 			primaryStage.show();
-
-			Network.getInstance().initConnection("localhost", 8200);
 
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Main (Client)", e);

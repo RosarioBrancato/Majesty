@@ -1,11 +1,13 @@
 package ch.fhnw.projectbois.playscreen;
 
 import ch.fhnw.projectbois._mvc.Controller;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import ch.fhnw.projectbois.dto.LobbyDTO;
+import ch.fhnw.projectbois.dto.LobbyListDTO;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ListView;
 
 /**
  * 
@@ -14,43 +16,73 @@ import javafx.scene.control.ChoiceBox;
  */
 
 public class PlayScreenController extends Controller<PlayScreenModel, PlayScreenView> {
-	
+
+	private final String SIDE_A = "Side A";
+	private final String SIDE_B = "Side B";
+
+	@FXML
+	private ChoiceBox<String> cmbCardSide;
+
+	@FXML
+	private ListView<LobbyDTO> lstLobbies;
+
 	public PlayScreenController(PlayScreenModel model, PlayScreenView view) {
 		super(model, view);
 	}
-	
-	
-	//Preparing List for GameMode ChoiceBox
-	ObservableList<String> gamemode_list=FXCollections.observableArrayList();
-	
-	private void loadData() {
-		//Loading Dropdown List for Hosting game
-		gamemode_list.removeAll(gamemode_list);
-		String a = "A";
-		String b = "B";
-		gamemode_list.addAll(a,b);
-		choicebx_playscreen_cardside.getItems().addAll(gamemode_list);
-		choicebx_playscreen_cardside.getSelectionModel().selectFirst();
-		//Loading Games to join
+
+	@Override
+	protected void initialize() {
+		super.initialize();
+
+		this.fillChoiceBox();
+
+		model.getLobbiesProperty().addListener((observer, oldValue, newValue) -> {
+			fillListView(newValue);
+		});
+
+		this.getLobbies();
+	}
+
+	private void fillChoiceBox() {
+		this.cmbCardSide.getItems().add(SIDE_A);
+		this.cmbCardSide.getItems().add(SIDE_B);
+
+		this.cmbCardSide.getSelectionModel().selectFirst();
+	}
+
+	private void getLobbies() {
 		model.getLobbies();
-		// TO DO
 	}
 
-    @FXML
-    public void initialize() {
-        loadData();
-    }
-	
-	@FXML
-	private ChoiceBox<String> choicebx_playscreen_cardside;
+	private void fillListView(LobbyListDTO lobbies) {
+		Platform.runLater(() -> {
+			lstLobbies.getItems().clear();
+			lstLobbies.getItems().addAll(lobbies.getLobbies());
+		});
+	}
 
 	@FXML
-	public void btn_playscreen_start(ActionEvent e) {
-	System.out.println(choicebx_playscreen_cardside.getValue());
-	String gamemode = choicebx_playscreen_cardside.getValue();
-	model.createLobby(gamemode);
-	
+	public void btnStart_Click(ActionEvent e) {
+		String side = cmbCardSide.getValue();
+		boolean isSindA = side.equals(SIDE_A);
 		
+		LobbyDTO lobby = new LobbyDTO();
+		lobby.setCardSideA(isSindA);
+
+		model.createLobby(lobby);
 	}
-	
+
+	@FXML
+	private void btnJoin_Click(ActionEvent e) {
+		LobbyDTO lobby = lstLobbies.getSelectionModel().getSelectedItem();
+		if (lobby != null) {
+			model.joinLobby(lobby);
+		}
+	}
+
+	@FXML
+	private void btnRefresh_Click(ActionEvent e) {
+		getLobbies();
+	}
+
 }

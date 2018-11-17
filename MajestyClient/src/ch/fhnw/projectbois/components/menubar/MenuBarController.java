@@ -8,10 +8,12 @@ import ch.fhnw.projectbois.game.GameView;
 import ch.fhnw.projectbois.leaderboard.LeaderboardController;
 import ch.fhnw.projectbois.leaderboard.LeaderboardModel;
 import ch.fhnw.projectbois.leaderboard.LeaderboardView;
-import ch.fhnw.projectbois.network.Network;
 import ch.fhnw.projectbois.playscreen.PlayScreenController;
 import ch.fhnw.projectbois.playscreen.PlayScreenModel;
 import ch.fhnw.projectbois.playscreen.PlayScreenView;
+import ch.fhnw.projectbois.profile.ProfileController;
+import ch.fhnw.projectbois.profile.ProfileModel;
+import ch.fhnw.projectbois.profile.ProfileView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -25,32 +27,47 @@ public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 
 	private void switchCenter(Parent pane) {
 		Parent root = this.getViewRoot();
-
 		BorderPane borderPane = (BorderPane) root;
 		borderPane.setCenter(pane);
-
-		System.gc();
 	}
 
+	/**
+	 * Get to Lobby Screen where the player can either create a lobby or join one.
+	 * 
+	 * @param event
+	 */
 	@FXML
-	private void btnText_Click(ActionEvent event) {
-		Network.getInstance().sendTest();
-	}
-
-	// Get to Lobby Screen where the player can either create a lobby or join one.
-	@FXML
-	private void btn_menubarview_play_view(ActionEvent event) {
+	private void btnPlay_Click(ActionEvent event) {
 		PlayScreenController controller = Controller.initMVC(PlayScreenController.class, PlayScreenModel.class,
 				PlayScreenView.class);
 
 		this.switchCenter(controller.getViewRoot());
 	}
-	
-	// Get to the Leaderboard Screen 
+
 	@FXML
-	private void btn_menubarview_leaderboard_view(ActionEvent event) {
-		LeaderboardController controller = Controller.initMVC(LeaderboardController.class, LeaderboardModel.class, LeaderboardView.class);
+	private void btnProfile_Click(ActionEvent event) {
+		ProfileController controller = Controller.initMVC(ProfileController.class, ProfileModel.class,
+				ProfileView.class);
+
 		this.switchCenter(controller.getViewRoot());
+	}
+
+	/**
+	 * Get to the Leaderboard Screen
+	 * 
+	 * @param event
+	 */
+	@FXML
+	private void btnLeaderboard_Click(ActionEvent event) {
+		LeaderboardController controller = Controller.initMVC(LeaderboardController.class, LeaderboardModel.class,
+				LeaderboardView.class);
+		
+		this.switchCenter(controller.getViewRoot());
+	}
+	
+	@FXML
+	private void btnLogout_Click(ActionEvent event) {
+		
 	}
 
 	@FXML
