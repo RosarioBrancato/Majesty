@@ -20,8 +20,10 @@ public class RequestId {
 	public static final int LOBBY_RANGE_END = 199;
 
 	public static final int GAME_RANGE_START = 200;
-	public static final int DO_MOVE = 100;
-	public static final int QUIT_GAME = 120;
+	public static final int START_GAME = 201;
+	public static final int GET_GAMESTATE = 202;
+	public static final int DO_MOVE = 203;
+	public static final int QUIT_GAME = 204;
 	public static final int GAME_RANGE_END = 299;
 
 	public static final int LEADERBOARD_RANGE_START = 300;

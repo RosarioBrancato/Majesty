@@ -8,3 +8,7 @@
 	-fx-border-width: 3px;
 	-fx-padding: 0px;
 }
+
+.playersCards {
+	-fx-background-color: blue;
+}
