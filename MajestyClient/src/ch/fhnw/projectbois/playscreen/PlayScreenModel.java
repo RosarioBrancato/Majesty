@@ -43,18 +43,18 @@ public class PlayScreenModel extends Model {
 
 	public void createLobby(LobbyDTO lobby) {
 		String json = JsonUtils.Serialize(lobby);
-		Request request = new Request(Session.getInstance().getCurrentUser().getToken(), RequestId.CREATE_LOBBY, json);
+		Request request = new Request(Session.getCurrentUserToken(), RequestId.CREATE_LOBBY, json);
 		Network.getInstance().sendRequest(request);
 	}
 
 	public void joinLobby(LobbyDTO lobby) {
 		String json = JsonUtils.Serialize(lobby);
-		Request request = new Request(Session.getInstance().getCurrentUser().getToken(), RequestId.JOIN_LOBBY, json);
+		Request request = new Request(Session.getCurrentUserToken(), RequestId.JOIN_LOBBY, json);
 		Network.getInstance().sendRequest(request);
 	}
 
 	public void getLobbies() {
-		Request request = new Request(Session.getInstance().getCurrentUser().getToken(), RequestId.GET_LOBBIES, null);
+		Request request = new Request(Session.getCurrentUserToken(), RequestId.GET_LOBBIES, null);
 		Network.getInstance().sendRequest(request);
 	}
 
