@@ -1,5 +1,8 @@
 package ch.fhnw.projectbois.playscreen;
 
+import java.util.Date;
+import java.sql.Timestamp;
+
 import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois._mvc.Model;
@@ -29,9 +32,12 @@ import javafx.beans.value.ObservableValue;
 public class PlayScreenModel extends Model {
 
 	private SimpleObjectProperty<LobbyListDTO> lobbiesProperty = null;
+	private SimpleObjectProperty<Timestamp> errorProperty = null;
+	
 
 	public PlayScreenModel() {
-		this.lobbiesProperty = new SimpleObjectProperty<LobbyListDTO>();
+		this.lobbiesProperty = new SimpleObjectProperty<>();
+		this.errorProperty = new SimpleObjectProperty<>();
 		this.initResponseListener();
 	}
 
@@ -55,6 +61,10 @@ public class PlayScreenModel extends Model {
 	public SimpleObjectProperty<LobbyListDTO> getLobbiesProperty() {
 		return this.lobbiesProperty;
 	}
+	
+	public SimpleObjectProperty<Timestamp> getErrorProperty() {
+		return this.errorProperty;
+	}
 
 	@Override
 	protected ChangeListener<Response> getChangeListener() {
@@ -68,14 +78,15 @@ public class PlayScreenModel extends Model {
 
 					lobbiesProperty.setValue(lobbies);
 
-					System.out.println("PlayScreenModel - Lobbies updated!");
-
 				} else if (newValue.getResponseId() == ResponseId.LOBBY_CREATED
 						|| newValue.getResponseId() == ResponseId.LOBBY_JOINED) {
 
 					String json = newValue.getJsonDataObject();
 					LobbyDTO lobby = JsonUtils.Deserialize(json, LobbyDTO.class);
 					showLobby(lobby);
+				
+				} else if (newValue.getResponseId() == ResponseId.LOBBY_ERROR) {
+					errorProperty.setValue(new Timestamp(new Date().getTime()));
 				}
 
 			}
