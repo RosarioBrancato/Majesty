@@ -36,7 +36,7 @@ public class Lobby {
 		this.id = IdFactory.getInstance().getNewId(this.getClass().getName());
 	}
 
-	public boolean addClient(ServerClient client) {
+	public synchronized boolean addClient(ServerClient client) {
 		boolean success = false;
 
 		if (this.isNotFull()) {
