@@ -5,9 +5,11 @@ import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.communication.Request;
 import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
+import ch.fhnw.projectbois.gameobjects.GameMove;
 import ch.fhnw.projectbois.gameobjects.GameState;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.network.Network;
+import ch.fhnw.projectbois.session.Session;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -25,13 +27,14 @@ public class GameModel extends Model {
 		return this.gameStateProperty;
 	}
 	
-	public void sendMove() {
-		GameState o = new GameState();
-		o.setId(2);
-		
-		//
-		String json = JsonUtils.Serialize(o);
-		Request request = new Request("USER", RequestId.DO_MOVE, json);
+	public void getGameState() {
+		Request request = new Request(Session.getCurrentUserToken(), RequestId.GET_GAMESTATE, null);
+		Network.getInstance().sendRequest(request);
+	}
+	
+	public void sendMove(GameMove move) {
+		String json = JsonUtils.Serialize(move);
+		Request request = new Request(Session.getCurrentUserToken(), RequestId.DO_MOVE, json);
 		
 		Network.getInstance().sendRequest(request);
 	}
@@ -47,7 +50,6 @@ public class GameModel extends Model {
 					GameState gameState = JsonUtils.Deserialize(json, GameState.class);
 
 					gameStateProperty.setValue(gameState);
-					logger.info("GameModel - GameStateProperty updated!");
 				}
 			}
 		};

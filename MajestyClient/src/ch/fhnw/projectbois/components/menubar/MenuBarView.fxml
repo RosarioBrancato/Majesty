@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="451.0" prefWidth="793.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <left>
       <GridPane prefHeight="200.0" prefWidth="200.0" vgap="5.0">
          <columnConstraints>
@@ -21,14 +21,12 @@
             <RowConstraints minHeight="80.0" prefHeight="80.0" valignment="CENTER" vgrow="NEVER" />
             <RowConstraints minHeight="80.0" prefHeight="80.0" valignment="CENTER" vgrow="NEVER" />
             <RowConstraints minHeight="80.0" prefHeight="80.0" valignment="CENTER" vgrow="NEVER" />
-            <RowConstraints minHeight="80.0" prefHeight="80.0" valignment="CENTER" vgrow="NEVER" />
          </rowConstraints>
          <children>
             <Button fx:id="btnPlay" mnemonicParsing="false" onAction="#btnPlay_Click" prefHeight="80.0" prefWidth="200.0" text="Play" GridPane.rowIndex="1" />
             <Button fx:id="btnProfile" mnemonicParsing="false" onAction="#btnProfile_Click" prefHeight="80.0" prefWidth="200.0" text="Profile" GridPane.rowIndex="2" />
             <Button fx:id="btnLeaderboard" mnemonicParsing="false" onAction="#btnLeaderboard_Click" prefHeight="80.0" prefWidth="200.0" text="Leaderboard" GridPane.rowIndex="3" />
             <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#btnLogout_Click" prefHeight="80.0" prefWidth="200.0" text="Logout" GridPane.rowIndex="4" />
-            <Button mnemonicParsing="false" onAction="#btnGame_Click" prefHeight="80.0" prefWidth="600.0" text="(TEMP) Game" GridPane.rowIndex="5" />
             <Label text="MAJESTY">
                <font>
                   <Font name="System Bold" size="24.0" />
