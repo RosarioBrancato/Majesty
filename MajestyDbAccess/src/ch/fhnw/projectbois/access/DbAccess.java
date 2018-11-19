@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class DbAccess {
 
-	private final static String CONNECTION_STRING = "jdbc:mysql://localhost/test?user=minty&password=greatsqldb";
+	private final static String CONNECTION_STRING = "jdbc:mysql://***REMOVED***:3306/***REMOVED***?user=***REMOVED***&password=***REMOVED***&serverTimezone=UTC";
 	
-	public static Connection GetConnection() {
+	public static Connection getConnection() {
 		Connection connection = null;
 		
 		try {

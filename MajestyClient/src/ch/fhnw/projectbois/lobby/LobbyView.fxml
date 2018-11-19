@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label fx:id="lblInfo" text="Label" />
+      <Button layoutX="557.0" layoutY="761.0" mnemonicParsing="false" onAction="#btnStartGame_Click" text="START GAME" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="557.0" />
    </children>
 </AnchorPane>

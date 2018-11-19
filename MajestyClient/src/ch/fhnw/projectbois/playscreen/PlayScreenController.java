@@ -1,13 +1,17 @@
 package ch.fhnw.projectbois.playscreen;
 
+import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.dto.LobbyDTO;
 import ch.fhnw.projectbois.dto.LobbyListDTO;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
+import javafx.stage.Modality;
 
 /**
  * 
@@ -40,6 +44,22 @@ public class PlayScreenController extends Controller<PlayScreenModel, PlayScreen
 			fillListView(newValue);
 		});
 
+		model.getErrorProperty().addListener((observer, oldValue, newValue) -> {
+			Platform.runLater(() -> {
+				Alert dlg = new Alert(AlertType.ERROR);
+				dlg.setTitle("ERROR");
+				dlg.setHeaderText(null);
+				dlg.setContentText("An error occured. Please try again.");
+				
+				dlg.initOwner(MetaContainer.getInstance().getMainStage());
+				dlg.initModality(Modality.APPLICATION_MODAL);
+				
+				dlg.showAndWait();
+				
+				getLobbies();
+			});
+		});
+
 		this.getLobbies();
 	}
 
@@ -65,7 +85,7 @@ public class PlayScreenController extends Controller<PlayScreenModel, PlayScreen
 	public void btnStart_Click(ActionEvent e) {
 		String side = cmbCardSide.getValue();
 		boolean isSindA = side.equals(SIDE_A);
-		
+
 		LobbyDTO lobby = new LobbyDTO();
 		lobby.setCardSideA(isSindA);
 

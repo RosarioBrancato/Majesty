@@ -1,5 +1,7 @@
 ***REMOVED***
 
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -7,16 +9,30 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="400.0" prefWidth="793.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <left>
-      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <GridPane prefHeight="200.0" prefWidth="200.0" vgap="5.0">
+         <columnConstraints>
+            <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0" prefWidth="200.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="120.0" prefHeight="120.0" valignment="CENTER" vgrow="NEVER" />
+            <RowConstraints minHeight="80.0" prefHeight="80.0" valignment="CENTER" vgrow="NEVER" />
+            <RowConstraints minHeight="80.0" prefHeight="80.0" valignment="CENTER" vgrow="NEVER" />
+            <RowConstraints minHeight="80.0" prefHeight="80.0" valignment="CENTER" vgrow="NEVER" />
+            <RowConstraints minHeight="80.0" prefHeight="80.0" valignment="CENTER" vgrow="NEVER" />
+         </rowConstraints>
          <children>
-            <Button fx:id="btnPlay" mnemonicParsing="false" onAction="#btnPlay_Click" prefHeight="78.0" prefWidth="200.0" text="Play" />
-            <Button fx:id="btnProfile" mnemonicParsing="false" onAction="#btnProfile_Click" prefHeight="78.0" prefWidth="200.0" text="Profile" />
-            <Button fx:id="btnLeaderboard" mnemonicParsing="false" onAction="#btnLeaderboard_Click" prefHeight="85.0" prefWidth="200.0" text="Leaderboard" />
-            <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#btnLogout_Click" prefHeight="78.0" prefWidth="200.0" text="Logout" />
-            <Button mnemonicParsing="false" onAction="#btnGame_Click" prefHeight="85.0" prefWidth="600.0" text="(TEMP) Game" />
+            <Button fx:id="btnPlay" mnemonicParsing="false" onAction="#btnPlay_Click" prefHeight="80.0" prefWidth="200.0" text="Play" GridPane.rowIndex="1" />
+            <Button fx:id="btnProfile" mnemonicParsing="false" onAction="#btnProfile_Click" prefHeight="80.0" prefWidth="200.0" text="Profile" GridPane.rowIndex="2" />
+            <Button fx:id="btnLeaderboard" mnemonicParsing="false" onAction="#btnLeaderboard_Click" prefHeight="80.0" prefWidth="200.0" text="Leaderboard" GridPane.rowIndex="3" />
+            <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#btnLogout_Click" prefHeight="80.0" prefWidth="200.0" text="Logout" GridPane.rowIndex="4" />
+            <Label text="MAJESTY">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
          </children>
-      </VBox>
+      </GridPane>
    </left>
 </BorderPane>

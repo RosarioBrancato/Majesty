@@ -5,7 +5,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Based on example from course Java 2 
+ * Based on example from course Java 2
  * 
  * @author Rosario Brancato
  */
@@ -30,11 +30,15 @@ public class MetaContainer {
 		this.mainStage = stage;
 	}
 
+	public Stage getMainStage() {
+		return this.mainStage;
+	}
+
 	public void setRoot(Parent root) {
 		Scene scene = new Scene(root);
 		this.mainStage.setScene(scene);
 	}
-	
+
 	public Scene getScene() {
 		return this.mainStage.getScene();
 	}
