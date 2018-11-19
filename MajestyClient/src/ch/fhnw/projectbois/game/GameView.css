@@ -1,5 +1,6 @@
 .display {
 	-fx-padding: 3px;
+	-fx-background-color: #fff5dd;
 }
 
 .display:hover { 
@@ -10,5 +11,5 @@
 }
 
 .playersCards {
-	-fx-background-color: blue;
+	-fx-background-color: #c3dff4;
 }

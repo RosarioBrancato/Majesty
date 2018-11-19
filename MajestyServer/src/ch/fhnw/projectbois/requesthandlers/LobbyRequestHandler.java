@@ -112,7 +112,7 @@ public class LobbyRequestHandler extends RequestHandler {
 		LobbyListDTO lobbyList = new LobbyListDTO();
 
 		// get lobbies, which are not full
-		ArrayList<Lobby> lobbies = (ArrayList<Lobby>) server.getLobbies().stream().filter(f -> f.isNotFull())
+		ArrayList<Lobby> lobbies = (ArrayList<Lobby>) server.getLobbies().stream().filter(f -> f.isNotFull() && !f.isGameStarted())
 				.collect(Collectors.toList());
 
 		// convert lobbies to DTOs
