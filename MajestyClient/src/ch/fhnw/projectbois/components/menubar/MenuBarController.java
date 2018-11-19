@@ -1,10 +1,6 @@
 package ch.fhnw.projectbois.components.menubar;
 
-import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
-import ch.fhnw.projectbois.game.GameController;
-import ch.fhnw.projectbois.game.GameModel;
-import ch.fhnw.projectbois.game.GameView;
 import ch.fhnw.projectbois.leaderboard.LeaderboardController;
 import ch.fhnw.projectbois.leaderboard.LeaderboardModel;
 import ch.fhnw.projectbois.leaderboard.LeaderboardView;
@@ -68,12 +64,6 @@ public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 	@FXML
 	private void btnLogout_Click(ActionEvent event) {
 		
-	}
-
-	@FXML
-	private void btnGame_Click(ActionEvent event) {
-		GameController controller = Controller.initMVC(GameController.class, GameModel.class, GameView.class);
-		MetaContainer.getInstance().setRoot(controller.getViewRoot());
 	}
 
 }

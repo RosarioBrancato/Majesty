@@ -3,6 +3,7 @@ package ch.fhnw.projectbois.gameobjects;
 public class GameState {
 
 	private int id = -1;
+	private boolean isCardSideA = true;
 	private Board board;
 
 	public GameState() {
@@ -19,6 +20,14 @@ public class GameState {
 
 	public Board getBoard() {
 		return this.board;
+	}
+
+	public boolean isCardSideA() {
+		return isCardSideA;
+	}
+
+	public void setCardSideA(boolean isCardSideA) {
+		this.isCardSideA = isCardSideA;
 	}
 
 }

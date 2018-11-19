@@ -10,8 +10,12 @@ import java.util.logging.Logger;
 import ch.fhnw.projectbois.log.LoggerFactory;
 import ch.fhnw.projectbois.network.Server;
 
+/**
+ * 
+ * @author Rosario Brancato
+ *
+ */
 public class Main {
-	
 
 	public static void main(String[] args) {
 		System.out.println("Starting Majesty...");

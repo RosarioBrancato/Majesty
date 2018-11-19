@@ -18,6 +18,7 @@ public class ResponseId {
 
 	public static final int GAME_RANGE_START = 200;
 	public static final int UPDATE_GAMESTATE = 201;
+	public static final int GAME_STARTED = 202;
 	public static final int GAME_ERROR = 298;
 	public static final int GAME_RANGE_END = 299;
 

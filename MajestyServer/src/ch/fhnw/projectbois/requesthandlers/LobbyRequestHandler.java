@@ -1,6 +1,7 @@
 package ch.fhnw.projectbois.requesthandlers;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import ch.fhnw.projectbois.communication.Request;
@@ -53,7 +54,6 @@ public class LobbyRequestHandler extends RequestHandler {
 
 		// add lobby to server
 		server.getLobbies().add(lobby);
-		logger.info("Server.createLobby() - Lobby created!");
 
 		// send response to client
 		lobbyDTO.setId(lobby.getId());
@@ -62,8 +62,6 @@ public class LobbyRequestHandler extends RequestHandler {
 		Response response = new Response(ResponseId.LOBBY_CREATED, request.getRequestId(), json);
 
 		client.sendResponse(response);
-
-		logger.info("Server.createLobby() - Response sent!");
 	}
 
 	private boolean joinLobby() {
@@ -72,10 +70,15 @@ public class LobbyRequestHandler extends RequestHandler {
 		LobbyDTO lobbyDTO = JsonUtils.Deserialize(request.getJsonDataObject(), LobbyDTO.class);
 
 		// find lobby
-		Lobby lobby = server.getLobbies().stream().filter(f -> f.getId() == lobbyDTO.getId()).findFirst().get();
-		if (lobby != null) {
-			// add player
-			success = lobby.addClient(client);
+		Lobby lobby = null;
+		Optional<Lobby> first = server.getLobbies().stream().filter(f -> f.getId() == lobbyDTO.getId()).findFirst();
+		if (first.isPresent()) {
+			lobby = first.get();
+
+			if (lobby != null) {
+				// add player
+				success = lobby.addClient(client);
+			}
 		}
 
 		// send response
@@ -84,11 +87,11 @@ public class LobbyRequestHandler extends RequestHandler {
 			lobbyDTO.addPlayer(client.getUser().getUsername());
 			String json = JsonUtils.Serialize(lobbyDTO);
 			response = new Response(ResponseId.LOBBY_JOINED, request.getRequestId(), json);
-			
+
 		} else {
 			response = new Response(ResponseId.LOBBY_ERROR, request.getRequestId(), request.getJsonDataObject());
 		}
-		
+
 		client.sendResponse(response);
 
 		return success;
@@ -109,13 +112,14 @@ public class LobbyRequestHandler extends RequestHandler {
 		LobbyListDTO lobbyList = new LobbyListDTO();
 
 		// get lobbies, which are not full
-		ArrayList<Lobby> lobbies = (ArrayList<Lobby>) server.getLobbies().stream().filter(f -> f.isNotFull())
+		ArrayList<Lobby> lobbies = (ArrayList<Lobby>) server.getLobbies().stream().filter(f -> f.isNotFull() && !f.isGameStarted())
 				.collect(Collectors.toList());
 
 		// convert lobbies to DTOs
 		for (Lobby lobby : lobbies) {
 			LobbyDTO lobbyDTO = new LobbyDTO();
 			lobbyDTO.setId(lobby.getId());
+			lobbyDTO.setCardSideA(lobby.isCardSideA());
 
 			for (ServerClient client : lobby.getClients()) {
 				lobbyDTO.addPlayer(client.getUser().getUsername());

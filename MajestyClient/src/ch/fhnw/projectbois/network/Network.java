@@ -23,11 +23,11 @@ public class Network {
 	private Logger logger = null;
 
 	private Socket socket = null;
-	private SimpleObjectProperty<Response> response = null;
+	private SimpleObjectProperty<Response> responseProperty = null;
 
 	private Network() {
 		this.logger = LoggerFactory.getLogger(this.getClass());
-		this.response = new SimpleObjectProperty<>();
+		this.responseProperty = new SimpleObjectProperty<>();
 	}
 
 	public static Network getInstance() {
@@ -37,8 +37,8 @@ public class Network {
 		return instance;
 	}
 
-	public SimpleObjectProperty<Response> getResponse() {
-		return this.response;
+	public SimpleObjectProperty<Response> getResponseProperty() {
+		return this.responseProperty;
 	}
 
 	public void sendRequest(Request request) {
@@ -89,7 +89,8 @@ public class Network {
 							try {
 								logger.info("Network.Runnable() JSON: " + json);
 								
-								response.setValue(JsonUtils.Deserialize(json, Response.class));
+								Response response = JsonUtils.Deserialize(json, Response.class);
+								responseProperty.setValue(response);
 								
 							} catch (Exception ex) {
 								logger.log(Level.SEVERE, "Network.Runnable()", ex);
