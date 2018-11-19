@@ -7,38 +7,52 @@ import ch.fhnw.projectbois.gameobjects.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 public class GameController extends Controller<GameModel, GameView> {
 
-	private final String PATH_TO_CARD = "cards/character cards/";
-	private final String PATH_TO_LOCATION_A = "locations/Side A/";
+	private GameResourceHelper resourceHelper = null;
 
+	private int playerId = -1;
 	private GameState gameState = null;
 
-	@FXML
-	private HBox pnlDisplay;
+	private Label[] locationCardCount = null;
 
 	@FXML
-	private HBox pnlPlayer1Cards;
+	private Label lblGameInfo;
+
+	@FXML
+	private Label lblPlayerInfo;
+
+	@FXML
+	private GridPane pnlDisplay;
+
+	@FXML
+	private GridPane pnlPlayer1Cards;
 
 	public GameController(GameModel model, GameView view) {
 		super(model, view);
 
+		this.resourceHelper = new GameResourceHelper();
 	}
 
 	@Override
 	protected void initialize() {
 		super.initialize();
 
-		this.initLocations();
+		this.pnlPlayer1Cards.getStyleClass().add("playersCards");
 
 		this.model.getGameStateProperty().addListener((observer, oldValue, newValue) -> {
 			loadGameState(newValue);
 		});
+
+		this.model.getGameState();
 	}
 
 	@FXML
@@ -47,25 +61,48 @@ public class GameController extends Controller<GameModel, GameView> {
 	}
 
 	private void initLocations() {
-		String[] locations = new String[] { PATH_TO_LOCATION_A + "Side A1.jpg", PATH_TO_LOCATION_A + "Side A2.jpg",
-				PATH_TO_LOCATION_A + "Side A3.jpg", PATH_TO_LOCATION_A + "Side A4.jpg",
-				PATH_TO_LOCATION_A + "Side A5.jpg", PATH_TO_LOCATION_A + "Side A6.jpg",
-				PATH_TO_LOCATION_A + "Side A7.jpg", PATH_TO_LOCATION_A + "Side A8.jpg" };
-
-		for (String location : locations) {
-			ImageView v = new ImageView(location);
-			v.setPreserveRatio(true);
-			v.setFitWidth(100);
-
-			this.pnlPlayer1Cards.getChildren().add(v);
+		int sideChange = 0;
+		if (!this.gameState.isCardSideA()) {
+			sideChange = 10;
 		}
+
+		this.locationCardCount = new Label[8];
+
+		for (int i = 0; i < 8; i++) {
+			ImageView imgLocation = new ImageView();
+			imgLocation.setPreserveRatio(true);
+			imgLocation.setFitHeight(175);
+
+			Image image = resourceHelper.getLocationImage(i + 1 + sideChange);
+			imgLocation.setImage(image);
+
+			BorderPane borderPane = new BorderPane(imgLocation);
+
+			this.locationCardCount[i] = new Label("Cards: 0");
+
+			VBox box = new VBox();
+			box.setAlignment(Pos.TOP_CENTER);
+			box.getChildren().add(this.locationCardCount[i]);
+			borderPane.setBottom(box);
+
+			Integer col = new Integer(i);
+			Platform.runLater(() -> {
+				this.pnlPlayer1Cards.add(borderPane, col, 0);
+			});
+		}
+		
 	}
 
 	private void loadGameState(GameState gameState) {
-		this.logger.info("GameController.loadGameState()");
+		boolean firstLoading = this.gameState == null;
 
 		if (this.gameState == null || gameState.getId() > this.gameState.getId()) {
 			this.gameState = gameState;
+
+			if (firstLoading) {
+				this.initLocations();
+			}
+
 			this.drawGui();
 		}
 	}
@@ -73,57 +110,85 @@ public class GameController extends Controller<GameModel, GameView> {
 	private void drawGui() {
 		Board board = this.gameState.getBoard();
 
+		this.loadGameInfos();
 		this.drawDisplay(board.getDisplay());
+	}
+
+	private void loadGameInfos() {
+		Board board = this.gameState.getBoard();
+
+		// Player currentPlayer = board.getPlayers().stream()
+		// .filter(f -> f.getUserToken() ==
+		// Session.getCurrentUserToken()).findFirst().get();
+
+		// TEMP
+		Player currentPlayer = board.getPlayers().get(0);
+
+		Platform.runLater(() -> {
+			this.lblPlayerInfo
+					.setText("Meeples: " + currentPlayer.getMeeples() + " Points: " + currentPlayer.getScore());
+
+			this.lblGameInfo.setText("Round: " + board.getRound() + "/12 Player's turn: " + board.getPlayersTurn());
+		});
+
 	}
 
 	private void drawDisplay(ArrayList<DisplayCard> displayCards) {
 		Platform.runLater(() -> {
 			this.pnlDisplay.getChildren().clear();
 		});
+
+		int col = 0;
 		for (DisplayCard card : displayCards) {
-			ImageView v = new ImageView();
+			ImageView imgCard = new ImageView();
+			imgCard.setPreserveRatio(true);
+			imgCard.setFitHeight(175);
 
-			switch (card.getCardType()) {
-			case Miller:
-				v.setImage(new Image(PATH_TO_CARD + "Orange.jpg"));
-				break;
-			case Brewer:
-				v.setImage(new Image(PATH_TO_CARD + "Brown.jpg"));
-				break;
-			case Guard:
-				v.setImage(new Image(PATH_TO_CARD + "Blue.jpg"));
-				break;
-			case Innkeeper:
-				v.setImage(new Image(PATH_TO_CARD + "Yellow.jpg"));
-				break;
-			case Knight:
-				v.setImage(new Image(PATH_TO_CARD + "Red.jpg"));
-				break;
-			case Noble:
-				v.setImage(new Image(PATH_TO_CARD + "Violet.jpg"));
-				break;
-			case Witch:
-				v.setImage(new Image(PATH_TO_CARD + "Green.jpg"));
-				break;
-			default:
-				break;
-			}
+			Image image = resourceHelper.getCardImage(card);
+			imgCard.setImage(image);
 
-			v.setPreserveRatio(true);
-			v.setFitHeight(100);
-
-			v.setOnMouseClicked((e) -> {
-				logger.info("Image clicked!");
-				model.sendMove();
+			imgCard.setOnMouseClicked((e) -> {
+				boolean allowMove = allowMove();
+				if (allowMove) {
+					logger.info("Image clicked!");
+					model.sendMove(new GameMove());
+				}
 			});
 
-			BorderPane borderPane = new BorderPane(v);
-			borderPane.getStyleClass().add("display");
+			VBox vbox = new VBox();
+			vbox.getStyleClass().add("display");
+			vbox.setAlignment(Pos.CENTER);
+			vbox.getChildren().add(imgCard);
+			vbox.getChildren().add(new Label("Meeples: " + card.getMeeples()));
 
+			Integer colIndex = new Integer(col);
 			Platform.runLater(() -> {
-				this.pnlDisplay.getChildren().add(borderPane);
+				this.pnlDisplay.add(vbox, colIndex, 0);
 			});
+			col++;
 		}
+
+		// Deck
+		ImageView imgDeck = new ImageView();
+		imgDeck.setPreserveRatio(true);
+		imgDeck.setFitHeight(175);
+
+		int deckBack = this.gameState.getBoard().getDeckBack();
+		Image image = this.resourceHelper.getDeckBackImage(deckBack);
+		imgDeck.setImage(image);
+
+		VBox vbox = new VBox();
+		vbox.setAlignment(Pos.CENTER);
+		vbox.getChildren().add(imgDeck);
+		vbox.getChildren().add(new Label("Cards left: --"));
+
+		Platform.runLater(() -> {
+			this.pnlDisplay.add(vbox, 6, 0);
+		});
+	}
+
+	private boolean allowMove() {
+		return this.gameState.getBoard().getPlayersTurn() == this.playerId;
 	}
 
 }

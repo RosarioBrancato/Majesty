@@ -26,7 +26,7 @@ public abstract class Model {
 		ChangeListener<Response> listener = this.getChangeListener();
 		if (listener != null) {
 			this.responseProperty = new SimpleObjectProperty<>();
-			this.responseProperty.bind(Network.getInstance().getResponse());
+			this.responseProperty.bind(Network.getInstance().getResponseProperty());
 			this.responseProperty.addListener(listener);
 		}
 	}

@@ -29,7 +29,6 @@ public class MenuBarView extends View<MenuBarModel> {
 
 		BorderPane pane = (BorderPane) this.root;
 		pane.setCenter(playScreenController.getViewRoot());
-
 	}
 
 }

@@ -28,6 +28,7 @@ public class Lobby {
 
 	private ArrayList<ServerClient> clients = new ArrayList<>();
 
+	private boolean gameStarted = false;
 	private GameState gameState;
 	private GameStateServer gameStateServer;
 
@@ -36,7 +37,7 @@ public class Lobby {
 		this.id = IdFactory.getInstance().getNewId(this.getClass().getName());
 	}
 
-	public boolean addClient(ServerClient client) {
+	public synchronized boolean addClient(ServerClient client) {
 		boolean success = false;
 
 		if (this.isNotFull()) {
@@ -58,11 +59,6 @@ public class Lobby {
 
 	public boolean isEmpty() {
 		return this.clients.size() <= 0;
-	}
-
-	public void startGame() {
-		this.gameState = new GameState();
-		this.gameStateServer = new GameStateServer();
 	}
 
 	public void doMove(UserDTO user, String json) {
@@ -117,6 +113,14 @@ public class Lobby {
 
 	public void setGameStateServer(GameStateServer gameStateServer) {
 		this.gameStateServer = gameStateServer;
+	}
+	
+	public boolean isGameStarted() {
+		return this.gameStarted;
+	}
+	
+	public void setGameStarted(boolean started) {
+		this.gameStarted = started;
 	}
 
 }

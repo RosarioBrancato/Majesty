@@ -30,4 +30,8 @@ public class Session {
 		return this.currentUser;
 	}
 	
+	public static String getCurrentUserToken() {
+		return Session.getInstance().getCurrentUser().getToken();
+	}
+	
 }

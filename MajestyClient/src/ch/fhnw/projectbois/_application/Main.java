@@ -11,6 +11,7 @@ import ch.fhnw.projectbois.components.menubar.MenuBarView;
 import ch.fhnw.projectbois.log.LoggerFactory;
 import ch.fhnw.projectbois.network.Network;
 import javafx.application.Application;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
@@ -35,6 +36,8 @@ public class Main extends Application {
 
 			primaryStage.setTitle("Majesty - For The Realm");
 			primaryStage.setMaximized(false);
+			primaryStage.setWidth(1200);
+			primaryStage.setHeight(800);
 			primaryStage.show();
 
 		} catch (Exception e) {
@@ -51,7 +54,11 @@ public class Main extends Application {
 	@Override
 	public void stop() throws Exception {
 		super.stop();
-
+		
+		//Release current MVC
+		MetaContainer.getInstance().setRoot(new AnchorPane());
+		
+		//End conneciton
 		Network.getInstance().stopConnection();
 	}
 }
