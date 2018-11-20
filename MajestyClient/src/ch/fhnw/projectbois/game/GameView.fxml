@@ -11,13 +11,94 @@
 
 <AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane layoutY="543.0" prefHeight="55.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <AnchorPane layoutX="262.0" prefHeight="220.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button layoutX="18.0" layoutY="161.0" mnemonicParsing="false" onAction="#btnLeave_Click" text="Leave" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="18.0" />
-            <Label fx:id="lblGameInfo" alignment="CENTER_RIGHT" layoutX="76.0" layoutY="20.0" prefHeight="50.0" prefWidth="721.0" text="Round: 1/12 Player's turn: 1" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="76.0" AnchorPane.rightAnchor="3.0">
-               <font>
-                  <Font size="24.0" />
-               </font></Label>
+            <GridPane fx:id="pnlOpponents" gridLinesVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="33.33" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="33.33" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="33.33" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="100.0" prefHeight="200.0" valignment="CENTER" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <GridPane fx:id="pnlOpponent1Cards" alignment="CENTER">
+                     <children>
+                        <Label fx:id="lblOpponent1Info" alignment="CENTER" text="Meeples: 0 Points: 0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
+                     </children>
+                     <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints fillHeight="false" valignment="CENTER" vgrow="SOMETIMES" />
+                        <RowConstraints fillHeight="false" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                  </GridPane>
+                  <GridPane fx:id="pnlOpponent2Cards" alignment="CENTER" GridPane.columnIndex="1">
+                     <children>
+                        <Label fx:id="lblOpponent2Info" alignment="CENTER" text="Meeples: 0 Points: 0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
+                     </children>
+                     <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints fillHeight="false" minHeight="100.0" prefHeight="100.0" valignment="CENTER" vgrow="SOMETIMES" />
+                        <RowConstraints fillHeight="false" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                  </GridPane>
+                  <GridPane fx:id="pnlOpponent3Cards" alignment="CENTER" GridPane.columnIndex="2">
+                     <children>
+                        <Label fx:id="lblOpponent3Info" alignment="CENTER" text="Meeples: 0 Points: 0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
+                     </children>
+                     <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints fillHeight="false" minHeight="100.0" prefHeight="100.0" valignment="CENTER" vgrow="SOMETIMES" />
+                        <RowConstraints fillHeight="false" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                  </GridPane>
+               </children>
+            </GridPane>
+         </children></AnchorPane>
+      <AnchorPane layoutY="200.0" AnchorPane.bottomAnchor="285.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="220.0">
+         <children>
+            <GridPane fx:id="pnlDisplay" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.25" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.25" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.25" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.25" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.25" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.25" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.25" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="315.0" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+               </rowConstraints>
+            </GridPane>
          </children>
       </AnchorPane>
       <AnchorPane layoutY="400.0" prefHeight="220.0" prefWidth="800.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
@@ -38,7 +119,7 @@
                   <RowConstraints fillHeight="false" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label fx:id="lblPlayerInfo" alignment="CENTER" text="Meeples: 0 Points: 0" GridPane.columnIndex="6" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+                  <Label fx:id="lblPlayerInfo" alignment="CENTER" text="Meeples: 0 Points: 0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -47,24 +128,14 @@
             </GridPane>
          </children>
       </AnchorPane>
-      <AnchorPane layoutY="200.0" AnchorPane.bottomAnchor="285.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="200.0">
+      <AnchorPane layoutY="543.0" prefHeight="55.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <GridPane fx:id="pnlDisplay" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <columnConstraints>
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.25" prefWidth="100.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.25" prefWidth="100.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.25" prefWidth="100.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.25" prefWidth="100.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.25" prefWidth="100.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.25" prefWidth="100.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.25" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="315.0" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
+            <Button layoutX="18.0" layoutY="161.0" mnemonicParsing="false" onAction="#btnLeave_Click" text="Leave" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="18.0" />
+            <Label fx:id="lblGameInfo" alignment="CENTER_RIGHT" layoutX="76.0" layoutY="20.0" prefHeight="50.0" prefWidth="721.0" text="Round: 1/12 Player's turn: 1" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="76.0" AnchorPane.rightAnchor="3.0">
+               <font>
+                  <Font size="24.0" />
+               </font></Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="262.0" prefHeight="200.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
    </children>
 </AnchorPane>
