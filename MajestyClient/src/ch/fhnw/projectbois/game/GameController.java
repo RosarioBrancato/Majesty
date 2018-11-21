@@ -214,8 +214,13 @@ public class GameController extends Controller<GameModel, GameView> {
 			this.pnlDisplay.getChildren().clear();
 		});
 
+		// TEMP
+		Player currentPlayer = this.gameState.getBoard().getPlayers().get(0);
+
 		int col = 0;
-		for (DisplayCard card : displayCards) {
+		for (int i = 0; i < displayCards.size(); i++) {
+			DisplayCard card = displayCards.get(i);
+
 			ImageView imgCard = new ImageView();
 			imgCard.setPreserveRatio(true);
 			imgCard.setFitHeight(175);
@@ -223,19 +228,24 @@ public class GameController extends Controller<GameModel, GameView> {
 			Image image = resourceHelper.getCardImage(card);
 			imgCard.setImage(image);
 
-			imgCard.setOnMouseClicked((e) -> {
-				boolean allowMove = allowMove();
-				if (allowMove) {
-					logger.info("Image clicked!");
-					model.sendMove(new GameMove());
-				}
-			});
-
 			VBox vbox = new VBox();
 			vbox.getStyleClass().add("display");
 			vbox.setAlignment(Pos.CENTER);
 			vbox.getChildren().add(imgCard);
 			vbox.getChildren().add(new Label("Meeples: " + card.getMeeples()));
+
+			// click event
+			if (currentPlayer.getMeeples() >= i) {
+				vbox.getStyleClass().add("displayToHover");
+
+				imgCard.setOnMouseClicked((e) -> {
+					boolean allowMove = allowMove();
+					if (allowMove) {
+						logger.info("Image clicked!");
+						model.sendMove(new GameMove());
+					}
+				});
+			}
 
 			Integer colIndex = new Integer(col);
 			Platform.runLater(() -> {
