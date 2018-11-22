@@ -31,7 +31,7 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 	}
 	
 	@FXML
-	private void btnClose_Click(ActionEvent event) {
+	private void btnMinimize_Click(ActionEvent event) {
 		
 	}
 	
