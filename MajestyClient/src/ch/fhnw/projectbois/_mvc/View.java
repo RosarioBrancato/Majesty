@@ -2,6 +2,8 @@ package ch.fhnw.projectbois._mvc;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,7 +42,10 @@ public abstract class View<M extends Model> {
 
 	public <T extends Controller<M, ? extends View<M>>> void loadRoot(T controller) {
 		URL url = this.getFXML();
-		FXMLLoader loader = new FXMLLoader(url);
+		Locale locale = model.getLocale();
+		//Multi-Language Support Resource Bundle
+		ResourceBundle bundle = ResourceBundle.getBundle("language.UIResources", locale);
+		FXMLLoader loader = new FXMLLoader(url, bundle);
 		loader.setController(controller);
 
 		try {
