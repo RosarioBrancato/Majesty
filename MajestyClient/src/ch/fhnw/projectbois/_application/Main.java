@@ -11,6 +11,7 @@ import ch.fhnw.projectbois.components.menubar.MenuBarView;
 import ch.fhnw.projectbois.log.LoggerFactory;
 import ch.fhnw.projectbois.network.Network;
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -27,17 +28,20 @@ public class Main extends Application {
 		
 		try {
 			Network.getInstance().initConnection("localhost", 8200);
-			
-			MetaContainer.getInstance().setMainStage(primaryStage);
-
-			//LoginController login = Controller.initMVC(LoginController.class, LoginModel.class, LoginView.class);
-			MenuBarController menu = Controller.initMVC(MenuBarController.class, MenuBarModel.class, MenuBarView.class);
-			MetaContainer.getInstance().setRoot(menu.getViewRoot());
 
 			primaryStage.setTitle("Majesty - For The Realm");
 			primaryStage.setMaximized(false);
+			//primaryStage.setFullScreen(true);
 			primaryStage.setWidth(1200);
 			primaryStage.setHeight(800);
+
+			//LoginController login = Controller.initMVC(LoginController.class, LoginModel.class, LoginView.class);
+			MenuBarController menu = Controller.initMVC(MenuBarController.class, MenuBarModel.class, MenuBarView.class);
+			Scene scene = new Scene(menu.getViewRoot());
+			primaryStage.setScene(scene);
+			
+			MetaContainer.getInstance().setMainStage(primaryStage);
+			
 			primaryStage.show();
 
 		} catch (Exception e) {
@@ -50,7 +54,7 @@ public class Main extends Application {
 		
 		launch(args);
 	}
-
+	
 	@Override
 	public void stop() throws Exception {
 		super.stop();

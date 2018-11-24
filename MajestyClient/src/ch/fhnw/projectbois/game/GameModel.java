@@ -26,16 +26,16 @@ public class GameModel extends Model {
 	public SimpleObjectProperty<GameState> getGameStateProperty() {
 		return this.gameStateProperty;
 	}
-	
+
 	public void getGameState() {
 		Request request = new Request(Session.getCurrentUserToken(), RequestId.GET_GAMESTATE, null);
 		Network.getInstance().sendRequest(request);
 	}
-	
+
 	public void sendMove(GameMove move) {
 		String json = JsonUtils.Serialize(move);
 		Request request = new Request(Session.getCurrentUserToken(), RequestId.DO_MOVE, json);
-		
+
 		Network.getInstance().sendRequest(request);
 	}
 
