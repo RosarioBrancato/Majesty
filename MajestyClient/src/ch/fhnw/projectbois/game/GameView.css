@@ -3,7 +3,11 @@
 	-fx-background-color: #fff5dd;
 }
 
-.display:hover { 
+.displayToHover {
+	-fx-background-color: #ffff7a;
+}
+
+.displayToHover:hover {
 	-fx-border-style: solid;
 	-fx-border-color: red;
 	-fx-border-width: 3px;
@@ -12,4 +16,8 @@
 
 .playersCards {
 	-fx-background-color: #c3dff4;
+}
+
+.opponents {
+	-fx-background-color: #b0b3b7
 }
