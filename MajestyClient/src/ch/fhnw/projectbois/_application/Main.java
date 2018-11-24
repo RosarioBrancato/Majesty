@@ -12,6 +12,7 @@ import ch.fhnw.projectbois.log.LoggerFactory;
 import ch.fhnw.projectbois.network.Network;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -38,6 +39,7 @@ public class Main extends Application {
 			//LoginController login = Controller.initMVC(LoginController.class, LoginModel.class, LoginView.class);
 			MenuBarController menu = Controller.initMVC(MenuBarController.class, MenuBarModel.class, MenuBarView.class);
 			Scene scene = new Scene(menu.getViewRoot());
+			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/majesty.png")));
 			primaryStage.setScene(scene);
 			
 			MetaContainer.getInstance().setMainStage(primaryStage);
