@@ -4,6 +4,9 @@ import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.leaderboard.LeaderboardController;
 import ch.fhnw.projectbois.leaderboard.LeaderboardModel;
 import ch.fhnw.projectbois.leaderboard.LeaderboardView;
+import ch.fhnw.projectbois.login.LoginController;
+import ch.fhnw.projectbois.login.LoginModel;
+import ch.fhnw.projectbois.login.LoginView;
 import ch.fhnw.projectbois.playscreen.PlayScreenController;
 import ch.fhnw.projectbois.playscreen.PlayScreenModel;
 import ch.fhnw.projectbois.playscreen.PlayScreenView;
@@ -64,6 +67,15 @@ public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 	@FXML
 	private void btnLogout_Click(ActionEvent event) {
 		
+	}
+	
+	//TEMP DELTE AFTERWARDS
+	@FXML
+	private void btnLogin_Click(ActionEvent event) {
+		LoginController controller = Controller.initMVC(LoginController.class, LoginModel.class,
+				LoginView.class);
+
+		this.switchCenter(controller.getViewRoot());
 	}
 
 }
