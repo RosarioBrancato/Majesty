@@ -33,7 +33,6 @@ public class PlayScreenModel extends Model {
 
 	private SimpleObjectProperty<LobbyListDTO> lobbiesProperty = null;
 	private SimpleObjectProperty<Timestamp> errorProperty = null;
-	
 
 	public PlayScreenModel() {
 		this.lobbiesProperty = new SimpleObjectProperty<>();
@@ -61,7 +60,7 @@ public class PlayScreenModel extends Model {
 	public SimpleObjectProperty<LobbyListDTO> getLobbiesProperty() {
 		return this.lobbiesProperty;
 	}
-	
+
 	public SimpleObjectProperty<Timestamp> getErrorProperty() {
 		return this.errorProperty;
 	}
@@ -84,7 +83,7 @@ public class PlayScreenModel extends Model {
 					String json = newValue.getJsonDataObject();
 					LobbyDTO lobby = JsonUtils.Deserialize(json, LobbyDTO.class);
 					showLobby(lobby);
-				
+
 				} else if (newValue.getResponseId() == ResponseId.LOBBY_ERROR) {
 					errorProperty.setValue(new Timestamp(new Date().getTime()));
 				}
@@ -94,10 +93,9 @@ public class PlayScreenModel extends Model {
 	}
 
 	private void showLobby(LobbyDTO lobby) {
-		LobbyController controller = Controller.initMVC(LobbyController.class, LobbyModel.class, LobbyView.class);
-		controller.setLobby(lobby);
-
 		Platform.runLater(() -> {
+			LobbyController controller = Controller.initMVC(LobbyController.class, LobbyModel.class, LobbyView.class);
+			controller.setLobby(lobby);
 			MetaContainer.getInstance().setRoot(controller.getViewRoot());
 		});
 	}
