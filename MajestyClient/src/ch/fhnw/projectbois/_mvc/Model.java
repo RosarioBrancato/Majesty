@@ -1,5 +1,6 @@
 package ch.fhnw.projectbois._mvc;
 
+import java.util.Locale;
 import java.util.logging.Logger;
 
 import ch.fhnw.projectbois.communication.Response;
@@ -15,6 +16,8 @@ import javafx.beans.value.ChangeListener;
  */
 public abstract class Model {
 	protected Logger logger;
+	// Set locale to English in the beginning
+	private static Locale locale = new Locale("en");
 
 	private SimpleObjectProperty<Response> responseProperty;
 
@@ -33,6 +36,14 @@ public abstract class Model {
 
 	protected ChangeListener<Response> getChangeListener() {
 		return null;
+	}
+	
+	public Locale getLocale() {
+		return Model.locale;
+	}
+	
+	public void setLocale(Locale locale) {
+		Model.locale = locale;
 	}
 
 }
