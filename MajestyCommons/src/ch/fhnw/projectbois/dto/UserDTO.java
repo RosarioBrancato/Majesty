@@ -5,6 +5,16 @@ public class UserDTO {
 	private int id;
 	private String username;
 	private String token;
+	
+	public UserDTO() {
+		
+	}
+	
+	public UserDTO(int id, String username, String token) {
+		this.id = id;
+		this.username = username;
+		this.token = token;
+	}
 
 	public int getId() {
 		return id;
