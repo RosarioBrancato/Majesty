@@ -32,7 +32,7 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 	
 	@FXML
 	private void btnMinimize_Click(ActionEvent event) {
-		
+		this.getViewRoot().setVisible(false);
 	}
 	
 }
