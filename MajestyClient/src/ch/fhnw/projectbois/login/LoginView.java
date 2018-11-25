@@ -4,6 +4,12 @@ import java.net.URL;
 
 import ch.fhnw.projectbois._mvc.View;
 
+/**
+ * 
+ * @author Alexandre Miccoli
+ *
+ */
+
 public class LoginView extends View<LoginModel> {
 
 	public LoginView(LoginModel model) {
