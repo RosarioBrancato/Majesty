@@ -8,11 +8,11 @@ import javafx.scene.image.Image;
 
 public class GameResourceHelper {
 
-	private final String PATH_TO_CARD = "cards/character cards/";
-	private final String PATH_TO_SPLIT_CARD = "cards/split cards/";
-	private final String PATH_TO_LOCATION_A = "locations/Side A/";
-	private final String PATH_TO_LOCATION_B = "locations/Side B/";
-	private final String PATH_TO_CARDBACKS = "cards/backs/";
+	private final String PATH_TO_CARD = "game/cards/character cards/";
+	private final String PATH_TO_SPLIT_CARD = "game/cards/split cards/";
+	private final String PATH_TO_LOCATION_A = "game/locations/Side A/";
+	private final String PATH_TO_LOCATION_B = "game/locations/Side B/";
+	private final String PATH_TO_CARDBACKS = "game/cards/backs/";
 
 	public Image getCardImage(Card card) {
 		Image image = null;

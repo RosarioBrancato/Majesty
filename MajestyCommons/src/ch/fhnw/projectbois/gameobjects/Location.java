@@ -4,23 +4,34 @@ import java.util.ArrayList;
 
 public class Location {
 	
-	public static final int A1 = 1;
-	public static final int A2 = 2;
-	public static final int A3 = 3;
-	public static final int A4 = 4;
-	public static final int A5 = 5;
-	public static final int A6 = 6;
-	public static final int A7 = 7;
-	public static final int A8 = 8;
+	public static final int MILL = 0;
+	public static final int BREWERY = 1;
+	public static final int COTTAGE = 2;
+	public static final int GUARDHOUSE = 3;
+	public static final int BARACKS = 4;
+	public static final int INN = 5;
+	public static final int CASTLE = 6;
+	public static final int INFIRMARY = 7;
 	
-	public static final int B1 = 11;
-	public static final int B2 = 12;
-	public static final int B3 = 13;
-	public static final int B4 = 14;
-	public static final int B5 = 15;
-	public static final int B6 = 16;
-	public static final int B7 = 17;
-	public static final int B8 = 18;
+	public static final int OFFSET_B = 10;
+	
+	public static final int A1 = 0;
+	public static final int A2 = 1;
+	public static final int A3 = 2;
+	public static final int A4 = 3;
+	public static final int A5 = 4;
+	public static final int A6 = 5;
+	public static final int A7 = 6;
+	public static final int A8 = 7;
+	
+	public static final int B1 = 10;
+	public static final int B2 = 11;
+	public static final int B3 = 12;
+	public static final int B4 = 13;
+	public static final int B5 = 14;
+	public static final int B6 = 15;
+	public static final int B7 = 16;
+	public static final int B8 = 17;
 
 	private ArrayList<Card> cards;
 	
