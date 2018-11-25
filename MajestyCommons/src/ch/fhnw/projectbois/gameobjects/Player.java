@@ -1,5 +1,7 @@
 package ch.fhnw.projectbois.gameobjects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Player {
 
 	private Location[] locations;
@@ -50,6 +52,11 @@ public class Player {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	
+	@JsonIgnore
+	public Location getLocationByIndex(int locationIndex) {
+		return this.locations[locationIndex];
 	}
 
 }

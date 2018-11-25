@@ -4,8 +4,11 @@ import java.util.ArrayList;
 
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.gameobjects.*;
+import ch.fhnw.projectbois.session.Session;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -19,7 +22,7 @@ public class GameController extends Controller<GameModel, GameView> {
 
 	private GameResourceHelper resourceHelper = null;
 
-	private int playerId = -1;
+	private int playerIndex = -1;
 	private GameState gameState = null;
 
 	private Label[] locationCardCount = null;
@@ -82,6 +85,16 @@ public class GameController extends Controller<GameModel, GameView> {
 
 	}
 
+	private void readPlayerIndex() {
+		ArrayList<Player> players = this.gameState.getBoard().getPlayers();
+
+		for (int i = 0; i < players.size(); i++) {
+			if (players.get(i).getUserToken() == Session.getCurrentUserToken()) {
+				this.playerIndex = i;
+			}
+		}
+	}
+
 	private void initLocations() {
 		int playersCount = this.gameState.getBoard().getPlayers().size();
 
@@ -103,7 +116,7 @@ public class GameController extends Controller<GameModel, GameView> {
 
 		int sideChange = 0;
 		if (!this.gameState.isCardSideA()) {
-			sideChange = 10;
+			sideChange = Location.OFFSET_B;
 		}
 		this.locationCardCount = new Label[8 * playersCount];
 
@@ -137,7 +150,7 @@ public class GameController extends Controller<GameModel, GameView> {
 				imgLocation.setFitWidth(45);
 			}
 
-			Image image = resourceHelper.getLocationImage(i + 1 + sideChange);
+			Image image = resourceHelper.getLocationImage(i + sideChange);
 			imgLocation.setImage(image);
 
 			BorderPane borderPane = new BorderPane(imgLocation);
@@ -163,6 +176,7 @@ public class GameController extends Controller<GameModel, GameView> {
 			this.gameState = gameState;
 
 			if (firstLoading) {
+				this.readPlayerIndex();
 				this.initLocations();
 			}
 
@@ -245,6 +259,7 @@ public class GameController extends Controller<GameModel, GameView> {
 						model.sendMove(new GameMove());
 					}
 				});
+				this.addDisplayClickEvent(imgCard, i);
 			}
 
 			Integer colIndex = new Integer(col);
@@ -266,15 +281,37 @@ public class GameController extends Controller<GameModel, GameView> {
 		VBox vbox = new VBox();
 		vbox.setAlignment(Pos.CENTER);
 		vbox.getChildren().add(imgDeck);
-		vbox.getChildren().add(new Label("Cards left: --"));
+		vbox.getChildren().add(new Label("Cards left: " + this.gameState.getBoard().getCardsLeft()));
 
 		Platform.runLater(() -> {
 			this.pnlDisplay.add(vbox, 6, 0);
 		});
 	}
 
+	private void addDisplayClickEvent(ImageView imgCard, int displayIndex) {
+		imgCard.setOnMouseClicked(new EventHandler<Event>() {
+
+			int index = displayIndex;
+
+			@Override
+			public void handle(Event event) {
+				boolean allowMove = allowMove();
+				if (allowMove) {
+					GameMove move = new GameMove();
+					move.setDisplayCardIndexSelected(index);
+					
+					//TO-DO: additional decision: split cards, split card revival
+					//move.setDecision1(-1);
+					//move.setDecision2(-1);
+					
+					model.sendMove(move);
+				}
+			}
+		});
+	}
+
 	private boolean allowMove() {
-		return this.gameState.getBoard().getPlayersTurn() == this.playerId;
+		return this.gameState.getBoard().getPlayersTurn() == this.playerIndex;
 	}
 
 }
