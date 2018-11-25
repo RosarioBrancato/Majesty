@@ -38,7 +38,7 @@ public class GameView extends View<GameModel> {
 		ChatController chatController = Controller.initMVC(ChatController.class, ChatModel.class, ChatView.class);
 		AnchorPane chat = (AnchorPane) chatController.getViewRoot();
 		stackpane.getChildren().add(chat);
-		StackPane.setAlignment(chat, Pos.CENTER_RIGHT);
+		StackPane.setAlignment(chat, Pos.TOP_RIGHT);
 		chat.setPrefWidth(200);
 		chat.setMaxWidth(200);
 
