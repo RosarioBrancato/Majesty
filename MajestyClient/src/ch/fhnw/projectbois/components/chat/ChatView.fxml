@@ -19,12 +19,12 @@
       <TextArea fx:id="txtMessage" layoutX="20.0" layoutY="713.0" prefHeight="77.0" prefWidth="416.0" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="77.0" />
       <ImageView disable="true" fitHeight="51.0" fitWidth="62.0" layoutX="20.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="14.0">
          <image>
-            <Image url="@../../../../../../../../../chat/images/Arrow.png" />
+            <Image url="@../../../../../../resources/chat/images/Arrow.png" />
          </image>
       </ImageView>
       <ImageView disable="true" fitHeight="51.0" fitWidth="46.0" layoutX="447.0" layoutY="729.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="31.0" AnchorPane.rightAnchor="20.0">
          <image>
-            <Image url="@../../../../../../../../../chat/images/send%20plane.png" />
+            <Image url="@../../../../../../resources/chat/images/send%20plane.png" />
          </image>
       </ImageView>
    </children>
