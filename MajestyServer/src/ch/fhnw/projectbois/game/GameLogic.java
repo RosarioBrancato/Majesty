@@ -85,6 +85,31 @@ public class GameLogic {
 		// after points
 	}
 
+	public void startNextTurn() {
+//		int startPlayer = 1; //TO-DO
+//		int playersTurn = this.gameState.getBoard().getPlayersTurn();
+//		int round = this.gameState.getBoard().getRound();
+//
+//		int nextPlayersTurn = -1;
+//		int nextRound = -1;
+//
+//		if (playersTurn < 4) {
+//			nextPlayersTurn = playersTurn + 1;
+//		} else {
+//			nextPlayersTurn = 1;
+//			nextRound = round + 1;
+//		}
+//
+//		if (nextRound > 12) {
+//			// TO-DO: end game
+//		} else {
+//			this.gameState.getBoard().setPlayersTurn(nextPlayersTurn);
+//			this.gameState.getBoard().setRound(nextRound);
+//		}
+	}
+
+	// SET UP METHODS
+
 	public void definePlayers(Lobby lobby) {
 		ArrayList<ServerClient> clients = lobby.getClients();
 
@@ -229,6 +254,8 @@ public class GameLogic {
 		return card;
 	}
 
+	// PRIVATE METHODS
+
 	private void updateCardsLeft() {
 		int cardCount = this.gameStateServer.getDeckTier2().size();
 		cardCount += this.gameStateServer.getDeckTier1().size();
@@ -236,7 +263,7 @@ public class GameLogic {
 		this.gameState.getBoard().setCardsLeft(cardCount);
 	}
 
-	public int getLocationIndexByCardType(CardType cardType) {
+	private int getLocationIndexByCardType(CardType cardType) {
 		switch (cardType) {
 		case Miller:
 			return Location.MILL;

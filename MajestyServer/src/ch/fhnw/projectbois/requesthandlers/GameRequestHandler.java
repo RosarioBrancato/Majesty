@@ -6,6 +6,7 @@ import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.game.GameLogic;
 import ch.fhnw.projectbois.game.GameStateServer;
+import ch.fhnw.projectbois.gameobjects.GameMove;
 import ch.fhnw.projectbois.gameobjects.GameState;
 import ch.fhnw.projectbois.general.IdFactory;
 import ch.fhnw.projectbois.json.JsonUtils;
@@ -22,7 +23,7 @@ public class GameRequestHandler extends RequestHandler {
 	@Override
 	protected void handleRequest() {
 		if (request.getRequestId() == RequestId.GET_GAMESTATE) {
-			this.getGameState();
+			this.updateGameState();
 
 		} else if (request.getRequestId() == RequestId.DO_MOVE) {
 			this.doMove();
@@ -35,7 +36,7 @@ public class GameRequestHandler extends RequestHandler {
 		}
 	}
 
-	private void getGameState() {
+	private void updateGameState() {
 		GameState gameState = client.getLobby().getGameState();
 		String json = JsonUtils.Serialize(gameState);
 
@@ -45,8 +46,17 @@ public class GameRequestHandler extends RequestHandler {
 	}
 
 	private void doMove() {
-		// TO-DO
-		// client.getLobby().doMove(client.getUser(), request.getJsonDataObject());
+		String json = request.getJsonDataObject();
+		GameMove gameMove = JsonUtils.Deserialize(json, GameMove.class);
+		
+		Lobby lobby = client.getLobby();
+		GameLogic logic = new GameLogic(lobby.getGameState(), lobby.getGameStateServer());
+		
+		logic.executeMove(client.getUser().getToken(), gameMove);
+		logic.startNextTurn();
+
+		//send update response
+		this.updateGameState();
 	}
 
 	private void startGame() {
