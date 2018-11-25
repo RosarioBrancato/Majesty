@@ -50,7 +50,6 @@ public class GameRequestHandler extends RequestHandler {
 	}
 
 	private void startGame() {
-		GameLogic logic = new GameLogic();
 		Lobby lobby = client.getLobby();
 
 		GameState gameState = new GameState();
@@ -59,10 +58,11 @@ public class GameRequestHandler extends RequestHandler {
 
 		GameStateServer gameStateServer = new GameStateServer();
 
-		logic.fillDecks(gameStateServer);
-		logic.definePlayers(lobby, gameState);
-		logic.setCardsAside(gameState, gameStateServer);
-		logic.fillDisplay(gameState, gameStateServer);
+		GameLogic logic = new GameLogic(gameState, gameStateServer);
+		logic.fillDecks();
+		logic.definePlayers(lobby);
+		logic.setCardsAside();
+		logic.fillDisplay();
 
 		lobby.setGameState(gameState);
 		lobby.setGameStateServer(gameStateServer);
