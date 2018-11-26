@@ -76,13 +76,15 @@ public class GameController extends Controller<GameModel, GameView> {
 
 			if (firstLoading) {
 				this.readPlayerIndex();
-				this.initPlayerComponent();
+				this.initGamePlayerContainers();
 				this.initLocations();
 			}
 
 			this.drawGui();
 		}
 	}
+
+	// SET UP
 
 	private void readPlayerIndex() {
 		ArrayList<Player> players = this.gameState.getBoard().getPlayers();
@@ -95,7 +97,7 @@ public class GameController extends Controller<GameModel, GameView> {
 		}
 	}
 
-	private void initPlayerComponent() {
+	private void initGamePlayerContainers() {
 		ArrayList<Player> players = this.gameState.getBoard().getPlayers();
 
 		Player p = players.stream().filter(f -> f.getUsername().equals(Session.getCurrentUsername())).findFirst().get();
@@ -139,28 +141,25 @@ public class GameController extends Controller<GameModel, GameView> {
 
 		Platform.runLater(() -> {
 			if (playersCount == 3) {
-				// this.pnlOpponents.getChildren().remove(this.pnlOpponent3Cards);
 				this.pnlOpponents.getColumnConstraints().remove(2);
 				this.pnlOpponents.getColumnConstraints().get(0).setPercentWidth(50);
 				this.pnlOpponents.getColumnConstraints().get(1).setPercentWidth(50);
 
 			} else if (playersCount == 2) {
-				// this.pnlOpponents.getChildren().remove(this.pnlOpponent3Cards);
-				// this.pnlOpponents.getChildren().remove(this.pnlOpponent2Cards);
 				this.pnlOpponents.getColumnConstraints().remove(2);
 				this.pnlOpponents.getColumnConstraints().remove(1);
 				this.pnlOpponents.getColumnConstraints().get(0).setPercentWidth(100);
 			}
 		});
 
-		this.initGamePlayerComponent(this.player, true);
+		this.fillGamePlayerComponent(this.player, true);
 
 		for (GamePlayerContainer opponent : this.opponents) {
-			this.initGamePlayerComponent(opponent, false);
+			this.fillGamePlayerComponent(opponent, false);
 		}
 	}
 
-	private void initGamePlayerComponent(GamePlayerContainer container, boolean isPlayer) {
+	private void fillGamePlayerComponent(GamePlayerContainer container, boolean isPlayer) {
 		int playersCount = this.gameState.getBoard().getPlayers().size();
 
 		int sideChange = 0;
@@ -203,6 +202,8 @@ public class GameController extends Controller<GameModel, GameView> {
 		}
 	}
 
+	// MAIN METHODS
+
 	private void drawGui() {
 		Board board = this.gameState.getBoard();
 
@@ -222,39 +223,34 @@ public class GameController extends Controller<GameModel, GameView> {
 			Player player = players.stream().filter(f -> f.getUsername().equals(this.player.getUsername())).findFirst()
 					.get();
 
-			String text = player.getUsername() + " | Meeples: " + player.getMeeples() + " | Points: "
-					+ player.getScore();
-
-			boolean startingPlayer = players.get(this.gameState.getStartPlayerIndex()).getUsername()
+			boolean isStartingPlayer = players.get(this.gameState.getStartPlayerIndex()).getUsername()
 					.equals(Session.getCurrentUsername());
-			if (startingPlayer) {
-				text += " | 1st";
-			}
 
-			String toUpdate = text;
-			Platform.runLater(() -> {
-				this.player.getLblInfo().setText(toUpdate);
-			});
+			this.loadGameInfoPlayer(player, this.player, isStartingPlayer);
 		}
 
 		for (GamePlayerContainer opponent : this.opponents) {
 			Player player = players.stream().filter(f -> f.getUsername().equals(opponent.getUsername())).findFirst()
 					.get();
 
-			String text = player.getUsername() + " | Meeples: " + player.getMeeples() + " | Points: "
-					+ player.getScore();
-
-			boolean startingPlayer = players.get(this.gameState.getStartPlayerIndex()).getUsername()
+			boolean isStartingPlayer = players.get(this.gameState.getStartPlayerIndex()).getUsername()
 					.equals(opponent.getUsername());
-			if (startingPlayer) {
-				text += " | 1st";
-			}
 
-			String toUpdate = text;
-			Platform.runLater(() -> {
-				opponent.getLblInfo().setText(toUpdate);
-			});
+			this.loadGameInfoPlayer(player, opponent, isStartingPlayer);
 		}
+	}
+
+	private void loadGameInfoPlayer(Player player, GamePlayerContainer container, boolean isStartingPlayer) {
+		String text = player.getUsername() + " | Meeples: " + player.getMeeples() + " | Points: " + player.getScore();
+
+		if (isStartingPlayer) {
+			text += " | 1st";
+		}
+
+		String toUpdate = text;
+		Platform.runLater(() -> {
+			container.getLblInfo().setText(toUpdate);
+		});
 	}
 
 	private void drawDisplay(ArrayList<DisplayCard> displayCards) {
@@ -286,11 +282,6 @@ public class GameController extends Controller<GameModel, GameView> {
 			boolean allowMove = allowMove();
 			if (currentPlayer.getMeeples() >= i && allowMove) {
 				vbox.getStyleClass().add("displayToHover");
-
-				imgCard.setOnMouseClicked((e) -> {
-					logger.info("Image clicked!");
-					model.sendMove(new GameMove());
-				});
 				this.addDisplayClickEvent(imgCard, i);
 			}
 
@@ -347,6 +338,8 @@ public class GameController extends Controller<GameModel, GameView> {
 
 		return player.getUsername().equals(Session.getCurrentUsername());
 	}
+
+	// EVENT METHODS
 
 	@FXML
 	private void btnLeave_Click(ActionEvent e) {
