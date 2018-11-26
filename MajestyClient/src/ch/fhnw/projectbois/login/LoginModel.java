@@ -1,26 +1,15 @@
 package ch.fhnw.projectbois.login;
 
-import java.sql.Timestamp;
-
-import ch.fhnw.projectbois._application.MetaContainer;
-import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois._mvc.Model;
 import ch.fhnw.projectbois.communication.Request;
 import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
-import ch.fhnw.projectbois.dto.LobbyListDTO;
 import ch.fhnw.projectbois.dto.LoginDTO;
 import ch.fhnw.projectbois.dto.UserDTO;
-import ch.fhnw.projectbois.gameobjects.GameState;
 import ch.fhnw.projectbois.json.JsonUtils;
-import ch.fhnw.projectbois.lobby.LobbyController;
-import ch.fhnw.projectbois.lobby.LobbyModel;
-import ch.fhnw.projectbois.lobby.LobbyView;
 import ch.fhnw.projectbois.network.Network;
-import ch.fhnw.projectbois.playscreen.PlayScreenController;
 import ch.fhnw.projectbois.session.Session;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
