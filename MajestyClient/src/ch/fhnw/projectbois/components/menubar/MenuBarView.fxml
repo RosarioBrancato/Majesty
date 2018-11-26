@@ -33,7 +33,6 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#btnLogin_Click" text="Login TEMP" GridPane.rowIndex="5" />
          </children>
       </GridPane>
    </left>
