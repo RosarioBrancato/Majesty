@@ -1,13 +1,28 @@
 ***REMOVED***
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="464.0" prefWidth="657.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="lblInfo" text="Label" />
-      <Button layoutX="557.0" layoutY="761.0" mnemonicParsing="false" onAction="#btnStartGame_Click" text="START GAME" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="557.0" />
+      <Label fx:id="lblInfo" layoutX="34.0" layoutY="24.0" text="Label" />
+      <Button fx:id="btnStart" layoutX="262.0" layoutY="257.0" mnemonicParsing="false" onAction="#btnStartGame_Click" text="%btn_LobbyView_Start" />
+      <Button fx:id="btnExit" layoutX="28.0" layoutY="407.0" mnemonicParsing="false" onAction="#btnExitGame_Click" text="%btn_LobbyView_Exit" />
+      <Label fx:id="lblInformation_Dynamic" layoutX="189.0" layoutY="157.0" prefHeight="25.0" prefWidth="293.0" text="%lbl_LobbyView_InformationDynamic1">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblInstructions_Dynamic" layoutX="234.0" layoutY="232.0" text="%lbl_LobbyView_InstructionsDynamic1" />
+      <Label fx:id="lblCountdown_Dynamic" layoutX="330.0" layoutY="411.0" text="DYNAMIC COUNTDOWN" />
+      <Label fx:id="lblJointPlayersCount_Dynamic" layoutX="230.0" layoutY="182.0" prefHeight="17.0" prefWidth="212.0" text="%lbl_LobbyView_JointPlayersCountStatic">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblJointPlayers_Dynamic" layoutX="260.0" layoutY="206.0" prefHeight="17.0" prefWidth="253.0" text="Dynamic ... Players" textAlignment="CENTER" />
    </children>
 </AnchorPane>
