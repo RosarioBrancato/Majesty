@@ -1,8 +1,12 @@
 package ch.fhnw.projectbois.game;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 import ch.fhnw.projectbois._mvc.Controller;
+import ch.fhnw.projectbois.components.Component;
+import ch.fhnw.projectbois.components.ComponentLoader;
+import ch.fhnw.projectbois.fxml.FXMLUtils;
 import ch.fhnw.projectbois.gameobjects.*;
 import ch.fhnw.projectbois.session.Session;
 import javafx.application.Platform;
@@ -25,7 +29,8 @@ public class GameController extends Controller<GameModel, GameView> {
 	private int playerIndex = -1;
 	private GameState gameState = null;
 
-	private Label[] locationCardCount = null;
+	private GamePlayerContainer player = null;
+	private ArrayList<GamePlayerContainer> opponents = null;
 
 	@FXML
 	private Label lblGameInfo;
@@ -42,27 +47,10 @@ public class GameController extends Controller<GameModel, GameView> {
 	@FXML
 	private GridPane pnlOpponents;
 
-	@FXML
-	private Label lblOpponent1Info;
-
-	@FXML
-	private GridPane pnlOpponent1Cards;
-
-	@FXML
-	private Label lblOpponent2Info;
-
-	@FXML
-	private GridPane pnlOpponent2Cards;
-
-	@FXML
-	private Label lblOpponent3Info;
-
-	@FXML
-	private GridPane pnlOpponent3Cards;
-
 	public GameController(GameModel model, GameView view) {
 		super(model, view);
 
+		this.opponents = new ArrayList<>();
 		this.resourceHelper = new GameResourceHelper();
 	}
 
@@ -80,19 +68,70 @@ public class GameController extends Controller<GameModel, GameView> {
 		this.model.getGameState();
 	}
 
-	@FXML
-	private void btnLeave_Click(ActionEvent e) {
+	private void loadGameState(GameState gameState) {
+		boolean firstLoading = this.gameState == null;
 
+		if (this.gameState == null || gameState.getId() > this.gameState.getId()) {
+			this.gameState = gameState;
+
+			if (firstLoading) {
+				this.readPlayerIndex();
+				this.initPlayerComponent();
+				this.initLocations();
+			}
+
+			this.drawGui();
+		}
 	}
 
 	private void readPlayerIndex() {
 		ArrayList<Player> players = this.gameState.getBoard().getPlayers();
 
 		for (int i = 0; i < players.size(); i++) {
-			if (players.get(i).getUserToken() == Session.getCurrentUserToken()) {
+			if (players.get(i).getUsername().equals(Session.getCurrentUsername())) {
 				this.playerIndex = i;
+				break;
 			}
 		}
+	}
+
+	private void initPlayerComponent() {
+		ArrayList<Player> players = this.gameState.getBoard().getPlayers();
+
+		Player p = players.stream().filter(f -> f.getUsername().equals(Session.getCurrentUsername())).findFirst().get();
+		this.player = new GamePlayerContainer();
+		this.player.setUsername(p.getUsername());
+		this.player.setPnlCards(this.pnlPlayer1Cards);
+		this.player.setLblInfo(this.lblPlayerInfo);
+
+		// turn clockwise -> player to left after current player
+		for (int i = this.playerIndex + 1; i < players.size(); i++) {
+			Player player = players.get(i);
+			this.initGamePlayerContainerOpponent(i - 1, player);
+		}
+
+		for (int i = 0; i < this.playerIndex; i++) {
+			Player player = players.get(i);
+			this.initGamePlayerContainerOpponent(i, player);
+		}
+	}
+
+	private void initGamePlayerContainerOpponent(int index, Player player) {
+		GamePlayerContainer container = new GamePlayerContainer();
+		container.setUsername(player.getUsername());
+
+		URL url = ComponentLoader.getResource(Component.PlayerField);
+		GridPane gridPane = (GridPane) FXMLUtils.loadFXML(url);
+		Label lblInfo = (Label) gridPane.getChildren().get(0);
+
+		container.setPnlCards(gridPane);
+		container.setLblInfo(lblInfo);
+		this.opponents.add(container);
+
+		Integer i = new Integer(index);
+		Platform.runLater(() -> {
+			this.pnlOpponents.add(gridPane, i, 0);
+		});
 	}
 
 	private void initLocations() {
@@ -100,47 +139,41 @@ public class GameController extends Controller<GameModel, GameView> {
 
 		Platform.runLater(() -> {
 			if (playersCount == 3) {
-				this.pnlOpponents.getChildren().remove(this.pnlOpponent3Cards);
+				// this.pnlOpponents.getChildren().remove(this.pnlOpponent3Cards);
 				this.pnlOpponents.getColumnConstraints().remove(2);
 				this.pnlOpponents.getColumnConstraints().get(0).setPercentWidth(50);
 				this.pnlOpponents.getColumnConstraints().get(1).setPercentWidth(50);
 
 			} else if (playersCount == 2) {
-				this.pnlOpponents.getChildren().remove(this.pnlOpponent3Cards);
-				this.pnlOpponents.getChildren().remove(this.pnlOpponent2Cards);
+				// this.pnlOpponents.getChildren().remove(this.pnlOpponent3Cards);
+				// this.pnlOpponents.getChildren().remove(this.pnlOpponent2Cards);
 				this.pnlOpponents.getColumnConstraints().remove(2);
 				this.pnlOpponents.getColumnConstraints().remove(1);
 				this.pnlOpponents.getColumnConstraints().get(0).setPercentWidth(100);
 			}
 		});
 
+		this.initGamePlayerComponent(this.player, true);
+
+		for (GamePlayerContainer opponent : this.opponents) {
+			this.initGamePlayerComponent(opponent, false);
+		}
+	}
+
+	private void initGamePlayerComponent(GamePlayerContainer container, boolean isPlayer) {
+		int playersCount = this.gameState.getBoard().getPlayers().size();
+
 		int sideChange = 0;
 		if (!this.gameState.isCardSideA()) {
 			sideChange = Location.OFFSET_B;
 		}
-		this.locationCardCount = new Label[8 * playersCount];
-
-		this.initLocationsForPlayer(0, sideChange, this.pnlPlayer1Cards);
-		if (playersCount >= 2) {
-			this.initLocationsForPlayer(8, sideChange, this.pnlOpponent1Cards);
-		}
-		if (playersCount >= 3) {
-			this.initLocationsForPlayer(16, sideChange, this.pnlOpponent2Cards);
-		}
-		if (playersCount == 4) {
-			this.initLocationsForPlayer(24, sideChange, this.pnlOpponent3Cards);
-		}
-	}
-
-	private void initLocationsForPlayer(int playerStartRange, int sideChange, GridPane gridPaneToUpdate) {
-		int playersCount = this.gameState.getBoard().getPlayers().size();
 
 		for (int i = 0; i < 8; i++) {
-			int idxOffset = i + playerStartRange;
 
 			ImageView imgLocation = new ImageView();
 			imgLocation.setPreserveRatio(true);
-			if (playerStartRange == 0) {
+
+			if (isPlayer) {
 				imgLocation.setFitHeight(175);
 			} else if (playersCount == 2) {
 				imgLocation.setFitHeight(150);
@@ -154,33 +187,19 @@ public class GameController extends Controller<GameModel, GameView> {
 			imgLocation.setImage(image);
 
 			BorderPane borderPane = new BorderPane(imgLocation);
+			Label label = new Label("Cards: 0");
 
-			this.locationCardCount[idxOffset] = new Label("Cards: 0");
+			container.setLabelCardCountByIndex(i, label);
 
 			VBox box = new VBox();
 			box.setAlignment(Pos.CENTER);
-			box.getChildren().add(this.locationCardCount[idxOffset]);
+			box.getChildren().add(label);
 			borderPane.setBottom(box);
 
 			Integer col = new Integer(i);
 			Platform.runLater(() -> {
-				gridPaneToUpdate.add(borderPane, col, 0);
+				container.getPnlCards().add(borderPane, col, 0);
 			});
-		}
-	}
-
-	private void loadGameState(GameState gameState) {
-		boolean firstLoading = this.gameState == null;
-
-		if (this.gameState == null || gameState.getId() > this.gameState.getId()) {
-			this.gameState = gameState;
-
-			if (firstLoading) {
-				this.readPlayerIndex();
-				this.initLocations();
-			}
-
-			this.drawGui();
 		}
 	}
 
@@ -193,32 +212,48 @@ public class GameController extends Controller<GameModel, GameView> {
 
 	private void loadGameInfos() {
 		Platform.runLater(() -> {
-			this.lblGameInfo.setText("Round: " + this.gameState.getRound() + "/12 | Player's turn: " + this.gameState.getPlayersTurn());
+			this.lblGameInfo.setText(
+					"Round: " + this.gameState.getRound() + "/12 | Player's turn: " + this.gameState.getPlayersTurn());
 		});
 
-		Board board = this.gameState.getBoard();
-		for (int i = 0; i < board.getPlayers().size(); i++) {
-			Player player = board.getPlayers().get(i);
+		ArrayList<Player> players = this.gameState.getBoard().getPlayers();
+
+		{
+			Player player = players.stream().filter(f -> f.getUsername().equals(this.player.getUsername())).findFirst()
+					.get();
+
 			String text = player.getUsername() + " | Meeples: " + player.getMeeples() + " | Points: "
 					+ player.getScore();
 
-			if (i == 0) {
-				Platform.runLater(() -> {
-					this.lblPlayerInfo.setText(text);
-				});
-			} else if (i == 1) {
-				Platform.runLater(() -> {
-					this.lblOpponent1Info.setText(player.getUsername() + " | " + text);
-				});
-			} else if (i == 2) {
-				Platform.runLater(() -> {
-					this.lblOpponent2Info.setText(player.getUsername() + " | " + text);
-				});
-			} else if (i == 3) {
-				Platform.runLater(() -> {
-					this.lblOpponent3Info.setText(player.getUsername() + " | " + text);
-				});
+			boolean startingPlayer = players.get(this.gameState.getStartPlayerIndex()).getUsername()
+					.equals(Session.getCurrentUsername());
+			if (startingPlayer) {
+				text += " | 1st";
 			}
+
+			String toUpdate = text;
+			Platform.runLater(() -> {
+				this.player.getLblInfo().setText(toUpdate);
+			});
+		}
+
+		for (GamePlayerContainer opponent : this.opponents) {
+			Player player = players.stream().filter(f -> f.getUsername().equals(opponent.getUsername())).findFirst()
+					.get();
+
+			String text = player.getUsername() + " | Meeples: " + player.getMeeples() + " | Points: "
+					+ player.getScore();
+
+			boolean startingPlayer = players.get(this.gameState.getStartPlayerIndex()).getUsername()
+					.equals(opponent.getUsername());
+			if (startingPlayer) {
+				text += " | 1st";
+			}
+
+			String toUpdate = text;
+			Platform.runLater(() -> {
+				opponent.getLblInfo().setText(toUpdate);
+			});
 		}
 	}
 
@@ -227,8 +262,8 @@ public class GameController extends Controller<GameModel, GameView> {
 			this.pnlDisplay.getChildren().clear();
 		});
 
-		// TEMP
-		Player currentPlayer = this.gameState.getBoard().getPlayers().get(0);
+		Player currentPlayer = this.gameState.getBoard().getPlayers().stream()
+				.filter(f -> f.getUsername().equals(Session.getCurrentUsername())).findFirst().get();
 
 		int col = 0;
 		for (int i = 0; i < displayCards.size(); i++) {
@@ -248,15 +283,13 @@ public class GameController extends Controller<GameModel, GameView> {
 			vbox.getChildren().add(new Label("Meeples: " + card.getMeeples()));
 
 			// click event
-			if (currentPlayer.getMeeples() >= i) {
+			boolean allowMove = allowMove();
+			if (currentPlayer.getMeeples() >= i && allowMove) {
 				vbox.getStyleClass().add("displayToHover");
 
 				imgCard.setOnMouseClicked((e) -> {
-					boolean allowMove = allowMove();
-					if (allowMove) {
-						logger.info("Image clicked!");
-						model.sendMove(new GameMove());
-					}
+					logger.info("Image clicked!");
+					model.sendMove(new GameMove());
 				});
 				this.addDisplayClickEvent(imgCard, i);
 			}
@@ -298,11 +331,11 @@ public class GameController extends Controller<GameModel, GameView> {
 				if (allowMove) {
 					GameMove move = new GameMove();
 					move.setDisplayCardIndexSelected(index);
-					
-					//TO-DO: additional decision: split cards, split card revival
-					//move.setDecision1(-1);
-					//move.setDecision2(-1);
-					
+
+					// TO-DO: additional decision: split cards, split card revival
+					// move.setDecision1(-1);
+					// move.setDecision2(-1);
+
 					model.sendMove(move);
 				}
 			}
@@ -310,7 +343,14 @@ public class GameController extends Controller<GameModel, GameView> {
 	}
 
 	private boolean allowMove() {
-		return this.gameState.getPlayersTurn() == this.playerIndex;
+		Player player = this.gameState.getBoard().getPlayers().get(this.gameState.getPlayersTurn());
+
+		return player.getUsername().equals(Session.getCurrentUsername());
+	}
+
+	@FXML
+	private void btnLeave_Click(ActionEvent e) {
+
 	}
 
 }

@@ -38,8 +38,8 @@ public class Main extends Application {
 			primaryStage.setTitle("Majesty - For The Realm");
 			primaryStage.setMaximized(false);
 			//primaryStage.setFullScreen(true);
-			//primaryStage.setWidth(1200);
-			//primaryStage.setHeight(800);
+			primaryStage.setWidth(1200);
+			primaryStage.setHeight(800);
 
 			LoginController login = Controller.initMVC(LoginController.class, LoginModel.class, LoginView.class);
 			//MenuBarController menu = Controller.initMVC(MenuBarController.class, MenuBarModel.class, MenuBarView.class);

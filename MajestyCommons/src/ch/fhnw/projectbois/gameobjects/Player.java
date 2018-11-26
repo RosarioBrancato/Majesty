@@ -4,18 +4,24 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Player {
 
+	private String username;
 	private Location[] locations;
 	private int meeples;
 	private int score;
-
-	private String userToken;
-	private String username;
 
 	public Player() {
 		this.locations = new Location[8];
 		for (int i = 0; i < this.locations.length; i++) {
 			this.locations[i] = new Location();
 		}
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public Location[] getLocations() {
@@ -38,22 +44,6 @@ public class Player {
 		this.score = score;
 	}
 
-	public String getUserToken() {
-		return userToken;
-	}
-
-	public void setUserToken(String userToken) {
-		this.userToken = userToken;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	
 	@JsonIgnore
 	public Location getLocationByIndex(int locationIndex) {
 		return this.locations[locationIndex];
