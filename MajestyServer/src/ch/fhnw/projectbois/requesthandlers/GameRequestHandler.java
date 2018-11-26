@@ -73,6 +73,7 @@ public class GameRequestHandler extends RequestHandler {
 		logic.definePlayers(lobby);
 		logic.setCardsAside();
 		logic.fillDisplay();
+		logic.startNextTurn();
 
 		lobby.setGameState(gameState);
 		lobby.setGameStateServer(gameStateServer);
