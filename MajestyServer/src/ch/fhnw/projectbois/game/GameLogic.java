@@ -86,26 +86,26 @@ public class GameLogic {
 	}
 
 	public void startNextTurn() {
-//		int startPlayer = 1; //TO-DO
-//		int playersTurn = this.gameState.getBoard().getPlayersTurn();
-//		int round = this.gameState.getBoard().getRound();
-//
-//		int nextPlayersTurn = -1;
-//		int nextRound = -1;
-//
-//		if (playersTurn < 4) {
-//			nextPlayersTurn = playersTurn + 1;
-//		} else {
-//			nextPlayersTurn = 1;
-//			nextRound = round + 1;
-//		}
-//
-//		if (nextRound > 12) {
-//			// TO-DO: end game
-//		} else {
-//			this.gameState.getBoard().setPlayersTurn(nextPlayersTurn);
-//			this.gameState.getBoard().setRound(nextRound);
-//		}
+		int startPlayer = this.gameState.getStartPlayerIndex();
+		int playersCount = this.gameState.getBoard().getPlayers().size();
+		int playersTurn = this.gameState.getPlayersTurn();
+		int round = this.gameState.getRound();
+
+		playersTurn++;
+		if (playersTurn >= playersCount) {
+			playersTurn = 0;
+		}
+
+		if (playersTurn == startPlayer) {
+			round++;
+		}
+
+		if (round > 12) {
+			// TO-DO: end game
+		} else {
+			this.gameState.setPlayersTurn(playersTurn);
+			this.gameState.setRound(round);
+		}
 	}
 
 	// SET UP METHODS
@@ -120,8 +120,12 @@ public class GameLogic {
 
 			player.setMeeples(5);
 
-			gameState.getBoard().getPlayers().add(player);
+			this.gameState.getBoard().getPlayers().add(player);
 		}
+
+		int playerMultiplicator = this.gameState.getBoard().getPlayers().size() - 1;
+		int startPlayerIndex = (int) Math.round(Math.random() * playerMultiplicator);
+		this.gameState.setStartPlayerIndex(startPlayerIndex);
 	}
 
 	public void fillDecks() {
