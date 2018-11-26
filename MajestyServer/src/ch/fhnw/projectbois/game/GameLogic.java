@@ -85,6 +85,31 @@ public class GameLogic {
 		// after points
 	}
 
+	public void startNextTurn() {
+		int startPlayer = this.gameState.getStartPlayerIndex();
+		int playersCount = this.gameState.getBoard().getPlayers().size();
+		int playersTurn = this.gameState.getPlayersTurn();
+		int round = this.gameState.getRound();
+
+		playersTurn++;
+		if (playersTurn >= playersCount) {
+			playersTurn = 0;
+		}
+
+		if (playersTurn == startPlayer) {
+			round++;
+		}
+
+		if (round > 12) {
+			// TO-DO: end game
+		} else {
+			this.gameState.setPlayersTurn(playersTurn);
+			this.gameState.setRound(round);
+		}
+	}
+
+	// SET UP METHODS
+
 	public void definePlayers(Lobby lobby) {
 		ArrayList<ServerClient> clients = lobby.getClients();
 
@@ -95,8 +120,12 @@ public class GameLogic {
 
 			player.setMeeples(5);
 
-			gameState.getBoard().getPlayers().add(player);
+			this.gameState.getBoard().getPlayers().add(player);
 		}
+
+		int playerMultiplicator = this.gameState.getBoard().getPlayers().size() - 1;
+		int startPlayerIndex = (int) Math.round(Math.random() * playerMultiplicator);
+		this.gameState.setStartPlayerIndex(startPlayerIndex);
 	}
 
 	public void fillDecks() {
@@ -229,6 +258,8 @@ public class GameLogic {
 		return card;
 	}
 
+	// PRIVATE METHODS
+
 	private void updateCardsLeft() {
 		int cardCount = this.gameStateServer.getDeckTier2().size();
 		cardCount += this.gameStateServer.getDeckTier1().size();
@@ -236,7 +267,7 @@ public class GameLogic {
 		this.gameState.getBoard().setCardsLeft(cardCount);
 	}
 
-	public int getLocationIndexByCardType(CardType cardType) {
+	private int getLocationIndexByCardType(CardType cardType) {
 		switch (cardType) {
 		case Miller:
 			return Location.MILL;

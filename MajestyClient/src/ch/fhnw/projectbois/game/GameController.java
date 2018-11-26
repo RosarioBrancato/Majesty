@@ -192,12 +192,11 @@ public class GameController extends Controller<GameModel, GameView> {
 	}
 
 	private void loadGameInfos() {
-		Board board = this.gameState.getBoard();
-
 		Platform.runLater(() -> {
-			this.lblGameInfo.setText("Round: " + board.getRound() + "/12 | Player's turn: " + board.getPlayersTurn());
+			this.lblGameInfo.setText("Round: " + this.gameState.getRound() + "/12 | Player's turn: " + this.gameState.getPlayersTurn());
 		});
 
+		Board board = this.gameState.getBoard();
 		for (int i = 0; i < board.getPlayers().size(); i++) {
 			Player player = board.getPlayers().get(i);
 			String text = player.getUsername() + " | Meeples: " + player.getMeeples() + " | Points: "
@@ -311,7 +310,7 @@ public class GameController extends Controller<GameModel, GameView> {
 	}
 
 	private boolean allowMove() {
-		return this.gameState.getBoard().getPlayersTurn() == this.playerIndex;
+		return this.gameState.getPlayersTurn() == this.playerIndex;
 	}
 
 }
