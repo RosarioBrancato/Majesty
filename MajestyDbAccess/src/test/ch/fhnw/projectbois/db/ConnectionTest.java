@@ -27,12 +27,12 @@ class ConnectionTest {
 			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM user");
 			ResultSet results = stmt.executeQuery();
 			
-//			String username = null;
-//			if(results.next()) {
-//				username = results.getString("nickname");
-//			}
+			String username = null;
+			if(results.next()) {
+				username = results.getString("nickname");
+			}
 			
-			assertNotNull(results);
+			assertNotNull(username);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
