@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import ch.fhnw.projectbois.log.LoggerFactory;
+import ch.fhnw.projectbois.translate.Translator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
@@ -18,7 +19,8 @@ import javafx.scene.Parent;
  */
 public abstract class View<M extends Model> {
 	protected Logger logger;
-
+	protected Translator translator;
+	
 	protected Parent root;
 	protected M model;
 
@@ -30,7 +32,8 @@ public abstract class View<M extends Model> {
 	 */
 	public View(M model) {
 		this.logger = LoggerFactory.getLogger(this.getClass());
-
+		this.translator = Translator.getTranslator();
+		
 		this.model = model;
 	}
 
@@ -42,10 +45,8 @@ public abstract class View<M extends Model> {
 
 	public <T extends Controller<M, ? extends View<M>>> void loadRoot(T controller) {
 		URL url = this.getFXML();
-		Locale locale = model.getLocale();
-		//Multi-Language Support Resource Bundle
-		ResourceBundle bundle = ResourceBundle.getBundle("language.UIResources", locale);
-		FXMLLoader loader = new FXMLLoader(url, bundle);
+		//Multi-Language Support from Singleton Translator
+		FXMLLoader loader = new FXMLLoader(url, translator.getResourceBundle());
 		loader.setController(controller);
 
 		try {

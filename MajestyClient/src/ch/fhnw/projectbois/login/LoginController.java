@@ -7,6 +7,7 @@ import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.components.menubar.MenuBarController;
 import ch.fhnw.projectbois.components.menubar.MenuBarModel;
 import ch.fhnw.projectbois.components.menubar.MenuBarView;
+import ch.fhnw.projectbois.translate.Translator;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -77,7 +78,8 @@ public class LoginController extends Controller<LoginModel, LoginView> {
             } else if (newValue.equals(ITALIAN)) {
             	locale = new Locale("it");
             }
-        	super.model.setLocale(locale);
+        	translator.setResourceBundle(locale);
+            //super.model.setLocale(locale);
         	//LoginSetLanguage(locale);
         });
 		

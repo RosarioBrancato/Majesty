@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import ch.fhnw.projectbois.log.LoggerFactory;
+import ch.fhnw.projectbois.translate.Translator;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 
@@ -15,12 +16,14 @@ import javafx.scene.Parent;
  */
 public abstract class Controller<M extends Model, V extends View<M>> {
 	protected Logger logger;
+	protected Translator translator;
 	
 	protected M model;
 	protected V view;
 
 	public Controller(M model, V view) {
 		this.logger = LoggerFactory.getLogger(this.getClass());
+		this.translator = Translator.getTranslator();
 		
 		this.model = model;
 		this.view = view;

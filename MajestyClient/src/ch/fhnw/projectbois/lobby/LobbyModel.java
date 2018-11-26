@@ -21,9 +21,16 @@ public class LobbyModel extends Model {
 	public LobbyModel() {
 		this.initResponseListener();
 	}
-
+	
+	//Starts the Game of Majesty with 2 - 4 players that were in the lobby
 	public void startGame() {
 		Request request = new Request(Session.getCurrentUserToken(), RequestId.START_GAME, null);
+		Network.getInstance().sendRequest(request);
+	}
+	
+	//Forwards the Player to the Exit screen from the lobby
+	public void ExitGame() {
+		Request request = new Request(Session.getCurrentUserToken(), RequestId.LEAVE_LOBBY, null);
 		Network.getInstance().sendRequest(request);
 	}
 
