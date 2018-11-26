@@ -4,35 +4,71 @@ import java.util.Locale;
 
 import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
+import ch.fhnw.projectbois.components.menubar.MenuBarController;
+import ch.fhnw.projectbois.components.menubar.MenuBarModel;
+import ch.fhnw.projectbois.components.menubar.MenuBarView;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Alert.AlertType;
-import javafx.stage.Modality;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+
+/**
+ * 
+ * @author Alexandre Miccoli
+ *
+ */
 
 public class LoginController extends Controller<LoginModel, LoginView> {
 	
 	//Language PickList selection
-	private final String ENGLISH = "en";
-	private final String GERMAN = "de";
-	private final String FRENCH = "fr";
-	private final String ITALIAN = "it";
+	private final String ENGLISH = "English";
+	private final String GERMAN = "Deutsch";
+	private final String FRENCH = "Français";
+	private final String ITALIAN = "Italiano";
 	
 	@FXML
-	private ChoiceBox<String> cmbLanguage;
+	private ChoiceBox<String> cmb_Login_language;
+
+	@FXML
+	private Button btn_Login_login;
+	
+	@FXML
+	private TextField txt_Login_username;
+
+	@FXML
+	private TextField txt_Login_serverServer;
+
+	@FXML
+	private TextField txt_Login_serverPort;
+
+	@FXML
+	private PasswordField txt_Login_password;
 
 	public LoginController(LoginModel model, LoginView view) {
 		super(model, view);
+	}
+	
+	protected void LoginSetLanguage(Locale locale) {
+		//2do
 	}
 	
 	@Override
 	protected void initialize() {
 		super.initialize();
 
+		model.getLoggedInUser().addListener((observer, oldValue, newValue) -> {
+			Platform.runLater(() -> {
+				MenuBarController controller = initMVC(MenuBarController.class, MenuBarModel.class, MenuBarView.class);
+				MetaContainer.getInstance().setRoot(controller.getViewRoot());
+			});
+		});
+
 		this.fillChoiceBox();
 		
-        cmbLanguage.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
+		cmb_Login_language.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
             Locale locale = new Locale("en");
             if (newValue.equals(GERMAN)) {
             	locale = new Locale("de");
@@ -42,16 +78,43 @@ public class LoginController extends Controller<LoginModel, LoginView> {
             	locale = new Locale("it");
             }
         	super.model.setLocale(locale);
+        	//LoginSetLanguage(locale);
         });
+		
+		txt_Login_username.textProperty().addListener((observable, oldValue, newValue) -> {
+			LoginCredentialsChanged();
+		});
+		
+		txt_Login_password.textProperty().addListener((observable, oldValue, newValue) -> {
+			LoginCredentialsChanged();
+		});
+		
+	}
+	
+	@FXML
+	private void btn_Login_loginClicked(ActionEvent event) {
+		boolean result = model.LoginProcessCredentials(txt_Login_serverServer.getText(), txt_Login_serverPort.getText(), txt_Login_username.getText(), txt_Login_password.getText());
+		if(!result) {
+			System.out.println("SERVER ERROR");
+		}
+		
+	}
+	
+	private void LoginCredentialsChanged() {
+		if(txt_Login_username.getText().equals("") || txt_Login_password.getText().equals("")) {
+			btn_Login_login.setDisable(true);
+		}else {
+			btn_Login_login.setDisable(false);
+		}
 	}
 	
 	private void fillChoiceBox() {
-		this.cmbLanguage.getItems().add(ENGLISH);
-		this.cmbLanguage.getItems().add(GERMAN);
-		this.cmbLanguage.getItems().add(FRENCH);
-		this.cmbLanguage.getItems().add(ITALIAN);
+		this.cmb_Login_language.getItems().add(ENGLISH);
+		this.cmb_Login_language.getItems().add(GERMAN);
+		this.cmb_Login_language.getItems().add(FRENCH);
+		this.cmb_Login_language.getItems().add(ITALIAN);
 
-		this.cmbLanguage.getSelectionModel().selectFirst();
+		this.cmb_Login_language.getSelectionModel().selectFirst();
 	}
 
 }
