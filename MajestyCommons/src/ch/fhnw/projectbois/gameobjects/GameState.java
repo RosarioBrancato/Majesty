@@ -4,6 +4,11 @@ public class GameState {
 
 	private int id = -1;
 	private boolean isCardSideA = true;
+
+	private int round = 0;
+	private int playersTurn = -1;
+	private int startPlayerIndex = -1;
+
 	private Board board;
 
 	public GameState() {
@@ -28,6 +33,30 @@ public class GameState {
 
 	public void setCardSideA(boolean isCardSideA) {
 		this.isCardSideA = isCardSideA;
+	}
+
+	public int getRound() {
+		return round;
+	}
+
+	public void setRound(int round) {
+		this.round = round;
+	}
+
+	public int getPlayersTurn() {
+		return playersTurn;
+	}
+
+	public void setPlayersTurn(int playersTurn) {
+		this.playersTurn = playersTurn;
+	}
+
+	public int getStartPlayerIndex() {
+		return startPlayerIndex;
+	}
+
+	public void setStartPlayerIndex(int startPlayerIndex) {
+		this.startPlayerIndex = startPlayerIndex;
 	}
 
 }
