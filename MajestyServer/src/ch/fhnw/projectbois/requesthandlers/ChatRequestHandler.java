@@ -4,7 +4,6 @@ import ch.fhnw.projectbois.communication.Request;
 import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
-import ch.fhnw.projectbois.dto.LobbyDTO;
 import ch.fhnw.projectbois.dto.MessageDTO;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.network.Server;

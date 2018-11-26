@@ -1,15 +1,11 @@
 package ch.fhnw.projectbois.components.chat;
 
 import java.sql.Timestamp;
-import java.util.Date;
-
 import ch.fhnw.projectbois._mvc.Model;
 import ch.fhnw.projectbois.communication.Request;
 import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
-import ch.fhnw.projectbois.dto.LobbyDTO;
-import ch.fhnw.projectbois.dto.LobbyListDTO;
 import ch.fhnw.projectbois.dto.MessageDTO;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.network.Network;
