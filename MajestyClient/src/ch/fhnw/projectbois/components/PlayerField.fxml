@@ -1,0 +1,26 @@
+***REMOVED***
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane fx:id="pnlCards" alignment="CENTER" minHeight="200.0" minWidth="400.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="lblInfo" alignment="CENTER" text="Meeples: 0 Points: 0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
+   </children>
+   <columnConstraints>
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="12.5" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints fillHeight="false" valignment="CENTER" vgrow="SOMETIMES" />
+      <RowConstraints fillHeight="false" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
+   </rowConstraints>
+</GridPane>

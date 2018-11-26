@@ -52,7 +52,7 @@ public class GameRequestHandler extends RequestHandler {
 		Lobby lobby = client.getLobby();
 		GameLogic logic = new GameLogic(lobby.getGameState(), lobby.getGameStateServer());
 		
-		logic.executeMove(client.getUser().getToken(), gameMove);
+		logic.executeMove(client.getUser().getUsername(), gameMove);
 		logic.startNextTurn();
 
 		//send update response

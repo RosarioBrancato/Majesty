@@ -24,13 +24,13 @@ public class GameLogic {
 		this.gameStateServer = gameStateServer;
 	}
 
-	public void executeMove(String playerToken, GameMove move) {
+	public void executeMove(String username, GameMove move) {
 		ArrayList<DisplayCard> display = this.gameState.getBoard().getDisplay();
 		ArrayList<Player> players = this.gameState.getBoard().getPlayers();
 
 		int selectedIndex = move.getDisplayCardIndexSelected();
 		DisplayCard selectedCard = display.get(selectedIndex);
-		Player currentPlayer = players.stream().filter(f -> f.getUserToken().equals(playerToken)).findFirst().get();
+		Player currentPlayer = players.stream().filter(f -> f.getUsername().equals(username)).findFirst().get();
 
 		// split card decision
 		CardType currentCardType = selectedCard.getCardType1();
@@ -115,9 +115,7 @@ public class GameLogic {
 
 		for (ServerClient c : clients) {
 			Player player = new Player();
-			player.setUserToken(c.getUser().getToken());
-			player.setUsername(c.getUser().getToken());
-
+			player.setUsername(c.getUser().getUsername());
 			player.setMeeples(5);
 
 			this.gameState.getBoard().getPlayers().add(player);
