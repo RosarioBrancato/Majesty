@@ -2,7 +2,6 @@ package ch.fhnw.projectbois.components.chat;
 
 import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
-import ch.fhnw.projectbois.dto.LobbyListDTO;
 import ch.fhnw.projectbois.dto.MessageDTO;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
