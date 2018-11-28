@@ -33,8 +33,6 @@ public class Main extends Application {
 		Logger logger = LoggerFactory.getLogger(Main.class);
 		
 		try {
-			//Network.getInstance().initConnection("localhost", 8200);
-
 			primaryStage.setTitle("Majesty - For The Realm");
 			primaryStage.setMaximized(false);
 			//primaryStage.setFullScreen(true);
@@ -42,8 +40,8 @@ public class Main extends Application {
 			primaryStage.setHeight(800);
 
 			LoginController login = Controller.initMVC(LoginController.class, LoginModel.class, LoginView.class);
-			//MenuBarController menu = Controller.initMVC(MenuBarController.class, MenuBarModel.class, MenuBarView.class);
 			Scene scene = new Scene(login.getViewRoot());
+			
 			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/majesty.png")));
 			primaryStage.setScene(scene);
 			

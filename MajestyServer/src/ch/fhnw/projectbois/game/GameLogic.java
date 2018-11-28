@@ -6,7 +6,6 @@ import java.util.Collections;
 import ch.fhnw.projectbois.gameobjects.Board;
 import ch.fhnw.projectbois.gameobjects.Card;
 import ch.fhnw.projectbois.gameobjects.CardType;
-import ch.fhnw.projectbois.gameobjects.DisplayCard;
 import ch.fhnw.projectbois.gameobjects.GameMove;
 import ch.fhnw.projectbois.gameobjects.GameState;
 import ch.fhnw.projectbois.gameobjects.Location;
@@ -25,11 +24,13 @@ public class GameLogic {
 	}
 
 	public void executeMove(String username, GameMove move) {
-		ArrayList<DisplayCard> display = this.gameState.getBoard().getDisplay();
+		ArrayList<Card> display = this.gameState.getBoard().getDisplay();
 		ArrayList<Player> players = this.gameState.getBoard().getPlayers();
 
+		//TO-DO: pay meeples for card
+		
 		int selectedIndex = move.getDisplayCardIndexSelected();
-		DisplayCard selectedCard = display.get(selectedIndex);
+		Card selectedCard = display.get(selectedIndex);
 		Player currentPlayer = players.stream().filter(f -> f.getUsername().equals(username)).findFirst().get();
 
 		// split card decision
@@ -46,13 +47,13 @@ public class GameLogic {
 		currentPlayer.setMeeples(currentPlayer.getMeeples() + meeples);
 		selectedCard.setMeeples(0);
 
-		// add card to display
+		// add card to player
 		int locationIndex = this.getLocationIndexByCardType(currentCardType);
 		currentPlayer.getLocationByIndex(locationIndex).getCards().add(selectedCard);
 
 		// add new card to display
 		display.remove(selectedIndex);
-		DisplayCard newCard = this.drawACard();
+		Card newCard = this.drawACard();
 		display.add(newCard);
 
 		// card special effect
@@ -104,6 +105,9 @@ public class GameLogic {
 		// points
 
 		// after points
+		
+		//final changes
+		this.gameState.setId(this.gameState.getId() + 1);
 	}
 
 	public boolean startNextTurn() {
@@ -165,75 +169,75 @@ public class GameLogic {
 	public void fillDecks() {
 		// TIER 2
 		for (int i = 0; i < 2; i++) {
-			gameStateServer.getDeckTier2().add(new DisplayCard(CardType.Miller));
+			gameStateServer.getDeckTier2().add(new Card(CardType.Miller));
 		}
 		for (int i = 0; i < 2; i++) {
-			gameStateServer.getDeckTier2().add(new DisplayCard(CardType.Brewer));
+			gameStateServer.getDeckTier2().add(new Card(CardType.Brewer));
 		}
 		for (int i = 0; i < 2; i++) {
-			gameStateServer.getDeckTier2().add(new DisplayCard(CardType.Witch));
+			gameStateServer.getDeckTier2().add(new Card(CardType.Witch));
 		}
 		for (int i = 0; i < 2; i++) {
-			gameStateServer.getDeckTier2().add(new DisplayCard(CardType.Guard));
+			gameStateServer.getDeckTier2().add(new Card(CardType.Guard));
 		}
-		gameStateServer.getDeckTier2().add(new DisplayCard(CardType.Knight));
+		gameStateServer.getDeckTier2().add(new Card(CardType.Knight));
 		for (int i = 0; i < 2; i++) {
-			gameStateServer.getDeckTier2().add(new DisplayCard(CardType.Innkeeper));
-		}
-		for (int i = 0; i < 2; i++) {
-			gameStateServer.getDeckTier2().add(new DisplayCard(CardType.Noble));
-		}
-		gameStateServer.getDeckTier2().add(new DisplayCard(CardType.Miller, CardType.Brewer));
-		gameStateServer.getDeckTier2().add(new DisplayCard(CardType.Miller, CardType.Knight));
-		for (int i = 0; i < 2; i++) {
-			gameStateServer.getDeckTier2().add(new DisplayCard(CardType.Brewer, CardType.Witch));
-		}
-		gameStateServer.getDeckTier2().add(new DisplayCard(CardType.Brewer, CardType.Knight));
-		for (int i = 0; i < 2; i++) {
-			gameStateServer.getDeckTier2().add(new DisplayCard(CardType.Witch, CardType.Guard));
-		}
-		gameStateServer.getDeckTier2().add(new DisplayCard(CardType.Witch, CardType.Innkeeper));
-		gameStateServer.getDeckTier2().add(new DisplayCard(CardType.Witch, CardType.Noble));
-		for (int i = 0; i < 2; i++) {
-			gameStateServer.getDeckTier2().add(new DisplayCard(CardType.Guard, CardType.Knight));
+			gameStateServer.getDeckTier2().add(new Card(CardType.Innkeeper));
 		}
 		for (int i = 0; i < 2; i++) {
-			gameStateServer.getDeckTier2().add(new DisplayCard(CardType.Knight, CardType.Innkeeper));
+			gameStateServer.getDeckTier2().add(new Card(CardType.Noble));
 		}
-		gameStateServer.getDeckTier2().add(new DisplayCard(CardType.Innkeeper, CardType.Noble));
+		gameStateServer.getDeckTier2().add(new Card(CardType.Miller, CardType.Brewer));
+		gameStateServer.getDeckTier2().add(new Card(CardType.Miller, CardType.Knight));
+		for (int i = 0; i < 2; i++) {
+			gameStateServer.getDeckTier2().add(new Card(CardType.Brewer, CardType.Witch));
+		}
+		gameStateServer.getDeckTier2().add(new Card(CardType.Brewer, CardType.Knight));
+		for (int i = 0; i < 2; i++) {
+			gameStateServer.getDeckTier2().add(new Card(CardType.Witch, CardType.Guard));
+		}
+		gameStateServer.getDeckTier2().add(new Card(CardType.Witch, CardType.Innkeeper));
+		gameStateServer.getDeckTier2().add(new Card(CardType.Witch, CardType.Noble));
+		for (int i = 0; i < 2; i++) {
+			gameStateServer.getDeckTier2().add(new Card(CardType.Guard, CardType.Knight));
+		}
+		for (int i = 0; i < 2; i++) {
+			gameStateServer.getDeckTier2().add(new Card(CardType.Knight, CardType.Innkeeper));
+		}
+		gameStateServer.getDeckTier2().add(new Card(CardType.Innkeeper, CardType.Noble));
 
 		// TIER 1
 		for (int i = 0; i < 7; i++) {
-			gameStateServer.getDeckTier1().add(new DisplayCard(CardType.Miller));
+			gameStateServer.getDeckTier1().add(new Card(CardType.Miller));
 		}
 		for (int i = 0; i < 4; i++) {
-			gameStateServer.getDeckTier1().add(new DisplayCard(CardType.Brewer));
+			gameStateServer.getDeckTier1().add(new Card(CardType.Brewer));
 		}
 		for (int i = 0; i < 3; i++) {
-			gameStateServer.getDeckTier1().add(new DisplayCard(CardType.Witch));
+			gameStateServer.getDeckTier1().add(new Card(CardType.Witch));
 		}
 		for (int i = 0; i < 3; i++) {
-			gameStateServer.getDeckTier1().add(new DisplayCard(CardType.Guard));
+			gameStateServer.getDeckTier1().add(new Card(CardType.Guard));
 		}
 		for (int i = 0; i < 2; i++) {
-			gameStateServer.getDeckTier1().add(new DisplayCard(CardType.Knight));
+			gameStateServer.getDeckTier1().add(new Card(CardType.Knight));
 		}
 		for (int i = 0; i < 2; i++) {
-			gameStateServer.getDeckTier1().add(new DisplayCard(CardType.Innkeeper));
+			gameStateServer.getDeckTier1().add(new Card(CardType.Innkeeper));
 		}
 		for (int i = 0; i < 3; i++) {
-			gameStateServer.getDeckTier1().add(new DisplayCard(CardType.Noble));
+			gameStateServer.getDeckTier1().add(new Card(CardType.Noble));
 		}
 		for (int i = 0; i < 2; i++) {
-			gameStateServer.getDeckTier1().add(new DisplayCard(CardType.Miller, CardType.Brewer));
+			gameStateServer.getDeckTier1().add(new Card(CardType.Miller, CardType.Brewer));
 		}
-		gameStateServer.getDeckTier1().add(new DisplayCard(CardType.Miller, CardType.Knight));
-		gameStateServer.getDeckTier1().add(new DisplayCard(CardType.Brewer, CardType.Witch));
-		gameStateServer.getDeckTier1().add(new DisplayCard(CardType.Witch, CardType.Guard));
-		gameStateServer.getDeckTier1().add(new DisplayCard(CardType.Guard, CardType.Innkeeper));
-		gameStateServer.getDeckTier1().add(new DisplayCard(CardType.Guard, CardType.Noble));
-		gameStateServer.getDeckTier1().add(new DisplayCard(CardType.Knight, CardType.Innkeeper));
-		gameStateServer.getDeckTier1().add(new DisplayCard(CardType.Innkeeper, CardType.Noble));
+		gameStateServer.getDeckTier1().add(new Card(CardType.Miller, CardType.Knight));
+		gameStateServer.getDeckTier1().add(new Card(CardType.Brewer, CardType.Witch));
+		gameStateServer.getDeckTier1().add(new Card(CardType.Witch, CardType.Guard));
+		gameStateServer.getDeckTier1().add(new Card(CardType.Guard, CardType.Innkeeper));
+		gameStateServer.getDeckTier1().add(new Card(CardType.Guard, CardType.Noble));
+		gameStateServer.getDeckTier1().add(new Card(CardType.Knight, CardType.Innkeeper));
+		gameStateServer.getDeckTier1().add(new Card(CardType.Innkeeper, CardType.Noble));
 
 		Collections.shuffle(gameStateServer.getDeckTier2());
 		Collections.shuffle(gameStateServer.getDeckTier1());
@@ -263,13 +267,13 @@ public class GameLogic {
 
 	public void fillDisplay() {
 		for (int i = 0; i < 6; i++) {
-			DisplayCard card = this.drawACard();
+			Card card = this.drawACard();
 			gameState.getBoard().getDisplay().add(card);
 		}
 	}
 
-	private DisplayCard drawACard() {
-		DisplayCard card = null;
+	private Card drawACard() {
+		Card card = null;
 
 		if (gameStateServer.getDeckTier1().size() > 0) {
 			card = gameStateServer.getDeckTier1().get(0);

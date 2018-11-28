@@ -8,6 +8,7 @@ public class Card {
 	private CardType cardType1;
 	private CardType cardType2;
 	private int activeCardType = 1;
+	private int meeples = 0;
 
 	/**
 	 * For JSON Serializer
@@ -43,6 +44,14 @@ public class Card {
 
 	public int getActiveCardType() {
 		return this.activeCardType;
+	}
+
+	public int getMeeples() {
+		return meeples;
+	}
+
+	public void setMeeples(int meeples) {
+		this.meeples = meeples;
 	}
 
 
