@@ -48,15 +48,24 @@ public class GameRequestHandler extends RequestHandler {
 	private void doMove() {
 		String json = request.getJsonDataObject();
 		GameMove gameMove = JsonUtils.Deserialize(json, GameMove.class);
-		
+
 		Lobby lobby = client.getLobby();
 		GameLogic logic = new GameLogic(lobby.getGameState(), lobby.getGameStateServer());
-		
-		logic.executeMove(client.getUser().getUsername(), gameMove);
-		logic.startNextTurn();
 
-		//send update response
-		this.updateGameState();
+		logic.executeMove(client.getUser().getUsername(), gameMove);
+		boolean gameOver = logic.startNextTurn();
+
+		if (!gameOver) {
+			// send update response
+			this.updateGameState();
+
+		} else {
+			logic.endGame();
+			
+			json = JsonUtils.Serialize(lobby.getGameState());
+			Response response = new Response(ResponseId.GAME_ENDED, request.getRequestId(), json);
+			client.sendResponse(response);
+		}
 	}
 
 	private void startGame() {
