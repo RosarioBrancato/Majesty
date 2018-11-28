@@ -39,6 +39,11 @@ public class LobbyDTO {
 	public void addPlayer(String player) {
 		this.players.add(player);
 	}
+	
+	@JsonIgnore
+	public void removePlayer(String player) {
+		this.players.remove(player);
+	}
 
 	@JsonIgnore
 	public String getPlayersAsString() {
