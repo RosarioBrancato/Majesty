@@ -1,7 +1,6 @@
 package ch.fhnw.projectbois.lobby;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
@@ -11,7 +10,6 @@ import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.dto.LobbyDTO;
-import ch.fhnw.projectbois.dto.LobbyListDTO;
 import ch.fhnw.projectbois.game.GameController;
 import ch.fhnw.projectbois.game.GameModel;
 import ch.fhnw.projectbois.game.GameView;
@@ -74,6 +72,13 @@ public class LobbyModel extends Model {
 				}
 			}
 		};
+	}
+	
+	//Determine the owner of the Lobby for advanced privileges
+	public String determineLobbyOwner(LobbyDTO lobby) {
+		String owner = lobby.getPlayers().get(0);
+		System.out.println(owner);
+		return owner;
 	}
 
 	private void showGameBoard() {

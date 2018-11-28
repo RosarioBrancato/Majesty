@@ -1,7 +1,6 @@
 package ch.fhnw.projectbois.login;
 
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
@@ -13,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -29,6 +29,18 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	private final String GERMAN = "Deutsch";
 	private final String FRENCH = "Français";
 	private final String ITALIAN = "Italiano";
+	
+	@FXML
+	private Label lbl_Login_username;
+	
+	@FXML
+	private Label lbl_Login_password;
+	
+	@FXML
+	private Label lbl_Login_language;
+	
+	@FXML
+	private Label lbl_Login_loginMsg;
 	
 	@FXML
 	private ChoiceBox<String> cmb_Login_language;
@@ -52,9 +64,10 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		super(model, view);
 	}
 	
-	protected void LoginSetLanguage(ResourceBundle bundle) {
+	protected void LoginSetLanguage() {
 		Platform.runLater(() -> {
-			
+			lbl_Login_username.setText(translator.getTranslation("lbl_Login_username"));
+			//Extend with Lobby Terms that need to be changing after Language was chosen
 		});
 	}
 	
@@ -81,7 +94,7 @@ public class LoginController extends Controller<LoginModel, LoginView> {
             	locale = new Locale("it");
             }
         	translator.setResourceBundle(locale);
-        	//LoginSetLanguage(translator.getResourceBundle());
+        	LoginSetLanguage();
         });
 		
 		txt_Login_username.textProperty().addListener((observable, oldValue, newValue) -> {

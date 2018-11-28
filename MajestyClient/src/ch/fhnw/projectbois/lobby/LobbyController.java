@@ -8,19 +8,12 @@ import ch.fhnw.projectbois.components.menubar.MenuBarController;
 import ch.fhnw.projectbois.components.menubar.MenuBarModel;
 import ch.fhnw.projectbois.components.menubar.MenuBarView;
 import ch.fhnw.projectbois.dto.LobbyDTO;
-import ch.fhnw.projectbois.login.LoginController;
-import ch.fhnw.projectbois.login.LoginModel;
-import ch.fhnw.projectbois.login.LoginView;
-import ch.fhnw.projectbois.profile.ProfileController;
-import ch.fhnw.projectbois.profile.ProfileModel;
-import ch.fhnw.projectbois.profile.ProfileView;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Modality;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 
@@ -42,6 +35,9 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 	
 	@FXML
 	private Label lblCountdown_Dynamic;
+	
+	@FXML
+	private Button btnStart;
 
 	public LobbyController(LobbyModel model, LobbyView view) {
 		super(model, view);
@@ -72,19 +68,34 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 		});
 	}
 	
+	//Lobby Timer TO DO
+	//private void setTimer() {
+	//}
+	
 	private void onePlayerLobby() {
 		this.lblInformation_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InformationDynamic1"));
 		this.lblInstructions_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InstructionsDynamic1"));
+		disableStartButton();
 	}
 	
 	private void twothreePlayerLobby() {
 		this.lblInformation_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InformationDynamic2"));
 		this.lblInstructions_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InstructionsDynamic2"));
+		enableStartButton();
 	}
 	
 	private void fourPlayerLobby() {
 		this.lblInformation_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InformationDynamic2"));
 		this.lblInstructions_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InstructionsDynamic3"));
+		enableStartButton();
+	}
+	
+	private void disableStartButton() {
+		btnStart.setDisable(true);
+	}
+	
+	private void enableStartButton() {
+		btnStart.setDisable(false);
 	}
 
 	@FXML
