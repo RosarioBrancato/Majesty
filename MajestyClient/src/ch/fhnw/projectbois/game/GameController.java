@@ -107,14 +107,17 @@ public class GameController extends Controller<GameModel, GameView> {
 		this.player.setLblInfo(this.lblPlayerInfo);
 
 		// turn clockwise -> player to left after current player
+		int opponentIndex = 0;
 		for (int i = this.playerIndex + 1; i < players.size(); i++) {
 			Player player = players.get(i);
-			this.initGamePlayerContainerOpponent(i - 1, player);
+			this.initGamePlayerContainerOpponent(opponentIndex, player);
+			opponentIndex++;
 		}
 
 		for (int i = 0; i < this.playerIndex; i++) {
 			Player player = players.get(i);
-			this.initGamePlayerContainerOpponent(i, player);
+			this.initGamePlayerContainerOpponent(opponentIndex, player);
+			opponentIndex++;
 		}
 	}
 
