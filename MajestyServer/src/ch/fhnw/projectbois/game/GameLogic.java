@@ -75,6 +75,27 @@ public class GameLogic {
 			break;
 		case Knight:
 			// Attack
+			int knights = currentPlayer.getLocationByIndex(Location.BARACKS).getCards().size();
+			for (Player p : players) {
+				if (!p.getUsername().equals(currentPlayer.getUsername())) {
+					int guards = p.getLocationByIndex(Location.GUARDHOUSE).getCards().size();
+					if (knights > guards) {
+						// kill left-most card - ignore infirmary
+						for (int i = 0; i < p.getLocations().length - 1; i++) {
+							Location location = p.getLocationByIndex(i);
+							int locationSize = location.getCards().size();
+
+							if (locationSize > 0) {
+								// remove last card of list
+								Card cardToKill = location.getCards().get(locationSize - 1);
+								location.getCards().remove(locationSize - 1);
+								p.getLocationByIndex(Location.INFIRMARY).getCards().add(cardToKill);
+								break;
+							}
+						}
+					}
+				}
+			}
 			break;
 		default:
 			break;
@@ -85,27 +106,42 @@ public class GameLogic {
 		// after points
 	}
 
-	public void startNextTurn() {
+	public boolean startNextTurn() {
+		boolean gameOver = false;
+
 		int startPlayer = this.gameState.getStartPlayerIndex();
-		int playersCount = this.gameState.getBoard().getPlayers().size();
-		int playersTurn = this.gameState.getPlayersTurn();
 		int round = this.gameState.getRound();
+		boolean isFirstTurn = round == 0;
+		if (isFirstTurn) {
+			this.gameState.setPlayersTurn(startPlayer);
+			this.gameState.setRound(1);
 
-		playersTurn++;
-		if (playersTurn >= playersCount) {
-			playersTurn = 0;
-		}
-
-		if (playersTurn == startPlayer) {
-			round++;
-		}
-
-		if (round > 12) {
-			// TO-DO: end game
 		} else {
-			this.gameState.setPlayersTurn(playersTurn);
-			this.gameState.setRound(round);
+			int playersCount = this.gameState.getBoard().getPlayers().size();
+			int playersTurn = this.gameState.getPlayersTurn();
+
+			playersTurn++;
+			if (playersTurn >= playersCount) {
+				playersTurn = 0;
+			}
+
+			if (playersTurn == startPlayer) {
+				round++;
+			}
+
+			if (round > 12) {
+				gameOver = true;
+			} else {
+				this.gameState.setPlayersTurn(playersTurn + 1);
+				this.gameState.setRound(round);
+			}
 		}
+
+		return gameOver;
+	}
+
+	public void endGame() {
+
 	}
 
 	// SET UP METHODS
