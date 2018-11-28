@@ -21,6 +21,7 @@ import ch.fhnw.projectbois.network.ServerClient;
  *
  */
 public class LobbyRequestHandler extends RequestHandler {
+	
 
 	public LobbyRequestHandler(Request request, Server server, ServerClient client) {
 		super(request, server, client);
@@ -93,16 +94,54 @@ public class LobbyRequestHandler extends RequestHandler {
 		}
 
 		client.sendResponse(response);
+		
+		//Sending updates to clients that are a member of this lobby
+		
+		Response responseothers;
+		if (success) {
+			String json = JsonUtils.Serialize(lobbyDTO);
+			responseothers = new Response(ResponseId.LOBBY_JOINED, request.getRequestId(), json);
 
+		} else {
+			responseothers = new Response(ResponseId.LOBBY_ERROR, request.getRequestId(), request.getJsonDataObject());
+		}
+		
+		for (ServerClient client : lobby.getClients()) {
+			client.sendResponse(responseothers);
+		}
+		
+		
+		//To Do Send Message to chat - Dario
+		/*
+		ArrayList<String> players = lobbyDTO.getPlayers();
+		String player = players.get(players.size()-1);
+		{
+			System.out.println(player + "joined!");
+		}
+		 */
+		
 		return success;
 	}
 
 	private void leaveLobby() {
-		// remove player from his lobby
+		//Remove player from his lobby
 		Lobby lobby = client.getLobby();
 		lobby.removeClient(client);
+		
+		LobbyDTO lobbyDTO = JsonUtils.Deserialize(request.getJsonDataObject(), LobbyDTO.class);
+		
+		//Sending updates to clients that are a member of this lobby
+		
+		Response responseothers; 
+		lobbyDTO.removePlayer(client.getUser().getUsername());
+		String json = JsonUtils.Serialize(lobbyDTO);
+		responseothers = new Response(ResponseId.LOBBY_LEFT, request.getRequestId(), json);
+		
+		for (ServerClient client : lobby.getClients()) {
+			client.sendResponse(responseothers);
+		}
 
-		// if lobby is empty, remove it
+		//If lobby is empty, remove it
 		if (client.getLobby().isEmpty()) {
 			server.getLobbies().remove(lobby);
 		}
@@ -111,11 +150,11 @@ public class LobbyRequestHandler extends RequestHandler {
 	private void sendLobbies() {
 		LobbyListDTO lobbyList = new LobbyListDTO();
 
-		// get lobbies, which are not full
+		//Get lobbies, which are not full
 		ArrayList<Lobby> lobbies = (ArrayList<Lobby>) server.getLobbies().stream().filter(f -> f.isNotFull() && !f.isGameStarted())
 				.collect(Collectors.toList());
 
-		// convert lobbies to DTOs
+		//Convert lobbies to DTOs
 		for (Lobby lobby : lobbies) {
 			LobbyDTO lobbyDTO = new LobbyDTO();
 			lobbyDTO.setId(lobby.getId());
@@ -128,7 +167,7 @@ public class LobbyRequestHandler extends RequestHandler {
 			lobbyList.getLobbies().add(lobbyDTO);
 		}
 
-		// send DTOs to client
+		//Send DTOs to client
 		String json = JsonUtils.Serialize(lobbyList);
 		Response response = new Response(ResponseId.UPDATE_LOBBIES, request.getRequestId(), json);
 
