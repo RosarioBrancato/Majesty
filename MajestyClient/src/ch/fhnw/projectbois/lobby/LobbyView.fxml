@@ -1,28 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="464.0" prefWidth="657.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="722.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="lblInfo" layoutX="34.0" layoutY="24.0" text="Label" />
-      <Button fx:id="btnStart" layoutX="262.0" layoutY="257.0" mnemonicParsing="false" onAction="#btnStartGame_Click" text="%btn_LobbyView_Start" />
-      <Button fx:id="btnExit" layoutX="28.0" layoutY="407.0" mnemonicParsing="false" onAction="#btnExitGame_Click" text="%btn_LobbyView_Exit" />
-      <Label fx:id="lblInformation_Dynamic" layoutX="189.0" layoutY="157.0" prefHeight="25.0" prefWidth="293.0" text="%lbl_LobbyView_InformationDynamic1">
+      <Label fx:id="lblInfo" layoutX="34.0" layoutY="24.0" prefHeight="17.0" prefWidth="181.0" text="You are Player: asdfghjk" />
+      <Button fx:id="btnStart" layoutX="532.0" layoutY="406.0" mnemonicParsing="false" onAction="#btnStartGame_Click" text="%btn_LobbyView_Start" />
+      <Button fx:id="btnExit" layoutX="14.0" layoutY="684.0" mnemonicParsing="false" onAction="#btnExitGame_Click" text="%btn_LobbyView_Exit" />
+      <Label fx:id="lblInformation_Dynamic" layoutX="463.0" layoutY="306.0" prefHeight="25.0" prefWidth="275.0" text="%lbl_LobbyView_InformationDynamic1" textAlignment="CENTER">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="lblInstructions_Dynamic" layoutX="234.0" layoutY="232.0" text="%lbl_LobbyView_InstructionsDynamic1" />
-      <Label fx:id="lblCountdown_Dynamic" layoutX="330.0" layoutY="411.0" text="DYNAMIC COUNTDOWN" />
-      <Label fx:id="lblJointPlayersCount_Dynamic" layoutX="230.0" layoutY="182.0" prefHeight="17.0" prefWidth="212.0" text="%lbl_LobbyView_JointPlayersCountStatic">
+      <Label fx:id="lblInstructions_Dynamic" layoutX="498.0" layoutY="369.0" text="%lbl_LobbyView_InstructionsDynamic1" textAlignment="CENTER" />
+      <Label fx:id="lblCountdown_Dynamic" layoutX="508.0" layoutY="684.0" text="DYNAMIC COUNTDOWN">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label fx:id="lblJointPlayersCount_Dynamic" layoutX="483.0" layoutY="331.0" prefHeight="17.0" prefWidth="235.0" text="%lbl_LobbyView_JointPlayersCountStatic" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Label fx:id="lblJointPlayers_Dynamic" layoutX="260.0" layoutY="206.0" prefHeight="17.0" prefWidth="253.0" text="Dynamic ... Players" textAlignment="CENTER" />
+      <Label fx:id="lblJointPlayers_Dynamic" layoutX="544.0" layoutY="352.0" prefHeight="17.0" prefWidth="106.0" text="Dynamic Player List" textAlignment="CENTER" />
+      <ImageView layoutX="558.0" layoutY="192.0">
+         <image>
+            <Image url="/icons/waiting_animation.gif" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

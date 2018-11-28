@@ -25,7 +25,7 @@ import javafx.beans.value.ObservableValue;
 
 /**
  * 
- * @author Dario Stöckli
+ * @author Dario Stoeckli
  *
  */
 

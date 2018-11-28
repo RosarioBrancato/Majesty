@@ -1,13 +1,13 @@
 package ch.fhnw.projectbois.login;
 
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.components.menubar.MenuBarController;
 import ch.fhnw.projectbois.components.menubar.MenuBarModel;
 import ch.fhnw.projectbois.components.menubar.MenuBarView;
-import ch.fhnw.projectbois.translate.Translator;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -52,8 +52,10 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		super(model, view);
 	}
 	
-	protected void LoginSetLanguage(Locale locale) {
-		//2do
+	protected void LoginSetLanguage(ResourceBundle bundle) {
+		Platform.runLater(() -> {
+			
+		});
 	}
 	
 	@Override
@@ -79,8 +81,7 @@ public class LoginController extends Controller<LoginModel, LoginView> {
             	locale = new Locale("it");
             }
         	translator.setResourceBundle(locale);
-            //super.model.setLocale(locale);
-        	//LoginSetLanguage(locale);
+        	//LoginSetLanguage(translator.getResourceBundle());
         });
 		
 		txt_Login_username.textProperty().addListener((observable, oldValue, newValue) -> {
