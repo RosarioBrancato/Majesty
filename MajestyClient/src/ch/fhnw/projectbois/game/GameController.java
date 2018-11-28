@@ -215,12 +215,12 @@ public class GameController extends Controller<GameModel, GameView> {
 	}
 
 	private void loadGameInfos() {
-		Platform.runLater(() -> {
-			this.lblGameInfo.setText(
-					"Round: " + this.gameState.getRound() + "/12 | Player's turn: " + this.gameState.getPlayersTurn());
-		});
-
 		ArrayList<Player> players = this.gameState.getBoard().getPlayers();
+
+		Platform.runLater(() -> {
+			this.lblGameInfo.setText("Round: " + this.gameState.getRound() + "/12 | Player's turn: "
+					+ players.get(this.gameState.getPlayersTurn()).getUsername());
+		});
 
 		{
 			Player player = players.stream().filter(f -> f.getUsername().equals(this.player.getUsername())).findFirst()
