@@ -74,4 +74,12 @@ public class ChatModel extends Model {
 
 	}
 
+	public void checkIfWhisper(MessageDTO message) {
+		//in UserDTO, getUsername()
+//		if (message.getText().matches(null){
+//			
+//		}
+		
+	}
+
 }
