@@ -42,12 +42,14 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 		//create object
 		MessageDTO message = new MessageDTO();
 		
-		//check if whispering -> do this here or in model??
-//		if (txtMessage.getText().matches(null){
-//			
-//		}
 		//get text from textarea and assign to object
 		message.setMessage(txtMessage.getText());
+				
+		//check if whispering -> do this here or in model??
+		model.checkIfWhisper(message);
+		
+		
+		model.sendMessage(message);
 		
 		model.getChatProperty().addListener((observer, oldValue, newValue) -> {
 			updateChatView(newValue);
@@ -70,9 +72,6 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 		});
 		
 		
-		
-		
-		model.sendMessage(message);
 		
 		txtMessage.clear();
 		}
