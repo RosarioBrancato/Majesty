@@ -22,13 +22,16 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 	private LobbyDTO lobby = null;
 	
 	@FXML
+	private Label lblPlayerInformation;
+	
+	@FXML
 	private Label lblInformation_Dynamic;
 	
 	@FXML
-	private Label lblJointPlayersCount_Dynamic;
+	private Label lblJoinedPlayersCount_Dynamic;
 	
 	@FXML
-	private Label lblJointPlayers_Dynamic;
+	private Label lblJoinedPlayers_Dynamic;
 	
 	@FXML
 	private Label lblInstructions_Dynamic;
@@ -46,9 +49,11 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 	@Override
 	protected void initialize() {
 		super.initialize();
-
+		
+		updateUser();
+		
 		model.getLobbyProperty().addListener((observer, oldValue, newValue) -> {
-			updateLobby(newValue);
+			setLobby(newValue);
 		});
 	}
 
@@ -58,13 +63,20 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 	}
 	
 	//Handles all the dynamic fields and conditions in the lobby
-	public void updateLobby(LobbyDTO lobby) {
+	private void updateLobby(LobbyDTO lobby) {
 		Platform.runLater(() -> {
 		if (lobby.getPlayers().size() == 1) onePlayerLobby();
 		else if (lobby.getPlayers().size() <= 3) twothreePlayerLobby();
 		else if (lobby.getPlayers().size() == 4) fourPlayerLobby();
-		this.lblJointPlayersCount_Dynamic.setText(lobby.getPlayers().size() + " " + translator.getTranslation("lbl_LobbyView_JointPlayersCountStatic"));
-		this.lblJointPlayers_Dynamic.setText(lobby.getPlayersAsString());
+		this.lblJoinedPlayersCount_Dynamic.setText(lobby.getPlayers().size() + " " + translator.getTranslation("lbl_LobbyView_JoinedPlayersCountStatic") + " " + model.determineLobbyOwner(lobby));
+		this.lblJoinedPlayers_Dynamic.setText(lobby.getPlayersAsString());
+		});
+	}
+	
+	//Handles Player related matters and determines the owner of the lobby with elevated privileges
+	private void updateUser() {
+		Platform.runLater(() -> {
+		this.lblPlayerInformation.setText(translator.getTranslation("lbl_LobbyView_PlayerInformation") + " " + model.getUser().getUsername());
 		});
 	}
 	
@@ -81,13 +93,17 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 	private void twothreePlayerLobby() {
 		this.lblInformation_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InformationDynamic2"));
 		this.lblInstructions_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InstructionsDynamic2"));
-		enableStartButton();
+		System.out.println(lobby.getPlayers().get(0));
+		System.out.println(model.getUser().getUsername());
+		if (model.isLobbyOwner(lobby, model.getUser())) enableStartButton();
+		else disableStartButton();
 	}
 	
 	private void fourPlayerLobby() {
 		this.lblInformation_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InformationDynamic2"));
 		this.lblInstructions_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InstructionsDynamic3"));
-		enableStartButton();
+		if (model.isLobbyOwner(lobby, model.getUser())) enableStartButton();
+		else disableStartButton();
 	}
 	
 	private void disableStartButton() {
