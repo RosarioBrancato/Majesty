@@ -1,13 +1,9 @@
 package ch.fhnw.projectbois.requesthandlers;
 
-import java.security.MessageDigest;
-import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Base64;
-
 import ch.fhnw.projectbois.access.DbAccess;
 import ch.fhnw.projectbois.auth.LoginHandler;
 import ch.fhnw.projectbois.auth.TokenFactory;
@@ -30,12 +26,11 @@ public class AuthRequestHandler extends RequestHandler {
 		super(request, server, client);
 	}
 
-	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	protected void handleRequest() {
 		if(request.getRequestId() == RequestId.LOGIN) {
 			//TO-DO: real login
-			int uid;
+			//int uid;
 			String DBpassword = null;
 			String DBsalt = null;
 			LoginDTO loginRequest = JsonUtils.Deserialize(request.getJsonDataObject(), LoginDTO.class);
