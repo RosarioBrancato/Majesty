@@ -7,6 +7,7 @@ import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.dto.MessageDTO;
+import ch.fhnw.projectbois.enumerations.ChatMember;
 import ch.fhnw.projectbois.general.IdFactory;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.network.Lobby;
@@ -50,9 +51,28 @@ public class ChatRequestHandler extends RequestHandler {
 		Lobby lobby = client.getLobby();
 		ArrayList<ServerClient> clients = lobby.getClients();
 		
-		for(ServerClient c : clients) {
-			c.sendResponse(response);
+		if (messageDTO.getAuthor() == ChatMember.All) {
+			for(ServerClient c : clients) {
+				c.sendResponse(response);
+			}
 		}
+		
+		if (messageDTO.getAuthor() != ChatMember.All) {
+			if (messageDTO.getAuthor() == ChatMember.Player1) {
+				//send response to client player1
+				//send notification to all others as "system"
+			} else if (messageDTO.getAuthor() == ChatMember.Player2) {
+				//send response to client player2
+				//send notification to all others as "system"
+			} else if (messageDTO.getAuthor() == ChatMember.Player3) {
+				//send response to client player3
+				//send notification to all others as "system"
+			} else if (messageDTO.getAuthor() == ChatMember.Player4) {
+				//send response to client player4
+				//send notification to all others as "system"
+			}
+		} 
+		
 	}
 
 }

@@ -80,12 +80,6 @@ public class ChatModel extends Model {
 		return this.lobbyProperty;
 	}
 
-	public void checkIfWhisper(MessageDTO message) {
-		// in UserDTO, getUsername()
-//		if (message.getText().matches(null){
-//			
-//		}
-
-	}
+	
 
 }
