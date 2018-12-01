@@ -7,6 +7,7 @@ import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.dto.LobbyDTO;
 import ch.fhnw.projectbois.dto.MessageDTO;
+import ch.fhnw.projectbois.dto.ReportDTO;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.network.Network;
 import ch.fhnw.projectbois.session.Session;
@@ -41,8 +42,9 @@ public class ChatModel extends Model {
 		Network.getInstance().sendRequest(request);
 	}
 
-	public void whisperMessage() {
-
+	public void getLobbyInfo() {
+		Request request = new Request(Session.getCurrentUserToken(), RequestId.GET_LOBBY_OF_CLIENT, null);
+		Network.getInstance().sendRequest(request);
 	}
 
 	// receive response from server
@@ -58,14 +60,21 @@ public class ChatModel extends Model {
 
 					chatProperty.setValue(message);
 
-				} else if (newValue.getResponseId() == ResponseId.LOBBY_INFO) {
+				} else if (newValue.getResponseId() == ResponseId.LOBBY_INFO
+						|| newValue.getResponseId() == ResponseId.LOBBY_JOINED_MULTICAST 
+						|| newValue.getResponseId() == ResponseId.LOBBY_LEFT_MULTICAST
+						|| newValue.getRequestId() == ResponseId.GAME_PLAYER_LEFT) {
+					
 					String json = newValue.getJsonDataObject();
 					LobbyDTO lobbyInfo = JsonUtils.Deserialize(json, LobbyDTO.class);
 
 					lobbyProperty.setValue(lobbyInfo);
 
 				} else if (newValue.getResponseId() == ResponseId.CHAT_ERROR) {
+					String json = newValue.getJsonDataObject();
+					ReportDTO report = JsonUtils.Deserialize(json, ReportDTO.class);
 					
+					getReportProperty().setValue(report);
 				} 
 
 			}
