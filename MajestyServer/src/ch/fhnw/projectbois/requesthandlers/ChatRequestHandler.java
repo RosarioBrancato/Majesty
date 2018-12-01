@@ -57,20 +57,22 @@ public class ChatRequestHandler extends RequestHandler {
 			}
 		}
 		
-		if (messageDTO.getAuthor() != ChatMember.All) {
-			if (messageDTO.getAuthor() == ChatMember.Player1) {
-				//send response to client player1
-				//send notification to all others as "system"
-			} else if (messageDTO.getAuthor() == ChatMember.Player2) {
-				//send response to client player2
-				//send notification to all others as "system"
-			} else if (messageDTO.getAuthor() == ChatMember.Player3) {
-				//send response to client player3
-				//send notification to all others as "system"
-			} else if (messageDTO.getAuthor() == ChatMember.Player4) {
-				//send response to client player4
-				//send notification to all others as "system"
-			}
+		//does not work 
+		//		||
+		//	   \||/
+		//		\/
+		if (messageDTO.getAuthor() == ChatMember.Player1) {
+			//send response to client player1
+			//send notification to all others as "system"
+		} else if (messageDTO.getAuthor() == ChatMember.Player2) {
+			//send response to client player2
+			//send notification to all others as "system"
+		} else if (messageDTO.getAuthor() == ChatMember.Player3) {
+			//send response to client player3
+			//send notification to all others as "system"
+		} else if (messageDTO.getAuthor() == ChatMember.Player4) {
+			//send response to client player4
+			//send notification to all others as "system"
 		} 
 		
 	}

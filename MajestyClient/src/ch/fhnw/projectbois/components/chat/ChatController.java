@@ -79,7 +79,7 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 		message.setMessage(txtMessage.getText());
 		message.setAuthor(identifyOwnChatMember());
 
-		// check if whispering
+		// check if whispering and set receiver
 		String messageText = message.getMessage();
 		String[] parts = messageText.split(":");
 		String part1 = parts[0];
@@ -102,9 +102,9 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 
 	private void updateChatView(MessageDTO message) {
 		Platform.runLater(() -> { 
-			//check if author is Player1-4, then post message
-			if (message.getAuthor() != ChatMember.System || message.getAuthor() != ChatMember.All || 
-					message.getAuthor() != null) {
+			// check if author is Player1-4, then post message as globally
+			if (message.getAuthor() != ChatMember.System || message.getAuthor() != ChatMember.All
+					|| message.getAuthor() != null) {
 				
 				String username = MapUtils.getKeysByValue(userNameMap, message.getAuthor());
 				txtChat.appendText(username + ": " + message.getMessage() + "\n");
