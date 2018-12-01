@@ -78,7 +78,7 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 			handleReport(newValue);
 		});
 	}
-	
+
 	protected void handleReport(ReportDTO report) {
 		Platform.runLater(() -> {
 			AlertType type = AlertType.NONE;
@@ -97,9 +97,15 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 			Alert alert = new Alert(type);
 			alert.initOwner(MetaContainer.getInstance().getMainStage());
 			alert.initModality(Modality.APPLICATION_MODAL);
-			
 			alert.setHeaderText(null);
-			alert.setContentText(report.getMessage());
+
+			String translationKey = report.getTranslationKey();
+			if (translationKey != null) {
+				alert.setContentText(translator.getTranslation(translationKey));
+			} else {
+				alert.setContentText(report.getMessage());
+			}
+			
 			alert.showAndWait();
 		});
 	}
