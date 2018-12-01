@@ -32,10 +32,10 @@ public class ChatModel extends Model {
 	}
 
 	public void sendMessage(MessageDTO message) {
-//		create object
 		String json = JsonUtils.Serialize(message);
 
-//		create and send request. UserToken: identify user, RequestId: knows which logic to use, json: has all the infos
+		// create and send request. UserToken: identify user, 
+		// RequestId: knows which logic to use, json: has all the infos
 		Request request = new Request(Session.getCurrentUserToken(), RequestId.CHAT_SEND_MSG, json);
 
 		Network.getInstance().sendRequest(request);
