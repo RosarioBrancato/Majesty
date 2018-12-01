@@ -4,10 +4,16 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import ch.fhnw.projectbois._application.MetaContainer;
+import ch.fhnw.projectbois.dto.ReportDTO;
 import ch.fhnw.projectbois.log.LoggerFactory;
 import ch.fhnw.projectbois.translate.Translator;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Modality;
 
 /**
  * Based on example from course Java 2
@@ -17,20 +23,21 @@ import javafx.scene.Parent;
 public abstract class Controller<M extends Model, V extends View<M>> {
 	protected Logger logger;
 	protected Translator translator;
-	
+
 	protected M model;
 	protected V view;
 
 	public Controller(M model, V view) {
 		this.logger = LoggerFactory.getLogger(this.getClass());
 		this.translator = Translator.getTranslator();
-		
+
 		this.model = model;
 		this.view = view;
 	}
 
 	/**
-	 * Calls the default constructors of the MVC-Classes and returns the instance of the Controller subclass.
+	 * Calls the default constructors of the MVC-Classes and returns the instance of
+	 * the Controller subclass.
 	 * 
 	 * @param controllerClass
 	 * @param modelClass
@@ -48,7 +55,7 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 			V view = viewClass.getDeclaredConstructor(modelClass).newInstance(model);
 
 			controller = controllerClass.getDeclaredConstructor(modelClass, viewClass).newInstance(model, view);
-			
+
 			view.loadRoot(controller);
 
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
@@ -66,5 +73,34 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 
 	@FXML
 	protected void initialize() {
+		// listen for reports
+		model.getReportProperty().addListener((observer, oldValue, newValue) -> {
+			handleReport(newValue);
+		});
+	}
+	
+	protected void handleReport(ReportDTO report) {
+		Platform.runLater(() -> {
+			AlertType type = AlertType.NONE;
+			switch (report.getSeverity()) {
+			case INFO:
+				type = AlertType.INFORMATION;
+				break;
+			case WARNING:
+				type = AlertType.WARNING;
+				break;
+			case ERROR:
+				type = AlertType.ERROR;
+				break;
+			}
+
+			Alert alert = new Alert(type);
+			alert.initOwner(MetaContainer.getInstance().getMainStage());
+			alert.initModality(Modality.APPLICATION_MODAL);
+			
+			alert.setHeaderText(null);
+			alert.setContentText(report.getMessage());
+			alert.showAndWait();
+		});
 	}
 }
