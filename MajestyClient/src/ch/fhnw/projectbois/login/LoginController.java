@@ -75,12 +75,12 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	protected void initialize() {
 		super.initialize();
 
-		model.getLoggedInUser().addListener((observer, oldValue, newValue) -> {
+		/*model.getLoggedInUser().addListener((observer, oldValue, newValue) -> {
 			Platform.runLater(() -> {
 				MenuBarController controller = initMVC(MenuBarController.class, MenuBarModel.class, MenuBarView.class);
 				MetaContainer.getInstance().setRoot(controller.getViewRoot());
 			});
-		});
+		});*/
 
 		this.fillChoiceBox();
 		
