@@ -6,6 +6,7 @@ public class ReportDTO {
 
 	private ReportSeverity severity = null;
 	private String message = null;
+	private String translationKey = null;
 	
 	/**
 	 * For JSON serializer
@@ -15,8 +16,13 @@ public class ReportDTO {
 	}
 	
 	public ReportDTO(ReportSeverity severity, String message) {
+		this(severity, message, null);
+	}
+	
+	public ReportDTO(ReportSeverity severity, String defaultMessage, String translationKey) {
 		this.setSeverity(severity);
-		this.setMessage(message);
+		this.setMessage(defaultMessage);
+		this.setTranslationKey(translationKey);
 	}
 
 	public ReportSeverity getSeverity() {
@@ -33,5 +39,13 @@ public class ReportDTO {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public String getTranslationKey() {
+		return translationKey;
+	}
+
+	public void setTranslationKey(String translationKey) {
+		this.translationKey = translationKey;
 	}
 }

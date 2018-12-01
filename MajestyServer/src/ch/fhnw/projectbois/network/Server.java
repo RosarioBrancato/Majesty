@@ -136,7 +136,7 @@ public class Server {
 		}
 
 		//info
-		report = new ReportDTO(ReportSeverity.INFO, "You just received an info message!");
+		report = new ReportDTO(ReportSeverity.INFO, "You just received an info message!", "dlg_Alert_Game_Test");
 		
 		json = JsonUtils.Serialize(report);
 		response = new Response(ResponseId.GAME_ERROR, RequestId.TEST, json);
