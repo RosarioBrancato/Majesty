@@ -11,6 +11,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 
 /**
@@ -50,12 +52,12 @@ public class PlayScreenController extends Controller<PlayScreenModel, PlayScreen
 				dlg.setTitle("ERROR");
 				dlg.setHeaderText(null);
 				dlg.setContentText("An error occured. Please try again.");
-				
+
 				dlg.initOwner(MetaContainer.getInstance().getMainStage());
 				dlg.initModality(Modality.APPLICATION_MODAL);
-				
+
 				dlg.showAndWait();
-				
+
 				getLobbies();
 			});
 		});
@@ -78,6 +80,7 @@ public class PlayScreenController extends Controller<PlayScreenModel, PlayScreen
 		Platform.runLater(() -> {
 			lstLobbies.getItems().clear();
 			lstLobbies.getItems().addAll(lobbies.getLobbies());
+			lstLobbies.getSelectionModel().selectFirst();
 		});
 	}
 
@@ -97,6 +100,13 @@ public class PlayScreenController extends Controller<PlayScreenModel, PlayScreen
 		LobbyDTO lobby = lstLobbies.getSelectionModel().getSelectedItem();
 		if (lobby != null) {
 			model.joinLobby(lobby);
+		}
+	}
+
+	@FXML
+	private void lstLobbies_DoubleClick(MouseEvent click) {
+		if (click.getButton() == MouseButton.PRIMARY && click.getClickCount() == 2) {
+			this.btnJoin_Click(new ActionEvent());
 		}
 	}
 

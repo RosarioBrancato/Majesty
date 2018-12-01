@@ -1,7 +1,6 @@
 package ch.fhnw.projectbois.lobby;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
@@ -11,7 +10,7 @@ import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.dto.LobbyDTO;
-import ch.fhnw.projectbois.dto.LobbyListDTO;
+import ch.fhnw.projectbois.dto.UserDTO;
 import ch.fhnw.projectbois.game.GameController;
 import ch.fhnw.projectbois.game.GameModel;
 import ch.fhnw.projectbois.game.GameView;
@@ -27,11 +26,14 @@ public class LobbyModel extends Model {
 	
 	private SimpleObjectProperty<LobbyDTO> lobbyProperty = null;
 	private SimpleObjectProperty<Timestamp> errorProperty = null;
+	private UserDTO user = null;
 
 	public LobbyModel() {
 		this.lobbyProperty = new SimpleObjectProperty<>();
 		this.errorProperty = new SimpleObjectProperty<>();
+		this.user = new UserDTO();
 		this.initResponseListener();
+		determineLobbyUser();
 	}
 	
 	//Starts the Game of Majesty with 2 - 4 players that were in the lobby
@@ -50,6 +52,10 @@ public class LobbyModel extends Model {
 	public SimpleObjectProperty<LobbyDTO> getLobbyProperty() {
 		return this.lobbyProperty;
 	}
+	
+	public UserDTO getUser() {
+		return this.user;
+	}
 
 	public SimpleObjectProperty<Timestamp> getErrorProperty() {
 		return this.errorProperty;
@@ -66,14 +72,37 @@ public class LobbyModel extends Model {
 				if (newValue.getResponseId() == ResponseId.GAME_STARTED) {
 					showGameBoard();
 				//A player joins and the GUI has to be updated
-				} else if (newValue.getResponseId() == ResponseId.LOBBY_JOINED 
-						|| newValue.getResponseId() == ResponseId.LOBBY_LEFT) {
+				} else if (newValue.getResponseId() == ResponseId.LOBBY_JOINED_MULTICAST 
+						|| newValue.getResponseId() == ResponseId.LOBBY_LEFT_MULTICAST) {
 					String json = newValue.getJsonDataObject();
 					LobbyDTO lobby = JsonUtils.Deserialize(json, LobbyDTO.class);
 					lobbyProperty.setValue(lobby);
+				//The client needs to know what user is associated with it
+				} else if (newValue.getResponseId() == ResponseId.LOBBY_USER_INFO) {
+					String json = newValue.getJsonDataObject();
+					user = JsonUtils.Deserialize(json, UserDTO.class);					
 				}
 			}
 		};
+	}
+	
+	//Determine the owner of the Lobby for advanced privileges
+	public String determineLobbyOwner(LobbyDTO lobby) {
+		String owner = lobby.getPlayers().get(0);
+		return owner;
+	}
+	
+	//Determine the player (ServerClient) of the Lobby for comparison
+	public void determineLobbyUser() {
+		Request request = new Request(Session.getCurrentUserToken(), RequestId.GET_USER_OF_CLIENT, null);
+		Network.getInstance().sendRequest(request);
+	}
+	
+	//Determine whether player and owner match
+	public boolean isLobbyOwner(LobbyDTO lobby, UserDTO user) {
+		if (determineLobbyOwner(lobby).equals(user.getUsername())) {
+			return true;
+		} else return false;
 	}
 
 	private void showGameBoard() {

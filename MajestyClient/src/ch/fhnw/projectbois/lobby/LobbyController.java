@@ -8,19 +8,12 @@ import ch.fhnw.projectbois.components.menubar.MenuBarController;
 import ch.fhnw.projectbois.components.menubar.MenuBarModel;
 import ch.fhnw.projectbois.components.menubar.MenuBarView;
 import ch.fhnw.projectbois.dto.LobbyDTO;
-import ch.fhnw.projectbois.login.LoginController;
-import ch.fhnw.projectbois.login.LoginModel;
-import ch.fhnw.projectbois.login.LoginView;
-import ch.fhnw.projectbois.profile.ProfileController;
-import ch.fhnw.projectbois.profile.ProfileModel;
-import ch.fhnw.projectbois.profile.ProfileView;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Modality;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 
@@ -29,19 +22,25 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 	private LobbyDTO lobby = null;
 	
 	@FXML
+	private Label lblPlayerInformation;
+	
+	@FXML
 	private Label lblInformation_Dynamic;
 	
 	@FXML
-	private Label lblJointPlayersCount_Dynamic;
+	private Label lblJoinedPlayersCount_Dynamic;
 	
 	@FXML
-	private Label lblJointPlayers_Dynamic;
+	private Label lblJoinedPlayers_Dynamic;
 	
 	@FXML
 	private Label lblInstructions_Dynamic;
 	
 	@FXML
 	private Label lblCountdown_Dynamic;
+	
+	@FXML
+	private Button btnStart;
 
 	public LobbyController(LobbyModel model, LobbyView view) {
 		super(model, view);
@@ -50,9 +49,11 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 	@Override
 	protected void initialize() {
 		super.initialize();
-
+		
+		updateUser();
+		
 		model.getLobbyProperty().addListener((observer, oldValue, newValue) -> {
-			updateLobby(newValue);
+			setLobby(newValue);
 		});
 	}
 
@@ -62,29 +63,55 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 	}
 	
 	//Handles all the dynamic fields and conditions in the lobby
-	public void updateLobby(LobbyDTO lobby) {
+	private void updateLobby(LobbyDTO lobby) {
 		Platform.runLater(() -> {
 		if (lobby.getPlayers().size() == 1) onePlayerLobby();
 		else if (lobby.getPlayers().size() <= 3) twothreePlayerLobby();
 		else if (lobby.getPlayers().size() == 4) fourPlayerLobby();
-		this.lblJointPlayersCount_Dynamic.setText(lobby.getPlayers().size() + " " + translator.getTranslation("lbl_LobbyView_JointPlayersCountStatic"));
-		this.lblJointPlayers_Dynamic.setText(lobby.getPlayersAsString());
+		this.lblJoinedPlayersCount_Dynamic.setText(lobby.getPlayers().size() + " " + translator.getTranslation("lbl_LobbyView_JoinedPlayersCountStatic") + " " + model.determineLobbyOwner(lobby));
+		this.lblJoinedPlayers_Dynamic.setText(lobby.getPlayersAsString());
 		});
 	}
+	
+	//Handles Player related matters and determines the owner of the lobby with elevated privileges
+	private void updateUser() {
+		Platform.runLater(() -> {
+		this.lblPlayerInformation.setText(translator.getTranslation("lbl_LobbyView_PlayerInformation") + " " + model.getUser().getUsername());
+		});
+	}
+	
+	//Lobby Timer TO DO
+	//private void setTimer() {
+	//}
 	
 	private void onePlayerLobby() {
 		this.lblInformation_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InformationDynamic1"));
 		this.lblInstructions_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InstructionsDynamic1"));
+		disableStartButton();
 	}
 	
 	private void twothreePlayerLobby() {
 		this.lblInformation_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InformationDynamic2"));
 		this.lblInstructions_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InstructionsDynamic2"));
+		System.out.println(lobby.getPlayers().get(0));
+		System.out.println(model.getUser().getUsername());
+		if (model.isLobbyOwner(lobby, model.getUser())) enableStartButton();
+		else disableStartButton();
 	}
 	
 	private void fourPlayerLobby() {
 		this.lblInformation_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InformationDynamic2"));
 		this.lblInstructions_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InstructionsDynamic3"));
+		if (model.isLobbyOwner(lobby, model.getUser())) enableStartButton();
+		else disableStartButton();
+	}
+	
+	private void disableStartButton() {
+		btnStart.setDisable(true);
+	}
+	
+	private void enableStartButton() {
+		btnStart.setDisable(false);
 	}
 
 	@FXML

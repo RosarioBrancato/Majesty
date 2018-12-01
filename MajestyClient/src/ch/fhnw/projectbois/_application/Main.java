@@ -35,6 +35,7 @@ public class Main extends Application {
 
 			LoginController login = Controller.initMVC(LoginController.class, LoginModel.class, LoginView.class);
 			Scene scene = new Scene(login.getViewRoot());
+			
 			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/majesty.png")));
 			primaryStage.setScene(scene);
 			
