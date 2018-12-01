@@ -9,7 +9,7 @@ public class Board {
 	public static final int DECKBACK_TIER2 = 2;
 	
 	private ArrayList<Player> players;
-	private ArrayList<DisplayCard> display;
+	private ArrayList<Card> display;
 	private int deckBack = DECKBACK_TIER1;
 	private int cardsLeft = -1;
 
@@ -22,7 +22,7 @@ public class Board {
 		return players;
 	}
 
-	public ArrayList<DisplayCard> getDisplay() {
+	public ArrayList<Card> getDisplay() {
 		return display;
 	}
 

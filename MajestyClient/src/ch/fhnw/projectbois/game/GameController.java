@@ -71,7 +71,7 @@ public class GameController extends Controller<GameModel, GameView> {
 	private void loadGameState(GameState gameState) {
 		boolean firstLoading = this.gameState == null;
 
-		if (this.gameState == null || gameState.getId() > this.gameState.getId()) {
+		if (this.gameState == null || (this.gameState != null && gameState.getId() > this.gameState.getId())) {
 			this.gameState = gameState;
 
 			if (firstLoading) {
@@ -256,7 +256,7 @@ public class GameController extends Controller<GameModel, GameView> {
 		});
 	}
 
-	private void drawDisplay(ArrayList<DisplayCard> displayCards) {
+	private void drawDisplay(ArrayList<Card> displayCards) {
 		Platform.runLater(() -> {
 			this.pnlDisplay.getChildren().clear();
 		});
@@ -266,7 +266,7 @@ public class GameController extends Controller<GameModel, GameView> {
 
 		int col = 0;
 		for (int i = 0; i < displayCards.size(); i++) {
-			DisplayCard card = displayCards.get(i);
+			Card card = displayCards.get(i);
 
 			ImageView imgCard = new ImageView();
 			imgCard.setPreserveRatio(true);

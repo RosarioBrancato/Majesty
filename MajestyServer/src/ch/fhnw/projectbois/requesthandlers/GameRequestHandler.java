@@ -42,7 +42,10 @@ public class GameRequestHandler extends RequestHandler {
 
 		Response response = new Response(ResponseId.UPDATE_GAMESTATE, request.getRequestId(), json);
 
-		client.sendResponse(response);
+		Lobby lobby = client.getLobby();
+		for(ServerClient c : lobby.getClients()) {
+			c.sendResponse(response);
+		}
 	}
 
 	private void doMove() {

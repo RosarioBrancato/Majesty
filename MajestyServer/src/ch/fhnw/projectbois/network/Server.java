@@ -118,22 +118,22 @@ public class Server {
 		GameState gameState = new GameState();
 		gameState.setId(IdFactory.getInstance().getNewId(GameState.class.getName()));
 
-		DisplayCard card = new DisplayCard(CardType.Miller);
+		Card card = new Card(CardType.Miller);
 		gameState.getBoard().getDisplay().add(card);
 
-		card = new DisplayCard(CardType.Miller);
+		card = new Card(CardType.Miller);
 		gameState.getBoard().getDisplay().add(card);
 
-		card = new DisplayCard(CardType.Brewer);
+		card = new Card(CardType.Brewer);
 		gameState.getBoard().getDisplay().add(card);
 
-		card = new DisplayCard(CardType.Knight);
+		card = new Card(CardType.Knight);
 		gameState.getBoard().getDisplay().add(card);
 
-		card = new DisplayCard(CardType.Noble);
+		card = new Card(CardType.Noble);
 		gameState.getBoard().getDisplay().add(card);
 
-		card = new DisplayCard(CardType.Witch);
+		card = new Card(CardType.Witch);
 		gameState.getBoard().getDisplay().add(card);
 
 		String json = JsonUtils.Serialize(gameState);
