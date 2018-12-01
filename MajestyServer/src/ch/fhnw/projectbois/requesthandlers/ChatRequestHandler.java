@@ -51,13 +51,13 @@ public class ChatRequestHandler extends RequestHandler {
 		Lobby lobby = client.getLobby();
 		ArrayList<ServerClient> clients = lobby.getClients();
 		
-		if (messageDTO.getAuthor() == ChatMember.All) {
+		if (messageDTO.getReceiver() == ChatMember.All) {
 			for(ServerClient c : clients) {
 				c.sendResponse(response);
 			}
 		}
 		
-		//does not work 
+		// does not work yet
 		//		||
 		//	   \||/
 		//		\/
