@@ -8,8 +8,8 @@ import java.util.logging.Logger;
 import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
-import ch.fhnw.projectbois.gameobjects.*;
-import ch.fhnw.projectbois.general.IdFactory;
+import ch.fhnw.projectbois.dto.ReportDTO;
+import ch.fhnw.projectbois.enumerations.ReportSeverity;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.log.LoggerFactory;
 
@@ -115,31 +115,33 @@ public class Server {
 	// TEST METHODS
 
 	public void broadcastTest() {
-		GameState gameState = new GameState();
-		gameState.setId(IdFactory.getInstance().getNewId(GameState.class.getName()));
+		//error
+		ReportDTO report = new ReportDTO(ReportSeverity.ERROR, "You just received an error message!");
+		
+		String json = JsonUtils.Serialize(report);
+		Response response = new Response(ResponseId.GAME_ERROR, RequestId.TEST, json);
+		
+		for(ServerClient c : this.clients) {
+			c.sendResponse(response);
+		}
 
-		Card card = new Card(CardType.Miller);
-		gameState.getBoard().getDisplay().add(card);
+		//warning
+		report = new ReportDTO(ReportSeverity.WARNING, "You just received a warning message!");
+		
+		json = JsonUtils.Serialize(report);
+		response = new Response(ResponseId.GAME_ERROR, RequestId.TEST, json);
+		
+		for(ServerClient c : this.clients) {
+			c.sendResponse(response);
+		}
 
-		card = new Card(CardType.Miller);
-		gameState.getBoard().getDisplay().add(card);
-
-		card = new Card(CardType.Brewer);
-		gameState.getBoard().getDisplay().add(card);
-
-		card = new Card(CardType.Knight);
-		gameState.getBoard().getDisplay().add(card);
-
-		card = new Card(CardType.Noble);
-		gameState.getBoard().getDisplay().add(card);
-
-		card = new Card(CardType.Witch);
-		gameState.getBoard().getDisplay().add(card);
-
-		String json = JsonUtils.Serialize(gameState);
-		Response response = new Response(ResponseId.UPDATE_GAMESTATE, RequestId.EMPTY, json);
-
-		for (ServerClient c : this.clients) {
+		//info
+		report = new ReportDTO(ReportSeverity.INFO, "You just received an info message!");
+		
+		json = JsonUtils.Serialize(report);
+		response = new Response(ResponseId.GAME_ERROR, RequestId.TEST, json);
+		
+		for(ServerClient c : this.clients) {
 			c.sendResponse(response);
 		}
 	}
