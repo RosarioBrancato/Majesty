@@ -2,11 +2,7 @@ package ch.fhnw.projectbois.login;
 
 import java.util.Locale;
 
-import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
-import ch.fhnw.projectbois.components.menubar.MenuBarController;
-import ch.fhnw.projectbois.components.menubar.MenuBarModel;
-import ch.fhnw.projectbois.components.menubar.MenuBarView;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
