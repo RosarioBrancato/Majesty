@@ -10,6 +10,7 @@ import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.dto.LobbyDTO;
 import ch.fhnw.projectbois.dto.LobbyListDTO;
+import ch.fhnw.projectbois.dto.UserDTO;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.network.Lobby;
 import ch.fhnw.projectbois.network.Server;
@@ -41,6 +42,9 @@ public class LobbyRequestHandler extends RequestHandler {
 
 		} else if (request.getRequestId() == RequestId.GET_LOBBY_OF_CLIENT) {
 			this.getLobbyOfClient();
+			
+		} else if (request.getRequestId() == RequestId.GET_USER_OF_CLIENT) {
+			this.getUserOfClient();
 		}
 	}
 
@@ -58,13 +62,14 @@ public class LobbyRequestHandler extends RequestHandler {
 		// add lobby to server
 		server.getLobbies().add(lobby);
 
-		// send response to client
+		// send response about lobby to client
 		lobbyDTO.setId(lobby.getId());
 		lobbyDTO.addPlayer(client.getUser().getUsername());
 		json = JsonUtils.Serialize(lobbyDTO);
 		Response response = new Response(ResponseId.LOBBY_CREATED, request.getRequestId(), json);
 
 		client.sendResponse(response);
+		
 	}
 
 	private boolean joinLobby() {
@@ -98,20 +103,19 @@ public class LobbyRequestHandler extends RequestHandler {
 		client.sendResponse(response);
 
 		// Sending updates to clients that are a member of this lobby
-
+		
 		Response responseothers;
 		if (success) {
 			String json = JsonUtils.Serialize(lobbyDTO);
-			responseothers = new Response(ResponseId.LOBBY_JOINED, request.getRequestId(), json);
+			responseothers = new Response(ResponseId.LOBBY_JOINED_MULTICAST, request.getRequestId(), json);
 
 		} else {
 			responseothers = new Response(ResponseId.LOBBY_ERROR, request.getRequestId(), request.getJsonDataObject());
 		}
-
-		for (ServerClient client : lobby.getClients()) {
-			client.sendResponse(responseothers);
+		for (int i=0; i<lobby.getClients().size()-1; i++ ) {
+			lobby.getClients().get(i).sendResponse(responseothers);
 		}
-
+		
 		// To Do Send Message to chat - Dario
 		/*
 		 * ArrayList<String> players = lobbyDTO.getPlayers(); String player =
@@ -125,15 +129,16 @@ public class LobbyRequestHandler extends RequestHandler {
 		// Remove player from his lobby
 		Lobby lobby = client.getLobby();
 		lobby.removeClient(client);
-
-		LobbyDTO lobbyDTO = JsonUtils.Deserialize(request.getJsonDataObject(), LobbyDTO.class);
+		
+		String json = request.getJsonDataObject();
+		LobbyDTO lobbyDTO = JsonUtils.Deserialize(json, LobbyDTO.class);
 
 		// Sending updates to clients that are a member of this lobby
 
 		Response responseothers;
 		lobbyDTO.removePlayer(client.getUser().getUsername());
-		String json = JsonUtils.Serialize(lobbyDTO);
-		responseothers = new Response(ResponseId.LOBBY_LEFT, request.getRequestId(), json);
+		String json1 = JsonUtils.Serialize(lobbyDTO);
+		responseothers = new Response(ResponseId.LOBBY_LEFT_MULTICAST, request.getRequestId(), json1);
 
 		for (ServerClient client : lobby.getClients()) {
 			client.sendResponse(responseothers);
@@ -187,6 +192,16 @@ public class LobbyRequestHandler extends RequestHandler {
 		String json = JsonUtils.Serialize(lobbyDTO);
 		Response response = new Response(ResponseId.LOBBY_INFO, request.getRequestId(), json);
 		
+		client.sendResponse(response);
+	}
+	
+	private void getUserOfClient() {
+		// provide client with information about himself for lobby administration purposes
+		UserDTO userDTO = client.getUser();
+		// send response about user to client
+		String json = JsonUtils.Serialize(userDTO);
+		Response response = new Response(ResponseId.LOBBY_USER_INFO, request.getRequestId(), json);
+				
 		client.sendResponse(response);
 	}
 
