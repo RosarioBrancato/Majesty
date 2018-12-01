@@ -18,6 +18,7 @@ public class RequestId {
 	public static final int LEAVE_LOBBY = 103;
 	public static final int GET_LOBBIES = 104;
 	public static final int GET_LOBBY_OF_CLIENT = 105;
+	public static final int GET_USER_OF_CLIENT = 106;
 	public static final int LOBBY_RANGE_END = 199;
 
 	public static final int GAME_RANGE_START = 200;
