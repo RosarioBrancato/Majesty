@@ -30,6 +30,7 @@ public class ResponseId {
 	public static final int GAME_RANGE_END = 299;
 
 	public static final int LEADERBOARD_RANGE_START = 300;
+	public static final int LEADERBOARD_PROVIDED = 301;
 	public static final int LEADERBOARD_ERROR = 398;
 	public static final int LEADERBOARD_RANGE_END = 399;
 
