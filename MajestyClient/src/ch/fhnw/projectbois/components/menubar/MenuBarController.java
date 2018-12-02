@@ -63,7 +63,7 @@ public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 		LeaderboardController controller = Controller.initMVC(LeaderboardController.class, LeaderboardModel.class,
 				LeaderboardView.class);
 		
-		this.switchCenter(controller.getViewRoot());
+		this.switchCenter(controller.getViewRoot());		
 	}
 	
 	@FXML
