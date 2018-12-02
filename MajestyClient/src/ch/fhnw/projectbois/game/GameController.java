@@ -7,6 +7,9 @@ import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.components.Component;
 import ch.fhnw.projectbois.components.ComponentLoader;
 import ch.fhnw.projectbois.fxml.FXMLUtils;
+import ch.fhnw.projectbois.game.splitcardchooser.SplitCardChooserController;
+import ch.fhnw.projectbois.game.splitcardchooser.SplitCardChooserModel;
+import ch.fhnw.projectbois.game.splitcardchooser.SplitCardChooserView;
 import ch.fhnw.projectbois.gameobjects.*;
 import ch.fhnw.projectbois.session.Session;
 import javafx.application.Platform;
@@ -255,8 +258,8 @@ public class GameController extends Controller<GameModel, GameView> {
 		String toUpdate = new String(text);
 		Platform.runLater(() -> {
 			container.getLblInfo().setText(toUpdate);
-			
-			for(int i = 0; i < player.getLocations().length; i++) {
+
+			for (int i = 0; i < player.getLocations().length; i++) {
 				String locationText = "Cards: ";
 				locationText += String.valueOf(player.getLocationByIndex(i).getCards().size());
 				container.getLabelCardCountByIndex(i).setText(locationText);
@@ -336,16 +339,58 @@ public class GameController extends Controller<GameModel, GameView> {
 				// move.setDecision1(-1);
 				// move.setDecision2(-1);
 
+				// handle split card
+				Card card = gameState.getBoard().getDisplay().get(index);
+				if (card.isSplitCard()) {
+					int decision = showSplitCardChooser(card);
+					move.getDecisions().add(decision);
+				}
+
+				// handle witch
+				if (card.getCardTypeActive() == CardType.Witch) {
+					Location infirmary = gameState.getBoard().getPlayers().get(playerIndex)
+							.getLocationByIndex(Location.INFIRMARY);
+					int cardCount = infirmary.getCards().size();
+					if (cardCount > 0) {
+						Card toRevive = infirmary.getCards().get(cardCount - 1);
+
+						if (toRevive.isSplitCard()) {
+							int decision = showSplitCardChooser(toRevive);
+							move.getDecisions().add(decision);
+						}
+					}
+
+					// handle noble points/meeples trade
+				} else if (card.getCardTypeActive() == CardType.Noble && !gameState.isCardSideA()) {
+					// TO-DO
+				}
+
 				model.sendMove(move);
 			}
 		});
+	}
+
+	private int showSplitCardChooser(Card splitCard) {
+		int decision = -1;
+
+		if (splitCard.isSplitCard()) {
+			SplitCardChooserController controller = Controller.initMVC(SplitCardChooserController.class,
+					SplitCardChooserModel.class, SplitCardChooserView.class);
+
+			controller.loadSplitCard(splitCard);
+			controller.showAndWait();
+
+			decision = controller.getDecision();
+		}
+
+		return decision;
 	}
 
 	private boolean allowMove() {
 		int playersTurn = this.gameState.getPlayersTurn();
 		Player player = this.gameState.getBoard().getPlayers().get(playersTurn);
 
-		return player.getUsername().equals(Session.getCurrentUsername());
+		return player.getUsername().equals(Session.getCurrentUsername()) && !this.gameState.isGameEnded();
 	}
 
 	// EVENT METHODS

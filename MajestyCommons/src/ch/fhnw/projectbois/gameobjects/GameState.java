@@ -8,6 +8,7 @@ public class GameState {
 	private int round = 0;
 	private int playersTurn = -1;
 	private int startPlayerIndex = -1;
+	private boolean gameEnded = false;
 
 	private Board board;
 
@@ -57,6 +58,14 @@ public class GameState {
 
 	public void setStartPlayerIndex(int startPlayerIndex) {
 		this.startPlayerIndex = startPlayerIndex;
+	}
+
+	public boolean isGameEnded() {
+		return gameEnded;
+	}
+
+	public void setGameEnded(boolean gameEnded) {
+		this.gameEnded = gameEnded;
 	}
 
 }

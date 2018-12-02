@@ -8,12 +8,12 @@ import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois.dto.ReportDTO;
 import ch.fhnw.projectbois.log.LoggerFactory;
 import ch.fhnw.projectbois.translate.Translator;
+import ch.fhnw.projectbois.utils.DialogUtils;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.stage.Modality;
 
 /**
  * Based on example from course Java 2
@@ -81,6 +81,7 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 
 	protected void handleReport(ReportDTO report) {
 		Platform.runLater(() -> {
+			// AlertType
 			AlertType type = AlertType.NONE;
 			switch (report.getSeverity()) {
 			case INFO:
@@ -94,19 +95,22 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 				break;
 			}
 
-			Alert alert = new Alert(type);
-			alert.initOwner(MetaContainer.getInstance().getMainStage());
-			alert.initModality(Modality.APPLICATION_MODAL);
-			alert.setHeaderText(null);
-
+			// Context
+			String context = "";
 			String translationKey = report.getTranslationKey();
 			if (translationKey != null) {
-				alert.setContentText(translator.getTranslation(translationKey));
-			} else {
-				alert.setContentText(report.getMessage());
+				context = translator.getTranslation(translationKey);
+
 			}
-			
-			alert.showAndWait();
+			if (context == null || (context != null && context.length() <= 0)) {
+				context = report.getMessage();
+			}
+
+			// Show Alert
+			if (context.length() > 0) {
+				Alert alert = DialogUtils.getAlert(MetaContainer.getInstance().getMainStage(), type, null, context);
+				alert.showAndWait();
+			}
 		});
 	}
 }
