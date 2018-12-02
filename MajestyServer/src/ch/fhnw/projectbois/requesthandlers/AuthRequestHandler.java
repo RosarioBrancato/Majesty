@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import ch.fhnw.projectbois.access.DbAccess;
-import ch.fhnw.projectbois.auth.LoginHandler;
+import ch.fhnw.projectbois.auth.PasswordHandler;
 import ch.fhnw.projectbois.auth.TokenFactory;
 import ch.fhnw.projectbois.communication.Request;
 import ch.fhnw.projectbois.communication.RequestId;
@@ -13,14 +13,13 @@ import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.dto.LoginDTO;
 import ch.fhnw.projectbois.dto.UserDTO;
+import ch.fhnw.projectbois.general.UserHandler;
 // import ch.fhnw.projectbois.general.IdFactory;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.network.Server;
 import ch.fhnw.projectbois.network.ServerClient;
 
 public class AuthRequestHandler extends RequestHandler {
-	
-	
 	
 	public AuthRequestHandler(Request request, Server server, ServerClient client) {
 		super(request, server, client);
@@ -58,8 +57,8 @@ public class AuthRequestHandler extends RequestHandler {
 			}
 			
 			if(DBuid != 0 && response == null) {
-				LoginHandler lh = new LoginHandler();
-				if(lh.checkMatchingPasswords(loginRequest.getPassword(), DBpassword, DBsalt)) {
+				PasswordHandler ph = new PasswordHandler();
+				if(ph.checkMatchingPasswords(loginRequest.getPassword(), DBpassword, DBsalt)) {
 					token = TokenFactory.getInstance();
 					//uid = IdFactory.getInstance().getNewId(UserDTO.class.getName());
 					user = new UserDTO(DBuid, loginRequest.getUsername(), token.getNewToken());

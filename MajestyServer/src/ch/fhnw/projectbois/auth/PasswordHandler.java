@@ -11,9 +11,9 @@ import java.util.Base64;
  *
  */
 
-public class LoginHandler {
+public class PasswordHandler {
 	
-	public LoginHandler(){
+	public PasswordHandler(){
 		
 	}
 	
