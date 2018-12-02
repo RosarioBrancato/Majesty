@@ -96,19 +96,19 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 			}
 
 			// Context
-			String context = "";
+			String message = "";
 			String translationKey = report.getTranslationKey();
 			if (translationKey != null) {
-				context = translator.getTranslation(translationKey);
+				message = translator.getTranslation(translationKey);
 
 			}
-			if (context == null || (context != null && context.length() <= 0)) {
-				context = report.getMessage();
+			if (message == null || (message != null && message.length() <= 0)) {
+				message = report.getMessage();
 			}
 
 			// Show Alert
-			if (context.length() > 0) {
-				Alert alert = DialogUtils.getAlert(MetaContainer.getInstance().getMainStage(), type, null, context);
+			if (message.length() > 0) {
+				Alert alert = DialogUtils.getAlert(MetaContainer.getInstance().getMainStage(), type, message);
 				alert.showAndWait();
 			}
 		});
