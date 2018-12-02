@@ -40,13 +40,16 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	private Label lbl_Login_language;
 	
 	@FXML
-	Label lbl_Login_loginMsg;
+	private Label lbl_Login_loginMsg;
 	
 	@FXML
 	private ChoiceBox<String> cmb_Login_language;
 
 	@FXML
 	private Button btn_Login_login;
+	
+	@FXML
+	private Button btn_Login_register;
 	
 	@FXML
 	private TextField txt_Login_username;
@@ -121,12 +124,35 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	
 	@FXML
 	private void btn_Login_loginClicked(ActionEvent event) {
-		boolean result = model.LoginProcessCredentials(txt_Login_serverServer.getText(), txt_Login_serverPort.getText(), txt_Login_username.getText(), txt_Login_password.getText());
-		if(!result) {
-			System.out.println("SERVER ERROR");
-		}
+		model.LoginProcessCredentials(txt_Login_serverServer.getText(), txt_Login_serverPort.getText(), txt_Login_username.getText(), txt_Login_password.getText());
+	}
+	
+	@FXML
+	private void btn_Login_register(ActionEvent event) {
 		
 	}
+	
+	/* START: DELETE AFTER DEVELOPMENT PHASE */
+	@FXML
+	private void btn_Login_logInAlexClicked(ActionEvent event) {
+		model.LoginProcessCredentials(txt_Login_serverServer.getText(), txt_Login_serverPort.getText(), "alex", "ABCDEFGH12345678");
+	}
+	
+	@FXML
+	private void btn_Login_logInDarioClicked(ActionEvent event) {
+		model.LoginProcessCredentials(txt_Login_serverServer.getText(), txt_Login_serverPort.getText(), "dario", "ABCDEFGH12345678");
+	}
+	
+	@FXML
+	private void btn_Login_logInLeeClicked(ActionEvent event) {
+		model.LoginProcessCredentials(txt_Login_serverServer.getText(), txt_Login_serverPort.getText(), "lee", "ABCDEFGH12345678");
+	}
+	
+	@FXML
+	private void btn_Login_logInRosarioClicked(ActionEvent event) {
+		model.LoginProcessCredentials(txt_Login_serverServer.getText(), txt_Login_serverPort.getText(), "rosario", "ABCDEFGH12345678");
+	}
+	/* END: DELETE AFTER DEVELOPMENT PHASE */
 	
 	private void LoginCredentialsChanged() {
 		if(txt_Login_username.getText().equals("") || txt_Login_password.getText().equals("")) {
