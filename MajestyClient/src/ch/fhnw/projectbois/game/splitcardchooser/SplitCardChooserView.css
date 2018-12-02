@@ -1,0 +1,6 @@
+.cardBox:hover {
+	-fx-border-style: solid;
+	-fx-border-color: red;
+	-fx-border-width: 3px;
+	-fx-padding: 0px;
+}

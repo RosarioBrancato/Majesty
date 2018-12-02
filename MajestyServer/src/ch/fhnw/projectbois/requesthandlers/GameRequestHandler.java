@@ -48,7 +48,7 @@ public class GameRequestHandler extends RequestHandler {
 		Response response = new Response(ResponseId.UPDATE_GAMESTATE, request.getRequestId(), json);
 
 		Lobby lobby = client.getLobby();
-		for(ServerClient c : lobby.getClients()) {
+		for (ServerClient c : lobby.getClients()) {
 			c.sendResponse(response);
 		}
 	}
@@ -58,51 +58,61 @@ public class GameRequestHandler extends RequestHandler {
 		GameMove gameMove = JsonUtils.Deserialize(json, GameMove.class);
 
 		Lobby lobby = client.getLobby();
-		GameLogic logic = new GameLogic(lobby.getGameState(), lobby.getGameStateServer());
+		GameState gameState = lobby.getGameState();
+		GameStateServer gameStateServer = lobby.getGameStateServer();
 
-		logic.executeMove(client.getUser().getUsername(), gameMove);
-		boolean gameOver = logic.startNextTurn();
+		if (!gameStateServer.isGameEnded()) {
 
-		Response response;
-		json = JsonUtils.Serialize(lobby.getGameState());
-		
-		if (!gameOver) {
-			response = new Response(ResponseId.UPDATE_GAMESTATE, request.getRequestId(), json);
+			GameLogic logic = new GameLogic(gameState, gameStateServer);
 
-		} else {
-			logic.endGame();
-			
-			response = new Response(ResponseId.GAME_ENDED, request.getRequestId(), json);
-		}
-		
-		for(ServerClient c : lobby.getClients()) {
-			c.sendResponse(response);
+			logic.executeMove(client.getUser().getUsername(), gameMove);
+			boolean gameOver = logic.startNextTurn();
+
+			Response response;
+			json = JsonUtils.Serialize(gameState);
+
+			if (!gameOver) {
+				response = new Response(ResponseId.UPDATE_GAMESTATE, request.getRequestId(), json);
+
+			} else {
+				logic.endGame();
+
+				response = new Response(ResponseId.GAME_ENDED, request.getRequestId(), json);
+			}
+
+			for (ServerClient c : lobby.getClients()) {
+				c.sendResponse(response);
+			}
 		}
 	}
 
 	private void startGame() {
 		Lobby lobby = client.getLobby();
 
-		GameState gameState = new GameState();
-		gameState.setId(IdFactory.getInstance().getNewId(GameState.class.getName()));
-		gameState.setCardSideA(lobby.isCardSideA());
+		if (!lobby.isGameStarted()) {
+			GameState gameState = new GameState();
+			gameState.setId(IdFactory.getInstance().getNewId(GameState.class.getName()));
+			gameState.setCardSideA(lobby.isCardSideA());
 
-		GameStateServer gameStateServer = new GameStateServer();
+			GameStateServer gameStateServer = new GameStateServer();
 
-		GameLogic logic = new GameLogic(gameState, gameStateServer);
-		logic.fillDecks();
-		logic.definePlayers(lobby);
-		logic.setCardsAside();
-		logic.fillDisplay();
-		logic.startNextTurn();
+			GameLogic logic = new GameLogic(gameState, gameStateServer);
+			logic.fillDecks();
+			logic.definePlayers(lobby);
+			logic.setCardsAside();
+			logic.fillDisplay();
+			logic.startNextTurn();
 
-		lobby.setGameState(gameState);
-		lobby.setGameStateServer(gameStateServer);
-		lobby.setGameStarted(true);
+			lobby.setGameState(gameState);
+			lobby.setGameStateServer(gameStateServer);
+			lobby.setGameStarted(true);
 
-		Response response = new Response(ResponseId.GAME_STARTED, request.getRequestId(), request.getJsonDataObject());
-		for (ServerClient c : lobby.getClients()) {
-			c.sendResponse(response);
+			Response response = new Response(ResponseId.GAME_STARTED, request.getRequestId(),
+					request.getJsonDataObject());
+			
+			for (ServerClient c : lobby.getClients()) {
+				c.sendResponse(response);
+			}
 		}
 	}
 

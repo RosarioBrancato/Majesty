@@ -144,6 +144,8 @@ public class GameLogic {
 
 			if (round > 12) {
 				gameOver = true;
+				this.gameState.setGameEnded(true);
+				this.gameStateServer.setGameEnded(true);
 			} else {
 				this.gameState.setPlayersTurn(playersTurn);
 				this.gameState.setRound(round);
@@ -301,6 +303,9 @@ public class GameLogic {
 		} else {
 			gameState.getBoard().setDeckBack(Board.DECKBACK_EMPTY);
 		}
+		
+		// update cards left
+		this.updateCardsLeft();
 
 		return card;
 	}
