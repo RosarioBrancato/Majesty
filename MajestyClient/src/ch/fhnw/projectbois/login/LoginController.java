@@ -2,7 +2,11 @@ package ch.fhnw.projectbois.login;
 
 import java.util.Locale;
 
+import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
+import ch.fhnw.projectbois.components.menubar.MenuBarController;
+import ch.fhnw.projectbois.components.menubar.MenuBarModel;
+import ch.fhnw.projectbois.components.menubar.MenuBarView;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -62,7 +66,7 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	
 	protected void LoginSetLanguage() {
 		Platform.runLater(() -> {
-			lbl_Login_username.setText(translator.getTranslation("lbl_Login_username"));
+			this.lbl_Login_username.setText(translator.getTranslation("lbl_Login_username"));
 			//Extend with Lobby Terms that need to be changing after Language was chosen
 		});
 	}
@@ -71,12 +75,12 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	protected void initialize() {
 		super.initialize();
 
-		/*model.getLoggedInUser().addListener((observer, oldValue, newValue) -> {
+		model.getLoggedInUser().addListener((observer, oldValue, newValue) -> {
 			Platform.runLater(() -> {
 				MenuBarController controller = initMVC(MenuBarController.class, MenuBarModel.class, MenuBarView.class);
 				MetaContainer.getInstance().setRoot(controller.getViewRoot());
 			});
-		});*/
+		});
 
 		this.fillChoiceBox();
 		
