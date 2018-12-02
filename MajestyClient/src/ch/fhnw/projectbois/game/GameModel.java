@@ -3,6 +3,7 @@ package ch.fhnw.projectbois.game;
 import ch.fhnw.projectbois._mvc.Model;
 import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.dto.ReportDTO;
+import ch.fhnw.projectbois.enumerations.ReportSeverity;
 import ch.fhnw.projectbois.communication.Request;
 import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
@@ -51,6 +52,10 @@ public class GameModel extends Model {
 					GameState gameState = JsonUtils.Deserialize(json, GameState.class);
 
 					gameStateProperty.setValue(gameState);
+					
+				} else if(newValue.getResponseId() == ResponseId.GAME_ENDED) {
+					ReportDTO report = new ReportDTO(ReportSeverity.INFO, "Game ended!");
+					getReportProperty().setValue(report);
 				
 				} else if(newValue.getResponseId() == ResponseId.GAME_ERROR) {
 					String json = newValue.getJsonDataObject();

@@ -7,7 +7,7 @@ public class Player {
 	private String username;
 	private Location[] locations;
 	private int meeples;
-	private int score;
+	private int points;
 
 	public Player() {
 		this.locations = new Location[8];
@@ -36,12 +36,12 @@ public class Player {
 		this.meeples = meeples;
 	}
 
-	public int getScore() {
-		return score;
+	public int getPoints() {
+		return points;
 	}
 
-	public void setScore(int score) {
-		this.score = score;
+	public void setPoints(int points) {
+		this.points = points;
 	}
 
 	@JsonIgnore

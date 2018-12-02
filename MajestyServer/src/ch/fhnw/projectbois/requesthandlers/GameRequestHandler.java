@@ -14,6 +14,11 @@ import ch.fhnw.projectbois.network.Lobby;
 import ch.fhnw.projectbois.network.Server;
 import ch.fhnw.projectbois.network.ServerClient;
 
+/**
+ * 
+ * @author Rosario
+ *
+ */
 public class GameRequestHandler extends RequestHandler {
 
 	public GameRequestHandler(Request request, Server server, ServerClient client) {
@@ -58,16 +63,20 @@ public class GameRequestHandler extends RequestHandler {
 		logic.executeMove(client.getUser().getUsername(), gameMove);
 		boolean gameOver = logic.startNextTurn();
 
+		Response response;
+		json = JsonUtils.Serialize(lobby.getGameState());
+		
 		if (!gameOver) {
-			// send update response
-			this.updateGameState();
+			response = new Response(ResponseId.UPDATE_GAMESTATE, request.getRequestId(), json);
 
 		} else {
 			logic.endGame();
 			
-			json = JsonUtils.Serialize(lobby.getGameState());
-			Response response = new Response(ResponseId.GAME_ENDED, request.getRequestId(), json);
-			client.sendResponse(response);
+			response = new Response(ResponseId.GAME_ENDED, request.getRequestId(), json);
+		}
+		
+		for(ServerClient c : lobby.getClients()) {
+			c.sendResponse(response);
 		}
 	}
 
