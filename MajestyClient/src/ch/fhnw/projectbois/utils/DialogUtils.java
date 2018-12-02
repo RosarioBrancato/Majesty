@@ -27,12 +27,12 @@ public class DialogUtils {
 		return stage;
 	}
 	
-	public static Alert getAlert(Window owner, AlertType alertType, String header, String context) {
+	public static Alert getAlert(Window owner, AlertType alertType, String message) {
 		Alert alert = new Alert(alertType);
 		alert.initOwner(MetaContainer.getInstance().getMainStage());
 		alert.initModality(Modality.APPLICATION_MODAL);
-		alert.setHeaderText(header);
-		alert.setContentText(context);
+		alert.setHeaderText(null);
+		alert.setContentText(message);
 		
 		return alert;
 	}
