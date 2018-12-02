@@ -6,6 +6,7 @@ import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.dto.ReportDTO;
 import ch.fhnw.projectbois.log.LoggerFactory;
 import ch.fhnw.projectbois.network.Network;
+import ch.fhnw.projectbois.translate.Translator;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 
@@ -16,12 +17,14 @@ import javafx.beans.value.ChangeListener;
  */
 public abstract class Model {
 	protected Logger logger;
+	protected Translator translator;
 
 	private SimpleObjectProperty<Response> responseProperty;
 	private SimpleObjectProperty<ReportDTO> reportProperty;
 
 	public Model() {
 		this.logger = LoggerFactory.getLogger(this.getClass());
+		this.translator = Translator.getTranslator();
 		
 		this.responseProperty = new SimpleObjectProperty<>();
 		this.reportProperty = new SimpleObjectProperty<>();

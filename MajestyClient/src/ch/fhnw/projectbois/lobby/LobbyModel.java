@@ -10,7 +10,9 @@ import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.dto.LobbyDTO;
+import ch.fhnw.projectbois.dto.MessageDTO;
 import ch.fhnw.projectbois.dto.UserDTO;
+import ch.fhnw.projectbois.enumerations.ChatMember;
 import ch.fhnw.projectbois.game.GameController;
 import ch.fhnw.projectbois.game.GameModel;
 import ch.fhnw.projectbois.game.GameView;
@@ -22,16 +24,26 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
+/**
+ * 
+ * @author Dario Stoeckli
+ *
+ */
+
 public class LobbyModel extends Model {
 	
 	private SimpleObjectProperty<LobbyDTO> lobbyProperty = null;
 	private SimpleObjectProperty<Timestamp> errorProperty = null;
 	private UserDTO user = null;
+	private MessageDTO message = null;
 
 	public LobbyModel() {
 		this.lobbyProperty = new SimpleObjectProperty<>();
 		this.errorProperty = new SimpleObjectProperty<>();
 		this.user = new UserDTO();
+		this.message = new MessageDTO();
+		message.setReceiver(ChatMember.All);
+		message.setAuthor(ChatMember.System);
 		this.initResponseListener();
 		determineLobbyUser();
 	}
@@ -47,6 +59,18 @@ public class LobbyModel extends Model {
 		String json = JsonUtils.Serialize(lobby);
 		Request request = new Request(Session.getCurrentUserToken(), RequestId.LEAVE_LOBBY, json);
 		Network.getInstance().sendRequest(request);
+		
+		message.setMessage(user.getUsername() + " " + translator.getTranslation("msg_LobbyView_PlayerLeft"));
+		String json1 = JsonUtils.Serialize(message);
+		Request request1 = new Request(Session.getCurrentUserToken(), RequestId.CHAT_SEND_MSG, json1);
+		Network.getInstance().sendRequest(request1);
+		if (isLobbyOwner(lobby, user)) {
+			message.setMessage(translator.getTranslation("msg_LobbyView_PlayerOwner"));
+			String json2 = JsonUtils.Serialize(message);
+			Request request2 = new Request(Session.getCurrentUserToken(), RequestId.CHAT_SEND_MSG, json2);
+			Network.getInstance().sendRequest(request2);
+		}
+		
 	}
 	
 	public SimpleObjectProperty<LobbyDTO> getLobbyProperty() {
