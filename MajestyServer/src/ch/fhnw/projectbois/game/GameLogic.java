@@ -110,10 +110,15 @@ public class GameLogic {
 
 		// distribute points
 		if (currentCardType == CardType.Noble && !this.gameState.isCardSideA()) {
-			int pointsTrade = move.getNextDecision();
-			calculations.tradePointsMeeples(pointsTrade);
+			int meeplesToTrade = move.getNextDecision();
+			if (meeplesToTrade >= -5 && meeplesToTrade <= 5) {
+				calculations.tradeMeeples(meeplesToTrade);
+			}
 		}
 		calculations.distributePoints(currentCardType);
+
+		// meeple overflow
+		calculations.convertMeepleOverflowToPoints();
 
 		// final changes
 		this.gameState.setId(this.gameState.getId() + 1);
@@ -303,7 +308,7 @@ public class GameLogic {
 		} else {
 			gameState.getBoard().setDeckBack(Board.DECKBACK_EMPTY);
 		}
-		
+
 		// update cards left
 		this.updateCardsLeft();
 

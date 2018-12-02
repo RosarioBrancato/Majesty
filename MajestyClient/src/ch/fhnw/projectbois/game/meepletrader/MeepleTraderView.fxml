@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="243.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane prefHeight="75.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label alignment="CENTER" text="Buy or Sell Meeples!" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="75.0">
+         <children>
+            <RadioButton fx:id="rdbBuy" layoutX="142.0" layoutY="14.0" mnemonicParsing="false" onAction="#rdbBuy_Click" selected="true" text="Buy" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="14.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <toggleGroup>
+                  <ToggleGroup fx:id="G1" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="rdbSell" layoutX="361.0" layoutY="14.0" mnemonicParsing="false" onAction="#rdbSell_Click" text="Sell" toggleGroup="$G1" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="14.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </RadioButton>
+            <Slider fx:id="sliderMeeples" blockIncrement="1.0" layoutX="14.0" layoutY="82.0" majorTickUnit="1.0" max="5.0" minorTickCount="0" prefHeight="14.0" prefWidth="577.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="82.0" />
+            <Label layoutX="278.0" layoutY="54.0" text="Meeples" />
+            <Button layoutX="277.0" layoutY="129.0" mnemonicParsing="false" onAction="#btnTrade_Click" text="Trade" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

@@ -14,9 +14,9 @@ public class Card {
 	 * For JSON Serializer
 	 */
 	public Card() {
-		
+
 	}
-	
+
 	public Card(CardType cardType) {
 		this(cardType, null);
 	}
@@ -54,10 +54,9 @@ public class Card {
 		this.meeples = meeples;
 	}
 
-
 	@JsonIgnore
 	public void setActiveCardType(int activeCardType) {
-		if (this.splitCard) {
+		if (this.splitCard && (activeCardType == 1 || activeCardType == 2)) {
 			this.activeCardType = activeCardType;
 		}
 	}

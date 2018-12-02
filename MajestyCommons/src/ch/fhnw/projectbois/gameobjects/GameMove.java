@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class GameMove {
+	
+	public static final int DECISION_NONE = -999;
 
 	private int displayCardIndexSelected = -1;
 
@@ -29,7 +31,7 @@ public class GameMove {
 
 	@JsonIgnore
 	public int getNextDecision() {
-		int decision = -1;
+		int decision = DECISION_NONE;
 
 		if (this.nextDecision < this.decisions.size()) {
 			decision = this.decisions.get(this.nextDecision);
