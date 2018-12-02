@@ -75,7 +75,7 @@ public class LoginModel extends Model {
 					});
 					
 				}
-				if (newValue.getResponseId() == ResponseId.AUTH_ERROR) {
+				if (newValue.getResponseId() == ResponseId.AUTH_ERROR_SERVER) {
 					logger.warning("Login unsuccessful");
 				}
 			}

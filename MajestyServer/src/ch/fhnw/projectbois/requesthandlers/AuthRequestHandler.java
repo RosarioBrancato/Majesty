@@ -29,8 +29,7 @@ public class AuthRequestHandler extends RequestHandler {
 	@Override
 	protected void handleRequest() {
 		if(request.getRequestId() == RequestId.LOGIN) {
-			//TO-DO: real login
-			//int uid;
+			int uid;
 			String DBpassword = null;
 			String DBsalt = null;
 			LoginDTO loginRequest = JsonUtils.Deserialize(request.getJsonDataObject(), LoginDTO.class);
@@ -49,27 +48,27 @@ public class AuthRequestHandler extends RequestHandler {
 				}
 				getUser.close();
 			}catch(SQLException e) {
-				System.out.println("DB ERROR:");
-				e.printStackTrace();
+				logger.severe("Login failed due to database error: " + e.toString());
 			}
 			
+			TokenFactory token = null;
+			UserDTO user = null;
+			Response response = null;
+			String json = "";
 			
 			LoginHandler lh = new LoginHandler();
 			if(lh.checkMatchingPasswords(loginRequest.getPassword(), DBpassword, DBsalt)) {
-				System.out.println("Login OK");
+				token = TokenFactory.getInstance();
+				uid = IdFactory.getInstance().getNewId(UserDTO.class.getName());
+				user = new UserDTO(uid, loginRequest.getUsername(), token.getNewToken());
+				client.setUser(user);
+				json = JsonUtils.Serialize(user);
+				response = new Response(ResponseId.AUTH_OK, request.getRequestId(), json);
 			}else {
-				System.out.println("Login Forbidden");
+				response = new Response(ResponseId.AUTH_ERROR_CREDENTIALS, request.getRequestId(), json);
+				logger.severe("Login failed due to invalid user input. Requested User: " + loginRequest.getUsername());
 			}
 			
-			
-			TokenFactory token = TokenFactory.getInstance();
-			int id = IdFactory.getInstance().getNewId(UserDTO.class.getName());
-			UserDTO user = new UserDTO(id, "Alex" + id, token.getNewToken());
-			client.setUser(user);
-			
-			//response
-			String json = JsonUtils.Serialize(user);
-			Response response = new Response(ResponseId.AUTH_OK, request.getRequestId(), json);
 			client.sendResponse(response);
 		}
 	}
