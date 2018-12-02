@@ -52,15 +52,19 @@ public class GameModel extends Model {
 					GameState gameState = JsonUtils.Deserialize(json, GameState.class);
 
 					gameStateProperty.setValue(gameState);
+
+				} else if (newValue.getResponseId() == ResponseId.GAME_ENDED) {
+					String json = newValue.getJsonDataObject();
+					GameState gameState = JsonUtils.Deserialize(json, GameState.class);
+					gameStateProperty.setValue(gameState);
 					
-				} else if(newValue.getResponseId() == ResponseId.GAME_ENDED) {
 					ReportDTO report = new ReportDTO(ReportSeverity.INFO, "Game ended!");
 					getReportProperty().setValue(report);
-				
-				} else if(newValue.getResponseId() == ResponseId.GAME_ERROR) {
+
+				} else if (newValue.getResponseId() == ResponseId.GAME_ERROR) {
 					String json = newValue.getJsonDataObject();
 					ReportDTO report = JsonUtils.Deserialize(json, ReportDTO.class);
-					
+
 					getReportProperty().setValue(report);
 				}
 			}
