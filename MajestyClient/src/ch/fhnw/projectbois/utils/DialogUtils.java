@@ -29,7 +29,7 @@ public class DialogUtils {
 	}
 
 	public static Alert getAlert(Window owner, AlertType alertType, String message) {
-		return getAlert(owner, alertType, message);
+		return getAlert(owner, alertType, message, new ButtonType[0]);
 	}
 
 	public static Alert getAlert(Window owner, AlertType alertType, String message, ButtonType... buttons) {

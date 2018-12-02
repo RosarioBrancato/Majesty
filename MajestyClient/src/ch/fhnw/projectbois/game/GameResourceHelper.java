@@ -17,67 +17,69 @@ public class GameResourceHelper {
 	public Image getCardImage(Card card) {
 		Image image = null;
 
-		if (card.isSplitCard()) {
-			if (card.getCardType1() == CardType.Guard && card.getCardType2() == CardType.Knight) {
-				image = new Image(PATH_TO_SPLIT_CARD + "Blue Red.jpg");
+		if (card != null) {
+			if (card.isSplitCard()) {
+				if (card.getCardType1() == CardType.Guard && card.getCardType2() == CardType.Knight) {
+					image = new Image(PATH_TO_SPLIT_CARD + "Blue Red.jpg");
 
-			} else if (card.getCardType1() == CardType.Guard && card.getCardType2() == CardType.Noble) {
-				image = new Image(PATH_TO_SPLIT_CARD + "Blue Violet.jpg");
+				} else if (card.getCardType1() == CardType.Guard && card.getCardType2() == CardType.Noble) {
+					image = new Image(PATH_TO_SPLIT_CARD + "Blue Violet.jpg");
 
-			} else if (card.getCardType1() == CardType.Guard && card.getCardType2() == CardType.Innkeeper) {
-				image = new Image(PATH_TO_SPLIT_CARD + "Blue Yellow.jpg");
+				} else if (card.getCardType1() == CardType.Guard && card.getCardType2() == CardType.Innkeeper) {
+					image = new Image(PATH_TO_SPLIT_CARD + "Blue Yellow.jpg");
 
-			} else if (card.getCardType1() == CardType.Brewer && card.getCardType2() == CardType.Witch) {
-				image = new Image(PATH_TO_SPLIT_CARD + "Brown Green.jpg");
+				} else if (card.getCardType1() == CardType.Brewer && card.getCardType2() == CardType.Witch) {
+					image = new Image(PATH_TO_SPLIT_CARD + "Brown Green.jpg");
 
-			} else if (card.getCardType1() == CardType.Brewer && card.getCardType2() == CardType.Knight) {
-				image = new Image(PATH_TO_SPLIT_CARD + "Brown Red.jpg");
+				} else if (card.getCardType1() == CardType.Brewer && card.getCardType2() == CardType.Knight) {
+					image = new Image(PATH_TO_SPLIT_CARD + "Brown Red.jpg");
 
-			} else if (card.getCardType1() == CardType.Witch && card.getCardType2() == CardType.Guard) {
-				image = new Image(PATH_TO_SPLIT_CARD + "Green Blue.jpg");
+				} else if (card.getCardType1() == CardType.Witch && card.getCardType2() == CardType.Guard) {
+					image = new Image(PATH_TO_SPLIT_CARD + "Green Blue.jpg");
 
-			} else if (card.getCardType1() == CardType.Witch && card.getCardType2() == CardType.Noble) {
-				image = new Image(PATH_TO_SPLIT_CARD + "Green Violet.jpg");
+				} else if (card.getCardType1() == CardType.Witch && card.getCardType2() == CardType.Noble) {
+					image = new Image(PATH_TO_SPLIT_CARD + "Green Violet.jpg");
 
-			} else if (card.getCardType1() == CardType.Witch && card.getCardType2() == CardType.Innkeeper) {
-				image = new Image(PATH_TO_SPLIT_CARD + "Green Yellow.jpg");
+				} else if (card.getCardType1() == CardType.Witch && card.getCardType2() == CardType.Innkeeper) {
+					image = new Image(PATH_TO_SPLIT_CARD + "Green Yellow.jpg");
 
-			} else if (card.getCardType1() == CardType.Miller && card.getCardType2() == CardType.Brewer) {
-				image = new Image(PATH_TO_SPLIT_CARD + "Orange Brown.jpg");
+				} else if (card.getCardType1() == CardType.Miller && card.getCardType2() == CardType.Brewer) {
+					image = new Image(PATH_TO_SPLIT_CARD + "Orange Brown.jpg");
 
-			} else if (card.getCardType1() == CardType.Miller && card.getCardType2() == CardType.Knight) {
-				image = new Image(PATH_TO_SPLIT_CARD + "Orange Red.jpg");
+				} else if (card.getCardType1() == CardType.Miller && card.getCardType2() == CardType.Knight) {
+					image = new Image(PATH_TO_SPLIT_CARD + "Orange Red.jpg");
 
-			} else if (card.getCardType1() == CardType.Knight && card.getCardType2() == CardType.Innkeeper) {
-				image = new Image(PATH_TO_SPLIT_CARD + "Red Yellow.jpg");
+				} else if (card.getCardType1() == CardType.Knight && card.getCardType2() == CardType.Innkeeper) {
+					image = new Image(PATH_TO_SPLIT_CARD + "Red Yellow.jpg");
 
-			} else if (card.getCardType1() == CardType.Innkeeper && card.getCardType2() == CardType.Noble) {
-				image = new Image(PATH_TO_SPLIT_CARD + "Yellow Violet.jpg");
-			}
+				} else if (card.getCardType1() == CardType.Innkeeper && card.getCardType2() == CardType.Noble) {
+					image = new Image(PATH_TO_SPLIT_CARD + "Yellow Violet.jpg");
+				}
 
-		} else {
-			switch (card.getCardTypeActive()) {
-			case Miller:
-				image = new Image(PATH_TO_CARD + "Orange.jpg");
-				break;
-			case Brewer:
-				image = new Image(PATH_TO_CARD + "Brown.jpg");
-				break;
-			case Guard:
-				image = new Image(PATH_TO_CARD + "Blue.jpg");
-				break;
-			case Innkeeper:
-				image = new Image(PATH_TO_CARD + "Yellow.jpg");
-				break;
-			case Knight:
-				image = new Image(PATH_TO_CARD + "Red.jpg");
-				break;
-			case Noble:
-				image = new Image(PATH_TO_CARD + "Violet.jpg");
-				break;
-			case Witch:
-				image = new Image(PATH_TO_CARD + "Green.jpg");
-				break;
+			} else {
+				switch (card.getCardTypeActive()) {
+				case Miller:
+					image = new Image(PATH_TO_CARD + "Orange.jpg");
+					break;
+				case Brewer:
+					image = new Image(PATH_TO_CARD + "Brown.jpg");
+					break;
+				case Guard:
+					image = new Image(PATH_TO_CARD + "Blue.jpg");
+					break;
+				case Innkeeper:
+					image = new Image(PATH_TO_CARD + "Yellow.jpg");
+					break;
+				case Knight:
+					image = new Image(PATH_TO_CARD + "Red.jpg");
+					break;
+				case Noble:
+					image = new Image(PATH_TO_CARD + "Violet.jpg");
+					break;
+				case Witch:
+					image = new Image(PATH_TO_CARD + "Green.jpg");
+					break;
+				}
 			}
 		}
 

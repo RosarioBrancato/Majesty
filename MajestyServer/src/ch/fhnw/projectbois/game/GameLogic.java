@@ -260,17 +260,19 @@ public class GameLogic {
 	}
 
 	public void setCardsAside() {
+		int totalTier1Cards = 33;
+		
 		int cardsToRemove = 0;
 
 		switch (gameState.getBoard().getPlayers().size()) {
 		case 2:
-			cardsToRemove = 6;
+			cardsToRemove = totalTier1Cards - 6;
 			break;
 		case 3:
-			cardsToRemove = 14;
+			cardsToRemove = totalTier1Cards - 14;
 			break;
 		case 4:
-			cardsToRemove = 26;
+			cardsToRemove = totalTier1Cards - 26;
 			break;
 		}
 
