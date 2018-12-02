@@ -1,8 +1,54 @@
 ***REMOVED***
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1">
+   <children>
+      <VBox>
+         <children>
+            <HBox>
+               <children>
+                  <Label fx:id="lbl_Registration_msg" />
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label fx:id="lbl_Registration_username" text="%lbl_Login_username" />
+                  <TextField fx:id="txt_Registration_username" />
+               </children>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="10.0">
+               <children>
+                  <Label fx:id="lbl_Registration_email" text="%lbl_Registration_email" />
+                  <TextField fx:id="txt_Registration_email" />
+               </children>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="10.0">
+               <children>
+                  <Label fx:id="lbl_Registration_pwd" text="%lbl_Login_password" />
+                  <PasswordField fx:id="txt_Registration_pwd" />
+               </children>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="35.0">
+               <children>
+                  <Label fx:id="lbl_Registration_pwdRepeat" text="%lbl_Registration_repeatPassword" />
+                  <PasswordField fx:id="txt_Registration_pwdRepeat" />
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Button fx:id="btn_Registration_cancel" cancelButton="true" mnemonicParsing="false" onAction="#btn_Registration_cancelClicked" text="%btn_Registration_cancel" />
+                  <Button fx:id="btn_Registration_register" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#btn_Registration_registerClicked" text="%btn_Registration_register" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
 </AnchorPane>
-

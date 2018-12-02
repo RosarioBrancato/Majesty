@@ -7,6 +7,9 @@ import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.components.menubar.MenuBarController;
 import ch.fhnw.projectbois.components.menubar.MenuBarModel;
 import ch.fhnw.projectbois.components.menubar.MenuBarView;
+import ch.fhnw.projectbois.registration.RegistrationController;
+import ch.fhnw.projectbois.registration.RegistrationModel;
+import ch.fhnw.projectbois.registration.RegistrationView;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +18,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 
 /**
  * 
@@ -62,6 +66,12 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 
 	@FXML
 	private PasswordField txt_Login_password;
+	
+	@FXML
+	private TitledPane acc_Login_serverInfo;
+	
+	@FXML
+	private Label lbl_Login_serverInfo;
 
 	public LoginController(LoginModel model, LoginView view) {
 		super(model, view);
@@ -70,7 +80,13 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	protected void LoginSetLanguage() {
 		Platform.runLater(() -> {
 			this.lbl_Login_username.setText(translator.getTranslation("lbl_Login_username"));
-			//Extend with Lobby Terms that need to be changing after Language was chosen
+			this.lbl_Login_password.setText(translator.getTranslation("lbl_Login_password"));
+			this.lbl_Login_language.setText(translator.getTranslation("lbl_Login_language"));
+			this.btn_Login_login.setText(translator.getTranslation("btn_Login_login"));
+			this.btn_Login_register.setText(translator.getTranslation("btn_Login_register"));
+			this.acc_Login_serverInfo.setText(translator.getTranslation("acc_Login_serverInfo"));
+			this.lbl_Login_serverInfo.setText(translator.getTranslation("lbl_Login_serverInfo"));
+			this.lbl_Login_username.setText(translator.getTranslation("lbl_Login_username"));
 		});
 	}
 	
@@ -128,8 +144,10 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	}
 	
 	@FXML
-	private void btn_Login_register(ActionEvent event) {
-		
+	private void btn_Login_registerClicked(ActionEvent event) {
+		RegistrationController controller = Controller.initMVC(
+				RegistrationController.class, RegistrationModel.class, RegistrationView.class);
+		controller.showAndWait();
 	}
 	
 	/* START: DELETE AFTER DEVELOPMENT PHASE */
