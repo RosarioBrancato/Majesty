@@ -19,7 +19,6 @@ import ch.fhnw.projectbois.game.GameView;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.network.Network;
 import ch.fhnw.projectbois.session.Session;
-import ch.fhnw.projectbois.translate.Translator;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;

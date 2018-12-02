@@ -113,6 +113,7 @@ public class Network {
 		if (this.socket != null) {
 			try {
 				this.socket.close();
+				logger.log(Level.INFO, "Socket to Server closed");
 			} catch (IOException e) {
 			}
 
