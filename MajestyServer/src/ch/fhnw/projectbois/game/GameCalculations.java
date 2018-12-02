@@ -50,19 +50,19 @@ public class GameCalculations {
 		// move card meeples to player
 		int meeples = currentPlayer.getMeeples();
 		meeples += selectedCard.getMeeples();
-
-		// convert meeples overflow to points
+		currentPlayer.setMeeples(meeples);
+		selectedCard.setMeeples(0);
+	}
+	
+	public void convertMeepleOverflowToPoints() {
+		int meeples = currentPlayer.getMeeples();
+		
 		if (meeples > 5) {
 			int points = currentPlayer.getPoints();
 			points += (meeples - 5);
 			currentPlayer.setPoints(points);
 			currentPlayer.setMeeples(5);
-
-		} else {
-			currentPlayer.setMeeples(meeples);
 		}
-
-		selectedCard.setMeeples(0);
 	}
 
 	public void distributePoints(CardType type) {
@@ -100,19 +100,19 @@ public class GameCalculations {
 		}
 	}
 
-	public void tradePointsMeeples(int pointsTrade) {
+	public void tradeMeeples(int meeplesToTrade) {
 		int points = currentPlayer.getPoints();
 		int meeples = currentPlayer.getMeeples();
 
-		// pointsTrade positive -> sell meeples
-		// pointsTrade negative -> buy meeples
-		if (pointsTrade > 0) {
-			meeples -= pointsTrade;
-			points += pointsTrade;
+		// meeplesToTrade positive -> buy meeples
+		// meeplesToTrade negative -> sell meeples
+		if (meeplesToTrade > 0) {
+			meeples += meeplesToTrade;
+			points -= meeplesToTrade;
 
-		} else if (pointsTrade < 0) {
-			meeples += Math.abs(pointsTrade);
-			points += pointsTrade;
+		} else if (meeplesToTrade < 0) {
+			meeples -= Math.abs(meeplesToTrade);
+			points += Math.abs(meeplesToTrade);
 		}
 
 		currentPlayer.setMeeples(meeples);

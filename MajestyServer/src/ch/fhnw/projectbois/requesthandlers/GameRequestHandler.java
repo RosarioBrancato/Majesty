@@ -36,8 +36,8 @@ public class GameRequestHandler extends RequestHandler {
 		} else if (request.getRequestId() == RequestId.START_GAME) {
 			this.startGame();
 
-		} else if (request.getRequestId() == RequestId.QUIT_GAME) {
-			this.quitGame();
+		} else if (request.getRequestId() == RequestId.lEAVE_GAME) {
+			this.leaveGame();
 		}
 	}
 
@@ -116,8 +116,8 @@ public class GameRequestHandler extends RequestHandler {
 		}
 	}
 
-	private void quitGame() {
-
+	private void leaveGame() {
+		//TO-DO
 	}
 
 }
