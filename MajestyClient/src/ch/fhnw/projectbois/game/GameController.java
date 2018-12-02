@@ -3,21 +3,36 @@ package ch.fhnw.projectbois.game;
 import java.net.URL;
 import java.util.ArrayList;
 
+import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.components.Component;
 import ch.fhnw.projectbois.components.ComponentLoader;
 import ch.fhnw.projectbois.fxml.FXMLUtils;
+import ch.fhnw.projectbois.game.meepletrader.MeepleTraderController;
+import ch.fhnw.projectbois.game.meepletrader.MeepleTraderModel;
+import ch.fhnw.projectbois.game.meepletrader.MeepleTraderView;
 import ch.fhnw.projectbois.game.splitcardchooser.SplitCardChooserController;
 import ch.fhnw.projectbois.game.splitcardchooser.SplitCardChooserModel;
 import ch.fhnw.projectbois.game.splitcardchooser.SplitCardChooserView;
-import ch.fhnw.projectbois.gameobjects.*;
+import ch.fhnw.projectbois.gameobjects.Board;
+import ch.fhnw.projectbois.gameobjects.Card;
+import ch.fhnw.projectbois.gameobjects.CardType;
+import ch.fhnw.projectbois.gameobjects.GameMove;
+import ch.fhnw.projectbois.gameobjects.GameState;
+import ch.fhnw.projectbois.gameobjects.Location;
+import ch.fhnw.projectbois.gameobjects.Player;
 import ch.fhnw.projectbois.session.Session;
+import ch.fhnw.projectbois.utils.DialogUtils;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -335,14 +350,11 @@ public class GameController extends Controller<GameModel, GameView> {
 				GameMove move = new GameMove();
 				move.setDisplayCardIndexSelected(index);
 
-				// TO-DO: additional decision: split cards, split card revival
-				// move.setDecision1(-1);
-				// move.setDecision2(-1);
-
 				// handle split card
 				Card card = gameState.getBoard().getDisplay().get(index);
 				if (card.isSplitCard()) {
 					int decision = showSplitCardChooser(card);
+					card.setActiveCardType(decision);
 					move.getDecisions().add(decision);
 				}
 
@@ -360,9 +372,23 @@ public class GameController extends Controller<GameModel, GameView> {
 						}
 					}
 
-					// handle noble points/meeples trade
+					// handle noble meeple trade
 				} else if (card.getCardTypeActive() == CardType.Noble && !gameState.isCardSideA()) {
-					// TO-DO
+					Player currentPlayer = gameState.getBoard().getPlayers().get(playerIndex);
+					int meeples = currentPlayer.getMeeples();
+					meeples -= index; // pay for the card, index = cost
+					int points = currentPlayer.getPoints();
+
+					if (points > 0 || meeples > 0) {
+						MeepleTraderController controller = Controller.initMVC(MeepleTraderController.class,
+								MeepleTraderModel.class, MeepleTraderView.class);
+
+						controller.setCurrencies(meeples, points);
+						controller.showAndWait();
+
+						int decision = controller.getDecision();
+						move.getDecisions().add(decision);
+					}
 				}
 
 				model.sendMove(move);
@@ -397,7 +423,20 @@ public class GameController extends Controller<GameModel, GameView> {
 
 	@FXML
 	private void btnLeave_Click(ActionEvent e) {
+		Alert alert = DialogUtils.getAlert(MetaContainer.getInstance().getMainStage(), AlertType.CONFIRMATION,
+				"Leave game?", new ButtonType("Yes", ButtonData.YES), new ButtonType("No", ButtonData.NO));
 
+		alert.showAndWait();
+
+		if (alert.getResult() == ButtonType.YES) {
+			model.leaveGame();
+
+//			Platform.runLater(() -> {
+//				MenuBarController controller = Controller.initMVC(MenuBarController.class, MenuBarModel.class,
+//						MenuBarView.class);
+//				MetaContainer.getInstance().setRoot(controller.getViewRoot());
+//			});
+		}
 	}
 
 }

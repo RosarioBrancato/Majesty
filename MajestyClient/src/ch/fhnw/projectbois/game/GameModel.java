@@ -40,6 +40,10 @@ public class GameModel extends Model {
 
 		Network.getInstance().sendRequest(request);
 	}
+	
+	public void leaveGame() {
+		//TO-DO
+	}
 
 	@Override
 	protected ChangeListener<Response> getChangeListener() {
@@ -60,7 +64,10 @@ public class GameModel extends Model {
 					
 					ReportDTO report = new ReportDTO(ReportSeverity.INFO, "Game ended!");
 					getReportProperty().setValue(report);
-
+					
+				} else if(newValue.getRequestId() == ResponseId.GAME_PLAYER_LEFT) {
+					//TO-DO
+					
 				} else if (newValue.getResponseId() == ResponseId.GAME_ERROR) {
 					String json = newValue.getJsonDataObject();
 					ReportDTO report = JsonUtils.Deserialize(json, ReportDTO.class);
