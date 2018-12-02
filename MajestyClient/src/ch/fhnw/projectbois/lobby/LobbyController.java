@@ -1,13 +1,13 @@
 package ch.fhnw.projectbois.lobby;
 
 import java.util.Optional;
-
 import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.components.menubar.MenuBarController;
 import ch.fhnw.projectbois.components.menubar.MenuBarModel;
 import ch.fhnw.projectbois.components.menubar.MenuBarView;
 import ch.fhnw.projectbois.dto.LobbyDTO;
+import ch.fhnw.projectbois.time.Time;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -50,6 +50,8 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 	protected void initialize() {
 		super.initialize();
 		
+		//setCountdown();
+		
 		updateUser();
 		
 		model.getLobbyProperty().addListener((observer, oldValue, newValue) -> {
@@ -80,9 +82,45 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 		});
 	}
 	
-	//Lobby Timer TO DO
-	//private void setTimer() {
-	//}
+	//Lobby Timer
+	/* 
+	private void setCountdown() {
+		Time timer = new Time();
+		timer.startCountdown(10);
+		timer.getPeriodCounterProperty().addListener((observer, oldValue, newValue) -> {
+			if (timer.getCounterSimplified()==0) {
+				System.out.println("dfdsffds");
+				timer.stop();
+				Platform.runLater(() -> {
+				//Create Alert
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.initOwner(MetaContainer.getInstance().getMainStage());
+				alert.setTitle(translator.getTranslation("dgr_LobbyView_CountdownAlertTitle"));
+				alert.setHeaderText(translator.getTranslation("dgr_LobbyView_CountdownAlertHeader"));
+				alert.setContentText(translator.getTranslation("dgr_LobbyView_CountdownAlertContent"));
+				ButtonType buttonTypeExtend = new ButtonType(translator.getTranslation("dgr_LobbyView_CountdownButtonExtend"));
+				ButtonType buttonTypeClose = new ButtonType(translator.getTranslation("dgr_LobbyView_CountdownButtonClose"));
+				alert.getButtonTypes().setAll(buttonTypeExtend, buttonTypeClose);
+				
+				Optional<ButtonType> result = alert.showAndWait();
+				if (result.get() == buttonTypeClose){
+					//Close Lobby
+					model.ExitGame(lobby);
+					//Reload PlayScreen
+					MenuBarController menu = Controller.initMVC(MenuBarController.class, MenuBarModel.class, MenuBarView.class);
+					MetaContainer.getInstance().setRoot(menu.getViewRoot());
+				} else if (result.get() == buttonTypeExtend) {
+				    setCountdown();
+				}
+				});
+			
+			}
+			Platform.runLater(() -> {
+				lblCountdown_Dynamic.setText(translator.getTranslation("lbl_LobbyView_Countdown") + " " + timer.getCounter());
+			 	});
+		});
+	}
+	*/
 	
 	private void onePlayerLobby() {
 		this.lblInformation_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InformationDynamic1"));
@@ -93,8 +131,6 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 	private void twothreePlayerLobby() {
 		this.lblInformation_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InformationDynamic2"));
 		this.lblInstructions_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InstructionsDynamic2"));
-		System.out.println(lobby.getPlayers().get(0));
-		System.out.println(model.getUser().getUsername());
 		if (model.isLobbyOwner(lobby, model.getUser())) enableStartButton();
 		else disableStartButton();
 	}
@@ -122,6 +158,7 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 	@FXML
 	private void btnExitGame_Click(ActionEvent e) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.initOwner(MetaContainer.getInstance().getMainStage());
 		alert.setTitle(translator.getTranslation("dgr_LobbyView_ExitAlertTitle"));
 		alert.setHeaderText(translator.getTranslation("dgr_LobbyView_ExitAlertHeader"));
 		alert.setContentText(translator.getTranslation("dgr_LobbyView_ExitAlertContent"));
