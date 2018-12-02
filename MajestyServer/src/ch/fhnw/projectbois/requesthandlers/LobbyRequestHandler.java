@@ -114,13 +114,7 @@ public class LobbyRequestHandler extends RequestHandler {
 		}
 		for (int i=0; i<lobby.getClients().size()-1; i++ ) {
 			lobby.getClients().get(i).sendResponse(responseothers);
-		}
-		
-		// To Do Send Message to chat - Dario
-		/*
-		 * ArrayList<String> players = lobbyDTO.getPlayers(); String player =
-		 * players.get(players.size()-1); { System.out.println(player + "joined!"); }
-		 */
+		}		 
 
 		return success;
 	}

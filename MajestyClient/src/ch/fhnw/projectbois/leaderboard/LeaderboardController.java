@@ -7,5 +7,14 @@ public class LeaderboardController extends Controller<LeaderboardModel, Leaderbo
 	public LeaderboardController(LeaderboardModel model, LeaderboardView view) {
 		super(model, view);
 	}
+	
+	@Override
+	protected void initialize() {
+		super.initialize();
+		
+		model.getLeaderboard();
+		
+	}
+	
 
 }

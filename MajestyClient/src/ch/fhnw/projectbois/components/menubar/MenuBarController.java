@@ -1,5 +1,6 @@
 package ch.fhnw.projectbois.components.menubar;
 
+import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.leaderboard.LeaderboardController;
 import ch.fhnw.projectbois.leaderboard.LeaderboardModel;
@@ -7,6 +8,7 @@ import ch.fhnw.projectbois.leaderboard.LeaderboardView;
 import ch.fhnw.projectbois.login.LoginController;
 import ch.fhnw.projectbois.login.LoginModel;
 import ch.fhnw.projectbois.login.LoginView;
+import ch.fhnw.projectbois.network.Network;
 import ch.fhnw.projectbois.playscreen.PlayScreenController;
 import ch.fhnw.projectbois.playscreen.PlayScreenModel;
 import ch.fhnw.projectbois.playscreen.PlayScreenView;
@@ -61,12 +63,15 @@ public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 		LeaderboardController controller = Controller.initMVC(LeaderboardController.class, LeaderboardModel.class,
 				LeaderboardView.class);
 		
-		this.switchCenter(controller.getViewRoot());
+		this.switchCenter(controller.getViewRoot());		
 	}
 	
 	@FXML
 	private void btnLogout_Click(ActionEvent event) {
-		
+		Network.getInstance().stopConnection();
+		LoginController controller = Controller.initMVC(LoginController.class, LoginModel.class, 
+				LoginView.class);
+		MetaContainer.getInstance().setRoot(controller.getViewRoot());
 	}
 	
 	//TEMP DELTE AFTERWARDS
