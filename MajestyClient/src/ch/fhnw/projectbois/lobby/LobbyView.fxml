@@ -7,31 +7,31 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="761.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="464.0" prefWidth="657.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="lblPlayerInformation" layoutX="34.0" layoutY="24.0" prefHeight="17.0" prefWidth="181.0" text="%lbl_LobbyView_PlayerInformation" />
-      <Button fx:id="btnStart" contentDisplay="CENTER" layoutX="529.0" layoutY="456.0" mnemonicParsing="false" onAction="#btnStartGame_Click" prefHeight="66.0" prefWidth="144.0" text="%btn_LobbyView_Start">
+      <Label fx:id="lblPlayerInformation" layoutX="34.0" layoutY="24.0" prefHeight="17.0" prefWidth="181.0" text="%lbl_LobbyView_PlayerInformation" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <Button fx:id="btnStart" contentDisplay="CENTER" layoutX="258.0" layoutY="301.0" mnemonicParsing="false" onAction="#btnStartGame_Click" prefHeight="66.0" prefWidth="144.0" text="%btn_LobbyView_Start" AnchorPane.leftAnchor="258.0" AnchorPane.topAnchor="301.0">
          <font>
             <Font size="22.0" />
          </font></Button>
-      <Button fx:id="btnExit" layoutX="14.0" layoutY="720.0" mnemonicParsing="false" onAction="#btnExitGame_Click" text="%btn_LobbyView_Exit" />
-      <Label fx:id="lblInformation_Dynamic" alignment="CENTER" layoutX="375.0" layoutY="351.0" prefHeight="25.0" prefWidth="450.0" text="%lbl_LobbyView_InformationDynamic1" textAlignment="CENTER">
+      <Button fx:id="btnExit" layoutX="14.0" layoutY="425.0" mnemonicParsing="false" onAction="#btnExitGame_Click" text="%btn_LobbyView_Exit" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
+      <Label fx:id="lblInformation_Dynamic" alignment="CENTER" layoutX="103.0" layoutY="194.0" prefHeight="25.0" prefWidth="450.0" text="%lbl_LobbyView_InformationDynamic1" textAlignment="CENTER" AnchorPane.leftAnchor="103.0" AnchorPane.topAnchor="194.0">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="lblInstructions_Dynamic" alignment="CENTER" layoutX="376.0" layoutY="421.0" prefHeight="25.0" prefWidth="450.0" text="%lbl_LobbyView_InstructionsDynamic1" textAlignment="CENTER" />
-      <Label fx:id="lblCountdown_Dynamic" layoutX="512.0" layoutY="720.0" text="DYNAMIC COUNTDOWN">
+      <Label fx:id="lblInstructions_Dynamic" alignment="CENTER" layoutX="105.0" layoutY="270.0" prefHeight="25.0" prefWidth="450.0" text="%lbl_LobbyView_InstructionsDynamic1" textAlignment="CENTER" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="270.0" />
+      <Label fx:id="lblCountdown_Dynamic" layoutX="243.0" layoutY="425.0" text="%lbl_LobbyView_Countdown" AnchorPane.bottomAnchor="14.0">
          <font>
             <Font size="16.0" />
          </font></Label>
-      <Label fx:id="lblJoinedPlayersCount_Dynamic" alignment="CENTER" layoutX="376.0" layoutY="376.0" prefHeight="25.0" prefWidth="450.0" text="%lbl_LobbyView_JoinedPlayersCountStatic" textAlignment="CENTER">
+      <Label fx:id="lblJoinedPlayersCount_Dynamic" alignment="CENTER" layoutX="103.0" layoutY="220.0" prefHeight="25.0" prefWidth="450.0" text="%lbl_LobbyView_JoinedPlayersCountStatic" textAlignment="CENTER" AnchorPane.leftAnchor="103.0" AnchorPane.topAnchor="220.0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Label fx:id="lblJoinedPlayers_Dynamic" alignment="CENTER" layoutX="376.0" layoutY="395.0" prefHeight="25.0" prefWidth="450.0" text="Dynamic Player List" textAlignment="CENTER" />
-      <ImageView layoutX="560.0" layoutY="240.0">
+      <Label fx:id="lblJoinedPlayers_Dynamic" alignment="CENTER" layoutX="103.0" layoutY="245.0" prefHeight="25.0" prefWidth="450.0" text="Dynamic Player List" textAlignment="CENTER" AnchorPane.leftAnchor="103.0" AnchorPane.topAnchor="245.0" />
+      <ImageView layoutX="288.0" layoutY="89.0" AnchorPane.leftAnchor="288.0" AnchorPane.topAnchor="89.0">
          <image>
             <Image url="/icons/waiting_animation.gif" />
          </image>
