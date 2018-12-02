@@ -12,6 +12,9 @@ import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.dto.LobbyDTO;
 import ch.fhnw.projectbois.dto.LobbyListDTO;
+import ch.fhnw.projectbois.dto.MessageDTO;
+import ch.fhnw.projectbois.dto.UserDTO;
+import ch.fhnw.projectbois.enumerations.ChatMember;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.lobby.LobbyController;
 import ch.fhnw.projectbois.lobby.LobbyModel;
@@ -33,11 +36,18 @@ public class PlayScreenModel extends Model {
 
 	private SimpleObjectProperty<LobbyListDTO> lobbiesProperty = null;
 	private SimpleObjectProperty<Timestamp> errorProperty = null;
+	private UserDTO user = null;
+	private MessageDTO message = null;
 
 	public PlayScreenModel() {
 		this.lobbiesProperty = new SimpleObjectProperty<>();
 		this.errorProperty = new SimpleObjectProperty<>();
+		this.user = new UserDTO();
+		this.message = new MessageDTO();
+		message.setReceiver(ChatMember.All);
+		message.setAuthor(ChatMember.System);
 		this.initResponseListener();
+		determinePlayScreenUser();
 	}
 
 	public void createLobby(LobbyDTO lobby) {
@@ -50,6 +60,11 @@ public class PlayScreenModel extends Model {
 		String json = JsonUtils.Serialize(lobby);
 		Request request = new Request(Session.getCurrentUserToken(), RequestId.JOIN_LOBBY, json);
 		Network.getInstance().sendRequest(request);
+		
+		message.setMessage(user.getUsername() + " " + translator.getTranslation("msg_LobbyView_PlayerJoined"));
+		String json1 = JsonUtils.Serialize(message);
+		Request request1 = new Request(Session.getCurrentUserToken(), RequestId.CHAT_SEND_MSG, json1);
+		Network.getInstance().sendRequest(request1);
 	}
 
 	public void getLobbies() {
@@ -63,6 +78,10 @@ public class PlayScreenModel extends Model {
 
 	public SimpleObjectProperty<Timestamp> getErrorProperty() {
 		return this.errorProperty;
+	}
+	
+	public UserDTO getUser() {
+		return this.user;
 	}
 
 	@Override
@@ -83,13 +102,23 @@ public class PlayScreenModel extends Model {
 					String json = newValue.getJsonDataObject();
 					LobbyDTO lobby = JsonUtils.Deserialize(json, LobbyDTO.class);
 					showLobby(lobby);
-
+					
+				} else if (newValue.getResponseId() == ResponseId.LOBBY_USER_INFO) {
+					String json = newValue.getJsonDataObject();
+					user = JsonUtils.Deserialize(json, UserDTO.class);	
+					
 				} else if (newValue.getResponseId() == ResponseId.LOBBY_ERROR) {
 					errorProperty.setValue(new Timestamp(new Date().getTime()));
 				}
 
 			}
 		};
+	}
+	
+	//Determine the player (ServerClient) of the Lobby for comparison
+	public void determinePlayScreenUser() {
+		Request request = new Request(Session.getCurrentUserToken(), RequestId.GET_USER_OF_CLIENT, null);
+		Network.getInstance().sendRequest(request);
 	}
 
 	private void showLobby(LobbyDTO lobby) {

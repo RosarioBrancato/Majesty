@@ -97,6 +97,7 @@ public class PlayScreenController extends Controller<PlayScreenModel, PlayScreen
 
 	@FXML
 	private void btnJoin_Click(ActionEvent e) {
+		this.btnRefresh_Click(new ActionEvent());
 		LobbyDTO lobby = lstLobbies.getSelectionModel().getSelectedItem();
 		if (lobby != null) {
 			model.joinLobby(lobby);
