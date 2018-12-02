@@ -29,14 +29,20 @@ import javafx.beans.value.ObservableValue;
 public class LoginModel extends Model {
 	
 	private SimpleObjectProperty<UserDTO> loggedInUser = null;
+	private SimpleObjectProperty<String> responseMsg = null;
 
 	public LoginModel() {
 		this.loggedInUser = new SimpleObjectProperty<>();
+		this.responseMsg = new SimpleObjectProperty<>();
 		this.initResponseListener();
 	}
 	
 	protected SimpleObjectProperty<UserDTO> getLoggedInUser() {
 		return this.loggedInUser;
+	}
+	
+	protected SimpleObjectProperty<String> getLoginStatus() {
+		return this.responseMsg;
 	}
 	
 	protected boolean LoginProcessCredentials(String server, String port_in, String username, String password) {
@@ -68,7 +74,6 @@ public class LoginModel extends Model {
 					logger.info("Login successful for user " + user.getUsername() + " (UID: " + user.getId() + ") - Token received: " + user.getToken());
 					loggedInUser.setValue(user);
 					
-					
 					Platform.runLater(() -> {
 						MenuBarController controller = Controller.initMVC(MenuBarController.class, MenuBarModel.class, MenuBarView.class);
 						MetaContainer.getInstance().setRoot(controller.getViewRoot());
@@ -76,7 +81,12 @@ public class LoginModel extends Model {
 					
 				}
 				if (newValue.getResponseId() == ResponseId.AUTH_ERROR_SERVER) {
-					logger.warning("Login unsuccessful");
+					logger.warning("Login failed due to a general server error. Please check server logs for further information.");
+					responseMsg.set("lbl_Login_loginMsg_GeneralServerError");
+				}
+				if (newValue.getResponseId() == ResponseId.AUTH_ERROR_CREDENTIALS) {
+					logger.warning("Login failed due to invalid credentials.");
+					responseMsg.set("lbl_Login_loginMsg_CredentialsError");
 				}
 			}
 		};
