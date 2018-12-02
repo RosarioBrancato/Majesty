@@ -19,7 +19,7 @@
          <children>
             <HBox VBox.vgrow="NEVER">
                <children>
-                  <Label fx:id="lbl_Login_username" minWidth="70.0" text="Username">
+                  <Label fx:id="lbl_Login_username" minWidth="70.0" text="%lbl_Login_username">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
@@ -36,7 +36,7 @@
             </HBox>
             <HBox layoutX="10.0" layoutY="10.0">
                <children>
-                  <Label fx:id="lbl_Login_password" minWidth="70.0" text="Password">
+                  <Label fx:id="lbl_Login_password" minWidth="70.0" text="%lbl_Login_password">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
@@ -53,7 +53,7 @@
             </HBox>
             <HBox layoutX="10.0" layoutY="40.0">
                <children>
-                  <Label fx:id="lbl_Login_language" minWidth="70.0" text="Language">
+                  <Label fx:id="lbl_Login_language" minWidth="70.0" text="%lbl_Login_language">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
@@ -90,7 +90,7 @@
             </VBox>
             <HBox layoutX="10.0" layoutY="70.0">
                <children>
-                  <Label fx:id="lbl_Login_loginMsg" minWidth="70.0" text="LoginMsg">
+                  <Label fx:id="lbl_Login_loginMsg" minWidth="70.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -102,8 +102,8 @@
             </HBox>
             <HBox layoutX="10.0" layoutY="95.0">
                <children>
-                  <Button fx:id="btn_Login_register" mnemonicParsing="false" text="Register" />
-                  <Button fx:id="btn_Login_login" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#btn_Login_loginClicked" text="Login" />
+                  <Button fx:id="btn_Login_register" mnemonicParsing="false" onAction="#btn_Login_registerClicked" text="%btn_Login_register" />
+                  <Button fx:id="btn_Login_login" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#btn_Login_loginClicked" text="%btn_Login_login" />
                </children>
                <VBox.margin>
                   <Insets bottom="5.0" />
@@ -111,13 +111,13 @@
             </HBox>
             <Accordion>
               <panes>
-                <TitledPane fx:id="acc_Login_serverInfo" expanded="false" text="Server Information">
+                <TitledPane fx:id="acc_Login_serverInfo" expanded="false" text="%acc_Login_serverInfo">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0">
                            <children>
                               <HBox>
                                  <children>
-                                    <Label fx:id="lbl_Login_serverInfo" minWidth="70.0" text="Server / Port">
+                                    <Label fx:id="lbl_Login_serverInfo" minWidth="70.0" text="%lbl_Login_serverInfo">
                                        <HBox.margin>
                                           <Insets right="10.0" />
                                        </HBox.margin>
