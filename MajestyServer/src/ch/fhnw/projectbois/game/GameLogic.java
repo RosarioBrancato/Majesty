@@ -13,6 +13,11 @@ import ch.fhnw.projectbois.gameobjects.Player;
 import ch.fhnw.projectbois.network.Lobby;
 import ch.fhnw.projectbois.network.ServerClient;
 
+/**
+ * 
+ * @author Rosario
+ *
+ */
 public class GameLogic {
 
 	private GameState gameState = null;
@@ -24,14 +29,17 @@ public class GameLogic {
 	}
 
 	public void executeMove(String username, GameMove move) {
+		GameCalculations calculations = new GameCalculations(gameState);
+
 		ArrayList<Card> display = this.gameState.getBoard().getDisplay();
 		ArrayList<Player> players = this.gameState.getBoard().getPlayers();
 
-		//TO-DO: pay meeples for card
-		
 		int selectedIndex = move.getDisplayCardIndexSelected();
 		Card selectedCard = display.get(selectedIndex);
 		Player currentPlayer = players.stream().filter(f -> f.getUsername().equals(username)).findFirst().get();
+
+		// pay meeples for card
+		calculations.payMeeplesForCard(selectedIndex);
 
 		// split card decision
 		CardType currentCardType = selectedCard.getCardType1();
@@ -43,9 +51,7 @@ public class GameLogic {
 		}
 
 		// move card meeples to player
-		int meeples = selectedCard.getMeeples();
-		currentPlayer.setMeeples(currentPlayer.getMeeples() + meeples);
-		selectedCard.setMeeples(0);
+		calculations.receiveMeeplesOfCard(selectedCard);
 
 		// add card to player
 		int locationIndex = this.getLocationIndexByCardType(currentCardType);
@@ -102,11 +108,14 @@ public class GameLogic {
 			break;
 		}
 
-		// points
+		// distribute points
+		if (currentCardType == CardType.Noble && !this.gameState.isCardSideA()) {
+			int pointsTrade = move.getNextDecision();
+			calculations.tradePointsMeeples(pointsTrade);
+		}
+		calculations.distributePoints(currentCardType);
 
-		// after points
-		
-		//final changes
+		// final changes
 		this.gameState.setId(this.gameState.getId() + 1);
 	}
 
@@ -136,7 +145,7 @@ public class GameLogic {
 			if (round > 12) {
 				gameOver = true;
 			} else {
-				this.gameState.setPlayersTurn(playersTurn + 1);
+				this.gameState.setPlayersTurn(playersTurn);
 				this.gameState.setRound(round);
 			}
 		}

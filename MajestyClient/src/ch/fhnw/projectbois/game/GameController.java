@@ -217,9 +217,11 @@ public class GameController extends Controller<GameModel, GameView> {
 	private void loadGameInfos() {
 		ArrayList<Player> players = this.gameState.getBoard().getPlayers();
 
+		Integer round = new Integer(this.gameState.getRound());
+		int playersTurn = this.gameState.getPlayersTurn();
+		String username = new String(players.get(playersTurn).getUsername());
 		Platform.runLater(() -> {
-			this.lblGameInfo.setText("Round: " + this.gameState.getRound() + "/12 | Player's turn: "
-					+ players.get(this.gameState.getPlayersTurn()).getUsername());
+			this.lblGameInfo.setText("Round: " + round + "/12 | Player's turn: " + username);
 		});
 
 		{
@@ -244,15 +246,21 @@ public class GameController extends Controller<GameModel, GameView> {
 	}
 
 	private void loadGameInfoPlayer(Player player, GamePlayerContainer container, boolean isStartingPlayer) {
-		String text = player.getUsername() + " | Meeples: " + player.getMeeples() + " | Points: " + player.getScore();
+		String text = player.getUsername() + " | Meeples: " + player.getMeeples() + " | Points: " + player.getPoints();
 
 		if (isStartingPlayer) {
 			text += " | 1st";
 		}
 
-		String toUpdate = text;
+		String toUpdate = new String(text);
 		Platform.runLater(() -> {
 			container.getLblInfo().setText(toUpdate);
+			
+			for(int i = 0; i < player.getLocations().length; i++) {
+				String locationText = "Cards: ";
+				locationText += String.valueOf(player.getLocationByIndex(i).getCards().size());
+				container.getLabelCardCountByIndex(i).setText(locationText);
+			}
 		});
 	}
 
@@ -321,23 +329,21 @@ public class GameController extends Controller<GameModel, GameView> {
 
 			@Override
 			public void handle(Event event) {
-				boolean allowMove = allowMove();
-				if (allowMove) {
-					GameMove move = new GameMove();
-					move.setDisplayCardIndexSelected(index);
+				GameMove move = new GameMove();
+				move.setDisplayCardIndexSelected(index);
 
-					// TO-DO: additional decision: split cards, split card revival
-					// move.setDecision1(-1);
-					// move.setDecision2(-1);
+				// TO-DO: additional decision: split cards, split card revival
+				// move.setDecision1(-1);
+				// move.setDecision2(-1);
 
-					model.sendMove(move);
-				}
+				model.sendMove(move);
 			}
 		});
 	}
 
 	private boolean allowMove() {
-		Player player = this.gameState.getBoard().getPlayers().get(this.gameState.getPlayersTurn());
+		int playersTurn = this.gameState.getPlayersTurn();
+		Player player = this.gameState.getBoard().getPlayers().get(playersTurn);
 
 		return player.getUsername().equals(Session.getCurrentUsername());
 	}
