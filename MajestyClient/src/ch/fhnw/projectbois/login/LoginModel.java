@@ -1,21 +1,16 @@
 package ch.fhnw.projectbois.login;
 
-import ch.fhnw.projectbois._application.MetaContainer;
-import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois._mvc.Model;
 import ch.fhnw.projectbois.communication.Request;
 import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
-import ch.fhnw.projectbois.components.menubar.MenuBarController;
-import ch.fhnw.projectbois.components.menubar.MenuBarModel;
-import ch.fhnw.projectbois.components.menubar.MenuBarView;
 import ch.fhnw.projectbois.dto.LoginDTO;
+import ch.fhnw.projectbois.dto.ReportDTO;
 import ch.fhnw.projectbois.dto.UserDTO;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.network.Network;
 import ch.fhnw.projectbois.session.Session;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -74,17 +69,20 @@ public class LoginModel extends Model {
 					logger.info("Login successful for user " + user.getUsername() + " (UID: " + user.getId() + ") - Token received: " + user.getToken());
 					loggedInUser.setValue(user);
 					
-					Platform.runLater(() -> {
-						MenuBarController controller = Controller.initMVC(MenuBarController.class, MenuBarModel.class, MenuBarView.class);
-						MetaContainer.getInstance().setRoot(controller.getViewRoot());
-					});
+//					Platform.runLater(() -> {
+//						MenuBarController controller = Controller.initMVC(MenuBarController.class, MenuBarModel.class, MenuBarView.class);
+//						MetaContainer.getInstance().setRoot(controller.getViewRoot());
+//					});
 					
-				}
-				if (newValue.getResponseId() == ResponseId.AUTH_ERROR_SERVER) {
+				} else if (newValue.getResponseId() == ResponseId.AUTH_ERROR_SERVER) {
 					logger.warning("Login failed due to a general server error. Please check server logs for further information.");
 					responseMsg.set("lbl_Login_loginMsg_GeneralServerError");
-				}
-				if (newValue.getResponseId() == ResponseId.AUTH_ERROR_CREDENTIALS) {
+					
+					String json = newValue.getJsonDataObject();
+					ReportDTO report = JsonUtils.Deserialize(json, ReportDTO.class);
+					getReportProperty().setValue(report);
+					
+				} else  if (newValue.getResponseId() == ResponseId.AUTH_ERROR_CREDENTIALS) {
 					logger.warning("Login failed due to invalid credentials.");
 					responseMsg.set("lbl_Login_loginMsg_CredentialsError");
 				}

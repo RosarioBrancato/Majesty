@@ -8,6 +8,7 @@ import ch.fhnw.projectbois.game.GameLogic;
 import ch.fhnw.projectbois.game.GameStateServer;
 import ch.fhnw.projectbois.gameobjects.GameMove;
 import ch.fhnw.projectbois.gameobjects.GameState;
+import ch.fhnw.projectbois.gameobjects.Player;
 import ch.fhnw.projectbois.general.IdFactory;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.network.Lobby;
@@ -109,7 +110,7 @@ public class GameRequestHandler extends RequestHandler {
 
 			Response response = new Response(ResponseId.GAME_STARTED, request.getRequestId(),
 					request.getJsonDataObject());
-			
+
 			for (ServerClient c : lobby.getClients()) {
 				c.sendResponse(response);
 			}
@@ -117,7 +118,40 @@ public class GameRequestHandler extends RequestHandler {
 	}
 
 	private void leaveGame() {
-		//TO-DO
+		Lobby lobby = client.getLobby();
+		GameState gameState = lobby.getGameState();
+
+		// update game state object
+		Player player = gameState.getBoard().getPlayers().stream()
+				.filter(f -> f.getUsername().equals(client.getUser().getUsername())).findFirst().get();
+
+		GameLogic logic = new GameLogic(lobby.getGameState(), lobby.getGameStateServer());
+		logic.removePlayer(player);
+
+		lobby.getClients().remove(client);
+		int clientsCount = lobby.getClients().size();
+
+		Response response = null;
+		String json = JsonUtils.Serialize(gameState);
+		if (clientsCount > 1) {
+			// message other players about a player leaving
+			response = new Response(ResponseId.GAME_PLAYER_LEFT, request.getRequestId(), json);
+
+		} else if (clientsCount == 1) {
+			// only 1 player left in the lobby -> game ended
+			response = new Response(ResponseId.GAME_ENDED, request.getRequestId(), json);
+		}
+
+		if (response != null) {
+			for (ServerClient c : lobby.getClients()) {
+				c.sendResponse(response);
+			}
+		}
+
+		// last player left the lobby -> remove lobby
+		if (lobby.getClients().size() >= 0) {
+			server.getLobbies().remove(lobby);
+		}
 	}
 
 }

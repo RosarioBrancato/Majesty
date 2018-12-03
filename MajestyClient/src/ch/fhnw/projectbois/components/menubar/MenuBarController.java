@@ -17,19 +17,47 @@ import ch.fhnw.projectbois.profile.ProfileModel;
 import ch.fhnw.projectbois.profile.ProfileView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 
 public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 
+	private Controller controller;
+	
+	@FXML
+	BorderPane pnlMenu;
+
 	public MenuBarController(MenuBarModel model, MenuBarView view) {
 		super(model, view);
 	}
 
+	@Override
+	protected void initialize() {
+		super.initialize();
+
+		PlayScreenController playScreenController = Controller.initMVC(PlayScreenController.class,
+				PlayScreenModel.class, PlayScreenView.class);
+
+		this.switchCenter(playScreenController.getViewRoot());
+	}
+
 	private void switchCenter(Parent pane) {
-		Parent root = this.getViewRoot();
-		BorderPane borderPane = (BorderPane) root;
-		borderPane.setCenter(pane);
+		System.out.println("Menubar Center 1: " + pnlMenu.getChildren().size());
+
+		// remove old root
+		Node oldCenter = pnlMenu.getCenter();
+		if (oldCenter != null) {
+			pnlMenu.getChildren().remove(oldCenter);
+		}
+		System.out.println("Menubar Center 2: " + pnlMenu.getChildren().size());
+
+		pnlMenu.setCenter(pane);
+		System.out.println("Menubar Center 3: " + pnlMenu.getChildren().size());
+		
+		if(this.controller != null) {
+			controller.destroy();
+		}
 	}
 
 	/**
@@ -62,23 +90,21 @@ public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 	private void btnLeaderboard_Click(ActionEvent event) {
 		LeaderboardController controller = Controller.initMVC(LeaderboardController.class, LeaderboardModel.class,
 				LeaderboardView.class);
-		
-		this.switchCenter(controller.getViewRoot());		
+
+		this.switchCenter(controller.getViewRoot());
 	}
-	
+
 	@FXML
 	private void btnLogout_Click(ActionEvent event) {
 		Network.getInstance().stopConnection();
-		LoginController controller = Controller.initMVC(LoginController.class, LoginModel.class, 
-				LoginView.class);
+		LoginController controller = Controller.initMVC(LoginController.class, LoginModel.class, LoginView.class);
 		MetaContainer.getInstance().setRoot(controller.getViewRoot());
 	}
-	
-	//TEMP DELTE AFTERWARDS
+
+	// TEMP DELTE AFTERWARDS
 	@FXML
 	private void btnLogin_Click(ActionEvent event) {
-		LoginController controller = Controller.initMVC(LoginController.class, LoginModel.class,
-				LoginView.class);
+		LoginController controller = Controller.initMVC(LoginController.class, LoginModel.class, LoginView.class);
 
 		this.switchCenter(controller.getViewRoot());
 	}

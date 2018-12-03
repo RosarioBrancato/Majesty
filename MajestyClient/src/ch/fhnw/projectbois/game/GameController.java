@@ -2,11 +2,15 @@ package ch.fhnw.projectbois.game;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.components.Component;
 import ch.fhnw.projectbois.components.ComponentLoader;
+import ch.fhnw.projectbois.components.menubar.MenuBarController;
+import ch.fhnw.projectbois.components.menubar.MenuBarModel;
+import ch.fhnw.projectbois.components.menubar.MenuBarView;
 import ch.fhnw.projectbois.fxml.FXMLUtils;
 import ch.fhnw.projectbois.game.meepletrader.MeepleTraderController;
 import ch.fhnw.projectbois.game.meepletrader.MeepleTraderModel;
@@ -423,19 +427,21 @@ public class GameController extends Controller<GameModel, GameView> {
 
 	@FXML
 	private void btnLeave_Click(ActionEvent e) {
+		ButtonType btnYes = new ButtonType("Yes", ButtonData.YES);
+		
 		Alert alert = DialogUtils.getAlert(MetaContainer.getInstance().getMainStage(), AlertType.CONFIRMATION,
-				"Leave game?", new ButtonType("Yes", ButtonData.YES), new ButtonType("No", ButtonData.NO));
+				"Leave game?", btnYes, new ButtonType("No", ButtonData.NO));
 
-		alert.showAndWait();
+		Optional<ButtonType> result = alert.showAndWait();
 
-		if (alert.getResult() == ButtonType.YES) {
+		if (result.get() == btnYes) {
 			model.leaveGame();
 
-//			Platform.runLater(() -> {
-//				MenuBarController controller = Controller.initMVC(MenuBarController.class, MenuBarModel.class,
-//						MenuBarView.class);
-//				MetaContainer.getInstance().setRoot(controller.getViewRoot());
-//			});
+			Platform.runLater(() -> {
+				MenuBarController controller = Controller.initMVC(MenuBarController.class, MenuBarModel.class,
+						MenuBarView.class);
+				MetaContainer.getInstance().setRoot(controller.getViewRoot());
+			});
 		}
 	}
 
