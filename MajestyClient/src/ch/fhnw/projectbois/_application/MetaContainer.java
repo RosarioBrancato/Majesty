@@ -1,5 +1,10 @@
 package ch.fhnw.projectbois._application;
 
+import java.util.ArrayList;
+
+import ch.fhnw.projectbois._mvc.Controller;
+import ch.fhnw.projectbois._mvc.Model;
+import ch.fhnw.projectbois._mvc.View;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -15,8 +20,10 @@ public class MetaContainer {
 
 	private Stage mainStage = null;
 
-	private MetaContainer() {
+	private ArrayList<Controller<? extends Model, ? extends View<? extends Model>>> controllers = null;
 
+	private MetaContainer() {
+		this.controllers = new ArrayList<>();
 	}
 
 	public static MetaContainer getInstance() {
@@ -40,6 +47,27 @@ public class MetaContainer {
 
 	public Scene getScene() {
 		return this.mainStage.getScene();
+	}
+
+	public void addController(Controller<? extends Model, ? extends View<? extends Model>> controller) {
+		this.controllers.add(controller);
+		System.out.println("Controllers: " + controllers.size());
+	}
+
+	public void destroyController(Controller<? extends Model, ? extends View<? extends Model>> controller) {
+		if (this.controllers.contains(controller)) {
+			controller.destroy();
+			this.controllers.remove(controller);
+		}
+		System.out.println("Controllers: " + controllers.size());
+	}
+
+	public void destroyControllers() {
+		for (Controller<? extends Model, ? extends View<? extends Model>> c : this.controllers) {
+			c.destroy();
+		}
+
+		this.controllers.clear();
 	}
 
 }

@@ -4,6 +4,7 @@ import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.game.GameResourceHelper;
 import ch.fhnw.projectbois.gameobjects.Card;
+import ch.fhnw.projectbois.interfaces.IDialog;
 import ch.fhnw.projectbois.utils.DialogUtils;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -12,7 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class SplitCardChooserController extends Controller<SplitCardChooserModel, SplitCardChooserView> {
+public class SplitCardChooserController extends Controller<SplitCardChooserModel, SplitCardChooserView> implements IDialog {
 
 	private Stage stage = null;
 

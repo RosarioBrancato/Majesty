@@ -18,7 +18,7 @@ import javafx.scene.Parent;
 public abstract class View<M extends Model> {
 	protected Logger logger;
 	protected Translator translator;
-	
+
 	protected Parent root;
 	protected M model;
 
@@ -31,7 +31,7 @@ public abstract class View<M extends Model> {
 	public View(M model) {
 		this.logger = LoggerFactory.getLogger(this.getClass());
 		this.translator = Translator.getTranslator();
-		
+
 		this.model = model;
 	}
 
@@ -39,11 +39,10 @@ public abstract class View<M extends Model> {
 		return this.root;
 	}
 
-	protected abstract URL getFXML();
-
 	public <T extends Controller<M, ? extends View<M>>> void loadRoot(T controller) {
 		URL url = this.getFXML();
-		//Multi-Language Support from Singleton Translator
+
+		// Multi-Language Support from Singleton Translator
 		FXMLLoader loader = new FXMLLoader(url, translator.getResourceBundle());
 		loader.setController(controller);
 
@@ -54,5 +53,11 @@ public abstract class View<M extends Model> {
 			logger.log(Level.SEVERE, "View.loadRoot()", e);
 		}
 	}
+
+	public void destroy() {
+
+	}
+
+	protected abstract URL getFXML();
 
 }

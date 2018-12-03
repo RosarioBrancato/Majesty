@@ -12,8 +12,8 @@ import ch.fhnw.projectbois.login.LoginView;
 import ch.fhnw.projectbois.network.Network;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
@@ -32,14 +32,13 @@ public class Main extends Application {
 			primaryStage.setMaximized(false);
 			primaryStage.setWidth(1250);
 			primaryStage.setHeight(800);
-
-			LoginController login = Controller.initMVC(LoginController.class, LoginModel.class, LoginView.class);
-			Scene scene = new Scene(login.getViewRoot());
-			
 			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/majesty.png")));
+
+			Scene scene = new Scene(new Label("Loading..."));
 			primaryStage.setScene(scene);
 			
 			MetaContainer.getInstance().setMainStage(primaryStage);
+			Controller.initMVCAsRoot(LoginController.class, LoginModel.class, LoginView.class);
 			
 			primaryStage.show();
 
@@ -59,7 +58,8 @@ public class Main extends Application {
 		super.stop();
 		
 		//Release current MVC
-		MetaContainer.getInstance().setRoot(new AnchorPane());
+		MetaContainer.getInstance().setRoot(new Label("Shutting down..."));
+		MetaContainer.getInstance().destroyControllers();
 		
 		//End conneciton
 		Network.getInstance().stopConnection();

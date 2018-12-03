@@ -3,7 +3,10 @@ package ch.fhnw.projectbois.playscreen;
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.dto.LobbyDTO;
 import ch.fhnw.projectbois.dto.LobbyListDTO;
+import ch.fhnw.projectbois.time.Time;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -21,6 +24,11 @@ public class PlayScreenController extends Controller<PlayScreenModel, PlayScreen
 
 	private final String SIDE_A = "Side A";
 	private final String SIDE_B = "Side B";
+	
+	private Time timer = null;
+	private ChangeListener<Number> timerPropertyListener = null;
+
+	private ChangeListener<LobbyListDTO> lobbyListPropertyListener = null;
 
 	@FXML
 	private ChoiceBox<String> cmbCardSide;
@@ -38,11 +46,26 @@ public class PlayScreenController extends Controller<PlayScreenModel, PlayScreen
 
 		this.fillChoiceBox();
 
-		model.getLobbiesProperty().addListener((observer, oldValue, newValue) -> {
-			fillListView(newValue);
-		});
+		this.initLobbyListPropertyListener();
+		this.model.getLobbiesProperty().addListener(this.lobbyListPropertyListener);
 
-		this.getLobbies();
+		this.model.getLobbies();
+		
+		this.timer = new Time();
+		this.timer.startTimer(5000);
+		
+		this.initTimerPropertyListener();
+		this.timer.getPeriodCounterProperty().addListener(this.timerPropertyListener);
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+
+		this.timer.getPeriodCounterProperty().removeListener(this.timerPropertyListener);
+		this.timer.stop();
+		
+		this.model.getLobbiesProperty().removeListener(this.lobbyListPropertyListener);
 	}
 
 	private void fillChoiceBox() {
@@ -52,16 +75,34 @@ public class PlayScreenController extends Controller<PlayScreenModel, PlayScreen
 		this.cmbCardSide.getSelectionModel().selectFirst();
 	}
 
-	private void getLobbies() {
-		model.getLobbies();
-	}
-
 	private void fillListView(LobbyListDTO lobbies) {
 		Platform.runLater(() -> {
 			lstLobbies.getItems().clear();
 			lstLobbies.getItems().addAll(lobbies.getLobbies());
 			lstLobbies.getSelectionModel().selectFirst();
 		});
+	}
+
+	private void initLobbyListPropertyListener() {
+		this.lobbyListPropertyListener = new ChangeListener<LobbyListDTO>() {
+
+			@Override
+			public void changed(ObservableValue<? extends LobbyListDTO> observable, LobbyListDTO oldValue,
+					LobbyListDTO newValue) {
+
+				fillListView(newValue);
+			}
+		};
+	}
+	
+	private void initTimerPropertyListener() {
+		this.timerPropertyListener = new ChangeListener<Number>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				model.getLobbies();
+			}
+		};
 	}
 
 	@FXML
@@ -93,7 +134,7 @@ public class PlayScreenController extends Controller<PlayScreenModel, PlayScreen
 
 	@FXML
 	private void btnRefresh_Click(ActionEvent e) {
-		getLobbies();
+		model.getLobbies();
 	}
 
 }

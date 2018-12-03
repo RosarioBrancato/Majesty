@@ -20,5 +20,5 @@ public class PlayScreenView extends View<PlayScreenModel> {
 	protected URL getFXML() {
 		return this.getClass().getResource("PlayScreenView.fxml");
 	}
-	
+
 }
