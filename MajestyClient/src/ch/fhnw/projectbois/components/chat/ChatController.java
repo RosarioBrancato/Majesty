@@ -1,14 +1,8 @@
 package ch.fhnw.projectbois.components.chat;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
-
 import ch.fhnw.projectbois._mvc.Controller;
-import ch.fhnw.projectbois.dto.LobbyDTO;
 import ch.fhnw.projectbois.dto.MessageDTO;
 import ch.fhnw.projectbois.enumerations.ChatMember;
-import ch.fhnw.projectbois.session.Session;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,9 +16,6 @@ import javafx.scene.control.TextArea;
  */
 
 public class ChatController extends Controller<ChatModel, ChatView> {
-
-	private HashMap<String, ChatMember> userNameMap = new HashMap<>();
-	private boolean initMessageListener = true;
 
 	// declaration of things I need need in code
 	@FXML
@@ -47,43 +38,24 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 	protected void initialize() {
 		super.initialize();
 
-		model.getLobbyProperty().addListener((observer, oldValue, newValue) -> {
-			mapUserNames(newValue);
-
-			if (initMessageListener) {
-				// -------------GUI is ready now-------------
-				model.getChatProperty().addListener((observer2, oldValue2, newValue2) -> {
-					updateChatView(newValue2);
-				});
-				
-				initMessageListener = false;
-			}
-		});
-
 		model.getLobbyInfo();
+
+		model.getChatProperty().addListener((observer2, oldValue2, newValue2) -> {
+			updateChatView(newValue2);
+		});
 	}
 
-	private void mapUserNames(LobbyDTO lobbyInfo) {
-		userNameMap.clear();
-		ArrayList<String> players = lobbyInfo.getPlayers();
+	private void updateChatView(MessageDTO message) {
+		Platform.runLater(() -> {
+			// check if author is Player1-4, then post message as globally
+			if (message.getAuthor() != ChatMember.System || message.getAuthor() != ChatMember.All
+					|| message.getAuthor() != null) {
 
-		userNameMap.put(players.get(0), ChatMember.Player1);
-		if (players.size() >= 2) {
-			userNameMap.put(players.get(1), ChatMember.Player2);
-		}
-		if (players.size() >= 3) {
-			userNameMap.put(players.get(2), ChatMember.Player3);
-		}
-		if (players.size() >= 4) {
-			userNameMap.put(players.get(3), ChatMember.Player4);
-		}
-	}
+				String username = model.getUsernameByChatmember(message.getAuthor());
+				txtChat.appendText(username + ": " + message.getMessage() + "\n");
+			}
 
-	private ChatMember identifyOwnChatMember() {
-		String username = Session.getCurrentUsername();
-		ChatMember ownChatMember = userNameMap.get(username);
-
-		return ownChatMember;
+		});
 	}
 
 	@FXML
@@ -91,20 +63,20 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 		MessageDTO message = new MessageDTO();
 
 		message.setMessage(txtMessage.getText());
-		message.setAuthor(identifyOwnChatMember());
+		message.setAuthor(model.getCurrentUserChatMember());
 
 		// check if whispering and set receiver
 		String messageText = message.getMessage();
 		String[] parts = messageText.split(":");
 		String part1 = parts[0];
 
-		ChatMember receiver = userNameMap.get(part1);
-		if (receiver != null && receiver != identifyOwnChatMember()) {
+		ChatMember receiver = model.getUsernameMap().get(part1);
+		if (receiver != null && receiver != model.getCurrentUserChatMember()) {
 			String newMessage = "";
-			for(int i = 1; i < parts.length; i++) {
+			for (int i = 1; i < parts.length; i++) {
 				newMessage += parts[i];
-				
-				if(i + 1 < parts.length) {
+
+				if (i + 1 < parts.length) {
 					newMessage += ":";
 				}
 			}
@@ -122,36 +94,5 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 	private void btnMinimize_Click(ActionEvent event) {
 		this.getViewRoot().setVisible(false);
 	}
-
-	private void updateChatView(MessageDTO message) {
-		Platform.runLater(() -> {
-			// check if author is Player1-4, then post message as globally
-			if (message.getAuthor() != ChatMember.System || message.getAuthor() != ChatMember.All
-					|| message.getAuthor() != null) {
-
-				String username = getUsernameByChatmember(message.getAuthor());
-				txtChat.appendText(username + ": " + message.getMessage() + "\n");
-			}
-
-		});
-	}
-	
-	private String getUsernameByChatmember(ChatMember chatMember) {
-		String username = "";
-		
-		Set<String> usernames = userNameMap.keySet();
-		
-		for(String name : usernames) {
-			ChatMember member = userNameMap.get(name);
-			
-			if(member == chatMember) {
-				username = name;
-				break;
-			}
-		}
-		
-		return username;
-	}
-	
 
 }

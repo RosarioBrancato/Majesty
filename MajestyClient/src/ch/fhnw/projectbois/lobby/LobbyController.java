@@ -7,7 +7,6 @@ import ch.fhnw.projectbois.components.menubar.MenuBarController;
 import ch.fhnw.projectbois.components.menubar.MenuBarModel;
 import ch.fhnw.projectbois.components.menubar.MenuBarView;
 import ch.fhnw.projectbois.dto.LobbyDTO;
-import ch.fhnw.projectbois.time.Time;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

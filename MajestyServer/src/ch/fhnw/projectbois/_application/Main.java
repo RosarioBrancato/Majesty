@@ -42,7 +42,9 @@ public class Main {
 						shutdown = true;
 						
 					} else if(input.equals("test")) {
-						server.broadcastTest();
+						server.broadcastGameMsg();
+						server.broadcastLobbyMsg();
+						server.broadcastPlayScreenMsg();
 					}
 				} while (!shutdown);
 

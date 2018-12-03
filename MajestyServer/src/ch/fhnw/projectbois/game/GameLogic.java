@@ -138,14 +138,25 @@ public class GameLogic {
 			int playersCount = this.gameState.getBoard().getPlayers().size();
 			int playersTurn = this.gameState.getPlayersTurn();
 
-			playersTurn++;
-			if (playersTurn >= playersCount) {
-				playersTurn = 0;
-			}
+			Player player;
+			int whileBreaker = 0;
+			do {
+				playersTurn++;
+				if (playersTurn >= playersCount) {
+					playersTurn = 0;
+				}
 
-			if (playersTurn == startPlayer) {
-				round++;
-			}
+				if (playersTurn == startPlayer) {
+					round++;
+				}
+
+				// if a player left, skip his turn
+				player = this.gameState.getBoard().getPlayers().get(playersTurn);
+				whileBreaker++;
+				if (whileBreaker > 4) {
+					break;
+				}
+			} while (player.isPlayerLeft());
 
 			if (round > 12) {
 				gameOver = true;
@@ -162,6 +173,17 @@ public class GameLogic {
 
 	public void endGame() {
 
+	}
+
+	public void removePlayer(Player player) {
+		player.setPlayerLeft(true);
+
+		int playersTurn = this.gameState.getPlayersTurn();
+		Player currentPlayer = this.gameState.getBoard().getPlayers().get(playersTurn);
+
+		if (currentPlayer.getUsername().equals(player.getUsername())) {
+			this.startNextTurn();
+		}
 	}
 
 	// SET UP METHODS
@@ -261,7 +283,7 @@ public class GameLogic {
 
 	public void setCardsAside() {
 		int totalTier1Cards = 33;
-		
+
 		int cardsToRemove = 0;
 
 		switch (gameState.getBoard().getPlayers().size()) {

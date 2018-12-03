@@ -13,7 +13,6 @@ import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.dto.LoginDTO;
 import ch.fhnw.projectbois.dto.UserDTO;
-import ch.fhnw.projectbois.general.UserHandler;
 // import ch.fhnw.projectbois.general.IdFactory;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.network.Server;

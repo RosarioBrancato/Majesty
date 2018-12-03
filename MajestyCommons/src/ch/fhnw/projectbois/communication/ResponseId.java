@@ -40,6 +40,10 @@ public class ResponseId {
 	public static final int CHAT_ERROR = 498;
 	public static final int CHAT_RANGE_END = 499;
 
+	public static final int PLAY_SCREEN_START = 500;
+	public static final int PLAY_SCREEN_ERROR = 598;
+	public static final int PLAY_SCREEN_END = 599;
+
 	public static final int TEST = 999;
 
 }

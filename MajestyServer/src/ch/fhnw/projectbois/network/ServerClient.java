@@ -51,10 +51,9 @@ public class ServerClient {
 					while ((json = reader.readLine()) != null && !socket.isClosed()) {
 
 						try {
-							logger.info("ServerClient Json: " + json);
+							logger.info("C to S: " + json);
 
 							Request request = JsonUtils.Deserialize(json, Request.class);
-							logger.info("Server Request: " + request.toString());
 
 							if (request.getRequestId() == RequestId.LOGIN
 									|| request.getRequestId() == RequestId.REGISTER) {

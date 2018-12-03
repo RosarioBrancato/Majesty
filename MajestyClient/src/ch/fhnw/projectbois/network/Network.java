@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import ch.fhnw.projectbois.communication.Request;
-import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.log.LoggerFactory;
@@ -19,7 +18,7 @@ import javafx.beans.property.SimpleObjectProperty;
 public class Network {
 
 	private static Network instance = null;
-	
+
 	private Logger logger = null;
 
 	private Socket socket = null;
@@ -44,24 +43,7 @@ public class Network {
 	public void sendRequest(Request request) {
 		try {
 			String json = JsonUtils.Serialize(request);
-			this.logger.info("Network.sendRequest() - JSON: " + json);
-
-			OutputStream stream = this.socket.getOutputStream();
-			PrintWriter writer = new PrintWriter(stream);
-
-			writer.println(json);
-			writer.flush();
-
-		} catch (Exception ex) {
-		}
-	}
-
-	public void sendTest() {
-		try {
-			Request request = new Request("TEST-TOKEN", RequestId.DO_MOVE, "{}");
-
-			String json = JsonUtils.Serialize(request);
-			this.logger.info("Network.sendTest() - JSON: " + json);
+			this.logger.info("Network.sendRequest() - " + json);
 
 			OutputStream stream = this.socket.getOutputStream();
 			PrintWriter writer = new PrintWriter(stream);
@@ -87,11 +69,11 @@ public class Network {
 						String json;
 						while ((json = reader.readLine()) != null && !socket.isClosed()) {
 							try {
-								logger.info("Network.Runnable() JSON: " + json);
-								
+								logger.info("Network.Runnable() - " + json);
+
 								Response response = JsonUtils.Deserialize(json, Response.class);
 								responseProperty.setValue(response);
-								
+
 							} catch (Exception ex) {
 								logger.log(Level.SEVERE, "Network.Runnable()", ex);
 							}
@@ -113,7 +95,7 @@ public class Network {
 		if (this.socket != null) {
 			try {
 				this.socket.close();
-				logger.log(Level.INFO, "Socket to Server closed");
+				logger.log(Level.INFO, "Socket to Server has been closed.");
 			} catch (IOException e) {
 			}
 
