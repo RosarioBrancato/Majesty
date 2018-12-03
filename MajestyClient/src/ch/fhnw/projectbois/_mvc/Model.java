@@ -22,28 +22,36 @@ public abstract class Model {
 	private SimpleObjectProperty<Response> responseProperty;
 	private SimpleObjectProperty<ReportDTO> reportProperty;
 
+	private ChangeListener<Response> responsePropertyListener = null;
+
 	public Model() {
 		this.logger = LoggerFactory.getLogger(this.getClass());
 		this.translator = Translator.getTranslator();
-		
+
 		this.responseProperty = new SimpleObjectProperty<>();
 		this.reportProperty = new SimpleObjectProperty<>();
 	}
 
-	protected void initResponseListener() {
-		ChangeListener<Response> listener = this.getChangeListener();
-		if (listener != null) {
-			this.responseProperty.bind(Network.getInstance().getResponseProperty());
-			this.responseProperty.addListener(listener);
+	public void destroy() {
+		if (this.responsePropertyListener != null) {
+			this.responseProperty.removeListener(this.responsePropertyListener);
 		}
 	}
-	
-	public  SimpleObjectProperty<ReportDTO> getReportProperty() {
+
+	public SimpleObjectProperty<ReportDTO> getReportProperty() {
 		return this.reportProperty;
 	}
 
 	protected ChangeListener<Response> getChangeListener() {
 		return null;
 	}
-	
+
+	protected void initResponseListener() {
+		this.responsePropertyListener = this.getChangeListener();
+		if (this.responsePropertyListener != null) {
+			this.responseProperty.bind(Network.getInstance().getResponseProperty());
+			this.responseProperty.addListener(this.responsePropertyListener);
+		}
+	}
+
 }

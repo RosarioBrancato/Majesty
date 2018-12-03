@@ -2,13 +2,14 @@ package ch.fhnw.projectbois.registration;
 
 import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
+import ch.fhnw.projectbois.interfaces.IDialog;
 import ch.fhnw.projectbois.utils.DialogUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class RegistrationController extends Controller<RegistrationModel, RegistrationView> {
+public class RegistrationController extends Controller<RegistrationModel, RegistrationView> implements IDialog {
 	private Stage stage;
 	
 	public RegistrationController(RegistrationModel model, RegistrationView view) {

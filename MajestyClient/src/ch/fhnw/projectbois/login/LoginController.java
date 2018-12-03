@@ -2,15 +2,17 @@ package ch.fhnw.projectbois.login;
 
 import java.util.Locale;
 
-import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.components.menubar.MenuBarController;
 import ch.fhnw.projectbois.components.menubar.MenuBarModel;
 import ch.fhnw.projectbois.components.menubar.MenuBarView;
+import ch.fhnw.projectbois.dto.UserDTO;
 import ch.fhnw.projectbois.registration.RegistrationController;
 import ch.fhnw.projectbois.registration.RegistrationModel;
 import ch.fhnw.projectbois.registration.RegistrationView;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -72,6 +74,10 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	
 	@FXML
 	private Label lbl_Login_serverInfo;
+	
+	
+	private ChangeListener<UserDTO> userPropertyListener = null;
+	private ChangeListener<String> loginStatusPropertyListener = null;
 
 	public LoginController(LoginModel model, LoginView view) {
 		super(model, view);
@@ -96,16 +102,39 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		});
 	}
 	
+	private void initUserPropertyListener() {
+		this.userPropertyListener = new ChangeListener<UserDTO>() {
+			
+			@Override
+			public void changed(ObservableValue<? extends UserDTO> observable, UserDTO oldValue, UserDTO newValue) {
+				Platform.runLater(() -> {
+					Controller.initMVCAsRoot(MenuBarController.class, MenuBarModel.class, MenuBarView.class);
+				});
+			}
+		};
+	}
+	
+	private void initLoginStatusPropertyListener() {
+	this.loginStatusPropertyListener = new ChangeListener<String>() {
+
+		@Override
+		public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+			Platform.runLater(() -> {
+				lbl_Login_loginMsg.setText(translator.getTranslation(newValue.toString()));
+			});
+		}
+	};	
+	}
+	
 	@Override
 	protected void initialize() {
 		super.initialize();
-
-		model.getLoggedInUser().addListener((observer, oldValue, newValue) -> {
-			Platform.runLater(() -> {
-				MenuBarController controller = Controller.initMVC(MenuBarController.class, MenuBarModel.class, MenuBarView.class);
-				MetaContainer.getInstance().setRoot(controller.getViewRoot());
-			});
-		});
+		
+		this.initUserPropertyListener();
+		model.getLoggedInUser().addListener(userPropertyListener);
+		
+		this.initLoginStatusPropertyListener();
+		model.getLoginStatus().addListener(loginStatusPropertyListener);
 		
 		model.getLoginStatus().addListener((observer, oldValue, newValue) -> {
 			Platform.runLater(() -> {
@@ -138,6 +167,14 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		
 	}
 	
+	@Override
+	public void destroy() {
+		super.destroy();
+
+		model.getLoggedInUser().removeListener(userPropertyListener);
+		model.getLoginStatus().removeListener(loginStatusPropertyListener);
+	}
+	
 	@FXML
 	private void btn_Login_loginClicked(ActionEvent event) {
 		model.LoginProcessCredentials(txt_Login_serverServer.getText(), txt_Login_serverPort.getText(), txt_Login_username.getText(), txt_Login_password.getText());
@@ -145,9 +182,7 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	
 	@FXML
 	private void btn_Login_registerClicked(ActionEvent event) {
-		RegistrationController controller = Controller.initMVC(
-				RegistrationController.class, RegistrationModel.class, RegistrationView.class);
-		controller.showAndWait();
+		Controller.initMVCAsDlg(RegistrationController.class, RegistrationModel.class, RegistrationView.class);
 	}
 	
 	/* START: DELETE AFTER DEVELOPMENT PHASE */
