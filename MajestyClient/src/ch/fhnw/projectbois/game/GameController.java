@@ -392,6 +392,8 @@ public class GameController extends Controller<GameModel, GameView> {
 
 						int decision = controller.getDecision();
 						move.getDecisions().add(decision);
+						
+						MetaContainer.getInstance().destroyController(controller);
 					}
 				}
 
@@ -411,6 +413,8 @@ public class GameController extends Controller<GameModel, GameView> {
 			controller.showAndWait();
 
 			decision = controller.getDecision();
+
+			MetaContainer.getInstance().destroyController(controller);
 		}
 
 		return decision;
@@ -428,7 +432,7 @@ public class GameController extends Controller<GameModel, GameView> {
 	@FXML
 	private void btnLeave_Click(ActionEvent e) {
 		ButtonType btnYes = new ButtonType("Yes", ButtonData.YES);
-		
+
 		Alert alert = DialogUtils.getAlert(MetaContainer.getInstance().getMainStage(), AlertType.CONFIRMATION,
 				"Leave game?", btnYes, new ButtonType("No", ButtonData.NO));
 
@@ -438,9 +442,7 @@ public class GameController extends Controller<GameModel, GameView> {
 			model.leaveGame();
 
 			Platform.runLater(() -> {
-				MenuBarController controller = Controller.initMVC(MenuBarController.class, MenuBarModel.class,
-						MenuBarView.class);
-				MetaContainer.getInstance().setRoot(controller.getViewRoot());
+				Controller.initMVCAsRoot(MenuBarController.class, MenuBarModel.class, MenuBarView.class);
 			});
 		}
 	}

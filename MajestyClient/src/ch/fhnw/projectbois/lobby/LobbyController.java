@@ -167,8 +167,7 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 			//Close Lobby
 			model.ExitGame(lobby);
 			//Reload PlayScreen
-			MenuBarController menu = Controller.initMVC(MenuBarController.class, MenuBarModel.class, MenuBarView.class);
-			MetaContainer.getInstance().setRoot(menu.getViewRoot());
+			Controller.initMVCAsRoot(MenuBarController.class, MenuBarModel.class, MenuBarView.class);
 		} else {
 		    //Dialogue cancelled, do nothing
 		}

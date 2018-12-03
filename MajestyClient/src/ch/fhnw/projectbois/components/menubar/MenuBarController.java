@@ -2,6 +2,8 @@ package ch.fhnw.projectbois.components.menubar;
 
 import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
+import ch.fhnw.projectbois._mvc.Model;
+import ch.fhnw.projectbois._mvc.View;
 import ch.fhnw.projectbois.leaderboard.LeaderboardController;
 import ch.fhnw.projectbois.leaderboard.LeaderboardModel;
 import ch.fhnw.projectbois.leaderboard.LeaderboardView;
@@ -17,14 +19,12 @@ import ch.fhnw.projectbois.profile.ProfileModel;
 import ch.fhnw.projectbois.profile.ProfileView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 
 public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 
-	private Controller controller;
-	
+	private Controller<? extends Model, ? extends View<? extends Model>> controller;
+
 	@FXML
 	BorderPane pnlMenu;
 
@@ -39,25 +39,17 @@ public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 		PlayScreenController playScreenController = Controller.initMVC(PlayScreenController.class,
 				PlayScreenModel.class, PlayScreenView.class);
 
-		this.switchCenter(playScreenController.getViewRoot());
+		this.switchCenter(playScreenController);
 	}
 
-	private void switchCenter(Parent pane) {
-		System.out.println("Menubar Center 1: " + pnlMenu.getChildren().size());
-
-		// remove old root
-		Node oldCenter = pnlMenu.getCenter();
-		if (oldCenter != null) {
-			pnlMenu.getChildren().remove(oldCenter);
+	private void switchCenter(Controller<? extends Model, ? extends View<? extends Model>> controller) {
+		// destroy old MVC
+		if (this.controller != null) {
+			MetaContainer.getInstance().destroyController(this.controller);
 		}
-		System.out.println("Menubar Center 2: " + pnlMenu.getChildren().size());
+		this.controller = controller;
 
-		pnlMenu.setCenter(pane);
-		System.out.println("Menubar Center 3: " + pnlMenu.getChildren().size());
-		
-		if(this.controller != null) {
-			controller.destroy();
-		}
+		pnlMenu.setCenter(controller.getViewRoot());
 	}
 
 	/**
@@ -70,7 +62,7 @@ public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 		PlayScreenController controller = Controller.initMVC(PlayScreenController.class, PlayScreenModel.class,
 				PlayScreenView.class);
 
-		this.switchCenter(controller.getViewRoot());
+		this.switchCenter(controller);
 	}
 
 	@FXML
@@ -78,7 +70,7 @@ public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 		ProfileController controller = Controller.initMVC(ProfileController.class, ProfileModel.class,
 				ProfileView.class);
 
-		this.switchCenter(controller.getViewRoot());
+		this.switchCenter(controller);
 	}
 
 	/**
@@ -91,14 +83,14 @@ public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 		LeaderboardController controller = Controller.initMVC(LeaderboardController.class, LeaderboardModel.class,
 				LeaderboardView.class);
 
-		this.switchCenter(controller.getViewRoot());
+		this.switchCenter(controller);
 	}
 
 	@FXML
 	private void btnLogout_Click(ActionEvent event) {
 		Network.getInstance().stopConnection();
-		LoginController controller = Controller.initMVC(LoginController.class, LoginModel.class, LoginView.class);
-		MetaContainer.getInstance().setRoot(controller.getViewRoot());
+
+		Controller.initMVCAsRoot(LoginController.class, LoginModel.class, LoginView.class);
 	}
 
 	// TEMP DELTE AFTERWARDS
@@ -106,7 +98,7 @@ public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 	private void btnLogin_Click(ActionEvent event) {
 		LoginController controller = Controller.initMVC(LoginController.class, LoginModel.class, LoginView.class);
 
-		this.switchCenter(controller.getViewRoot());
+		this.switchCenter(controller);
 	}
 
 }

@@ -2,7 +2,6 @@ package ch.fhnw.projectbois.lobby;
 
 import java.sql.Timestamp;
 
-import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois._mvc.Model;
 import ch.fhnw.projectbois.communication.Request;
@@ -32,7 +31,7 @@ import javafx.beans.value.ObservableValue;
  */
 
 public class LobbyModel extends Model {
-	
+
 	private SimpleObjectProperty<LobbyDTO> lobbyProperty = null;
 	private SimpleObjectProperty<Timestamp> errorProperty = null;
 	private UserDTO user = null;
@@ -48,19 +47,19 @@ public class LobbyModel extends Model {
 		this.initResponseListener();
 		determineLobbyUser();
 	}
-	
-	//Starts the Game of Majesty with 2 - 4 players that were in the lobby
+
+	// Starts the Game of Majesty with 2 - 4 players that were in the lobby
 	public void startGame() {
 		Request request = new Request(Session.getCurrentUserToken(), RequestId.START_GAME, null);
 		Network.getInstance().sendRequest(request);
 	}
-	
-	//Forwards the Player to the Exit screen from the lobby
+
+	// Forwards the Player to the Exit screen from the lobby
 	public void ExitGame(LobbyDTO lobby) {
 		String json = JsonUtils.Serialize(lobby);
 		Request request = new Request(Session.getCurrentUserToken(), RequestId.LEAVE_LOBBY, json);
 		Network.getInstance().sendRequest(request);
-		
+
 		message.setMessage(user.getUsername() + " " + translator.getTranslation("msg_LobbyView_PlayerLeft"));
 		String json1 = JsonUtils.Serialize(message);
 		Request request1 = new Request(Session.getCurrentUserToken(), RequestId.CHAT_SEND_MSG, json1);
@@ -71,13 +70,13 @@ public class LobbyModel extends Model {
 			Request request2 = new Request(Session.getCurrentUserToken(), RequestId.CHAT_SEND_MSG, json2);
 			Network.getInstance().sendRequest(request2);
 		}
-		
+
 	}
-	
+
 	public SimpleObjectProperty<LobbyDTO> getLobbyProperty() {
 		return this.lobbyProperty;
 	}
-	
+
 	public UserDTO getUser() {
 		return this.user;
 	}
@@ -92,22 +91,22 @@ public class LobbyModel extends Model {
 
 			@Override
 			public void changed(ObservableValue<? extends Response> observable, Response oldValue, Response newValue) {
-				
-				//The game was launched and the board is loaded
+
+				// The game was launched and the board is loaded
 				if (newValue.getResponseId() == ResponseId.GAME_STARTED) {
 					showGameBoard();
-				//A player joins and the GUI has to be updated
-				} else if (newValue.getResponseId() == ResponseId.LOBBY_JOINED_MULTICAST 
+					// A player joins and the GUI has to be updated
+				} else if (newValue.getResponseId() == ResponseId.LOBBY_JOINED_MULTICAST
 						|| newValue.getResponseId() == ResponseId.LOBBY_LEFT_MULTICAST) {
 					String json = newValue.getJsonDataObject();
 					LobbyDTO lobby = JsonUtils.Deserialize(json, LobbyDTO.class);
 					lobbyProperty.setValue(lobby);
-				//The client needs to know what user is associated with it
+					// The client needs to know what user is associated with it
 				} else if (newValue.getResponseId() == ResponseId.LOBBY_USER_INFO) {
 					String json = newValue.getJsonDataObject();
-					user = JsonUtils.Deserialize(json, UserDTO.class);					
-				
-				} else if(newValue.getResponseId() == ResponseId.LOBBY_ERROR) {
+					user = JsonUtils.Deserialize(json, UserDTO.class);
+
+				} else if (newValue.getResponseId() == ResponseId.LOBBY_ERROR) {
 					String json = newValue.getJsonDataObject();
 					ReportDTO report = JsonUtils.Deserialize(json, ReportDTO.class);
 					getReportProperty().setValue(report);
@@ -115,32 +114,31 @@ public class LobbyModel extends Model {
 			}
 		};
 	}
-	
-	//Determine the owner of the Lobby for advanced privileges
+
+	// Determine the owner of the Lobby for advanced privileges
 	public String determineLobbyOwner(LobbyDTO lobby) {
 		String owner = lobby.getPlayers().get(0);
 		return owner;
 	}
-	
-	//Determine the player (ServerClient) of the Lobby for comparison
+
+	// Determine the player (ServerClient) of the Lobby for comparison
 	public void determineLobbyUser() {
 		Request request = new Request(Session.getCurrentUserToken(), RequestId.GET_USER_OF_CLIENT, null);
 		Network.getInstance().sendRequest(request);
 	}
-	
-	//Determine whether player and owner match
+
+	// Determine whether player and owner match
 	public boolean isLobbyOwner(LobbyDTO lobby, UserDTO user) {
 		if (determineLobbyOwner(lobby).equals(user.getUsername())) {
 			return true;
-		} else return false;
+		} else
+			return false;
 	}
 
 	private void showGameBoard() {
-		GameController controller = Controller.initMVC(GameController.class, GameModel.class, GameView.class);
-		
 		Platform.runLater(() -> {
-			MetaContainer.getInstance().setRoot(controller.getViewRoot());
+			Controller.initMVCAsRoot(GameController.class, GameModel.class, GameView.class);
 		});
 	}
-	
+
 }

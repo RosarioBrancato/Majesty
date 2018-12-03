@@ -45,6 +45,7 @@ public class Main {
 						server.broadcastGameMsg();
 						server.broadcastLobbyMsg();
 						server.broadcastPlayScreenMsg();
+						server.broadcastLoginMsg();
 					}
 				} while (!shutdown);
 

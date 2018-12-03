@@ -1,6 +1,5 @@
 package ch.fhnw.projectbois.playscreen;
 
-import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois._mvc.Model;
 import ch.fhnw.projectbois.communication.Request;
@@ -41,11 +40,11 @@ public class PlayScreenModel extends Model {
 		this.lobbiesProperty = new SimpleObjectProperty<>();
 
 		this.user = new UserDTO();
-		
+
 		this.message = new MessageDTO();
 		this.message.setReceiver(ChatMember.All);
 		this.message.setAuthor(ChatMember.System);
-		
+
 		this.initResponseListener();
 		determinePlayScreenUser();
 	}
@@ -80,6 +79,12 @@ public class PlayScreenModel extends Model {
 		return this.user;
 	}
 
+	// Determine the player (ServerClient) of the Lobby for comparison
+	public void determinePlayScreenUser() {
+		Request request = new Request(Session.getCurrentUserToken(), RequestId.GET_USER_OF_CLIENT, null);
+		Network.getInstance().sendRequest(request);
+	}
+
 	@Override
 	protected ChangeListener<Response> getChangeListener() {
 		return new ChangeListener<Response>() {
@@ -103,12 +108,12 @@ public class PlayScreenModel extends Model {
 					String json = newValue.getJsonDataObject();
 					user = JsonUtils.Deserialize(json, UserDTO.class);
 
-				} else if(newValue.getResponseId() == ResponseId.PLAY_SCREEN_ERROR) {
+				} else if (newValue.getResponseId() == ResponseId.PLAY_SCREEN_ERROR) {
 					String json = newValue.getJsonDataObject();
 					ReportDTO report = JsonUtils.Deserialize(json, ReportDTO.class);
 					getReportProperty().setValue(report);
 				}
-				
+
 //				else if (newValue.getResponseId() == ResponseId.LOBBY_ERROR) {
 //					String json = newValue.getJsonDataObject();
 //					ReportDTO report = JsonUtils.Deserialize(json, ReportDTO.class);
@@ -119,17 +124,9 @@ public class PlayScreenModel extends Model {
 		};
 	}
 
-	// Determine the player (ServerClient) of the Lobby for comparison
-	public void determinePlayScreenUser() {
-		Request request = new Request(Session.getCurrentUserToken(), RequestId.GET_USER_OF_CLIENT, null);
-		Network.getInstance().sendRequest(request);
-	}
-
 	private void showLobby(LobbyDTO lobby) {
 		Platform.runLater(() -> {
-			LobbyController controller = Controller.initMVC(LobbyController.class, LobbyModel.class, LobbyView.class);
-			controller.setLobby(lobby);
-			MetaContainer.getInstance().setRoot(controller.getViewRoot());
+			Controller.initMVCAsRoot(LobbyController.class, LobbyModel.class, LobbyView.class);
 		});
 	}
 }
