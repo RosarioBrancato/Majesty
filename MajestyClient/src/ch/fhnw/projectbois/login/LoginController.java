@@ -102,7 +102,7 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 
 		model.getLoggedInUser().addListener((observer, oldValue, newValue) -> {
 			Platform.runLater(() -> {
-				MenuBarController controller = initMVC(MenuBarController.class, MenuBarModel.class, MenuBarView.class);
+				MenuBarController controller = Controller.initMVC(MenuBarController.class, MenuBarModel.class, MenuBarView.class);
 				MetaContainer.getInstance().setRoot(controller.getViewRoot());
 			});
 		});

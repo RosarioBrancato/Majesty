@@ -1,5 +1,9 @@
 package ch.fhnw.projectbois.components.chat;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
+
 import ch.fhnw.projectbois._mvc.Model;
 import ch.fhnw.projectbois.communication.Request;
 import ch.fhnw.projectbois.communication.RequestId;
@@ -8,6 +12,9 @@ import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.dto.LobbyDTO;
 import ch.fhnw.projectbois.dto.MessageDTO;
 import ch.fhnw.projectbois.dto.ReportDTO;
+import ch.fhnw.projectbois.enumerations.ChatMember;
+import ch.fhnw.projectbois.gameobjects.GameState;
+import ch.fhnw.projectbois.gameobjects.Player;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.network.Network;
 import ch.fhnw.projectbois.session.Session;
@@ -24,18 +31,18 @@ import javafx.beans.value.ObservableValue;
 public class ChatModel extends Model {
 
 	private SimpleObjectProperty<MessageDTO> chatProperty = null;
-	private SimpleObjectProperty<LobbyDTO> lobbyProperty = null;
+	private HashMap<String, ChatMember> usernameMap = null;
 
 	public ChatModel() {
 		this.chatProperty = new SimpleObjectProperty<>();
-		this.lobbyProperty = new SimpleObjectProperty<>();
+		this.usernameMap = new HashMap<>();
 		this.initResponseListener();
 	}
 
 	public void sendMessage(MessageDTO message) {
 		String json = JsonUtils.Serialize(message);
 
-		// create and send request. UserToken: identify user, 
+		// create and send request. UserToken: identify user,
 		// RequestId: knows which logic to use, json: has all the infos
 		Request request = new Request(Session.getCurrentUserToken(), RequestId.CHAT_SEND_MSG, json);
 
@@ -61,21 +68,30 @@ public class ChatModel extends Model {
 					chatProperty.setValue(message);
 
 				} else if (newValue.getResponseId() == ResponseId.LOBBY_INFO
-						|| newValue.getResponseId() == ResponseId.LOBBY_JOINED_MULTICAST 
-						|| newValue.getResponseId() == ResponseId.LOBBY_LEFT_MULTICAST
-						|| newValue.getRequestId() == ResponseId.GAME_PLAYER_LEFT) {
-					
+						|| newValue.getResponseId() == ResponseId.LOBBY_JOINED_MULTICAST
+						|| newValue.getResponseId() == ResponseId.LOBBY_LEFT_MULTICAST) {
+
 					String json = newValue.getJsonDataObject();
 					LobbyDTO lobbyInfo = JsonUtils.Deserialize(json, LobbyDTO.class);
 
-					lobbyProperty.setValue(lobbyInfo);
+					mapUsernames(lobbyInfo);
+
+				} else if (newValue.getRequestId() == ResponseId.GAME_PLAYER_LEFT) {
+					String json = newValue.getJsonDataObject();
+					GameState gameState = JsonUtils.Deserialize(json, GameState.class);
+
+					for (Player p : gameState.getBoard().getPlayers()) {
+						if (p.isPlayerLeft()) {
+							usernameMap.remove(p.getUsername());
+						}
+					}
 
 				} else if (newValue.getResponseId() == ResponseId.CHAT_ERROR) {
 					String json = newValue.getJsonDataObject();
 					ReportDTO report = JsonUtils.Deserialize(json, ReportDTO.class);
-					
+
 					getReportProperty().setValue(report);
-				} 
+				}
 
 			}
 		};
@@ -84,11 +100,49 @@ public class ChatModel extends Model {
 	public SimpleObjectProperty<MessageDTO> getChatProperty() {
 		return this.chatProperty;
 	}
-	
-	public SimpleObjectProperty<LobbyDTO> getLobbyProperty() {
-		return this.lobbyProperty;
+
+	public HashMap<String, ChatMember> getUsernameMap() {
+		return this.usernameMap;
 	}
 
-	
+	public ChatMember getCurrentUserChatMember() {
+		String username = Session.getCurrentUsername();
+		ChatMember ownChatMember = usernameMap.get(username);
+
+		return ownChatMember;
+	}
+
+	public String getUsernameByChatmember(ChatMember chatMember) {
+		String username = "Unkown";
+
+		Set<String> usernames = usernameMap.keySet();
+
+		for (String name : usernames) {
+			ChatMember member = usernameMap.get(name);
+
+			if (member == chatMember) {
+				username = name;
+				break;
+			}
+		}
+
+		return username;
+	}
+
+	private void mapUsernames(LobbyDTO lobbyInfo) {
+		usernameMap.clear();
+		ArrayList<String> players = lobbyInfo.getPlayers();
+
+		usernameMap.put(players.get(0), ChatMember.Player1);
+		if (players.size() >= 2) {
+			usernameMap.put(players.get(1), ChatMember.Player2);
+		}
+		if (players.size() >= 3) {
+			usernameMap.put(players.get(2), ChatMember.Player3);
+		}
+		if (players.size() >= 4) {
+			usernameMap.put(players.get(3), ChatMember.Player4);
+		}
+	}
 
 }

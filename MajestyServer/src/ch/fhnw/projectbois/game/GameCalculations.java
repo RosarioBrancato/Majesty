@@ -53,10 +53,10 @@ public class GameCalculations {
 		currentPlayer.setMeeples(meeples);
 		selectedCard.setMeeples(0);
 	}
-	
+
 	public void convertMeepleOverflowToPoints() {
 		int meeples = currentPlayer.getMeeples();
-		
+
 		if (meeples > 5) {
 			int points = currentPlayer.getPoints();
 			points += (meeples - 5);
@@ -107,12 +107,16 @@ public class GameCalculations {
 		// meeplesToTrade positive -> buy meeples
 		// meeplesToTrade negative -> sell meeples
 		if (meeplesToTrade > 0) {
-			meeples += meeplesToTrade;
-			points -= meeplesToTrade;
+			if (points >= meeplesToTrade) {
+				meeples += meeplesToTrade;
+				points -= meeplesToTrade;
+			}
 
 		} else if (meeplesToTrade < 0) {
-			meeples -= Math.abs(meeplesToTrade);
-			points += Math.abs(meeplesToTrade);
+			if (meeples >= meeplesToTrade) {
+				meeples -= Math.abs(meeplesToTrade);
+				points += Math.abs(meeplesToTrade);
+			}
 		}
 
 		currentPlayer.setMeeples(meeples);

@@ -6,12 +6,7 @@ import ch.fhnw.projectbois.utils.DialogUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class RegistrationController extends Controller<RegistrationModel, RegistrationView> {
 	private Stage stage;

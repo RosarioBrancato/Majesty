@@ -114,9 +114,9 @@ public class Server {
 
 	// TEST METHODS
 
-	public void broadcastTest() {
-		//error
-		ReportDTO report = new ReportDTO(ReportSeverity.ERROR, "You just received an error message!");
+	public void broadcastGameMsg() {
+		//info
+		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "Game received an info message!");
 		
 		String json = JsonUtils.Serialize(report);
 		Response response = new Response(ResponseId.GAME_ERROR, RequestId.TEST, json);
@@ -124,22 +124,38 @@ public class Server {
 		for(ServerClient c : this.clients) {
 			c.sendResponse(response);
 		}
+	}
 
-		//warning
-		report = new ReportDTO(ReportSeverity.WARNING, "You just received a warning message!");
+	public void broadcastLobbyMsg() {
+		//info
+		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "Lobby received an info message!");
 		
-		json = JsonUtils.Serialize(report);
-		response = new Response(ResponseId.GAME_ERROR, RequestId.TEST, json);
+		String json = JsonUtils.Serialize(report);
+		Response response = new Response(ResponseId.LOBBY_ERROR, RequestId.TEST, json);
 		
 		for(ServerClient c : this.clients) {
 			c.sendResponse(response);
 		}
+	}
 
+	public void broadcastPlayScreenMsg() {
 		//info
-		report = new ReportDTO(ReportSeverity.INFO, "You just received an info message!", "dlg_Alert_Game_Test");
+		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "Play Screen received an info message!");
 		
-		json = JsonUtils.Serialize(report);
-		response = new Response(ResponseId.GAME_ERROR, RequestId.TEST, json);
+		String json = JsonUtils.Serialize(report);
+		Response response = new Response(ResponseId.PLAY_SCREEN_ERROR, RequestId.TEST, json);
+		
+		for(ServerClient c : this.clients) {
+			c.sendResponse(response);
+		}
+	}
+
+	public void broadcastLoginMsg() {
+		//info
+		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "Login received an info message!");
+		
+		String json = JsonUtils.Serialize(report);
+		Response response = new Response(ResponseId.AUTH_ERROR_SERVER, RequestId.TEST, json);
 		
 		for(ServerClient c : this.clients) {
 			c.sendResponse(response);

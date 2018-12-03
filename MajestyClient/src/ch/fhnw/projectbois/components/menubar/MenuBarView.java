@@ -20,15 +20,15 @@ public class MenuBarView extends View<MenuBarModel> {
 		return this.getClass().getResource("MenuBarView.fxml");
 	}
 	
-	@Override
-	public <T extends Controller<MenuBarModel, ? extends View<MenuBarModel>>> void loadRoot(T controller) {
-		super.loadRoot(controller);
-		
-		PlayScreenController playScreenController = Controller.initMVC(PlayScreenController.class,
-				PlayScreenModel.class, PlayScreenView.class);
-
-		BorderPane pane = (BorderPane) this.root;
-		pane.setCenter(playScreenController.getViewRoot());
-	}
+//	@Override
+//	public <T extends Controller<MenuBarModel, ? extends View<MenuBarModel>>> void loadRoot(T controller) {
+//		super.loadRoot(controller);
+//		
+////		PlayScreenController playScreenController = Controller.initMVC(PlayScreenController.class,
+////				PlayScreenModel.class, PlayScreenView.class);
+////
+////		BorderPane pane = (BorderPane) this.root;
+////		pane.setCenter(playScreenController.getViewRoot());
+//	}
 
 }

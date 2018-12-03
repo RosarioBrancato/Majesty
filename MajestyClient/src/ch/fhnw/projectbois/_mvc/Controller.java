@@ -70,6 +70,11 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 	public Parent getViewRoot() {
 		return this.view.getRoot();
 	}
+	
+	public void destroy() {
+		this.view = null;
+		this.model = null;
+	}
 
 	@FXML
 	protected void initialize() {

@@ -11,6 +11,7 @@ import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.dto.LobbyDTO;
 import ch.fhnw.projectbois.dto.MessageDTO;
+import ch.fhnw.projectbois.dto.ReportDTO;
 import ch.fhnw.projectbois.dto.UserDTO;
 import ch.fhnw.projectbois.enumerations.ChatMember;
 import ch.fhnw.projectbois.game.GameController;
@@ -105,6 +106,11 @@ public class LobbyModel extends Model {
 				} else if (newValue.getResponseId() == ResponseId.LOBBY_USER_INFO) {
 					String json = newValue.getJsonDataObject();
 					user = JsonUtils.Deserialize(json, UserDTO.class);					
+				
+				} else if(newValue.getResponseId() == ResponseId.LOBBY_ERROR) {
+					String json = newValue.getJsonDataObject();
+					ReportDTO report = JsonUtils.Deserialize(json, ReportDTO.class);
+					getReportProperty().setValue(report);
 				}
 			}
 		};
@@ -130,8 +136,9 @@ public class LobbyModel extends Model {
 	}
 
 	private void showGameBoard() {
+		GameController controller = Controller.initMVC(GameController.class, GameModel.class, GameView.class);
+		
 		Platform.runLater(() -> {
-			GameController controller = Controller.initMVC(GameController.class, GameModel.class, GameView.class);
 			MetaContainer.getInstance().setRoot(controller.getViewRoot());
 		});
 	}

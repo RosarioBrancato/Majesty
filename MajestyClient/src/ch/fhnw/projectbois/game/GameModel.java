@@ -1,12 +1,12 @@
 package ch.fhnw.projectbois.game;
 
 import ch.fhnw.projectbois._mvc.Model;
-import ch.fhnw.projectbois.communication.ResponseId;
-import ch.fhnw.projectbois.dto.ReportDTO;
-import ch.fhnw.projectbois.enumerations.ReportSeverity;
 import ch.fhnw.projectbois.communication.Request;
 import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
+import ch.fhnw.projectbois.communication.ResponseId;
+import ch.fhnw.projectbois.dto.ReportDTO;
+import ch.fhnw.projectbois.enumerations.ReportSeverity;
 import ch.fhnw.projectbois.gameobjects.GameMove;
 import ch.fhnw.projectbois.gameobjects.GameState;
 import ch.fhnw.projectbois.json.JsonUtils;
@@ -42,7 +42,8 @@ public class GameModel extends Model {
 	}
 	
 	public void leaveGame() {
-		//TO-DO
+		Request request = new Request(Session.getCurrentUserToken(), RequestId.lEAVE_GAME, null);
+		Network.getInstance().sendRequest(request);
 	}
 
 	@Override
@@ -66,7 +67,12 @@ public class GameModel extends Model {
 					getReportProperty().setValue(report);
 					
 				} else if(newValue.getRequestId() == ResponseId.GAME_PLAYER_LEFT) {
-					//TO-DO
+					String json = newValue.getJsonDataObject();
+					GameState gameState = JsonUtils.Deserialize(json, GameState.class);
+					gameStateProperty.setValue(gameState);
+					
+					ReportDTO report = new ReportDTO(ReportSeverity.INFO, "A player left the game!");
+					getReportProperty().setValue(report);
 					
 				} else if (newValue.getResponseId() == ResponseId.GAME_ERROR) {
 					String json = newValue.getJsonDataObject();

@@ -1,18 +1,9 @@
 package ch.fhnw.projectbois.network;
 
 import java.util.ArrayList;
-import java.util.logging.Logger;
-
-import ch.fhnw.projectbois.communication.RequestId;
-import ch.fhnw.projectbois.communication.Response;
-import ch.fhnw.projectbois.communication.ResponseId;
-import ch.fhnw.projectbois.dto.MessageDTO;
-import ch.fhnw.projectbois.dto.UserDTO;
 import ch.fhnw.projectbois.game.GameStateServer;
 import ch.fhnw.projectbois.gameobjects.GameState;
 import ch.fhnw.projectbois.general.IdFactory;
-import ch.fhnw.projectbois.json.JsonUtils;
-import ch.fhnw.projectbois.log.LoggerFactory;
 
 /**
  * 
@@ -20,8 +11,6 @@ import ch.fhnw.projectbois.log.LoggerFactory;
  *
  */
 public class Lobby {
-
-	private Logger logger = null;
 
 	private int id = -1;
 	private boolean cardSideA = true;
@@ -33,7 +22,6 @@ public class Lobby {
 	private GameStateServer gameStateServer;
 
 	public Lobby() {
-		this.logger = LoggerFactory.getLogger(this.getClass());
 		this.id = IdFactory.getInstance().getNewId(this.getClass().getName());
 	}
 
@@ -59,28 +47,6 @@ public class Lobby {
 
 	public boolean isEmpty() {
 		return this.clients.size() <= 0;
-	}
-
-	public void doMove(UserDTO user, String json) {
-		this.logger.info("Lobby.doMove() - Token: " + user.getToken() + " JSON: " + json);
-	}
-
-	public void updateGameState(GameState gameState) {
-		for (ServerClient client : this.clients) {
-			String json = JsonUtils.Serialize(gameState);
-			Response response = new Response(ResponseId.UPDATE_GAMESTATE, RequestId.DO_MOVE, json);
-
-			client.sendResponse(response);
-		}
-	}
-
-	public void sendMessage(MessageDTO message) {
-		for (ServerClient client : this.clients) {
-			String json = JsonUtils.Serialize(message);
-			Response response = new Response(ResponseId.RECEIVE_MSG, RequestId.CHAT_SEND_MSG, json);
-
-			client.sendResponse(response);
-		}
 	}
 
 	public int getId() {
@@ -114,11 +80,11 @@ public class Lobby {
 	public void setGameStateServer(GameStateServer gameStateServer) {
 		this.gameStateServer = gameStateServer;
 	}
-	
+
 	public boolean isGameStarted() {
 		return this.gameStarted;
 	}
-	
+
 	public void setGameStarted(boolean started) {
 		this.gameStarted = started;
 	}
