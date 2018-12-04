@@ -69,11 +69,6 @@ public class LoginModel extends Model {
 					logger.info("Login successful for user " + user.getUsername() + " (UID: " + user.getId() + ") - Token received: " + user.getToken());
 					loggedInUser.setValue(user);
 					
-//					Platform.runLater(() -> {
-//						MenuBarController controller = Controller.initMVC(MenuBarController.class, MenuBarModel.class, MenuBarView.class);
-//						MetaContainer.getInstance().setRoot(controller.getViewRoot());
-//					});
-					
 				} else if (newValue.getResponseId() == ResponseId.AUTH_ERROR_SERVER) {
 					logger.warning("Login failed due to a general server error. Please check server logs for further information.");
 					responseMsg.set("lbl_Login_loginMsg_GeneralServerError");
