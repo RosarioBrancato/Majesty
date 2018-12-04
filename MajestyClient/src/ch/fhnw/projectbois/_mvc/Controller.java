@@ -12,7 +12,6 @@ import ch.fhnw.projectbois.translate.Translator;
 import ch.fhnw.projectbois.utils.DialogUtils;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
@@ -113,14 +112,9 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 
 	@FXML
 	protected void initialize() {
-		this.reportPropertyListener = new ChangeListener<ReportDTO>() {
-
-			@Override
-			public void changed(ObservableValue<? extends ReportDTO> observable, ReportDTO oldValue,
-					ReportDTO newValue) {
-
-				handleReport(newValue);
-			}
+		
+		this.reportPropertyListener = (observer, oldValue, newValue) -> {
+			handleReport(newValue);
 		};
 
 		// listen for reports

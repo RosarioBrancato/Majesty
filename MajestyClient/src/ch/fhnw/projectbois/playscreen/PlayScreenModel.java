@@ -21,7 +21,6 @@ import ch.fhnw.projectbois.session.Session;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 
 /**
  * 
@@ -87,39 +86,28 @@ public class PlayScreenModel extends Model {
 
 	@Override
 	protected ChangeListener<Response> getChangeListener() {
-		return new ChangeListener<Response>() {
-			@Override
-			public void changed(ObservableValue<? extends Response> observable, Response oldValue, Response newValue) {
+		return (observer, oldValue, newValue) -> {
+			if (newValue.getResponseId() == ResponseId.UPDATE_LOBBIES) {
+				String json = newValue.getJsonDataObject();
+				LobbyListDTO lobbies = JsonUtils.Deserialize(json, LobbyListDTO.class);
 
-				if (newValue.getResponseId() == ResponseId.UPDATE_LOBBIES) {
-					String json = newValue.getJsonDataObject();
-					LobbyListDTO lobbies = JsonUtils.Deserialize(json, LobbyListDTO.class);
+				lobbiesProperty.setValue(lobbies);
 
-					lobbiesProperty.setValue(lobbies);
+			} else if (newValue.getResponseId() == ResponseId.LOBBY_CREATED
+					|| newValue.getResponseId() == ResponseId.LOBBY_JOINED) {
 
-				} else if (newValue.getResponseId() == ResponseId.LOBBY_CREATED
-						|| newValue.getResponseId() == ResponseId.LOBBY_JOINED) {
+				String json = newValue.getJsonDataObject();
+				LobbyDTO lobby = JsonUtils.Deserialize(json, LobbyDTO.class);
+				showLobby(lobby);
 
-					String json = newValue.getJsonDataObject();
-					LobbyDTO lobby = JsonUtils.Deserialize(json, LobbyDTO.class);
-					showLobby(lobby);
+			} else if (newValue.getResponseId() == ResponseId.LOBBY_USER_INFO) {
+				String json = newValue.getJsonDataObject();
+				user = JsonUtils.Deserialize(json, UserDTO.class);
 
-				} else if (newValue.getResponseId() == ResponseId.LOBBY_USER_INFO) {
-					String json = newValue.getJsonDataObject();
-					user = JsonUtils.Deserialize(json, UserDTO.class);
-
-				} else if (newValue.getResponseId() == ResponseId.PLAY_SCREEN_ERROR) {
-					String json = newValue.getJsonDataObject();
-					ReportDTO report = JsonUtils.Deserialize(json, ReportDTO.class);
-					getReportProperty().setValue(report);
-				}
-
-//				else if (newValue.getResponseId() == ResponseId.LOBBY_ERROR) {
-//					String json = newValue.getJsonDataObject();
-//					ReportDTO report = JsonUtils.Deserialize(json, ReportDTO.class);
-//					getReportProperty().setValue(report);
-//				}
-
+			} else if (newValue.getResponseId() == ResponseId.PLAY_SCREEN_ERROR) {
+				String json = newValue.getJsonDataObject();
+				ReportDTO report = JsonUtils.Deserialize(json, ReportDTO.class);
+				getReportProperty().setValue(report);
 			}
 		};
 	}
