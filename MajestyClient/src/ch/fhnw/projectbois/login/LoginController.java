@@ -107,6 +107,7 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 			
 			@Override
 			public void changed(ObservableValue<? extends UserDTO> observable, UserDTO oldValue, UserDTO newValue) {
+				destroy();
 				Platform.runLater(() -> {
 					Controller.initMVCAsRoot(MenuBarController.class, MenuBarModel.class, MenuBarView.class);
 				});
@@ -115,15 +116,15 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	}
 	
 	private void initLoginStatusPropertyListener() {
-	this.loginStatusPropertyListener = new ChangeListener<String>() {
-
-		@Override
-		public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-			Platform.runLater(() -> {
-				lbl_Login_loginMsg.setText(translator.getTranslation(newValue.toString()));
-			});
-		}
-	};	
+		this.loginStatusPropertyListener = new ChangeListener<String>() {
+	
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				Platform.runLater(() -> {
+					lbl_Login_loginMsg.setText(translator.getTranslation(newValue.toString()));
+				});
+			}
+		};	
 	}
 	
 	@Override
@@ -182,7 +183,11 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	
 	@FXML
 	private void btn_Login_registerClicked(ActionEvent event) {
-		Controller.initMVCAsDlg(RegistrationController.class, RegistrationModel.class, RegistrationView.class);
+		int port = Integer.parseInt(txt_Login_serverPort.getText());
+		//RegistrationController controller = Controller.initMVCAsDlg(RegistrationController.class, RegistrationModel.class, RegistrationView.class);
+		RegistrationController controller = Controller.initMVC(RegistrationController.class, RegistrationModel.class, RegistrationView.class);
+		controller.setServerParam(txt_Login_serverServer.getText(), port);
+		controller.showAndWait();
 	}
 	
 	/* START: DELETE AFTER DEVELOPMENT PHASE */

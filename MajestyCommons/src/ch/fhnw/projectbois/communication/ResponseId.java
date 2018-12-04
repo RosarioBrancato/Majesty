@@ -43,6 +43,12 @@ public class ResponseId {
 	public static final int PLAY_SCREEN_START = 500;
 	public static final int PLAY_SCREEN_ERROR = 598;
 	public static final int PLAY_SCREEN_END = 599;
+	
+	public static final int REGISTRATION_RANGE_START = 600;
+	public static final int REGISTRATION_SUCCESS = 601;
+	public static final int REGISTRATION_ERROR_DATABASE = 602;
+	public static final int REGISTRATION_ERROR_USER_ALREADY_EXISTS = 603;
+	public static final int REGISTRATION_RANGE_END = 699;
 
 	public static final int TEST = 999;
 
