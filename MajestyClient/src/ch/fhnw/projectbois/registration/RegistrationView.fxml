@@ -45,7 +45,7 @@
             <HBox>
                <children>
                   <Button fx:id="btn_Registration_cancel" cancelButton="true" mnemonicParsing="false" onAction="#btn_Registration_cancelClicked" text="%btn_Registration_cancel" />
-                  <Button fx:id="btn_Registration_register" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#btn_Registration_registerClicked" text="%btn_Registration_register" />
+                  <Button fx:id="btn_Registration_register" defaultButton="true" disable="false" mnemonicParsing="false" onAction="#btn_Registration_registerClicked" text="%btn_Registration_register" />
                </children>
             </HBox>
          </children>

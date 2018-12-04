@@ -12,8 +12,9 @@ import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.dto.LoginDTO;
+import ch.fhnw.projectbois.dto.RegistrationDTO;
 import ch.fhnw.projectbois.dto.UserDTO;
-// import ch.fhnw.projectbois.general.IdFactory;
+import ch.fhnw.projectbois.general.UserHandler;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.network.Server;
 import ch.fhnw.projectbois.network.ServerClient;
@@ -70,6 +71,30 @@ public class AuthRequestHandler extends RequestHandler {
 				}
 			}
 
+			client.sendResponse(response);
+		}
+		
+		if(request.getRequestId() == RequestId.REGISTER) {
+			Response response = null;
+			RegistrationDTO regReq = JsonUtils.Deserialize(request.getJsonDataObject(),RegistrationDTO.class);
+			UserHandler uh = new UserHandler();
+			int uid;
+			try {
+				uid = uh.createUser(regReq.getUsername(), regReq.getEmail(), regReq.getPassword());
+				if(uid > 0) {
+					response = new Response(ResponseId.REGISTRATION_SUCCESS, request.getRequestId(), "");
+				}else if (uid == -1) {
+					logger.severe("Registration failed because the user already exists.");
+					response = new Response(ResponseId.REGISTRATION_ERROR_USER_ALREADY_EXISTS, request.getRequestId(), "");
+				}else {
+					logger.severe("Registration failed due to an unknown database error.");
+					response = new Response(ResponseId.REGISTRATION_ERROR_DATABASE, request.getRequestId(), "");
+				}
+			} catch (Exception e) {
+				logger.severe("Registration failed due to database error: " + e.toString());
+				response = new Response(ResponseId.REGISTRATION_ERROR_DATABASE, request.getRequestId(), "");
+			}
+			
 			client.sendResponse(response);
 		}
 	}
