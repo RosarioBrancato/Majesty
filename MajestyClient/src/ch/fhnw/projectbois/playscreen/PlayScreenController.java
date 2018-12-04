@@ -6,7 +6,6 @@ import ch.fhnw.projectbois.dto.LobbyListDTO;
 import ch.fhnw.projectbois.time.Time;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -84,24 +83,14 @@ public class PlayScreenController extends Controller<PlayScreenModel, PlayScreen
 	}
 
 	private void initLobbyListPropertyListener() {
-		this.lobbyListPropertyListener = new ChangeListener<LobbyListDTO>() {
-
-			@Override
-			public void changed(ObservableValue<? extends LobbyListDTO> observable, LobbyListDTO oldValue,
-					LobbyListDTO newValue) {
-
-				fillListView(newValue);
-			}
+		this.lobbyListPropertyListener = (observer, oldValue, newValue) -> {
+			fillListView(newValue);
 		};
 	}
 	
 	private void initTimerPropertyListener() {
-		this.timerPropertyListener = new ChangeListener<Number>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				model.getLobbies();
-			}
+		this.timerPropertyListener = (observer, oldValue, newValue) -> {
+			model.getLobbies();
 		};
 	}
 
