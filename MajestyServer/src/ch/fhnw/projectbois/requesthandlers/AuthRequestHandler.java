@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import ch.fhnw.projectbois.access.DbAccess;
 import ch.fhnw.projectbois.auth.PasswordHandler;
 import ch.fhnw.projectbois.auth.TokenFactory;
@@ -56,11 +57,23 @@ public class AuthRequestHandler extends RequestHandler {
 				response = new Response(ResponseId.AUTH_ERROR_SERVER, request.getRequestId(), json);
 			}
 			
+			boolean isLoggedIn = false;
+			
+			try {
+				isLoggedIn = server.getClients().stream().filter(f -> f.getUser().getUsername().equals(loginRequest.getUsername())).findAny().isPresent();
+			}catch(NullPointerException e) {
+				logger.warning("Could not check wether user is logged in or not: " + e.toString());
+			}
+			
+			if(isLoggedIn) {
+				logger.severe("Login failed. User is already logged in: " + loginRequest.getUsername());
+				response = new Response(ResponseId.AUTH_ERROR_ALREADYLOGGEDIN, request.getRequestId(), json);
+			}
+			
 			if(DBuid != 0 && response == null) {
 				PasswordHandler ph = new PasswordHandler();
 				if(ph.checkMatchingPasswords(loginRequest.getPassword(), DBpassword, DBsalt)) {
 					token = TokenFactory.getInstance();
-					//uid = IdFactory.getInstance().getNewId(UserDTO.class.getName());
 					user = new UserDTO(DBuid, loginRequest.getUsername(), token.getNewToken());
 					client.setUser(user);
 					json = JsonUtils.Serialize(user);
