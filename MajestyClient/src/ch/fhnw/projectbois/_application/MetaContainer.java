@@ -68,6 +68,7 @@ public class MetaContainer {
 		}
 
 		this.controllers.clear();
+		System.out.println("Controllers: " + controllers.size());
 	}
 
 }
