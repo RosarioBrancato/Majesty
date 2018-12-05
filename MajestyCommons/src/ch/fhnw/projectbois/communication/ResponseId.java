@@ -50,6 +50,7 @@ public class ResponseId {
 	public static final int REGISTRATION_SUCCESS = 601;
 	public static final int REGISTRATION_ERROR_DATABASE = 602;
 	public static final int REGISTRATION_ERROR_USER_ALREADY_EXISTS = 603;
+	public static final int REGISTRATION_ERROR_BAD_CREDENTIALS = 604;
 	public static final int REGISTRATION_RANGE_END = 699;
 
 	public static final int TEST = 999;

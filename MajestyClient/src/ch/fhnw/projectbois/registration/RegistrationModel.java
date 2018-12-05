@@ -47,6 +47,9 @@ public class RegistrationModel extends Model {
 				} else if(newValue.getResponseId() == ResponseId.REGISTRATION_ERROR_DATABASE) {
 					logger.warning("Registration failed due to a server-side error. Please check server logs for further information.");
 					regStat.set("lbl_Registration_Response_DBError");
+				} else if(newValue.getResponseId() == ResponseId.REGISTRATION_ERROR_BAD_CREDENTIALS) {
+					logger.warning("Registration failed due to invalid credentials submitted.");
+					regStat.set("lbl_Registration_Response_DBError");
 				}
 			}
 		};
