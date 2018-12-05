@@ -19,6 +19,7 @@ import ch.fhnw.projectbois.general.UserHandler;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.network.Server;
 import ch.fhnw.projectbois.network.ServerClient;
+import ch.fhnw.projectbois.validation.CredentialsValidator;
 
 public class AuthRequestHandler extends RequestHandler {
 	
@@ -88,20 +89,32 @@ public class AuthRequestHandler extends RequestHandler {
 		}
 		
 		if(request.getRequestId() == RequestId.REGISTER) {
+			CredentialsValidator cv = new CredentialsValidator();
 			Response response = null;
 			RegistrationDTO regReq = JsonUtils.Deserialize(request.getJsonDataObject(),RegistrationDTO.class);
 			UserHandler uh = new UserHandler();
-			int uid;
+			int uid = 0;
+			
+			if(!cv.stringIsAlphanumeric(regReq.getUsername()) || !cv.stringIsValidEmailAddress(regReq.getEmail()) || !cv.passwordStrenghtIsSufficient(regReq.getPassword())) {
+				uid = -99;
+			}
+			
 			try {
-				uid = uh.createUser(regReq.getUsername(), regReq.getEmail(), regReq.getPassword());
+				if(uid == 0) {
+					uid = uh.createUser(regReq.getUsername(), regReq.getEmail(), regReq.getPassword());
+				}
+				
 				if(uid > 0) {
 					response = new Response(ResponseId.REGISTRATION_SUCCESS, request.getRequestId(), "");
 				}else if (uid == -1) {
 					logger.severe("Registration failed because the user already exists.");
 					response = new Response(ResponseId.REGISTRATION_ERROR_USER_ALREADY_EXISTS, request.getRequestId(), "");
+				}else if(uid == -2) {
+					logger.severe("Registration failed because the user already exists.");
+					response = new Response(ResponseId.REGISTRATION_ERROR_USER_ALREADY_EXISTS, request.getRequestId(), "");
 				}else {
-					logger.severe("Registration failed due to an unknown database error.");
-					response = new Response(ResponseId.REGISTRATION_ERROR_DATABASE, request.getRequestId(), "");
+					logger.severe("Registration failed due to invalid credentials submitted.");
+					response = new Response(ResponseId.REGISTRATION_ERROR_BAD_CREDENTIALS, request.getRequestId(), "");
 				}
 			} catch (Exception e) {
 				logger.severe("Registration failed due to database error: " + e.toString());
