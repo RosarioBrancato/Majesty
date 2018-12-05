@@ -87,7 +87,7 @@ public class Server {
 		}
 	}
 
-	public void removeClient(ServerClient client) {
+	public synchronized void removeClient(ServerClient client) {
 		// remove client from his lobby
 		Lobby lobby = client.getLobby();
 		if (lobby != null) {

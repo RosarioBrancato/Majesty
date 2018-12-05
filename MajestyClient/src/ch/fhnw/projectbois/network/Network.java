@@ -36,11 +36,7 @@ public class Network {
 		return instance;
 	}
 
-	public SimpleObjectProperty<Response> getResponseProperty() {
-		return this.responseProperty;
-	}
-
-	public void sendRequest(Request request) {
+	public synchronized void sendRequest(Request request) {
 		try {
 			String json = JsonUtils.Serialize(request);
 			this.logger.info("Network.sendRequest() - " + json);
@@ -106,6 +102,10 @@ public class Network {
 
 			this.socket = null;
 		}
+	}
+
+	public SimpleObjectProperty<Response> getResponseProperty() {
+		return this.responseProperty;
 	}
 
 }
