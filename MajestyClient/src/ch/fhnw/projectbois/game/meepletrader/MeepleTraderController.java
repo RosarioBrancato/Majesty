@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.stage.Stage;
@@ -18,6 +19,12 @@ public class MeepleTraderController extends Controller<MeepleTraderModel, Meeple
 	private Stage stage;
 	private int meeples = 0;
 	private int points = 0;
+	
+	@FXML
+	private Label lblMeeples;
+	
+	@FXML
+	private Label lblPoints;
 
 	@FXML
 	private RadioButton rdbBuy;
@@ -35,6 +42,9 @@ public class MeepleTraderController extends Controller<MeepleTraderModel, Meeple
 	public void setCurrencies(int meeples, int points) {
 		this.meeples = meeples;
 		this.points = points;
+		
+		this.lblMeeples.setText(String.valueOf(this.meeples));
+		this.lblPoints.setText(String.valueOf(this.points));
 
 		this.setUpSlider();
 	}
