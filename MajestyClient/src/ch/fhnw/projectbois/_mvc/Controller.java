@@ -84,15 +84,15 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 
 		return controller;
 	}
-	
+
 	public static <C extends Controller<M, V>, V extends View<M>, M extends Model> C initMVCAsDlg(
 			Class<C> controllerClass, Class<M> modelClass, Class<V> viewClass) {
 
 		C controller = initMVC(controllerClass, modelClass, viewClass);
-		
-		if(controller instanceof IDialog) {
-			((IDialog)controller).showAndWait();
-			
+
+		if (controller instanceof IDialog) {
+			((IDialog) controller).showAndWait();
+
 			MetaContainer.getInstance().destroyController(controller);
 		}
 
@@ -104,7 +104,9 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 	}
 
 	public void destroy() {
-		this.model.getReportProperty().removeListener(this.reportPropertyListener);
+		if (this.reportPropertyListener != null) {
+			this.model.getReportProperty().removeListener(this.reportPropertyListener);
+		}
 
 		this.view.destroy();
 		this.model.destroy();
@@ -112,7 +114,7 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 
 	@FXML
 	protected void initialize() {
-		
+
 		this.reportPropertyListener = (observer, oldValue, newValue) -> {
 			handleReport(newValue);
 		};

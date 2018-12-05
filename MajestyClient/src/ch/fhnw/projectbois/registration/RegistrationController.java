@@ -3,7 +3,6 @@ package ch.fhnw.projectbois.registration;
 import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.interfaces.IDialog;
-import ch.fhnw.projectbois.login.LoginController;
 import ch.fhnw.projectbois.utils.DialogUtils;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -39,6 +38,8 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 	
 	@Override
 	protected void initialize() {
+		super.initialize();
+		
 		System.out.println("Initializing RegContr");
 		this.initLoginStatusPropertyListener();
 		model.getRegistrationStatus().addListener(regStat);
