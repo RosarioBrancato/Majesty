@@ -88,8 +88,8 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 		timer.startCountdown(10);
 		timer.getPeriodCounterProperty().addListener((observer, oldValue, newValue) -> {
 			if (timer.getCounterSimplified()==0) {
-				System.out.println("dfdsffds");
 				timer.stop();
+				if (model.isLobbyOwner(lobby, model.getUser())) {
 				Platform.runLater(() -> {
 				//Create Alert
 				Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -112,14 +112,17 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 				    setCountdown();
 				}
 				});
+				}
 			
 			}
+			
 			Platform.runLater(() -> {
 				lblCountdown_Dynamic.setText(translator.getTranslation("lbl_LobbyView_Countdown") + " " + timer.getCounter());
 			 	});
 		});
 	}
 	*/
+	
 	
 	private void onePlayerLobby() {
 		this.lblInformation_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InformationDynamic1"));
