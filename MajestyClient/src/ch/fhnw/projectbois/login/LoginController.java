@@ -177,9 +177,13 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		model.getLoginStatus().removeListener(loginStatusPropertyListener);
 	}
 	
+	private void processCredentials() {
+		model.LoginProcessCredentials(txt_Login_serverServer.getText(), txt_Login_serverPort.getText(), txt_Login_username.getText(), txt_Login_password.getText());
+	}
+	
 	@FXML
 	private void btn_Login_loginClicked(ActionEvent event) {
-		model.LoginProcessCredentials(txt_Login_serverServer.getText(), txt_Login_serverPort.getText(), txt_Login_username.getText(), txt_Login_password.getText());
+		processCredentials();
 	}
 	
 	@FXML
@@ -189,7 +193,10 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		RegistrationController controller = Controller.initMVC(RegistrationController.class, RegistrationModel.class, RegistrationView.class);
 		controller.setServerParam(txt_Login_serverServer.getText(), port);
 		controller.showAndWait();
+		this.txt_Login_username.setText(controller.getUsername());
+		this.txt_Login_password.setText(controller.getPassword());
 		MetaContainer.getInstance().destroyController(controller);
+		processCredentials();
 	}
 	
 	/* START: DELETE AFTER DEVELOPMENT PHASE */

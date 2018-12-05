@@ -1,0 +1,11 @@
+Label{
+	-fx-min-width: 50;
+}
+
+.field_ok{
+	-fx-border-color: green;
+}
+
+.field_error{
+	-fx-border-color: red;
+}
