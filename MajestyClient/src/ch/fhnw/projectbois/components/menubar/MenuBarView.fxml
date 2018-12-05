@@ -16,22 +16,23 @@
          </columnConstraints>
          <rowConstraints>
             <RowConstraints minHeight="120.0" prefHeight="120.0" valignment="CENTER" vgrow="NEVER" />
-            <RowConstraints minHeight="80.0" prefHeight="80.0" valignment="CENTER" vgrow="NEVER" />
+            <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER" vgrow="NEVER" />
             <RowConstraints minHeight="80.0" prefHeight="80.0" valignment="CENTER" vgrow="NEVER" />
             <RowConstraints minHeight="80.0" prefHeight="80.0" valignment="CENTER" vgrow="NEVER" />
             <RowConstraints minHeight="80.0" prefHeight="80.0" valignment="CENTER" vgrow="NEVER" />
             <RowConstraints minHeight="80.0" prefHeight="80.0" valignment="CENTER" vgrow="NEVER" />
          </rowConstraints>
          <children>
-            <Button fx:id="btnPlay" mnemonicParsing="false" onAction="#btnPlay_Click" prefHeight="80.0" prefWidth="200.0" text="%btn_Components_MenuBar_Play" GridPane.rowIndex="1" />
-            <Button fx:id="btnProfile" mnemonicParsing="false" onAction="#btnProfile_Click" prefHeight="80.0" prefWidth="200.0" text="%btn_Components_MenuBar_Profile" GridPane.rowIndex="2" />
-            <Button fx:id="btnLeaderboard" mnemonicParsing="false" onAction="#btnLeaderboard_Click" prefHeight="80.0" prefWidth="200.0" text="%btn_Components_MenuBar_Leaderboard" GridPane.rowIndex="3" />
-            <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#btnLogout_Click" prefHeight="80.0" prefWidth="200.0" text="%btn_Components_MenuBar_Logout" GridPane.rowIndex="4" />
             <Label text="%lbl_Components_MenuBar_Title">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
+            <Button fx:id="btnPlay" mnemonicParsing="false" onAction="#btnPlay_Click" prefHeight="80.0" prefWidth="200.0" text="%btn_Components_MenuBar_Play" GridPane.rowIndex="2" />
+            <Button fx:id="btnProfile" mnemonicParsing="false" onAction="#btnProfile_Click" prefHeight="80.0" prefWidth="200.0" text="%btn_Components_MenuBar_Profile" GridPane.rowIndex="3" />
+            <Button fx:id="btnLeaderboard" mnemonicParsing="false" onAction="#btnLeaderboard_Click" prefHeight="80.0" prefWidth="200.0" text="%btn_Components_MenuBar_Leaderboard" GridPane.rowIndex="4" />
+            <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#btnLogout_Click" prefHeight="80.0" prefWidth="200.0" text="%btn_Components_MenuBar_Logout" GridPane.rowIndex="5" />
+            <Label fx:id="lblGreetUser" text="%lbl_Greet_User" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </left>

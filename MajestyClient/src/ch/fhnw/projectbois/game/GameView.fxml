@@ -70,7 +70,7 @@
       </AnchorPane>
       <AnchorPane layoutY="543.0" prefHeight="55.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Button layoutX="18.0" layoutY="161.0" mnemonicParsing="false" onAction="#btnLeave_Click" text="Leave" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="18.0" />
+            <Button layoutX="18.0" layoutY="161.0" mnemonicParsing="false" onAction="#btnLeave_Click" text="%lbl_Game_Leave" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="18.0" />
             <Label fx:id="lblGameInfo" alignment="CENTER_RIGHT" layoutX="76.0" layoutY="20.0" prefHeight="50.0" prefWidth="721.0" text="Round: 1/12 Player's turn: 1" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="76.0" AnchorPane.rightAnchor="3.0">
                <font>
                   <Font size="24.0" />
