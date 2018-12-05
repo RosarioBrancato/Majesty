@@ -9,6 +9,7 @@ import ch.fhnw.projectbois.utils.DialogUtils;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -20,6 +21,9 @@ public class SplitCardChooserController extends Controller<SplitCardChooserModel
 	private int decision = 1;
 
 	@FXML
+	private Label lblCardInfo;
+	
+	@FXML
 	private ImageView imgViewLeft;
 
 	@FXML
@@ -29,10 +33,12 @@ public class SplitCardChooserController extends Controller<SplitCardChooserModel
 		super(model, view);
 	}
 
-	public void loadSplitCard(Card splitCard) {
+	public void loadSplitCard(Card splitCard, String splitCardInfo) {
 		if (splitCard.isSplitCard()) {
 			GameResourceHelper helper = new GameResourceHelper();
 
+			this.lblCardInfo.setText(splitCardInfo);
+			
 			Card left = new Card(splitCard.getCardType1());
 			this.imgViewLeft.setImage(helper.getCardImage(left));
 			this.imgViewLeft.setPreserveRatio(true);
