@@ -55,7 +55,9 @@ public class Network {
 		}
 	}
 
-	public void initConnection(String host, int port) {
+	public boolean initConnection(String host, int port) {
+		boolean success = true;
+		
 		try {
 			this.stopConnection();
 
@@ -88,7 +90,10 @@ public class Network {
 
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Network.initConnection()", e);
+			success = false;
 		}
+		
+		return success;
 	}
 
 	public void stopConnection() {
