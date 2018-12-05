@@ -2,6 +2,7 @@ package ch.fhnw.projectbois.login;
 
 import java.util.Locale;
 
+import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.components.menubar.MenuBarController;
 import ch.fhnw.projectbois.components.menubar.MenuBarModel;
@@ -184,10 +185,11 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	@FXML
 	private void btn_Login_registerClicked(ActionEvent event) {
 		int port = Integer.parseInt(txt_Login_serverPort.getText());
-		//RegistrationController controller = Controller.initMVCAsDlg(RegistrationController.class, RegistrationModel.class, RegistrationView.class);
+		
 		RegistrationController controller = Controller.initMVC(RegistrationController.class, RegistrationModel.class, RegistrationView.class);
 		controller.setServerParam(txt_Login_serverServer.getText(), port);
 		controller.showAndWait();
+		MetaContainer.getInstance().destroyController(controller);
 	}
 	
 	/* START: DELETE AFTER DEVELOPMENT PHASE */
