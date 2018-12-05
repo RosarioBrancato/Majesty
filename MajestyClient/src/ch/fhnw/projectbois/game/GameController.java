@@ -357,7 +357,7 @@ public class GameController extends Controller<GameModel, GameView> {
 				// handle split card
 				Card card = gameState.getBoard().getDisplay().get(index);
 				if (card.isSplitCard()) {
-					int decision = showSplitCardChooser(card);
+					int decision = showSplitCardChooser(card, "Card from display is a split card!");
 					card.setActiveCardType(decision);
 					move.getDecisions().add(decision);
 				}
@@ -371,7 +371,7 @@ public class GameController extends Controller<GameModel, GameView> {
 						Card toRevive = infirmary.getCards().get(cardCount - 1);
 
 						if (toRevive.isSplitCard()) {
-							int decision = showSplitCardChooser(toRevive);
+							int decision = showSplitCardChooser(toRevive, "Card to revive is a split card!");
 							move.getDecisions().add(decision);
 						}
 					}
@@ -402,14 +402,14 @@ public class GameController extends Controller<GameModel, GameView> {
 		});
 	}
 
-	private int showSplitCardChooser(Card splitCard) {
+	private int showSplitCardChooser(Card splitCard, String splitCardInfo) {
 		int decision = -1;
 
 		if (splitCard.isSplitCard()) {
 			SplitCardChooserController controller = Controller.initMVC(SplitCardChooserController.class,
 					SplitCardChooserModel.class, SplitCardChooserView.class);
 
-			controller.loadSplitCard(splitCard);
+			controller.loadSplitCard(splitCard, splitCardInfo);
 			controller.showAndWait();
 
 			decision = controller.getDecision();
