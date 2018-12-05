@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="243.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="325.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane prefHeight="75.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -17,9 +19,9 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="75.0">
+      <AnchorPane prefHeight="400.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="75.0">
          <children>
-            <RadioButton fx:id="rdbBuy" layoutX="142.0" layoutY="14.0" mnemonicParsing="false" onAction="#rdbBuy_Click" selected="true" text="Buy" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="14.0">
+            <RadioButton fx:id="rdbBuy" layoutX="140.0" layoutY="83.0" mnemonicParsing="false" onAction="#rdbBuy_Click" selected="true" text="Buy" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="83.0">
                <font>
                   <Font size="14.0" />
                </font>
@@ -27,14 +29,18 @@
                   <ToggleGroup fx:id="G1" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="rdbSell" layoutX="361.0" layoutY="14.0" mnemonicParsing="false" onAction="#rdbSell_Click" text="Sell" toggleGroup="$G1" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="14.0">
+            <RadioButton fx:id="rdbSell" layoutX="413.0" layoutY="83.0" mnemonicParsing="false" onAction="#rdbSell_Click" text="Sell" toggleGroup="$G1" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="83.0">
                <font>
                   <Font size="14.0" />
                </font>
             </RadioButton>
-            <Slider fx:id="sliderMeeples" blockIncrement="1.0" layoutX="14.0" layoutY="82.0" majorTickUnit="1.0" max="5.0" minorTickCount="0" prefHeight="14.0" prefWidth="577.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="82.0" />
-            <Label layoutX="278.0" layoutY="54.0" text="Meeples" />
-            <Button layoutX="277.0" layoutY="129.0" mnemonicParsing="false" onAction="#btnTrade_Click" text="Trade" />
+            <Slider fx:id="sliderMeeples" blockIncrement="1.0" layoutX="60.0" layoutY="151.0" majorTickUnit="1.0" max="5.0" minorTickCount="0" prefHeight="14.0" prefWidth="577.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="151.0" />
+            <Label layoutX="278.0" layoutY="123.0" text="Meeples" />
+            <Button layoutX="277.0" layoutY="198.0" mnemonicParsing="false" onAction="#btnTrade_Click" text="Trade" />
+            <Label layoutX="14.0" layoutY="14.0" text="Meeples (after card costs payed):" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+            <Label layoutX="153.0" layoutY="39.0" text="Points:" AnchorPane.leftAnchor="153.0" AnchorPane.topAnchor="39.0" />
+            <Label fx:id="lblMeeples" alignment="CENTER_RIGHT" layoutX="195.0" layoutY="14.0" prefWidth="20.0" text="-1" AnchorPane.leftAnchor="195.0" AnchorPane.topAnchor="14.0" />
+            <Label fx:id="lblPoints" alignment="CENTER_RIGHT" layoutX="195.0" layoutY="39.0" prefWidth="20.0" text="-1" AnchorPane.leftAnchor="195.0" AnchorPane.topAnchor="39.0" />
          </children>
       </AnchorPane>
    </children>
