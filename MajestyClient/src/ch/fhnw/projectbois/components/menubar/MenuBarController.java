@@ -17,8 +17,10 @@ import ch.fhnw.projectbois.playscreen.PlayScreenView;
 import ch.fhnw.projectbois.profile.ProfileController;
 import ch.fhnw.projectbois.profile.ProfileModel;
 import ch.fhnw.projectbois.profile.ProfileView;
+import ch.fhnw.projectbois.session.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 
 public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
@@ -27,6 +29,9 @@ public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 
 	@FXML
 	BorderPane pnlMenu;
+
+	@FXML
+	private Label lblGreetUser;
 
 	public MenuBarController(MenuBarModel model, MenuBarView view) {
 		super(model, view);
@@ -39,7 +44,9 @@ public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 		PlayScreenController playScreenController = Controller.initMVC(PlayScreenController.class,
 				PlayScreenModel.class, PlayScreenView.class);
 
-		this.switchCenter(playScreenController);
+		switchCenter(playScreenController);
+		
+		lblGreetUser.setText(lblGreetUser.getText() + " " + Session.getCurrentUsername() + "!");
 	}
 
 	private void switchCenter(Controller<? extends Model, ? extends View<? extends Model>> controller) {
