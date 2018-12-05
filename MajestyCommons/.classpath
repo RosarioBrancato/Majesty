@@ -17,5 +17,6 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/MajestyCommons/lib/jackson/jackson-annotations-2.9.7-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/apache/commons-validator-1.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

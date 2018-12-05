@@ -4,6 +4,7 @@ import ch.fhnw.projectbois._mvc.Model;
 import ch.fhnw.projectbois.communication.Request;
 import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
+import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.dto.RegistrationDTO;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.network.Network;
@@ -38,25 +39,15 @@ public class RegistrationModel extends Model {
 		return new ChangeListener<Response>() {
 			@Override
 			public void changed(ObservableValue<? extends Response> observable, Response oldValue, Response newValue) {
-				/*if (newValue.getResponseId() == ResponseId.AUTH_OK) {
-					UserDTO user = JsonUtils.Deserialize(newValue.getJsonDataObject(), UserDTO.class);
-					Session session = Session.getInstance();
-					session.setCurrentUser(user);
-					logger.info("Login successful for user " + user.getUsername() + " (UID: " + user.getId() + ") - Token received: " + user.getToken());
-					loggedInUser.setValue(user);
-					
-				} else if (newValue.getResponseId() == ResponseId.AUTH_ERROR_SERVER) {
-					logger.warning("Login failed due to a general server error. Please check server logs for further information.");
-					responseMsg.set("lbl_Login_loginMsg_GeneralServerError");
-					
-					String json = newValue.getJsonDataObject();
-					ReportDTO report = JsonUtils.Deserialize(json, ReportDTO.class);
-					getReportProperty().setValue(report);
-					
-				} else  if (newValue.getResponseId() == ResponseId.AUTH_ERROR_CREDENTIALS) {
-					logger.warning("Login failed due to invalid credentials.");
-					responseMsg.set("lbl_Login_loginMsg_CredentialsError");
-				}*/
+				if(newValue.getResponseId() == ResponseId.REGISTRATION_SUCCESS) {
+					regStat.set("OK");
+				} else if(newValue.getResponseId() == ResponseId.REGISTRATION_ERROR_USER_ALREADY_EXISTS) {
+					logger.warning("Registration failed. User already exists.");
+					regStat.set("lbl_Registration_Response_UserAlreadyExists");
+				} else if(newValue.getResponseId() == ResponseId.REGISTRATION_ERROR_DATABASE) {
+					logger.warning("Registration failed due to a server-side error. Please check server logs for further information.");
+					regStat.set("lbl_Registration_Response_DBError");
+				}
 			}
 		};
 	}
