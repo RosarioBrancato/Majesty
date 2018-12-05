@@ -11,6 +11,8 @@ import ch.fhnw.projectbois.dto.LeaderboardPlayerDTO;
 public class LeaderboardQuery {
 	
 	LeaderboardDTO leaderboard = new LeaderboardDTO();
+	LeaderboardPlayerDTO currentuser = new LeaderboardPlayerDTO();
+	int rank = 1;
     
 	public LeaderboardDTO getLeaderboard() {
 	
@@ -22,25 +24,44 @@ public class LeaderboardQuery {
         rs = statement.executeQuery("SELECT * FROM ***REMOVED***.leaderboard");
         while ( rs.next() ) {
         	LeaderboardPlayerDTO player = new LeaderboardPlayerDTO();
-        	player.setRank(Integer.parseInt(rs.getString("Rank")));
+        	player.setRank(rank++);
         	player.setUsername(rs.getString("Username"));
         	player.setPoints(Integer.parseInt(rs.getString("Points")));
         	
         	leaderboard.addToLeaderboard(player);
         	
-        	
-        	String rank = rs.getString("Rank");
-            String nickname = rs.getString("Username");
-            String points = rs.getString("Points");
-            System.out.println(rank);
-            System.out.println(nickname);
-            System.out.println(points);
-        }
+        }        
         connection.close();
     } catch (Exception e) {
-        System.err.println("Got an exception! ");
+        System.err.println("Got an exception while querying Database!");
         System.err.println(e.getMessage());
     }
 	return leaderboard;
+	}
+
+	public LeaderboardPlayerDTO getPlayerInfo(String username) {
+		 
+		 try {
+				Connection connection = DbAccess.getConnection();
+		        Statement statement = connection.createStatement();
+		        ResultSet rs;
+
+		        rs= statement.executeQuery("SELECT nickname,points FROM user WHERE nickname='" + username +"'");
+		        while ( rs.next() ) {
+		        	for (LeaderboardPlayerDTO player : leaderboard.getLeaderboard()) {
+		        		if (player.getUsername().equals(username)) {
+		        			currentuser.setRank(player.getRank());
+		        		}
+		        	}
+		        	currentuser.setUsername(rs.getString("nickname"));
+		        	currentuser.setPoints(Integer.parseInt(rs.getString("points")));
+		        }	
+		        connection.close();
+		        
+		    } catch (Exception e) {
+		        System.err.println("Got an exception while querying Database!");
+		        System.err.println(e.getMessage());
+		    }
+			return currentuser;
 	}
 }

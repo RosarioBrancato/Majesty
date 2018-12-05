@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="464.0" prefWidth="657.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="217.0" layoutY="14.0" text="%lbl_Leaderboard_Title" AnchorPane.leftAnchor="217.0" AnchorPane.rightAnchor="216.0" AnchorPane.topAnchor="14.0">
@@ -14,6 +13,7 @@
             <Font size="22.0" />
          </font>
       </Label>
-      <ListView layoutX="14.0" layoutY="52.0" prefHeight="372.0" prefWidth="629.0" AnchorPane.bottomAnchor="49.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="52.0" />
+      <ListView fx:id="lstPlayers" layoutX="14.0" layoutY="52.0" prefHeight="375.0" prefWidth="629.0" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="52.0" />
+      <Label fx:id="lblCurrentPlayer_Dynamic" layoutX="15.0" layoutY="433.0" prefHeight="17.0" prefWidth="629.0" text="%lbl_Leaderboard_CurrentPlayer" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="15.0" />
    </children>
 </AnchorPane>

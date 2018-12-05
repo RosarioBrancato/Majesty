@@ -15,7 +15,7 @@ import javafx.scene.input.MouseEvent;
 
 /**
  * 
- * @author Dario Stöckli
+ * @author Dario Stoeckli
  *
  */
 

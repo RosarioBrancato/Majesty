@@ -114,7 +114,8 @@ public class PlayScreenModel extends Model {
 
 	private void showLobby(LobbyDTO lobby) {
 		Platform.runLater(() -> {
-			Controller.initMVCAsRoot(LobbyController.class, LobbyModel.class, LobbyView.class);
+			LobbyController controller = Controller.initMVCAsRoot(LobbyController.class, LobbyModel.class, LobbyView.class);
+			controller.setLobby(lobby);
 		});
 	}
 }

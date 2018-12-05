@@ -30,4 +30,10 @@ public class LeaderboardPlayerDTO {
 		this.points = points;
 	}
 	
+	@Override
+	public String toString() {
+		String ranking = getRank() + ") " + getUsername() + " - Points: "  + getPoints();
+		return ranking;
+	}
+	
 }
