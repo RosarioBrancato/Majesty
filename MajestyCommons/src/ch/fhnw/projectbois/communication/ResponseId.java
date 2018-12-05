@@ -7,6 +7,7 @@ public class ResponseId {
 	public static final int AUTH_RANGE_START = 0;
 	public static final int AUTH_OK = 1;
 	public static final int AUTH_ERROR_CREDENTIALS = 2;
+	public static final int AUTH_ERROR_ALREADYLOGGEDIN = 3;
 	public static final int AUTH_ERROR_SERVER = 98;
 	public static final int AUTH_RANGE_END = 99;
 

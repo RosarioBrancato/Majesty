@@ -103,9 +103,13 @@ public class Server {
 		this.clients.remove(client);
 		this.printInfos();
 	}
-
+	
 	public int getClientsCount() {
 		return this.clients.size();
+	}
+	
+	public ArrayList<ServerClient> getClients() {
+		return this.clients;
 	}
 
 	public ArrayList<Lobby> getLobbies() {

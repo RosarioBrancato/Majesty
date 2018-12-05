@@ -80,6 +80,9 @@ public class LoginModel extends Model {
 				} else  if (newValue.getResponseId() == ResponseId.AUTH_ERROR_CREDENTIALS) {
 					logger.warning("Login failed due to invalid credentials.");
 					responseMsg.set("lbl_Login_loginMsg_CredentialsError");
+				} else if (newValue.getResponseId() == ResponseId.AUTH_ERROR_ALREADYLOGGEDIN) {
+					logger.warning("Login failed. Another user with the same username is already logged in.");
+					responseMsg.set("lbl_Login_loginMsg_UserAlreadyLoggedIn");
 				}
 			}
 		};
