@@ -116,6 +116,7 @@ public class PlayScreenModel extends Model {
 		Platform.runLater(() -> {
 			LobbyController controller = Controller.initMVCAsRoot(LobbyController.class, LobbyModel.class, LobbyView.class);
 			controller.setLobby(lobby);
+			controller.setLifetime(lobby);
 		});
 	}
 }

@@ -12,6 +12,7 @@ import ch.fhnw.projectbois.gameobjects.GameState;
 import ch.fhnw.projectbois.gameobjects.Player;
 import ch.fhnw.projectbois.general.IdFactory;
 import ch.fhnw.projectbois.json.JsonUtils;
+import ch.fhnw.projectbois.time.Time;
 
 /**
  * 
@@ -22,6 +23,9 @@ public class Lobby {
 
 	private int id = -1;
 	private boolean cardSideA = true;
+	private Time timer = new Time();
+	private int lifetime = 360;
+	
 	private ArrayList<ServerClient> clients = null;
 
 	private boolean gameStarted = false;
@@ -74,6 +78,7 @@ public class Lobby {
 		LobbyDTO dto = new LobbyDTO();
 		dto.setId(this.id);
 		dto.setCardSideA(this.cardSideA);
+		dto.setLifetime(this.getCountdown().getCounterSimplified());
 
 		for (ServerClient client : this.clients) {
 			dto.addPlayer(client.getUser().getUsername());
@@ -155,6 +160,22 @@ public class Lobby {
 
 	public void setGameStarted(boolean started) {
 		this.gameStarted = started;
+	}
+	
+	public Time getCountdown() {
+		return this.timer;
+	}
+	
+	public void setCountdown(Time timer) {
+		this.timer = timer;
+	}
+	
+	public void startCountdown(int seconds) {
+		timer.startCountdown(seconds);
+	}
+	
+	public int getLifetime() {
+		return this.lifetime;
 	}
 
 }

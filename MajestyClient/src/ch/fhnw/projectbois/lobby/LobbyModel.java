@@ -72,6 +72,18 @@ public class LobbyModel extends Model {
 		}
 
 	}
+	
+	// Handles the Lobby Lifetime Extend Answer
+	public void extendLifetime(LobbyDTO lobby) {
+		String json = JsonUtils.Serialize(lobby);
+		Request request = new Request(Session.getCurrentUserToken(), RequestId.EXTEND_LIFETIME_LOBBY, json);
+		Network.getInstance().sendRequest(request);
+
+		message.setMessage(user.getUsername() + " " + translator.getTranslation("msg_LobbyView_LobbyLifetimeExtended"));
+		String json1 = JsonUtils.Serialize(message);
+		Request request1 = new Request(Session.getCurrentUserToken(), RequestId.CHAT_SEND_MSG, json1);
+		Network.getInstance().sendRequest(request1);
+	}
 
 	public SimpleObjectProperty<LobbyDTO> getLobbyProperty() {
 		return this.lobbyProperty;
@@ -97,10 +109,12 @@ public class LobbyModel extends Model {
 					showGameBoard();
 					// A player joins and the GUI has to be updated
 				} else if (newValue.getResponseId() == ResponseId.LOBBY_JOINED_MULTICAST
-						|| newValue.getResponseId() == ResponseId.LOBBY_LEFT_MULTICAST) {
+						|| newValue.getResponseId() == ResponseId.LOBBY_LEFT_MULTICAST
+						|| newValue.getResponseId() == ResponseId.LOBBY_LIFETIME_EXTENDED) {
 					String json = newValue.getJsonDataObject();
 					LobbyDTO lobby = JsonUtils.Deserialize(json, LobbyDTO.class);
 					lobbyProperty.setValue(lobby);
+					
 					// The client needs to know what user is associated with it
 				} else if (newValue.getResponseId() == ResponseId.LOBBY_USER_INFO) {
 					String json = newValue.getJsonDataObject();
@@ -110,7 +124,7 @@ public class LobbyModel extends Model {
 					String json = newValue.getJsonDataObject();
 					ReportDTO report = JsonUtils.Deserialize(json, ReportDTO.class);
 					getReportProperty().setValue(report);
-				}
+				} 
 			}
 		};
 	}

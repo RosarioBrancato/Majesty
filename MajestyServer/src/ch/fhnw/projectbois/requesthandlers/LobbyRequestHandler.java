@@ -45,6 +45,9 @@ public class LobbyRequestHandler extends RequestHandler {
 
 		} else if (request.getRequestId() == RequestId.GET_USER_OF_CLIENT) {
 			this.getUserOfClient();
+			
+		} else if (request.getRequestId() == RequestId.EXTEND_LIFETIME_LOBBY) {
+			this.setLifetime();
 		}
 	}
 
@@ -54,6 +57,7 @@ public class LobbyRequestHandler extends RequestHandler {
 
 		// create lobby
 		Lobby lobby = new Lobby();
+		lobby.startCountdown(lobby.getLifetime());
 		lobby.setCardSideA(lobbyDTO.isCardSideA());
 
 		// add player
@@ -65,6 +69,7 @@ public class LobbyRequestHandler extends RequestHandler {
 		// send response about lobby to client
 		lobbyDTO.setId(lobby.getId());
 		lobbyDTO.addPlayer(client.getUser().getUsername());
+		lobbyDTO.setLifetime(lobby.getCountdown().getCounterSimplified());
 		json = JsonUtils.Serialize(lobbyDTO);
 		Response response = new Response(ResponseId.LOBBY_CREATED, request.getRequestId(), json);
 
@@ -94,6 +99,7 @@ public class LobbyRequestHandler extends RequestHandler {
 		Response response;
 		if (success) {
 			lobbyDTO.addPlayer(client.getUser().getUsername());
+			lobbyDTO.setLifetime(lobby.getCountdown().getCounterSimplified());
 			json = JsonUtils.Serialize(lobbyDTO);
 			response = new Response(ResponseId.LOBBY_JOINED, request.getRequestId(), json);
 
@@ -161,6 +167,23 @@ public class LobbyRequestHandler extends RequestHandler {
 		Response response = new Response(ResponseId.LOBBY_USER_INFO, request.getRequestId(), json);
 
 		client.sendResponse(response);
+	}
+	
+	private void setLifetime() {
+		String json = request.getJsonDataObject();
+		LobbyDTO lobbyDTO = JsonUtils.Deserialize(json, LobbyDTO.class);
+		Lobby lobby = client.getLobby();
+		lobby.startCountdown(lobby.getLifetime());
+		lobbyDTO.setLifetime(lobby.getCountdown().getCounterSimplified());
+		
+		// Answer all clients
+		Response responseall;
+		String json1 = JsonUtils.Serialize(lobbyDTO);
+		responseall = new Response(ResponseId.LOBBY_LIFETIME_EXTENDED, request.getRequestId(), json1);
+
+		for (ServerClient client : lobby.getClients()) {
+			client.sendResponse(responseall);
+		}
 	}
 
 }
