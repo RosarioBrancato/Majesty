@@ -4,10 +4,13 @@ import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import ch.fhnw.projectbois.time.Time;
+
 public class LobbyDTO {
 
 	private int id = -1;
 	private boolean cardSideA = true;
+	private int lifetime = 360;
 
 	private ArrayList<String> players = new ArrayList<>();
 
@@ -34,7 +37,15 @@ public class LobbyDTO {
 	public void setCardSideA(boolean cardSideA) {
 		this.cardSideA = cardSideA;
 	}
-
+	
+	public int getLifetime() {
+		return this.lifetime;
+	}
+	
+	public void setLifetime(int lifetime) {
+		this.lifetime = lifetime;
+	}
+	
 	@JsonIgnore
 	public void addPlayer(String player) {
 		this.players.add(player);

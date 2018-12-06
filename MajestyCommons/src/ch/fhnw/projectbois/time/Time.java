@@ -52,7 +52,7 @@ public class Time {
 
 		this.timer.schedule(this.task, 1000, 1000);
 	}
-
+	
 	public void stop() {
 		if (this.timer != null) {
 			this.task.cancel();
@@ -60,7 +60,7 @@ public class Time {
 			
 			this.task = null;
 			this.timer = null;
-			this.periodCounter = null;
+			//this.periodCounter = null;
 		}
 	}
 
@@ -89,6 +89,10 @@ public class Time {
 			 return "0" + number;
 		 }
 		 return String.valueOf(number);
+	}
+	
+	public void setCounter(int seconds) {
+		this.counter = seconds;
 	}
 
 }
