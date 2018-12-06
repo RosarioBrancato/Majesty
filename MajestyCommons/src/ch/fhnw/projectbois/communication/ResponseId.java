@@ -20,6 +20,7 @@ public class ResponseId {
 	public static final int LOBBY_USER_INFO = 106;
 	public static final int LOBBY_JOINED_MULTICAST = 107;
 	public static final int LOBBY_LEFT_MULTICAST = 108;
+	public static final int LOBBY_LIFETIME_EXTENDED = 109;
 	public static final int LOBBY_ERROR = 198;
 	public static final int LOBBY_RANGE_END = 199;
 
