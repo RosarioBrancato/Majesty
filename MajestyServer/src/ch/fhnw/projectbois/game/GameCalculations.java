@@ -151,27 +151,142 @@ public class GameCalculations {
 	}
 
 	private void calcBrewer() {
+		int millerCount = currentPlayer.getLocationByIndex(Location.MILL).getCards().size();
+		int brewerCount = currentPlayer.getLocationByIndex(Location.BREWERY).getCards().size();
+		int innkeeperCount = currentPlayer.getLocationByIndex(Location.INN).getCards().size();
+		int nobleCount = currentPlayer.getLocationByIndex(Location.CASTLE).getCards().size();
 
+		int points = currentPlayer.getPoints();
+		int meeples = currentPlayer.getMeeples();
+
+		// for side A
+		if (isSideA) {
+			points += (brewerCount * 2);
+			currentPlayer.setPoints(points);
+			meeples += (brewerCount * 1); // does this work??
+			currentPlayer.setMeeples(meeples);
+
+			for (Player player : players) {
+				if (player.getLocationByIndex(Location.MILL).getCards().size() > 0) {
+					points = player.getPoints();
+					points += 2;
+					player.setPoints(points);
+				}
+			}
+			// for side B
+		} else if (!isSideA) {
+			meeples += (brewerCount * 1);
+			meeples += (millerCount * 1);
+
+			if (innkeeperCount > 0 && nobleCount > 0) {
+				points += 10;
+			}
+		}	
 	}
 
 	private void calcWitch() {
+		int millerCount = currentPlayer.getLocationByIndex(Location.MILL).getCards().size();
+		int brewerCount = currentPlayer.getLocationByIndex(Location.BREWERY).getCards().size();
+		int witchCount = currentPlayer.getLocationByIndex(Location.COTTAGE).getCards().size();
 
+		int points = currentPlayer.getPoints();
+	
+		if (isSideA) {
+			points += (millerCount * 2);
+			points += (brewerCount * 2);
+			points += (witchCount * 2);
+		} else if (!isSideA) {
+			points += (witchCount * 3);
+		}
 	}
 
 	private void calcGuard() {
+		int brewerCount = currentPlayer.getLocationByIndex(Location.BREWERY).getCards().size();
+		int witchCount = currentPlayer.getLocationByIndex(Location.COTTAGE).getCards().size();
+		int guardCount = currentPlayer.getLocationByIndex(Location.GUARDHOUSE).getCards().size();
+		int knightCount = currentPlayer.getLocationByIndex(Location.BARACKS).getCards().size();
+		int innkeeperCount = currentPlayer.getLocationByIndex(Location.INN).getCards().size();
 
+		int points = currentPlayer.getPoints();
+		
+		if (isSideA) {
+			points += (guardCount * 2);
+			points += (knightCount * 2);
+			points += (innkeeperCount * 2);
+		} else if (!isSideA) {
+			points += (brewerCount * 2);
+			points += (witchCount * 2);
+			points += (guardCount * 2);
+			
+			for (Player player : players) {
+				if (player.getLocationByIndex(Location.INN).getCards().size() > 0) {
+					points = player.getPoints();
+					points += 2;
+					player.setPoints(points);
+				}
+			}
+		}
 	}
 
 	private void calcKnight() {
+		int knightCount = currentPlayer.getLocationByIndex(Location.BARACKS).getCards().size();
+		int innkeeperCount = currentPlayer.getLocationByIndex(Location.INN).getCards().size();
+		int nobleCount = currentPlayer.getLocationByIndex(Location.CASTLE).getCards().size();
+
+		int points = currentPlayer.getPoints();
+		
+		if (isSideA) {
+			points += (knightCount * 3);
+		} else if (!isSideA) {
+			points += (knightCount * 3);
+			points += (innkeeperCount * 3);
+			points += (nobleCount * 3);
+		}
 
 	}
 
 	private void calcInnkeeper() {
+		int innkeeperCount = currentPlayer.getLocationByIndex(Location.INN).getCards().size();
+
+		int points = currentPlayer.getPoints();
+
+		if (isSideA) {
+			points += (innkeeperCount * 4);
+			
+			for (Player player : players) {
+				if (player.getLocationByIndex(Location.BREWERY).getCards().size() > 0) {
+					points = player.getPoints();
+					points += 3;
+					player.setPoints(points);
+				}
+			}
+		} else if (!isSideA) {
+			points += (innkeeperCount * 2); // what does the sign on card mean???
+		}
 
 	}
 
 	private void calcNoble() {
-		// ignore first effect of side B
+		int nobleCount = currentPlayer.getLocationByIndex(Location.CASTLE).getCards().size();
+		int infirmaryCount = currentPlayer.getLocationByIndex(Location.INFIRMARY).getCards().size();
+
+		
+		int points = currentPlayer.getPoints();
+		int meeples = currentPlayer.getMeeples();
+
+		if (isSideA) {
+			points += (nobleCount * 5);
+			meeples += (nobleCount * 1);
+		} else if (!isSideA) {
+			// ignore first effect of side B
+			
+			points += (nobleCount * 4);
+			points += (infirmaryCount * 4); // not sure of relationship
+
+		}
+		
+		
+		
 	}
 
 }
