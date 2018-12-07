@@ -30,8 +30,8 @@ public class Main extends Application {
 		try {
 			primaryStage.setTitle("Majesty - For The Realm");
 			primaryStage.setMaximized(false);
-			//primaryStage.setWidth(1250);
-			//primaryStage.setHeight(800);
+			primaryStage.setWidth(1250);
+			primaryStage.setHeight(800);
 			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/majesty.png")));
 
 			Scene scene = new Scene(new Label("Loading..."));
