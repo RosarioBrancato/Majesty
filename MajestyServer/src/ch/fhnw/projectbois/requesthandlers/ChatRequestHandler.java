@@ -47,8 +47,6 @@ public class ChatRequestHandler extends RequestHandler {
 		int id = IdFactory.getInstance().getNewId(MessageDTO.class.getName());
 		messageDTO.setId(id);
 
-		// messageDTO.setAuthor(ChatMember.System); //for now just system. how to check
-		// who is the author??
 		json = JsonUtils.Serialize(messageDTO);
 		Response response = new Response(ResponseId.RECEIVE_MSG, request.getRequestId(), json);
 
@@ -89,7 +87,7 @@ public class ChatRequestHandler extends RequestHandler {
 			whisperMessage.setAuthor(ChatMember.System);
 
 			String notificationMessage = getUsernameByChatmember(author) + " hat zu "
-					+ getUsernameByChatmember(receiver) + " geflüstert.";
+					+ getUsernameByChatmember(receiver) + " geflüstert --";
 			whisperMessage.setMessage(notificationMessage);
 
 			json = JsonUtils.Serialize(whisperMessage);
@@ -140,7 +138,7 @@ public class ChatRequestHandler extends RequestHandler {
 			}
 			break;
 		default:
-			username = "Unkown";
+			username = "-- System";
 			break;
 		}
 
