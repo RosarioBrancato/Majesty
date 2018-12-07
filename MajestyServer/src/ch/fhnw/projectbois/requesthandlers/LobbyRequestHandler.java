@@ -10,7 +10,8 @@ import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.dto.LobbyDTO;
 import ch.fhnw.projectbois.dto.LobbyListDTO;
-import ch.fhnw.projectbois.dto.UserDTO;
+import ch.fhnw.projectbois.dto.ReportDTO;
+import ch.fhnw.projectbois.enumerations.ReportSeverity;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.network.Lobby;
 import ch.fhnw.projectbois.network.Server;
@@ -42,12 +43,12 @@ public class LobbyRequestHandler extends RequestHandler {
 
 		} else if (request.getRequestId() == RequestId.GET_LOBBY_OF_CLIENT) {
 			this.getLobbyOfClient();
-
-		} else if (request.getRequestId() == RequestId.GET_USER_OF_CLIENT) {
-			this.getUserOfClient();
 			
 		} else if (request.getRequestId() == RequestId.EXTEND_LIFETIME_LOBBY) {
 			this.setLifetime();
+			
+		} else if (request.getRequestId() == RequestId.DESTROY_LOBBY) {
+			this.destroyLobby();
 		}
 	}
 
@@ -57,8 +58,8 @@ public class LobbyRequestHandler extends RequestHandler {
 
 		// create lobby
 		Lobby lobby = new Lobby();
-		lobby.startCountdown(lobby.getLifetime());
 		lobby.setCardSideA(lobbyDTO.isCardSideA());
+		lobby.startCountdown(Lobby.LIFETIME_DEFAULT);
 
 		// add player
 		lobby.addClient(client);
@@ -67,14 +68,11 @@ public class LobbyRequestHandler extends RequestHandler {
 		server.getLobbies().add(lobby);
 
 		// send response about lobby to client
-		lobbyDTO.setId(lobby.getId());
-		lobbyDTO.addPlayer(client.getUser().getUsername());
-		lobbyDTO.setLifetime(lobby.getCountdown().getCounterSimplified());
+		lobbyDTO = lobby.toLobbyDTO();
 		json = JsonUtils.Serialize(lobbyDTO);
 		Response response = new Response(ResponseId.LOBBY_CREATED, request.getRequestId(), json);
 
 		client.sendResponse(response);
-
 	}
 
 	private void joinLobby() {
@@ -98,19 +96,23 @@ public class LobbyRequestHandler extends RequestHandler {
 		// send response
 		Response response;
 		if (success) {
-			lobbyDTO.addPlayer(client.getUser().getUsername());
-			lobbyDTO.setLifetime(lobby.getCountdown().getCounterSimplified());
-			json = JsonUtils.Serialize(lobbyDTO);
+			LobbyDTO responseLobbyDTO = lobby.toLobbyDTO();
+			json = JsonUtils.Serialize(responseLobbyDTO);
 			response = new Response(ResponseId.LOBBY_JOINED, request.getRequestId(), json);
 
 		} else {
-			response = new Response(ResponseId.LOBBY_ERROR, request.getRequestId(), null);
+			ReportDTO report = new ReportDTO();
+			report.setSeverity(ReportSeverity.WARNING);
+			report.setMessage("Lobby is already full.");
+			json = JsonUtils.Serialize(report);
+			response = new Response(ResponseId.LOBBY_ERROR, request.getRequestId(), json);
 		}
 		client.sendResponse(response);
 
 		// Sending updates to clients that are a member of this lobby
 		if (lobby != null && lobby.getClients().size() > 1 && success) {
-			json = JsonUtils.Serialize(lobbyDTO);
+			LobbyDTO responseLobbyDTO = lobby.toLobbyDTO();
+			json = JsonUtils.Serialize(responseLobbyDTO);
 			Response responseothers = new Response(ResponseId.LOBBY_JOINED_MULTICAST, request.getRequestId(), json);
 			
 			for (int i = 0; i < lobby.getClients().size() - 1; i++) {
@@ -120,11 +122,7 @@ public class LobbyRequestHandler extends RequestHandler {
 	}
 
 	private void leaveLobby() {
-		// Remove player from his lobby
-		Lobby lobby = client.getLobby();
-		if (lobby != null) {
-			lobby.removeClient(client);
-		}
+		server.removeClientFromLobby(client);
 	}
 
 	private void sendLobbies() {
@@ -157,33 +155,23 @@ public class LobbyRequestHandler extends RequestHandler {
 			client.sendResponse(response);
 		}
 	}
-
-	private void getUserOfClient() {
-		// provide client with information about himself for lobby administration
-		// purposes
-		UserDTO userDTO = client.getUser();
-		// send response about user to client
-		String json = JsonUtils.Serialize(userDTO);
-		Response response = new Response(ResponseId.LOBBY_USER_INFO, request.getRequestId(), json);
-
-		client.sendResponse(response);
-	}
 	
 	private void setLifetime() {
-		String json = request.getJsonDataObject();
-		LobbyDTO lobbyDTO = JsonUtils.Deserialize(json, LobbyDTO.class);
 		Lobby lobby = client.getLobby();
-		lobby.startCountdown(lobby.getLifetime());
-		lobbyDTO.setLifetime(lobby.getCountdown().getCounterSimplified());
+		lobby.setLifetime(Lobby.LIFETIME_DEFAULT);
 		
 		// Answer all clients
-		Response responseall;
-		String json1 = JsonUtils.Serialize(lobbyDTO);
-		responseall = new Response(ResponseId.LOBBY_LIFETIME_EXTENDED, request.getRequestId(), json1);
+		LobbyDTO lobbyDTO = lobby.toLobbyDTO();
+		String json = JsonUtils.Serialize(lobbyDTO);
+		Response responseall = new Response(ResponseId.LOBBY_LIFETIME_EXTENDED, request.getRequestId(), json);
 
 		for (ServerClient client : lobby.getClients()) {
 			client.sendResponse(responseall);
 		}
+	}
+	
+	private void destroyLobby() {
+		//TO-DO
 	}
 
 }

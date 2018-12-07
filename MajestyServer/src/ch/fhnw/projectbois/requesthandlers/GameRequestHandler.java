@@ -93,6 +93,8 @@ public class GameRequestHandler extends RequestHandler {
 	private void startGame() {
 		Lobby lobby = client.getLobby();
 		if (lobby != null && !lobby.isGameStarted()) {
+			lobby.stopCountdown();
+			
 			GameState gameState = new GameState();
 			gameState.setId(IdFactory.getInstance().getNewId(GameState.class.getName()));
 			gameState.setCardSideA(lobby.isCardSideA());
@@ -120,10 +122,7 @@ public class GameRequestHandler extends RequestHandler {
 	}
 
 	private void leaveGame() {
-		Lobby lobby = client.getLobby();
-		if (lobby != null && lobby.isGameStarted()) {
-			lobby.removeClient(client);
-		}
+		server.removeClientFromLobby(client);
 	}
 
 }

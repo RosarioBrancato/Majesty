@@ -13,6 +13,7 @@ import ch.fhnw.projectbois.gameobjects.Player;
 import ch.fhnw.projectbois.general.IdFactory;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.time.Time;
+import javafx.beans.value.ChangeListener;
 
 /**
  * 
@@ -20,12 +21,16 @@ import ch.fhnw.projectbois.time.Time;
  *
  */
 public class Lobby {
+	
+	public static final int LIFETIME_DEFAULT = 360;
 
 	private int id = -1;
 	private boolean cardSideA = true;
-	private Time timer = new Time();
-	private int lifetime = 360;
-	
+
+	private Time timer = null;
+	private ChangeListener<Number> periodicCounterPropertyListener = null;
+	private int lifetime = -1;
+
 	private ArrayList<ServerClient> clients = null;
 
 	private boolean gameStarted = false;
@@ -74,17 +79,45 @@ public class Lobby {
 		return this.clients.size() <= 0;
 	}
 
+	public void startCountdown(int lifetime) {
+		this.lifetime = lifetime;
+
+		this.timer = new Time();
+		this.initPeriodicCounterPropertyListener();
+		this.timer.getPeriodCounterProperty().addListener(this.periodicCounterPropertyListener);
+	}
+
+	public void stopCountdown() {
+		if (this.timer != null) {
+			this.timer.stop();
+			this.timer.getPeriodCounterProperty().removeListener(this.periodicCounterPropertyListener);
+			this.timer = null;
+		}
+	}
+
 	public LobbyDTO toLobbyDTO() {
 		LobbyDTO dto = new LobbyDTO();
 		dto.setId(this.id);
 		dto.setCardSideA(this.cardSideA);
-		dto.setLifetime(this.getCountdown().getCounterSimplified());
+		dto.setLifetime(this.lifetime);
 
 		for (ServerClient client : this.clients) {
 			dto.addPlayer(client.getUser().getUsername());
 		}
 
 		return dto;
+	}
+
+	public void destroy() {
+		this.stopCountdown();
+	}
+
+	private void initPeriodicCounterPropertyListener() {
+		this.periodicCounterPropertyListener = (observer, oldValue, newValue) -> {
+			if (lifetime > 0) {
+				lifetime--;
+			}
+		};
 	}
 
 	private void sendResponseToPlayersLeft() {
@@ -161,21 +194,13 @@ public class Lobby {
 	public void setGameStarted(boolean started) {
 		this.gameStarted = started;
 	}
-	
-	public Time getCountdown() {
-		return this.timer;
-	}
-	
-	public void setCountdown(Time timer) {
-		this.timer = timer;
-	}
-	
-	public void startCountdown(int seconds) {
-		timer.startCountdown(seconds);
-	}
-	
+
 	public int getLifetime() {
 		return this.lifetime;
+	}
+
+	public void setLifetime(int lifetime) {
+		this.lifetime = lifetime;
 	}
 
 }
