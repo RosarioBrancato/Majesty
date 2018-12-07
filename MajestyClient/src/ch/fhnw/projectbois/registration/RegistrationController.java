@@ -54,7 +54,6 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 	protected void initialize() {
 		super.initialize();
 		
-		System.out.println("Initializing RegContr");
 		this.initRegistrationStatusPropertyListener();
 		model.getRegistrationStatus().addListener(regStat);
 		
