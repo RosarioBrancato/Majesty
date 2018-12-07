@@ -40,13 +40,9 @@ public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 	@Override
 	protected void initialize() {
 		super.initialize();
-
-		PlayScreenController playScreenController = Controller.initMVC(PlayScreenController.class,
-				PlayScreenModel.class, PlayScreenView.class);
-
-		switchCenter(playScreenController);
 		
-		lblGreetUser.setText(lblGreetUser.getText() + " " + Session.getCurrentUsername() + "!");
+		this.lblGreetUser.setText(lblGreetUser.getText() + " " + Session.getCurrentUsername() + "!");
+		this.btnPlay_Click(new ActionEvent());
 	}
 
 	private void switchCenter(Controller<? extends Model, ? extends View<? extends Model>> controller) {
