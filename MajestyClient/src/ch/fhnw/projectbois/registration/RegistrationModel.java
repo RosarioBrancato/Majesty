@@ -25,13 +25,16 @@ public class RegistrationModel extends Model {
 		return this.regStat;
 	}
 	
-	protected boolean RegistrationProcessInput(String server, int port, String username, String password, String email) {
-		Network.getInstance().initConnection(server, port);
+	protected void RegistrationProcessInput(String server, int port, String username, String password, String email) {
+		try {
+			Network.getInstance().initConnection(server, port);
+		}catch(Exception e) {
+			this.regStat.set("lbl_Login_loginMsg_ServerError");
+		}
+		
 		String regReq = JsonUtils.Serialize(new RegistrationDTO(username, email, password));
 		Request request = new Request("", RequestId.REGISTER, regReq);
 		Network.getInstance().sendRequest(request);
-		return true;
-		
 	}
 	
 	@Override
