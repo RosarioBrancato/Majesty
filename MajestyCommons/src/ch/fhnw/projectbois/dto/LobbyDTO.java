@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import ch.fhnw.projectbois.time.Time;
-
 public class LobbyDTO {
 
 	private int id = -1;
