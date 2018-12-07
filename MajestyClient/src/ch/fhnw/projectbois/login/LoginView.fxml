@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Accordion?>
@@ -16,146 +22,155 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+
+<HBox alignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox fx:id="vbox_Login_form">
+      <VBox alignment="CENTER">
          <children>
-            <HBox VBox.vgrow="NEVER">
+            <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
                <children>
-                  <Label fx:id="lbl_Login_username" minWidth="70.0" text="%lbl_Login_username">
-                     <HBox.margin>
-                        <Insets right="10.0" />
-                     </HBox.margin>
-                  </Label>
-                  <TextField fx:id="txt_Login_username">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </TextField>
-               </children>
-               <VBox.margin>
-                  <Insets bottom="5.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox layoutX="10.0" layoutY="10.0">
-               <children>
-                  <Label fx:id="lbl_Login_password" minWidth="70.0" text="%lbl_Login_password">
-                     <HBox.margin>
-                        <Insets right="10.0" />
-                     </HBox.margin>
-                  </Label>
-                  <PasswordField fx:id="txt_Login_password">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </PasswordField>
-               </children>
-               <VBox.margin>
-                  <Insets bottom="5.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox layoutX="10.0" layoutY="40.0">
-               <children>
-                  <Label fx:id="lbl_Login_language" minWidth="70.0" text="%lbl_Login_language">
-                     <HBox.margin>
-                        <Insets right="10.0" />
-                     </HBox.margin>
-                  </Label>
-                  <ChoiceBox fx:id="cmb_Login_language" prefWidth="150.0" />
-               </children>
-               <VBox.margin>
-                  <Insets bottom="5.0" />
-               </VBox.margin>
-            </HBox>
-            <VBox>
-               <children>
-                  <Button fx:id="btn_Login_logInAlex" mnemonicParsing="false" onAction="#btn_Login_logInAlexClicked" prefWidth="300.0" text="Alex">
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin>
-                  </Button>
-                  <Button fx:id="btn_Login_logInDario" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#btn_Login_logInDarioClicked" prefWidth="300.0" text="Dario">
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin>
-                  </Button>
-                  <Button fx:id="btn_Login_logInLee" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#btn_Login_logInLeeClicked" prefWidth="300.0" text="Lee">
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin>
-                  </Button>
-                  <Button fx:id="btn_Login_logInRosario" layoutX="10.0" layoutY="45.0" mnemonicParsing="false" onAction="#btn_Login_logInRosarioClicked" prefWidth="300.0" text="Rosario">
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin>
-                  </Button>
-               </children>
-            </VBox>
-            <HBox layoutX="10.0" layoutY="70.0">
-               <children>
-                  <Label fx:id="lbl_Login_loginMsg" minWidth="70.0">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Label>
-               </children>
-               <VBox.margin>
-                  <Insets bottom="5.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox layoutX="10.0" layoutY="95.0">
-               <children>
-                  <Button fx:id="btn_Login_register" mnemonicParsing="false" onAction="#btn_Login_registerClicked" text="%btn_Login_register" />
-                  <Button fx:id="btn_Login_login" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#btn_Login_loginClicked" text="%btn_Login_login" />
-               </children>
-               <VBox.margin>
-                  <Insets bottom="5.0" />
-               </VBox.margin>
-            </HBox>
-            <Accordion>
-              <panes>
-                <TitledPane fx:id="acc_Login_serverInfo" expanded="false" text="%acc_Login_serverInfo">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0">
+                  <VBox fx:id="vbox_Login_form">
+                     <children>
+                        <HBox VBox.vgrow="NEVER">
                            <children>
-                              <HBox>
-                                 <children>
-                                    <Label fx:id="lbl_Login_serverInfo" minWidth="70.0" text="%lbl_Login_serverInfo">
-                                       <HBox.margin>
-                                          <Insets right="10.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <TextField fx:id="txt_Login_serverServer" prefHeight="25.0" prefWidth="159.0" text="localhost">
-                                       <HBox.margin>
-                                          <Insets right="10.0" />
-                                       </HBox.margin>
-                                    </TextField>
-                                    <TextField fx:id="txt_Login_serverPort" layoutX="90.0" layoutY="10.0" prefHeight="25.0" prefWidth="64.0" text="8200" />
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="10.0" top="10.0" />
-                                 </padding>
-                              </HBox>
+                              <Label fx:id="lbl_Login_username" minWidth="70.0" text="%lbl_Login_username">
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="txt_Login_username">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </TextField>
                            </children>
-                        </AnchorPane>
-                  </content>
-                </TitledPane>
-              </panes>
-            </Accordion>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox layoutX="10.0" layoutY="10.0">
+                           <children>
+                              <Label fx:id="lbl_Login_password" minWidth="70.0" text="%lbl_Login_password">
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <PasswordField fx:id="txt_Login_password">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </PasswordField>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox layoutX="10.0" layoutY="40.0">
+                           <children>
+                              <Label fx:id="lbl_Login_language" minWidth="70.0" text="%lbl_Login_language">
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <ChoiceBox fx:id="cmb_Login_language" prefWidth="150.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <VBox>
+                           <children>
+                              <Button fx:id="btn_Login_logInAlex" mnemonicParsing="false" onAction="#btn_Login_logInAlexClicked" prefWidth="300.0" text="Alex">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button fx:id="btn_Login_logInDario" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#btn_Login_logInDarioClicked" prefWidth="300.0" text="Dario">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button fx:id="btn_Login_logInLee" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#btn_Login_logInLeeClicked" prefWidth="300.0" text="Lee">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button fx:id="btn_Login_logInRosario" layoutX="10.0" layoutY="45.0" mnemonicParsing="false" onAction="#btn_Login_logInRosarioClicked" prefWidth="300.0" text="Rosario">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Button>
+                           </children>
+                        </VBox>
+                        <HBox layoutX="10.0" layoutY="70.0">
+                           <children>
+                              <Label fx:id="lbl_Login_loginMsg" minWidth="70.0">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox layoutX="10.0" layoutY="95.0">
+                           <children>
+                              <Button fx:id="btn_Login_register" mnemonicParsing="false" onAction="#btn_Login_registerClicked" text="%btn_Login_register" />
+                              <Button fx:id="btn_Login_login" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#btn_Login_loginClicked" text="%btn_Login_login" />
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <Accordion>
+                          <panes>
+                            <TitledPane fx:id="acc_Login_serverInfo" expanded="false" text="%acc_Login_serverInfo">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0">
+                                       <children>
+                                          <HBox>
+                                             <children>
+                                                <Label fx:id="lbl_Login_serverInfo" minWidth="70.0" text="%lbl_Login_serverInfo">
+                                                   <HBox.margin>
+                                                      <Insets right="10.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <TextField fx:id="txt_Login_serverServer" prefHeight="25.0" prefWidth="159.0" text="localhost">
+                                                   <HBox.margin>
+                                                      <Insets right="10.0" />
+                                                   </HBox.margin>
+                                                </TextField>
+                                                <TextField fx:id="txt_Login_serverPort" layoutX="90.0" layoutY="10.0" prefHeight="25.0" prefWidth="64.0" text="8200" />
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="10.0" top="10.0" />
+                                             </padding>
+                                          </HBox>
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </TitledPane>
+                          </panes>
+                        </Accordion>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="vbox_Login_loading" visible="false">
+                     <children>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../resources/icons/waiting_animation.gif" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="lbl_Login_loaderText" text="%lbl_Login_loaderText" />
+                     </children>
+                     <cursor>
+                        <Cursor fx:constant="WAIT" />
+                     </cursor>
+                  </VBox>
+               </children>
+            </Pane>
          </children>
-      </VBox>
-      <VBox fx:id="vbox_Login_loading" visible="false">
-         <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../resources/icons/waiting_animation.gif" />
-               </image>
-            </ImageView>
-            <Label fx:id="lbl_Login_loaderText" text="%lbl_Login_loaderText" />
-         </children>
-         <cursor>
-            <Cursor fx:constant="WAIT" />
-         </cursor>
       </VBox>
    </children>
-</Pane>
+</HBox>
