@@ -53,22 +53,28 @@ public class AuthRequestHandler extends RequestHandler {
 					DBsalt = dbUsers.getString(3);
 				}
 				getUser.close();
+				if(DBuid == 0) {
+					logger.warning("Login failed. The requested user does not exist.");
+					response = new Response(ResponseId.AUTH_ERROR_CREDENTIALS, request.getRequestId(), json);
+				}
 			}catch(SQLException e) {
 				logger.severe("Login failed due to database error: " + e.toString());
 				response = new Response(ResponseId.AUTH_ERROR_SERVER, request.getRequestId(), json);
 			}
 			
-			boolean isLoggedIn = false;
-			
-			try {
-				isLoggedIn = server.getClients().stream().filter(f -> f.getUser().getUsername().equals(loginRequest.getUsername())).findAny().isPresent();
-			}catch(NullPointerException e) {
-				logger.warning("Could not check wether user is logged in or not: " + e.toString());
-			}
-			
-			if(isLoggedIn) {
-				logger.severe("Login failed. User is already logged in: " + loginRequest.getUsername());
-				response = new Response(ResponseId.AUTH_ERROR_ALREADYLOGGEDIN, request.getRequestId(), json);
+			if(response == null) {
+				boolean isLoggedIn = false;
+				
+				try {
+					isLoggedIn = server.getClients().stream().filter(f -> f.getUser().getUsername().equals(loginRequest.getUsername())).findAny().isPresent();
+				}catch(NullPointerException e) {
+					logger.warning("Could not check wether user is logged in or not: " + e.toString());
+				}
+				
+				if(isLoggedIn) {
+					logger.severe("Login failed. User is already logged in: " + loginRequest.getUsername());
+					response = new Response(ResponseId.AUTH_ERROR_ALREADYLOGGEDIN, request.getRequestId(), json);
+				}
 			}
 			
 			if(DBuid != 0 && response == null) {

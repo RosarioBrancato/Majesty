@@ -7,7 +7,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  * 
- * Some concepts were inspired by https://stackoverflow.com/questions/6118922/convert-seconds-value-to-hours-minutes-seconds
+ * Some concepts were inspired by
+ * https://stackoverflow.com/questions/6118922/convert-seconds-value-to-hours-minutes-seconds
  *
  */
 
@@ -15,6 +16,7 @@ public class Time {
 
 	private Timer timer = null;
 	private TimerTask task = null;
+	
 	private int counter = 0;
 	private IntegerProperty periodCounter = null;
 
@@ -36,7 +38,7 @@ public class Time {
 
 		this.timer.schedule(this.task, period, period);
 	}
-	
+
 	public void startCountdown(int seconds) {
 		this.counter = seconds;
 		this.timer = new Timer();
@@ -52,47 +54,46 @@ public class Time {
 
 		this.timer.schedule(this.task, 1000, 1000);
 	}
-	
+
 	public void stop() {
 		if (this.timer != null) {
 			this.task.cancel();
 			this.timer.cancel();
-			
+
 			this.task = null;
 			this.timer = null;
-			//this.periodCounter = null;
 		}
 	}
 
 	public IntegerProperty getPeriodCounterProperty() {
 		return this.periodCounter;
 	}
-	
-	public int getCounterSimplified() {
-		return counter;
-	}
-	
+
 	// Get the counter in a nice format MINUTES:SECONDS
-	public String getCounter() {
+	public String getCounterAsString() {
 		int mins = (counter % 3600) / 60;
 		int seconds = counter % 60;
-	
+
 		return getTwoDigitValues(mins) + ":" + getTwoDigitValues(seconds);
 	}
-	
-	//Double digit formatting
-	private String getTwoDigitValues(int number) {
-		 if (number == 0) {
-			 return "00";
-		 }
-		 if (number / 10 == 0) {
-			 return "0" + number;
-		 }
-		 return String.valueOf(number);
+
+	public int getCounter() {
+		return counter;
 	}
-	
+
 	public void setCounter(int seconds) {
 		this.counter = seconds;
+	}
+
+	// Double digit formatting
+	private String getTwoDigitValues(int number) {
+		if (number == 0) {
+			return "00";
+		}
+		if (number / 10 == 0) {
+			return "0" + number;
+		}
+		return String.valueOf(number);
 	}
 
 }

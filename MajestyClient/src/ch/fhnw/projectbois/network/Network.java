@@ -51,45 +51,35 @@ public class Network {
 		}
 	}
 
-	public boolean initConnection(String host, int port) {
-		boolean success = true;
-		
-		try {
-			this.stopConnection();
+	public void initConnection(String host, int port) throws Exception {
+		this.stopConnection();
 
-			socket = new Socket(host, port);
+		socket = new Socket(host, port);
 
-			Runnable r = new Runnable() {
-				@Override
-				public void run() {
-					try {
-						BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-						String json;
-						while ((json = reader.readLine()) != null && !socket.isClosed()) {
-							try {
-								logger.info("Network.Runnable() - " + json);
+		Runnable r = new Runnable() {
+			@Override
+			public void run() {
+				try {
+					BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+					String json;
+					while ((json = reader.readLine()) != null && !socket.isClosed()) {
+						try {
+							logger.info("Network.Runnable() - " + json);
 
-								Response response = JsonUtils.Deserialize(json, Response.class);
-								responseProperty.setValue(response);
+							Response response = JsonUtils.Deserialize(json, Response.class);
+							responseProperty.setValue(response);
 
-							} catch (Exception ex) {
-								logger.log(Level.SEVERE, "Network.Runnable()", ex);
-							}
+						} catch (Exception ex) {
+							logger.log(Level.SEVERE, "Network.Runnable()", ex);
 						}
-					} catch (Exception ex) {
 					}
+				} catch (Exception ex) {
 				}
-			};
+			}
+		};
 
-			Thread t = new Thread(r);
-			t.start();
-
-		} catch (Exception e) {
-			logger.log(Level.SEVERE, "Network.initConnection()", e);
-			success = false;
-		}
-		
-		return success;
+		Thread t = new Thread(r);
+		t.start();
 	}
 
 	public void stopConnection() {

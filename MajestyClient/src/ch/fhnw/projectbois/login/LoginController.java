@@ -11,6 +11,8 @@ import ch.fhnw.projectbois.dto.UserDTO;
 import ch.fhnw.projectbois.registration.RegistrationController;
 import ch.fhnw.projectbois.registration.RegistrationModel;
 import ch.fhnw.projectbois.registration.RegistrationView;
+import ch.fhnw.projectbois.time.Time;
+import ch.fhnw.projectbois.validation.CredentialsValidator;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -22,6 +24,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.layout.VBox;
 
 /**
  * 
@@ -36,6 +39,9 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	private final String GERMAN = "Deutsch";
 	private final String FRENCH = "Français";
 	private final String ITALIAN = "Italiano";
+	
+	private Time timer = null;
+	private ChangeListener<Number> timerPropertyListener = null;
 	
 	@FXML
 	private Label lbl_Login_username;
@@ -75,6 +81,12 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	
 	@FXML
 	private Label lbl_Login_serverInfo;
+	
+	@FXML
+	private VBox vbox_Login_form;
+	
+	@FXML
+	private VBox vbox_Login_loading;
 	
 	
 	private ChangeListener<UserDTO> userPropertyListener = null;
@@ -118,12 +130,16 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	
 	private void initLoginStatusPropertyListener() {
 		this.loginStatusPropertyListener = new ChangeListener<String>() {
-	
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				Platform.runLater(() -> {
-					lbl_Login_loginMsg.setText(translator.getTranslation(newValue.toString()));
-				});
+				timer.getPeriodCounterProperty().removeListener(timerPropertyListener);
+				timer.stop();
+				if(newValue != null) {
+					Platform.runLater(() -> {
+						lbl_Login_loginMsg.setText(translator.getTranslation(newValue.toString()));
+					});
+				}
+				switchLoaderDisplay(false);
 			}
 		};	
 	}
@@ -139,9 +155,11 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		model.getLoginStatus().addListener(loginStatusPropertyListener);
 		
 		model.getLoginStatus().addListener((observer, oldValue, newValue) -> {
-			Platform.runLater(() -> {
-				this.lbl_Login_loginMsg.setText(translator.getTranslation(newValue.toString()));
-			});
+			if(newValue != null) {
+				Platform.runLater(() -> {
+					lbl_Login_loginMsg.setText(translator.getTranslation(newValue.toString()));
+				});
+			}
 		});
 
 		this.fillChoiceBox();
@@ -171,32 +189,91 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	
 	@Override
 	public void destroy() {
+		try {
+			this.timer.getPeriodCounterProperty().removeListener(this.timerPropertyListener);
+			this.timer.stop();
+		}catch(Exception e) {}
+		
 		super.destroy();
 
 		model.getLoggedInUser().removeListener(userPropertyListener);
 		model.getLoginStatus().removeListener(loginStatusPropertyListener);
 	}
 	
+	private void switchLoaderDisplay(boolean loading) {
+		Platform.runLater(() -> {
+			this.vbox_Login_loading.setVisible(loading);
+			this.vbox_Login_form.setVisible(!loading);
+		});
+	}
+	
+	private void initTimerPropertyListener() {
+		this.timerPropertyListener = (observer, oldValue, newValue) -> {
+			Platform.runLater(() -> {
+				switchLoaderDisplay(false);
+				this.lbl_Login_loginMsg.setText(translator.getTranslation("lbl_Login_loginMsg_ServerNoReaction"));
+			});
+		};
+	}
+	
+	private void startTimer(int seconds) {
+		switchLoaderDisplay(true);
+		this.timer = new Time();
+		this.timer.startTimer(seconds*1000);
+		
+		this.initTimerPropertyListener();
+		this.timer.getPeriodCounterProperty().addListener(this.timerPropertyListener);
+	}
+	
 	private void processCredentials() {
+		model.resetStatus();
+		startTimer(30);
 		model.LoginProcessCredentials(txt_Login_serverServer.getText(), txt_Login_serverPort.getText(), txt_Login_username.getText(), txt_Login_password.getText());
+	}
+	
+	private boolean checkServerPortValidity(){
+		boolean response = new CredentialsValidator().stringIsValidServerAddress(this.txt_Login_serverServer.getText());
+		try {
+			Integer.parseInt(this.txt_Login_serverPort.getText());
+		}catch(Exception e) {
+			response = false;
+		}
+		return response;
 	}
 	
 	@FXML
 	private void btn_Login_loginClicked(ActionEvent event) {
-		processCredentials();
+		if(checkServerPortValidity()) {
+			processCredentials();
+		}else {
+			Platform.runLater(() -> {
+				this.lbl_Login_loginMsg.setText(translator.getTranslation("lbl_Login_loginMsg_BadInputBoth"));
+			});
+		}
 	}
 	
 	@FXML
 	private void btn_Login_registerClicked(ActionEvent event) {
-		int port = Integer.parseInt(txt_Login_serverPort.getText());
+		if(checkServerPortValidity()) {
+			int port = Integer.parseInt(txt_Login_serverPort.getText());
+			
+			RegistrationController controller = Controller.initMVC(RegistrationController.class, RegistrationModel.class, RegistrationView.class);
+			controller.setServerParam(txt_Login_serverServer.getText(), port);
+			controller.showAndWait();
+			Platform.runLater(() -> {
+				this.txt_Login_username.setText(controller.getUsername());
+				this.txt_Login_password.setText(controller.getPassword());
+			});
+			MetaContainer.getInstance().destroyController(controller);
+			if(!this.txt_Login_username.getText().equals("") && !this.txt_Login_password.getText().equals("")) {
+				processCredentials();
+			}
+		}else {
+			Platform.runLater(() -> {
+				this.lbl_Login_loginMsg.setText(translator.getTranslation("lbl_Login_loginMsg_BadInputBoth"));
+			});
+		}
 		
-		RegistrationController controller = Controller.initMVC(RegistrationController.class, RegistrationModel.class, RegistrationView.class);
-		controller.setServerParam(txt_Login_serverServer.getText(), port);
-		controller.showAndWait();
-		this.txt_Login_username.setText(controller.getUsername());
-		this.txt_Login_password.setText(controller.getPassword());
-		MetaContainer.getInstance().destroyController(controller);
-		processCredentials();
 	}
 	
 	/* START: DELETE AFTER DEVELOPMENT PHASE */
@@ -222,11 +299,18 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	/* END: DELETE AFTER DEVELOPMENT PHASE */
 	
 	private void LoginCredentialsChanged() {
-		if(txt_Login_username.getText().equals("") || txt_Login_password.getText().equals("")) {
-			btn_Login_login.setDisable(true);
-		}else {
-			btn_Login_login.setDisable(false);
-		}
+		try {
+			if(this.txt_Login_username.getText().equals("") || this.txt_Login_password.getText().equals("")) {
+				Platform.runLater(() -> {
+					this.btn_Login_login.setDisable(true);
+				});
+			}else {
+				Platform.runLater(() -> {
+					this.btn_Login_login.setDisable(false);
+				});
+			}
+		}catch(Exception e) {}
+		
 	}
 	
 	private void fillChoiceBox() {
