@@ -23,4 +23,14 @@ public class CredentialsValidator {
 		return EmailValidator.getInstance().isValid(input);
 	}
 	
+	public boolean stringIsValidServerAddress(String input) {
+		// Alphanumeric between 1 and 255 characters, "." allowed excepted at start and end of string
+		boolean response = (input.matches("^[a-zA-Z0-9.]+$") && input.length()>0 && input.length()<256);
+		if(response) 
+			response = !Character.toString(input.charAt(input.length()-1)).equals(".");
+		if(response) 
+			response = !Character.toString(input.charAt(0)).equals(".");
+		return response;
+	}
+	
 }
