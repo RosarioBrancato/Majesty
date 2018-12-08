@@ -86,8 +86,8 @@ public class ChatRequestHandler extends RequestHandler {
 			whisperMessage.setId(id);
 			whisperMessage.setAuthor(ChatMember.System);
 
-			String notificationMessage = getUsernameByChatmember(author) + " hat zu "
-					+ getUsernameByChatmember(receiver) + " geflüstert --";
+			String notificationMessage = "Psst, " + getUsernameByChatmember(author) + " hat zu "
+					+ getUsernameByChatmember(receiver) + " geflüstert...";
 			whisperMessage.setMessage(notificationMessage);
 
 			json = JsonUtils.Serialize(whisperMessage);
