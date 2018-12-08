@@ -86,7 +86,6 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 	public void setServerParam(String server, int port) {
 		this.server = server;
 		this.port = port;
-		System.out.println(server+":"+port);
 	}
 	
 	@Override

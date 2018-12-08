@@ -43,6 +43,7 @@ public class MetaContainer {
 
 	public void setRoot(Parent root) {
 		this.mainStage.getScene().setRoot(root);
+		root.setId("pane");
 	}
 
 	public Scene getScene() {
