@@ -1,9 +1,12 @@
 package ch.fhnw.projectbois.components.chat;
 
+import java.text.MessageFormat;
+
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.dto.MessageDTO;
 import ch.fhnw.projectbois.enumerations.ChatMember;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -22,6 +25,8 @@ import javafx.scene.layout.AnchorPane;
 
 public class ChatController extends Controller<ChatModel, ChatView> {
 
+	private ChangeListener<MessageDTO> chatPropertyListener = null;
+
 	// declaration of things I need need in code
 	@FXML
 	private TextArea txtChat;
@@ -34,7 +39,7 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 
 	@FXML
 	private ImageView imgSend;
-	
+
 	@FXML
 	private ImageView imgArrow;
 
@@ -43,7 +48,7 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 
 	@FXML
 	private AnchorPane pnlRoot;
-	
+
 	private boolean isClosed = false;
 
 	public ChatController(ChatModel model, ChatView view) {
@@ -56,29 +61,48 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 
 		model.getLobbyInfo();
 
-		model.getChatProperty().addListener((observer2, oldValue2, newValue2) -> {
+		this.initChatPropertyListener();
+		model.getChatProperty().addListener(this.chatPropertyListener);
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+
+		model.getChatProperty().removeListener(this.chatPropertyListener);
+	}
+
+	private void initChatPropertyListener() {
+		this.chatPropertyListener = (observer2, oldValue2, newValue2) -> {
 			updateChatView(newValue2);
-		});
+		};
 	}
 
 	private void updateChatView(MessageDTO message) {
+		// check if author is Player1-4, then post message as globally
+		String username = model.getUsernameByChatmember(message.getAuthor());
+
+		String messageText = "";
+		String key = message.getTranslationKey();
+		if (key != null) {
+			messageText = translator.getTranslation(key);
+			messageText = MessageFormat.format(messageText, message.getFormatVariables());
+		}
+		if (messageText != null) {
+			messageText = message.getMessage();
+		}
+
+		final String messageToPrint = messageText;
 		Platform.runLater(() -> {
-			// check if author is Player1-4, then post message as globally
-			if (message.getAuthor() != ChatMember.System || message.getAuthor() != ChatMember.All
-					|| message.getAuthor() != null) {
-
-				String username = model.getUsernameByChatmember(message.getAuthor());
-				txtChat.appendText(username + ": " + message.getMessage() + "\n");
-			}
-
+			txtChat.appendText(username + ": " + messageToPrint + "\n");
 		});
 	}
 
 	@FXML
 	private void btnSend_Click(ActionEvent event) {
 		MessageDTO message = new MessageDTO();
-		
-		if(!txtMessage.getText().isEmpty()) {
+
+		if (!txtMessage.getText().isEmpty()) {
 			message.setMessage(txtMessage.getText());
 			message.setAuthor(model.getCurrentUserChatMember());
 
@@ -106,7 +130,7 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 
 			model.sendMessage(message);
 		}
-		
+
 		txtMessage.clear();
 	}
 
@@ -117,8 +141,7 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 			btnSend_Click(new ActionEvent());
 		}
 	}
-	
-	
+
 	@FXML
 	private void btnMinimize_Click(ActionEvent event) {
 
@@ -131,22 +154,22 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 			pnlRoot.setMinHeight(20);
 			pnlRoot.setMaxHeight(20);
 			pnlRoot.setPrefHeight(20);
-			
+
 			imgArrow.setRotate(0);
-			
+
 			isClosed = true;
 		} else if (isClosed == true) {
 			txtChat.setVisible(true);
 			txtMessage.setVisible(true);
 			btnSend.setVisible(true);
 			imgSend.setVisible(true);
-			
-			//match prefHeight to window size
+
+			// match prefHeight to window size
 			pnlRoot.setMaxHeight(1000);
 			pnlRoot.setPrefHeight(1000);
-			
+
 			imgArrow.setRotate(180);
-			
+
 			isClosed = false;
 		}
 
