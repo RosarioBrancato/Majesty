@@ -8,7 +8,7 @@ public class LobbyDTO {
 
 	private int id = -1;
 	private boolean cardSideA = true;
-	private int lifetime = 360;
+	private int lifetime = -1;
 
 	private ArrayList<String> players = new ArrayList<>();
 

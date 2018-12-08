@@ -142,11 +142,11 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 
 						Optional<ButtonType> result = alert.showAndWait();
 						if (result.get() == buttonTypeClose) {
+							
 							model.destroyLobby();
 							Controller.initMVCAsRoot(MenuBarController.class, MenuBarModel.class, MenuBarView.class);
 							
 						} else if (result.get() == buttonTypeExtend) {
-							// setCountdown();
 							model.extendLifetime();
 						}
 					});
@@ -163,7 +163,7 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 		if (counter >= 0) {
 			Platform.runLater(() -> {
 				lblCountdown_Dynamic
-						.setText(translator.getTranslation("lbl_LobbyView_Countdown") + " " + timer.getCounter());
+						.setText(translator.getTranslation("lbl_LobbyView_Countdown") + " " + timer.getCounterAsString());
 			});
 		}
 	}

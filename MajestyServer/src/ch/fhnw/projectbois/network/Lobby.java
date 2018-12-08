@@ -22,7 +22,7 @@ import javafx.beans.value.ChangeListener;
  */
 public class Lobby {
 	
-	public static final int LIFETIME_DEFAULT = 360;
+	public static final int LIFETIME_DEFAULT = 20;
 
 	private int id = -1;
 	private boolean cardSideA = true;
@@ -83,6 +83,7 @@ public class Lobby {
 		this.lifetime = lifetime;
 
 		this.timer = new Time();
+		timer.startCountdown(lifetime);
 		this.initPeriodicCounterPropertyListener();
 		this.timer.getPeriodCounterProperty().addListener(this.periodicCounterPropertyListener);
 	}

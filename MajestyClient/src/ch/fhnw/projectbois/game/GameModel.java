@@ -55,7 +55,7 @@ public class GameModel extends Model {
 				if (newValue.getResponseId() == ResponseId.UPDATE_GAMESTATE) {
 					String json = newValue.getJsonDataObject();
 					GameState gameState = JsonUtils.Deserialize(json, GameState.class);
-
+					
 					gameStateProperty.setValue(gameState);
 
 				} else if (newValue.getResponseId() == ResponseId.GAME_ENDED) {

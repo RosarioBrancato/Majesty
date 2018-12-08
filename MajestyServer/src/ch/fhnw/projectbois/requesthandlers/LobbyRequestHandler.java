@@ -10,12 +10,15 @@ import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.dto.LobbyDTO;
 import ch.fhnw.projectbois.dto.LobbyListDTO;
+import ch.fhnw.projectbois.dto.MessageDTO;
 import ch.fhnw.projectbois.dto.ReportDTO;
+import ch.fhnw.projectbois.enumerations.ChatMember;
 import ch.fhnw.projectbois.enumerations.ReportSeverity;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.network.Lobby;
 import ch.fhnw.projectbois.network.Server;
 import ch.fhnw.projectbois.network.ServerClient;
+import ch.fhnw.projectbois.translate.Translator;
 
 /**
  * 
@@ -23,6 +26,7 @@ import ch.fhnw.projectbois.network.ServerClient;
  *
  */
 public class LobbyRequestHandler extends RequestHandler {
+	
 
 	public LobbyRequestHandler(Request request, Server server, ServerClient client) {
 		super(request, server, client);
@@ -99,7 +103,14 @@ public class LobbyRequestHandler extends RequestHandler {
 			LobbyDTO responseLobbyDTO = lobby.toLobbyDTO();
 			json = JsonUtils.Serialize(responseLobbyDTO);
 			response = new Response(ResponseId.LOBBY_JOINED, request.getRequestId(), json);
-
+			// notify users about join event
+			MessageDTO message = new MessageDTO();
+			message.setReceiver(ChatMember.All);
+			message.setAuthor(ChatMember.System);
+			message.setMessage(client.getUser().getUsername() + " has joined the game...");			
+			String json1 = JsonUtils.Serialize(message);
+			request = new Request(client.getUser().getToken(), RequestId.CHAT_SEND_MSG, json1);
+			new ChatRequestHandler(request, server, client);
 		} else {
 			ReportDTO report = new ReportDTO();
 			report.setSeverity(ReportSeverity.WARNING);
@@ -131,11 +142,12 @@ public class LobbyRequestHandler extends RequestHandler {
 		// Get lobbies, which are not full
 		ArrayList<Lobby> lobbies = (ArrayList<Lobby>) server.getLobbies().stream()
 				.filter(f -> f.isNotFull() && !f.isGameStarted()).collect(Collectors.toList());
-
+		
 		// Convert lobbies to DTOs
 		for (Lobby lobby : lobbies) {
 			LobbyDTO lobbyDTO = lobby.toLobbyDTO();
-
+			System.out.println(lobby.getLifetime());
+			System.out.println(lobbyDTO.getLifetime());
 			lobbyList.getLobbies().add(lobbyDTO);
 		}
 
@@ -171,7 +183,17 @@ public class LobbyRequestHandler extends RequestHandler {
 	}
 	
 	private void destroyLobby() {
-		//TO-DO
+		Lobby lobby = client.getLobby();
+		lobby.destroy();
+		server.getLobbies().remove(lobby);
+		// Answer all clients	
+		ReportDTO reportDTO = new ReportDTO(ReportSeverity.INFO, "Owner let lobby die", "msg_LobbyView_LobbyDied");
+		String json = JsonUtils.Serialize(reportDTO);
+		Response responseall = new Response(ResponseId.LOBBY_DIED, request.getRequestId(), json);
+
+		for (ServerClient client : lobby.getClients()) {
+			client.sendResponse(responseall);
+		}
 	}
 
 }
