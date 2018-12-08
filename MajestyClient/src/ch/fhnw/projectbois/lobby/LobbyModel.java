@@ -6,6 +6,9 @@ import ch.fhnw.projectbois.communication.Request;
 import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
+import ch.fhnw.projectbois.components.menubar.MenuBarController;
+import ch.fhnw.projectbois.components.menubar.MenuBarModel;
+import ch.fhnw.projectbois.components.menubar.MenuBarView;
 import ch.fhnw.projectbois.dto.LobbyDTO;
 import ch.fhnw.projectbois.dto.MessageDTO;
 import ch.fhnw.projectbois.dto.ReportDTO;
@@ -116,6 +119,12 @@ public class LobbyModel extends Model {
 				String json = newValue.getJsonDataObject();
 				ReportDTO report = JsonUtils.Deserialize(json, ReportDTO.class);
 				getReportProperty().setValue(report);
+			} else if (newValue.getResponseId() == ResponseId.LOBBY_DIED) {
+				//what to do with ReportDTO
+				String json = newValue.getJsonDataObject();
+				ReportDTO report = JsonUtils.Deserialize(json, ReportDTO.class);
+				getReportProperty().setValue(report);
+				Controller.initMVCAsRoot(MenuBarController.class, MenuBarModel.class, MenuBarView.class);
 			}
 
 		};
