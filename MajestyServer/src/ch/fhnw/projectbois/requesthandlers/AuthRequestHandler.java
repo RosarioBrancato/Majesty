@@ -63,13 +63,10 @@ public class AuthRequestHandler extends RequestHandler {
 			}
 			
 			if(response == null) {
-				boolean isLoggedIn = false;
 				
-				try {
-					isLoggedIn = server.getClients().stream().filter(f -> f.getUser().getUsername().equals(loginRequest.getUsername())).findAny().isPresent();
-				}catch(NullPointerException e) {
-					logger.warning("Could not check wether user is logged in or not: " + e.toString());
-				}
+				boolean isLoggedIn = server.getClients().stream()
+						.filter(f -> f.getUser() != null && f.getUser().getUsername().equals(loginRequest.getUsername())).findAny().isPresent();
+				
 				
 				if(isLoggedIn) {
 					logger.severe("Login failed. User is already logged in: " + loginRequest.getUsername());
