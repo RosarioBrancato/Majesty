@@ -65,17 +65,17 @@ public class ChatRequestHandler extends RequestHandler {
 				clients.get(0).sendResponse(response);
 
 			} else if (receiver == ChatMember.Player2) {
-				if (clients.size() <= 2) {
+				if (clients.size() >= 2) {
 					clients.get(1).sendResponse(response);
 				}
 
 			} else if (receiver == ChatMember.Player3) {
-				if (clients.size() <= 3) {
+				if (clients.size() >= 3) {
 					clients.get(2).sendResponse(response);
 				}
 
 			} else if (receiver == ChatMember.Player4) {
-				if (clients.size() <= 4) {
+				if (clients.size() >= 4) {
 					clients.get(3).sendResponse(response);
 				}
 			}
@@ -86,9 +86,13 @@ public class ChatRequestHandler extends RequestHandler {
 			whisperMessage.setId(id);
 			whisperMessage.setAuthor(ChatMember.System);
 
-			String notificationMessage = "Psst, " + getUsernameByChatmember(author) + " hat zu "
-					+ getUsernameByChatmember(receiver) + " geflüstert...";
+			String notificationMessage = "Psst, " + getUsernameByChatmember(author) + " just whispered to "
+					+ getUsernameByChatmember(receiver) + "...";
 			whisperMessage.setMessage(notificationMessage);
+
+			whisperMessage.setTranslationKey("msg_System_Whisper");
+			whisperMessage.getFormatVariables().add(getUsernameByChatmember(author));
+			whisperMessage.getFormatVariables().add(getUsernameByChatmember(receiver));
 
 			json = JsonUtils.Serialize(whisperMessage);
 			Response whisperNotification = new Response(ResponseId.RECEIVE_MSG, request.getRequestId(), json);
@@ -96,17 +100,18 @@ public class ChatRequestHandler extends RequestHandler {
 			if (messageDTO.getAuthor() != ChatMember.Player1 && messageDTO.getReceiver() != ChatMember.Player1) {
 				clients.get(0).sendResponse(whisperNotification);
 
-			} else if (messageDTO.getAuthor() != ChatMember.Player2 && messageDTO.getReceiver() != ChatMember.Player2) {
+			}
+			if (messageDTO.getAuthor() != ChatMember.Player2 && messageDTO.getReceiver() != ChatMember.Player2) {
 				if (clients.size() >= 2) {
 					clients.get(1).sendResponse(whisperNotification);
 				}
-
-			} else if (messageDTO.getAuthor() != ChatMember.Player3 && messageDTO.getReceiver() != ChatMember.Player3) {
+			}
+			if (messageDTO.getAuthor() != ChatMember.Player3 && messageDTO.getReceiver() != ChatMember.Player3) {
 				if (clients.size() >= 3) {
 					clients.get(2).sendResponse(whisperNotification);
 				}
-
-			} else if (messageDTO.getAuthor() != ChatMember.Player4 && messageDTO.getReceiver() != ChatMember.Player4) {
+			}
+			if (messageDTO.getAuthor() != ChatMember.Player4 && messageDTO.getReceiver() != ChatMember.Player4) {
 				if (clients.size() >= 4) {
 					clients.get(3).sendResponse(whisperNotification);
 				}
