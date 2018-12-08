@@ -181,6 +181,7 @@ public class GameCalculations {
 			if (innkeeperCount > 0 && nobleCount > 0) {
 				points += 10;
 			}
+			currentPlayer.setPoints(points);
 		}	
 	}
 
@@ -195,8 +196,10 @@ public class GameCalculations {
 			points += (millerCount * 2);
 			points += (brewerCount * 2);
 			points += (witchCount * 2);
+			currentPlayer.setPoints(points);
 		} else if (!isSideA) {
 			points += (witchCount * 3);
+			currentPlayer.setPoints(points);
 		}
 	}
 
@@ -213,6 +216,7 @@ public class GameCalculations {
 			points += (guardCount * 2);
 			points += (knightCount * 2);
 			points += (innkeeperCount * 2);
+			currentPlayer.setPoints(points);
 		} else if (!isSideA) {
 			points += (brewerCount * 2);
 			points += (witchCount * 2);
@@ -237,10 +241,12 @@ public class GameCalculations {
 		
 		if (isSideA) {
 			points += (knightCount * 3);
+			currentPlayer.setPoints(points);
 		} else if (!isSideA) {
 			points += (knightCount * 3);
 			points += (innkeeperCount * 3);
 			points += (nobleCount * 3);
+			currentPlayer.setPoints(points);
 		}
 
 	}
@@ -262,6 +268,7 @@ public class GameCalculations {
 			}
 		} else if (!isSideA) {
 			points += (innkeeperCount * 2); // what does the sign on card mean???
+			currentPlayer.setPoints(points);
 		}
 
 	}
@@ -277,11 +284,14 @@ public class GameCalculations {
 		if (isSideA) {
 			points += (nobleCount * 5);
 			meeples += (nobleCount * 1);
+			currentPlayer.setPoints(points);
 		} else if (!isSideA) {
 			// ignore first effect of side B
 			
 			points += (nobleCount * 4);
-			points += (infirmaryCount * 4); // not sure of relationship
+			points += (infirmaryCount * 4);
+			
+			currentPlayer.setPoints(points);
 
 		}
 		
