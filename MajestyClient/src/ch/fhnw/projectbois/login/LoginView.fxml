@@ -1,11 +1,5 @@
 ***REMOVED***
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Accordion?>
@@ -22,14 +16,13 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<HBox alignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<HBox alignment="CENTER" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox alignment="CENTER">
          <children>
             <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
                <children>
-                  <VBox fx:id="vbox_Login_form">
+                  <VBox fx:id="vbox_Login_form" styleClass="mainContent">
                      <children>
                         <HBox VBox.vgrow="NEVER">
                            <children>
@@ -116,12 +109,16 @@
                         </HBox>
                         <HBox layoutX="10.0" layoutY="95.0">
                            <children>
-                              <Button fx:id="btn_Login_register" mnemonicParsing="false" onAction="#btn_Login_registerClicked" text="%btn_Login_register" />
-                              <Button fx:id="btn_Login_login" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#btn_Login_loginClicked" text="%btn_Login_login" />
+                              <Button fx:id="btn_Login_login" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#btn_Login_loginClicked" styleClass="success" text="%btn_Login_login" />
                            </children>
                            <VBox.margin>
                               <Insets bottom="5.0" />
                            </VBox.margin>
+                        </HBox>
+                        <HBox layoutX="10.0" layoutY="268.0">
+                           <children>
+                              <Button fx:id="btn_Login_register1" mnemonicParsing="false" onAction="#btn_Login_registerClicked" styleClass="default" text="%btn_Login_register" />
+                           </children>
                         </HBox>
                         <Accordion>
                           <panes>
