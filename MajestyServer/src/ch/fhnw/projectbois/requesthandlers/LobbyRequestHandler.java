@@ -18,7 +18,6 @@ import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.network.Lobby;
 import ch.fhnw.projectbois.network.Server;
 import ch.fhnw.projectbois.network.ServerClient;
-import ch.fhnw.projectbois.translate.Translator;
 
 /**
  * 
@@ -146,8 +145,6 @@ public class LobbyRequestHandler extends RequestHandler {
 		// Convert lobbies to DTOs
 		for (Lobby lobby : lobbies) {
 			LobbyDTO lobbyDTO = lobby.toLobbyDTO();
-			System.out.println(lobby.getLifetime());
-			System.out.println(lobbyDTO.getLifetime());
 			lobbyList.getLobbies().add(lobbyDTO);
 		}
 
