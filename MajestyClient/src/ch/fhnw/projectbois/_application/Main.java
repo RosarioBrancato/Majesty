@@ -36,9 +36,9 @@ public class Main extends Application {
 			
 			Scene scene = new Scene(new Label("Loading..."));
 			String bootstrap = this.getClass().getResource("bootstrap2.css").toExternalForm();
-			String css = this.getClass().getResource("Main.css").toExternalForm();
+			String mainCss = this.getClass().getResource("Main.css").toExternalForm();
 			scene.getStylesheets().add(bootstrap);
-			scene.getStylesheets().add(css);
+			scene.getStylesheets().add(mainCss);
 			primaryStage.setScene(scene);
 			
 			MetaContainer.getInstance().setMainStage(primaryStage);

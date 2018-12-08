@@ -254,14 +254,7 @@ public class GameCalculations {
 	}
 
 	private void calcInnkeeper() {
-		int millerCount = currentPlayer.getLocationByIndex(Location.MILL).getCards().size();
-		int brewerCount = currentPlayer.getLocationByIndex(Location.BREWERY).getCards().size();
-		int witchCount = currentPlayer.getLocationByIndex(Location.COTTAGE).getCards().size();
-		int guardCount = currentPlayer.getLocationByIndex(Location.GUARDHOUSE).getCards().size();
-		int knightCount = currentPlayer.getLocationByIndex(Location.BARACKS).getCards().size();
 		int innkeeperCount = currentPlayer.getLocationByIndex(Location.INN).getCards().size();
-		int nobleCount = currentPlayer.getLocationByIndex(Location.CASTLE).getCards().size();
-
 		int points = currentPlayer.getPoints();
 
 		if (isSideA) {
@@ -278,7 +271,7 @@ public class GameCalculations {
 		} else {
 			int highestCount = 0;
 			
-			for (int i = 0; i<=currentPlayer.getLocations().length; i++) {
+			for (int i = 0; i < currentPlayer.getLocations().length; i++) {
 				int cardCount = currentPlayer.getLocationByIndex(i).getCards().size();
 				
 				if (cardCount > highestCount) {
