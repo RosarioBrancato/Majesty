@@ -52,6 +52,7 @@ public class Translator {
 
 	public void setResourceBundle(Locale locale) {
 		this.bundle = ResourceBundle.getBundle("language.UIResources", locale);
+		this.locale = locale;
 	}
 
 }

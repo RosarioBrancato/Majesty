@@ -1,5 +1,9 @@
 ***REMOVED***
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
@@ -8,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="pnlMenu" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="pnlMenu" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <left>
       <GridPane prefHeight="200.0" prefWidth="200.0" vgap="5.0">
          <columnConstraints>
@@ -17,6 +21,7 @@
          <rowConstraints>
             <RowConstraints minHeight="120.0" prefHeight="120.0" valignment="CENTER" vgrow="NEVER" />
             <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER" vgrow="NEVER" />
+            <RowConstraints minHeight="80.0" prefHeight="80.0" valignment="CENTER" vgrow="NEVER" />
             <RowConstraints minHeight="80.0" prefHeight="80.0" valignment="CENTER" vgrow="NEVER" />
             <RowConstraints minHeight="80.0" prefHeight="80.0" valignment="CENTER" vgrow="NEVER" />
             <RowConstraints minHeight="80.0" prefHeight="80.0" valignment="CENTER" vgrow="NEVER" />
@@ -31,8 +36,9 @@
             <Button fx:id="btnPlay" mnemonicParsing="false" onAction="#btnPlay_Click" prefHeight="80.0" prefWidth="200.0" text="%btn_Components_MenuBar_Play" GridPane.rowIndex="2" />
             <Button fx:id="btnProfile" mnemonicParsing="false" onAction="#btnProfile_Click" prefHeight="80.0" prefWidth="200.0" text="%btn_Components_MenuBar_Profile" GridPane.rowIndex="3" />
             <Button fx:id="btnLeaderboard" mnemonicParsing="false" onAction="#btnLeaderboard_Click" prefHeight="80.0" prefWidth="200.0" text="%btn_Components_MenuBar_Leaderboard" GridPane.rowIndex="4" />
-            <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#btnLogout_Click" prefHeight="80.0" prefWidth="200.0" text="%btn_Components_MenuBar_Logout" GridPane.rowIndex="5" />
+            <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#btnLogout_Click" prefHeight="80.0" prefWidth="200.0" text="%btn_Components_MenuBar_Logout" GridPane.rowIndex="6" />
             <Label fx:id="lblGreetUser" text="%lbl_Greet_User" GridPane.rowIndex="1" />
+            <Button fx:id="btnManual" mnemonicParsing="false" onAction="#btnManual_Click" prefHeight="119.0" prefWidth="252.0" text="%btn_Components_MenuBar_Manual" GridPane.rowIndex="5" />
          </children>
       </GridPane>
    </left>
