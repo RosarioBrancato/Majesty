@@ -143,7 +143,7 @@ public class ChatRequestHandler extends RequestHandler {
 			}
 			break;
 		default:
-			username = "-- System";
+			username = "Unknown";
 			break;
 		}
 
