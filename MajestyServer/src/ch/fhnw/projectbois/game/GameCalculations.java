@@ -174,9 +174,10 @@ public class GameCalculations {
 				}
 			}
 			// for side B
-		} else if (!isSideA) {
+		} else {
 			meeples += (brewerCount * 1);
 			meeples += (millerCount * 1);
+			currentPlayer.setMeeples(meeples);
 
 			if (innkeeperCount > 0 && nobleCount > 0) {
 				points += 10;
@@ -197,7 +198,7 @@ public class GameCalculations {
 			points += (brewerCount * 2);
 			points += (witchCount * 2);
 			currentPlayer.setPoints(points);
-		} else if (!isSideA) {
+		} else {
 			points += (witchCount * 3);
 			currentPlayer.setPoints(points);
 		}
@@ -217,15 +218,16 @@ public class GameCalculations {
 			points += (knightCount * 2);
 			points += (innkeeperCount * 2);
 			currentPlayer.setPoints(points);
-		} else if (!isSideA) {
+		} else {
 			points += (brewerCount * 2);
 			points += (witchCount * 2);
 			points += (guardCount * 2);
+			currentPlayer.setPoints(points);
 			
 			for (Player player : players) {
 				if (player.getLocationByIndex(Location.INN).getCards().size() > 0) {
 					points = player.getPoints();
-					points += 2;
+					points += 3;
 					player.setPoints(points);
 				}
 			}
@@ -242,7 +244,7 @@ public class GameCalculations {
 		if (isSideA) {
 			points += (knightCount * 3);
 			currentPlayer.setPoints(points);
-		} else if (!isSideA) {
+		} else {
 			points += (knightCount * 3);
 			points += (innkeeperCount * 3);
 			points += (nobleCount * 3);
@@ -252,12 +254,19 @@ public class GameCalculations {
 	}
 
 	private void calcInnkeeper() {
+		int millerCount = currentPlayer.getLocationByIndex(Location.MILL).getCards().size();
+		int brewerCount = currentPlayer.getLocationByIndex(Location.BREWERY).getCards().size();
+		int witchCount = currentPlayer.getLocationByIndex(Location.COTTAGE).getCards().size();
+		int guardCount = currentPlayer.getLocationByIndex(Location.GUARDHOUSE).getCards().size();
+		int knightCount = currentPlayer.getLocationByIndex(Location.BARACKS).getCards().size();
 		int innkeeperCount = currentPlayer.getLocationByIndex(Location.INN).getCards().size();
+		int nobleCount = currentPlayer.getLocationByIndex(Location.CASTLE).getCards().size();
 
 		int points = currentPlayer.getPoints();
 
 		if (isSideA) {
 			points += (innkeeperCount * 4);
+			currentPlayer.setPoints(points);
 			
 			for (Player player : players) {
 				if (player.getLocationByIndex(Location.BREWERY).getCards().size() > 0) {
@@ -266,8 +275,18 @@ public class GameCalculations {
 					player.setPoints(points);
 				}
 			}
-		} else if (!isSideA) {
-			points += (innkeeperCount * 2); // what does the sign on card mean???
+		} else {
+			int highestCount = 0;
+			
+			for (int i = 0; i<=currentPlayer.getLocations().length; i++) {
+				int cardCount = currentPlayer.getLocationByIndex(i).getCards().size();
+				
+				if (cardCount > highestCount) {
+					highestCount = cardCount;
+				}	
+			}
+			
+			points += (innkeeperCount * (highestCount * 2));
 			currentPlayer.setPoints(points);
 		}
 
@@ -276,7 +295,6 @@ public class GameCalculations {
 	private void calcNoble() {
 		int nobleCount = currentPlayer.getLocationByIndex(Location.CASTLE).getCards().size();
 		int infirmaryCount = currentPlayer.getLocationByIndex(Location.INFIRMARY).getCards().size();
-
 		
 		int points = currentPlayer.getPoints();
 		int meeples = currentPlayer.getMeeples();
@@ -285,17 +303,16 @@ public class GameCalculations {
 			points += (nobleCount * 5);
 			meeples += (nobleCount * 1);
 			currentPlayer.setPoints(points);
-		} else if (!isSideA) {
+			currentPlayer.setMeeples(meeples);
+			
+		} else {
 			// ignore first effect of side B
 			
 			points += (nobleCount * 4);
 			points += (infirmaryCount * 4);
 			
 			currentPlayer.setPoints(points);
-
 		}
-		
-		
 		
 	}
 
