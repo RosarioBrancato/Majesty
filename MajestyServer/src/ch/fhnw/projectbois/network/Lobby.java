@@ -22,7 +22,7 @@ import javafx.beans.value.ChangeListener;
  */
 public class Lobby {
 	
-	public static final int LIFETIME_DEFAULT = 20;
+	public static final int LIFETIME_DEFAULT = 360;
 
 	private int id = -1;
 	private boolean cardSideA = true;
