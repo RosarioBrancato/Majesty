@@ -8,7 +8,9 @@ import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.dto.LobbyDTO;
 import ch.fhnw.projectbois.dto.LobbyListDTO;
+import ch.fhnw.projectbois.dto.MessageDTO;
 import ch.fhnw.projectbois.dto.ReportDTO;
+import ch.fhnw.projectbois.enumerations.ChatMember;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.lobby.LobbyController;
 import ch.fhnw.projectbois.lobby.LobbyModel;
@@ -48,16 +50,15 @@ public class PlayScreenModel extends Model {
 
 		// Not correct - the join lobby request could be denied by the server
 		// Do on server side
+		MessageDTO message = new MessageDTO();
+		message.setReceiver(ChatMember.All);
+		message.setAuthor(ChatMember.System);
+		message.setMessage(
+				Session.getCurrentUsername() + " " + translator.getTranslation("msg_LobbyView_PlayerJoined"));
 
-//		MessageDTO message = new MessageDTO();
-//		message.setReceiver(ChatMember.All);
-//		message.setAuthor(ChatMember.System);
-//		message.setMessage(
-//				Session.getCurrentUsername() + " " + translator.getTranslation("msg_LobbyView_PlayerJoined"));
-//		
-//		json = JsonUtils.Serialize(message);
-//		request = new Request(Session.getCurrentUserToken(), RequestId.CHAT_SEND_MSG, json);
-//		Network.getInstance().sendRequest(request);
+		json = JsonUtils.Serialize(message);
+		request = new Request(Session.getCurrentUserToken(), RequestId.CHAT_SEND_MSG, json);
+		Network.getInstance().sendRequest(request);
 	}
 
 	public void getLobbies() {
