@@ -26,7 +26,7 @@
          <font>
             <Font size="1.0" />
          </font></Button>
-      <ImageView blendMode="SRC_ATOP" disable="true" fitHeight="15.0" fitWidth="20.0" layoutX="54.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" AnchorPane.bottomAnchor="317.505859375" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
+      <ImageView fx:id="imgArrow" blendMode="SRC_ATOP" disable="true" fitHeight="15.0" fitWidth="20.0" layoutX="54.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" AnchorPane.bottomAnchor="316.505859375" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="3.0">
          <image>
             <Image url="@../../../../../../resources/chat/images/Arrow.png" />
          </image>

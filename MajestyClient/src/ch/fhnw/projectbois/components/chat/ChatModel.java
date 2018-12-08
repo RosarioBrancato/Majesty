@@ -113,7 +113,7 @@ public class ChatModel extends Model {
 	}
 
 	public String getUsernameByChatmember(ChatMember chatMember) {
-		String username = "Unkown";
+		String username = "System";
 
 		Set<String> usernames = usernameMap.keySet();
 

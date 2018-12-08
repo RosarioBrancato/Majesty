@@ -34,6 +34,9 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 
 	@FXML
 	private ImageView imgSend;
+	
+	@FXML
+	private ImageView imgArrow;
 
 	@FXML
 	private Button btnClose;
@@ -128,16 +131,22 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 			pnlRoot.setMinHeight(20);
 			pnlRoot.setMaxHeight(20);
 			pnlRoot.setPrefHeight(20);
+			
+			imgArrow.setRotate(0);
+			
 			isClosed = true;
 		} else if (isClosed == true) {
 			txtChat.setVisible(true);
 			txtMessage.setVisible(true);
 			btnSend.setVisible(true);
 			imgSend.setVisible(true);
-
+			
 			//match prefHeight to window size
 			pnlRoot.setMaxHeight(1000);
 			pnlRoot.setPrefHeight(1000);
+			
+			imgArrow.setRotate(180);
+			
 			isClosed = false;
 		}
 
