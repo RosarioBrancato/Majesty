@@ -95,13 +95,10 @@ public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 
 		Controller.initMVCAsRoot(LoginController.class, LoginModel.class, LoginView.class);
 	}
-
-	// TEMP DELTE AFTERWARDS
+	
 	@FXML
-	private void btnLogin_Click(ActionEvent event) {
-		LoginController controller = Controller.initMVC(LoginController.class, LoginModel.class, LoginView.class);
-
-		this.switchCenter(controller);
+	private void btnManual_Click(ActionEvent event) {
+		model.openManual();
 	}
 
 }
