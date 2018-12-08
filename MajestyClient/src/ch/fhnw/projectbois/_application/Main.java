@@ -35,6 +35,8 @@ public class Main extends Application {
 			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/majesty.png")));
 
 			Scene scene = new Scene(new Label("Loading..."));
+			String css = this.getClass().getResource("Main.css").toExternalForm();
+			scene.getStylesheets().add(css);
 			primaryStage.setScene(scene);
 			
 			MetaContainer.getInstance().setMainStage(primaryStage);
