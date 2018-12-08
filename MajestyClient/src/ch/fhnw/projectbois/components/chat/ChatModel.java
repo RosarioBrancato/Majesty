@@ -114,6 +114,8 @@ public class ChatModel extends Model {
 
 	public String getUsernameByChatmember(ChatMember chatMember) {
 		String username = "System";
+		username = translator.getTranslation("txt_ChatMember_System");
+		
 
 		Set<String> usernames = usernameMap.keySet();
 
