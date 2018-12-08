@@ -44,7 +44,6 @@ public class LobbyView extends View<LobbyModel> {
 
 		// Set gridpane as new root
 		this.root = stackpane;
-		
 	}
 
 }
