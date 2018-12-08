@@ -33,9 +33,11 @@ public class Main extends Application {
 			primaryStage.setWidth(1250);
 			primaryStage.setHeight(800);
 			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/majesty.png")));
-
+			
 			Scene scene = new Scene(new Label("Loading..."));
+			String bootstrap = this.getClass().getResource("bootstrap2.css").toExternalForm();
 			String css = this.getClass().getResource("Main.css").toExternalForm();
+			scene.getStylesheets().add(bootstrap);
 			scene.getStylesheets().add(css);
 			primaryStage.setScene(scene);
 			
