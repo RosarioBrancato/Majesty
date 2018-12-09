@@ -423,6 +423,7 @@ public class GameController extends Controller<GameModel, GameView> {
 					Player currentPlayer = gameState.getBoard().getPlayers().get(playerIndex);
 					int meeples = currentPlayer.getMeeples();
 					meeples -= index; // pay for the card, index = cost
+					meeples += card.getMeeples(); // add meeples you get from card
 					int points = currentPlayer.getPoints();
 
 					if (points > 0 || meeples > 0) {

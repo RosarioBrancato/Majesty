@@ -79,6 +79,7 @@ public class MeepleTraderController extends Controller<MeepleTraderModel, Meeple
 
 		if (rdbBuy.isSelected()) {
 			if (points >= 5) {
+				//ruling: max 5 meeples
 				sliderMeeples.setMax(5);
 			} else {
 				sliderMeeples.setMax(points);
@@ -86,6 +87,7 @@ public class MeepleTraderController extends Controller<MeepleTraderModel, Meeple
 
 		} else if (rdbSell.isSelected()) {
 			if (meeples >= 5) {
+				//ruling: max 5 meeples
 				sliderMeeples.setMax(5);
 			} else {
 				sliderMeeples.setMax(meeples);
