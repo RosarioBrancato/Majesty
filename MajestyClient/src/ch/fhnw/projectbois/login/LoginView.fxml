@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Accordion?>
@@ -7,6 +8,7 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
@@ -16,7 +18,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox alignment="CENTER" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<HBox alignment="CENTER" stylesheets="@../../../../../resources/stylesheets/Login_Registration_Profile.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox alignment="CENTER">
          <children>
@@ -26,12 +28,12 @@
                      <children>
                         <HBox VBox.vgrow="NEVER">
                            <children>
-                              <Label fx:id="lbl_Login_username" minWidth="70.0" text="%lbl_Login_username">
+                              <Label fx:id="lbl_Login_username" maxHeight="1.7976931348623157E308" minWidth="80.0" text="%lbl_Login_username">
                                  <HBox.margin>
                                     <Insets right="10.0" />
                                  </HBox.margin>
                               </Label>
-                              <TextField fx:id="txt_Login_username">
+                              <TextField fx:id="txt_Login_username" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
@@ -43,12 +45,12 @@
                         </HBox>
                         <HBox layoutX="10.0" layoutY="10.0">
                            <children>
-                              <Label fx:id="lbl_Login_password" minWidth="70.0" text="%lbl_Login_password">
+                              <Label fx:id="lbl_Login_password" maxHeight="1.7976931348623157E308" minWidth="80.0" text="%lbl_Login_password">
                                  <HBox.margin>
                                     <Insets right="10.0" />
                                  </HBox.margin>
                               </Label>
-                              <PasswordField fx:id="txt_Login_password">
+                              <PasswordField fx:id="txt_Login_password" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
@@ -60,12 +62,12 @@
                         </HBox>
                         <HBox layoutX="10.0" layoutY="40.0">
                            <children>
-                              <Label fx:id="lbl_Login_language" minWidth="70.0" text="%lbl_Login_language">
+                              <Label fx:id="lbl_Login_language" maxHeight="1.7976931348623157E308" minWidth="80.0" text="%lbl_Login_language">
                                  <HBox.margin>
                                     <Insets right="10.0" />
                                  </HBox.margin>
                               </Label>
-                              <ChoiceBox fx:id="cmb_Login_language" prefWidth="150.0" />
+                              <ChoiceBox fx:id="cmb_Login_language" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                            </children>
                            <VBox.margin>
                               <Insets bottom="5.0" />
@@ -73,62 +75,73 @@
                         </HBox>
                         <VBox>
                            <children>
-                              <Button fx:id="btn_Login_logInAlex" mnemonicParsing="false" onAction="#btn_Login_logInAlexClicked" prefWidth="300.0" text="Alex">
+                              <Button fx:id="btn_Login_logInAlex" mnemonicParsing="false" onAction="#btn_Login_logInAlexClicked" prefWidth="300.0" text="Alex" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button fx:id="btn_Login_logInDario" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#btn_Login_logInDarioClicked" prefWidth="300.0" text="Dario">
+                              <Button fx:id="btn_Login_logInDario" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#btn_Login_logInDarioClicked" prefWidth="300.0" text="Dario" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button fx:id="btn_Login_logInLee" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#btn_Login_logInLeeClicked" prefWidth="300.0" text="Lee">
+                              <Button fx:id="btn_Login_logInLee" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#btn_Login_logInLeeClicked" prefWidth="300.0" text="Lee" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button fx:id="btn_Login_logInRosario" layoutX="10.0" layoutY="45.0" mnemonicParsing="false" onAction="#btn_Login_logInRosarioClicked" prefWidth="300.0" text="Rosario">
+                              <Button fx:id="btn_Login_logInRosario" layoutX="10.0" layoutY="45.0" mnemonicParsing="false" onAction="#btn_Login_logInRosarioClicked" prefWidth="300.0" text="Rosario" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </Button>
                            </children>
                         </VBox>
-                        <HBox layoutX="10.0" layoutY="70.0">
+                        <HBox fillHeight="false" layoutX="10.0" layoutY="70.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <Label fx:id="lbl_Login_loginMsg" minWidth="70.0">
+                              <HBox>
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
-                              </Label>
+                                 <children>
+                                    <Label id="lbl_ErrorMsg" fx:id="lbl_Login_loginMsg" maxWidth="360.0" wrapText="true" />
+                                 </children>
+                              </HBox>
                            </children>
                            <VBox.margin>
                               <Insets bottom="5.0" />
                            </VBox.margin>
                         </HBox>
-                        <HBox layoutX="10.0" layoutY="95.0">
+                        <HBox maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                            <children>
-                              <Button fx:id="btn_Login_login" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#btn_Login_loginClicked" styleClass="success" text="%btn_Login_login" />
+                              <Button fx:id="btn_Login_register1" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btn_Login_registerClicked" text="%btn_Login_register" HBox.hgrow="ALWAYS">
+                                 <styleClass>
+                                    <String fx:value="default" />
+                                    <String fx:value="first" />
+                                 </styleClass>
+                              </Button>
+                              <Button fx:id="btn_Login_login" defaultButton="true" disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btn_Login_loginClicked" text="%btn_Login_login" HBox.hgrow="ALWAYS">
+                                 <styleClass>
+                                    <String fx:value="success" />
+                                    <String fx:value="last" />
+                                 </styleClass>
+                              </Button>
                            </children>
+                        </HBox>
+                        <Separator prefWidth="200.0">
                            <VBox.margin>
-                              <Insets bottom="5.0" />
+                              <Insets bottom="10.0" top="10.0" />
                            </VBox.margin>
-                        </HBox>
-                        <HBox layoutX="10.0" layoutY="268.0">
-                           <children>
-                              <Button fx:id="btn_Login_register1" mnemonicParsing="false" onAction="#btn_Login_registerClicked" styleClass="default" text="%btn_Login_register" />
-                           </children>
-                        </HBox>
+                        </Separator>
                         <Accordion>
                           <panes>
-                            <TitledPane fx:id="acc_Login_serverInfo" expanded="false" text="%acc_Login_serverInfo">
+                            <TitledPane fx:id="acc_Login_serverInfo" expanded="false" styleClass="primary" text="%acc_Login_serverInfo">
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0">
                                        <children>
-                                          <HBox>
+                                          <HBox AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
                                              <children>
-                                                <Label fx:id="lbl_Login_serverInfo" minWidth="70.0" text="%lbl_Login_serverInfo">
+                                                <Label fx:id="lbl_Login_serverInfo" maxHeight="1.7976931348623157E308" minWidth="80.0" text="%lbl_Login_serverInfo">
                                                    <HBox.margin>
                                                       <Insets right="10.0" />
                                                    </HBox.margin>
@@ -152,14 +165,17 @@
                         </Accordion>
                      </children>
                   </VBox>
-                  <VBox fx:id="vbox_Login_loading" visible="false">
+                  <VBox fx:id="vbox_Login_loading" maxWidth="1.7976931348623157E308" prefWidth="381.6" styleClass="mainContent" visible="false">
                      <children>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
                            <image>
                               <Image url="@../../../../../resources/icons/waiting_animation.gif" />
                            </image>
+                           <VBox.margin>
+                              <Insets left="125.0" />
+                           </VBox.margin>
                         </ImageView>
-                        <Label fx:id="lbl_Login_loaderText" text="%lbl_Login_loaderText" />
+                        <Label fx:id="lbl_Login_loaderText" alignment="CENTER" maxWidth="1.7976931348623157E308" text="%lbl_Login_loaderText" textAlignment="CENTER" VBox.vgrow="ALWAYS" />
                      </children>
                      <cursor>
                         <Cursor fx:constant="WAIT" />
