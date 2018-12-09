@@ -4,6 +4,7 @@ public class UserDTO {
 
 	private int id;
 	private String username;
+	private String email;
 	private String token;
 	
 	public UserDTO() {
@@ -15,6 +16,13 @@ public class UserDTO {
 		this.username = username;
 		this.token = token;
 	}
+		
+	public UserDTO(int id, String username, String email, String token) {
+		this.id = id;
+		this.username = username;
+		this.email = email;
+		this.token = token;
+	}
 
 	public int getId() {
 		return id;
@@ -22,6 +30,14 @@ public class UserDTO {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getUsername() {
