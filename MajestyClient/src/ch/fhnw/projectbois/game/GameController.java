@@ -242,6 +242,7 @@ public class GameController extends Controller<GameModel, GameView> {
 		Integer round = new Integer(this.gameState.getRound());
 		int playersTurn = this.gameState.getPlayersTurn();
 		String username = new String(players.get(playersTurn).getUsername());
+		
 		Platform.runLater(() -> {
 			this.lblGameInfo.setText("Round: " + round + "/12 | Player's turn: " + username);
 		});
@@ -295,6 +296,8 @@ public class GameController extends Controller<GameModel, GameView> {
 				.filter(f -> f.getUsername().equals(Session.getCurrentUsername())).findFirst().get();
 
 		int col = 0;
+		boolean allowMove = allowMove();
+
 		for (int i = 0; i < displayCards.size(); i++) {
 			Card card = displayCards.get(i);
 
@@ -312,7 +315,6 @@ public class GameController extends Controller<GameModel, GameView> {
 			vbox.getChildren().add(new Label("Meeples: " + card.getMeeples()));
 
 			// click event
-			boolean allowMove = allowMove();
 			if (currentPlayer.getMeeples() >= i && allowMove) {
 				vbox.getStyleClass().add("displayToHover");
 				this.addDisplayClickEvent(imgCard, i);
@@ -392,7 +394,7 @@ public class GameController extends Controller<GameModel, GameView> {
 
 						int decision = controller.getDecision();
 						move.getDecisions().add(decision);
-						
+
 						MetaContainer.getInstance().destroyController(controller);
 					}
 				}
@@ -423,8 +425,9 @@ public class GameController extends Controller<GameModel, GameView> {
 	private boolean allowMove() {
 		int playersTurn = this.gameState.getPlayersTurn();
 		Player player = this.gameState.getBoard().getPlayers().get(playersTurn);
+		String username = Session.getCurrentUsername();
 
-		return player.getUsername().equals(Session.getCurrentUsername()) && !this.gameState.isGameEnded();
+		return player.getUsername().equals(username) && !this.gameState.isGameEnded();
 	}
 
 	// EVENT METHODS
