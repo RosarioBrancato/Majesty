@@ -1,8 +1,112 @@
 ***REMOVED***
 
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
-</AnchorPane>
-
+<VBox style="-fx-background-color: TRANSPARENT;" stylesheets="@../../../../../resources/stylesheets/Login_Registration_Profile.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox fillHeight="false" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+      <HBox fillHeight="false">
+         <children>
+            <VBox fillWidth="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+            <VBox alignment="CENTER" fillWidth="false" styleClass="mainContent" HBox.hgrow="NEVER">
+               <children>
+                  <Label layoutX="10.0" layoutY="10.0" styleClass="headerHelper" text="%lbl_Profile_title">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label styleClass="headerHelper" text="%lbl_Profile_Helper">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="lbl_Profile_username" text="%lbl_Login_username" />
+                        <TextField fx:id="txt_Profile_username" disable="true" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Hyperlink fx:id="hyp_Profile_Helper_username" focusTraversable="false" onAction="#ProfileShowHelperText_username" styleClass="helper" text="?">
+                           <tooltip>
+                              <Tooltip text="%lbl_Profile_Helper_username" />
+                           </tooltip>
+                        </Hyperlink>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="10.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="lbl_Profile_email" text="%lbl_Profile_email" />
+                        <TextField fx:id="txt_Profile_email" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Hyperlink fx:id="hyp_Profile_Helper_email" focusTraversable="false" onAction="#ProfileShowHelperText_email" styleClass="helper" text="?">
+                           <tooltip>
+                              <Tooltip text="%lbl_Profile_Helper_email" />
+                           </tooltip>
+                        </Hyperlink>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="10.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="lbl_Profile_pwd" text="%lbl_Login_password" />
+                        <PasswordField fx:id="txt_Profile_pwd" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </PasswordField>
+                        <Hyperlink fx:id="hyp_Profile_Helper_password" focusTraversable="false" onAction="#ProfileShowHelperText_password" styleClass="helper" text="?">
+                           <tooltip>
+                              <Tooltip text="%lbl_Profile_Helper_password" />
+                           </tooltip>
+                        </Hyperlink>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="35.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="lbl_Profile_pwdRepeat" text="%lbl_Profile_repeatPassword" />
+                        <PasswordField fx:id="txt_Profile_pwdRepeat" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </PasswordField>
+                        <Hyperlink fx:id="hyp_Profile_Helper_passwordRepeat" focusTraversable="false" onAction="#ProfileShowHelperText_passwordRepeat" styleClass="helper" text="?">
+                           <tooltip>
+                              <Tooltip text="%lbl_Profile_Helper_passwordRepeat" />
+                           </tooltip>
+                        </Hyperlink>
+                     </children>
+                  </HBox>
+                  <HBox>
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                     <children>
+                        <Label fx:id="lbl_Profile_msg" maxWidth="450.0" textFill="RED" wrapText="true" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Button fx:id="btn_Profile_update" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#btn_Profile_updateClicked" styleClass="success" text="%btn_Profile_update" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox fillWidth="false" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+      <HBox fillHeight="false" layoutX="10.0" layoutY="264.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+   </children>
+</VBox>

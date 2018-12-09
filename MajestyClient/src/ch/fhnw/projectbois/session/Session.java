@@ -35,5 +35,9 @@ public class Session {
 	public static String getCurrentUsername() {
 		return Session.getInstance().getCurrentUser().getUsername();
 	}
+	
+	public static String getCurrentEmail() {
+		return Session.getInstance().getCurrentUser().getEmail();
+	}
 
 }

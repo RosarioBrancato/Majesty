@@ -55,6 +55,13 @@ public class ResponseId {
 	public static final int REGISTRATION_ERROR_BAD_CREDENTIALS = 604;
 	public static final int REGISTRATION_ERROR = 698;
 	public static final int REGISTRATION_RANGE_END = 699;
+	
+	public static final int PROFILE_RANGE_START = 700;
+	public static final int PROFILE_UPDATE_SUCCESS = 701;
+	public static final int PROFILE_UPDATE_ERROR_DATABASE = 702;
+	public static final int PROFILE_UPDATE_ERROR_BAD_CREDENTIALS = 703;
+	public static final int PROFILE_UPDATE_ERROR = 704;
+	public static final int PROFILE_RANGE_END = 799;
 
 	public static final int TEST = 999;
 

@@ -161,7 +161,7 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	}
 
 	private boolean checkServerPortValidity() {
-		boolean response = new CredentialsValidator().stringIsValidServerAddress(this.txt_Login_serverServer.getText());
+		boolean response = CredentialsValidator.getInstance().stringIsValidServerAddress(this.txt_Login_serverServer.getText());
 		try {
 			Integer.parseInt(this.txt_Login_serverPort.getText());
 		} catch (Exception e) {

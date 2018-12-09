@@ -16,6 +16,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 public class RegistrationController extends Controller<RegistrationModel, RegistrationView> implements IDialog {
@@ -43,6 +44,7 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 					});
 				}else {
 					Platform.runLater(() -> {
+						lbl_Registration_msg.setTextFill(Paint.valueOf("RED"));
 						lbl_Registration_msg.setText(translator.getTranslation(newValue.toString()));
 					});
 				}
@@ -77,7 +79,6 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 	public void showAndWait() {
 		this.stage = DialogUtils.getStageModal(MetaContainer.getInstance().getMainStage());
 		this.stage.setTitle(translator.getTranslation("lbl_Registration_Title"));
-		//this.stage.initStyle(StageStyle.UNDECORATED);
 		this.stage.setScene(new Scene(this.getViewRoot()));
 		this.stage.showAndWait();
 		
@@ -152,7 +153,7 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 	}
 	
 	private void checkInputValidity() {
-		CredentialsValidator cv = new CredentialsValidator();
+		CredentialsValidator cv = CredentialsValidator.getInstance();
 		String username = this.txt_Registration_username.getText();
 		String email = this.txt_Registration_email.getText();
 		String pwd = this.txt_Registration_pwd.getText();
@@ -176,6 +177,7 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 	@FXML
 	private void RegistrationShowHelperText_username(ActionEvent event) {
 		Platform.runLater(() -> {
+			lbl_Registration_msg.setTextFill(Paint.valueOf("BLACK"));
 			this.lbl_Registration_msg.setText(translator.getTranslation("lbl_Registration_Helper_username"));
 		});
 	}
@@ -183,6 +185,7 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 	@FXML
 	private void RegistrationShowHelperText_email(ActionEvent event) {
 		Platform.runLater(() -> {
+			lbl_Registration_msg.setTextFill(Paint.valueOf("BLACK"));
 			this.lbl_Registration_msg.setText(translator.getTranslation("lbl_Registration_Helper_email"));
 		});
 	}
@@ -190,6 +193,7 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 	@FXML
 	private void RegistrationShowHelperText_password(ActionEvent event) {
 		Platform.runLater(() -> {
+			lbl_Registration_msg.setTextFill(Paint.valueOf("BLACK"));
 			this.lbl_Registration_msg.setText(translator.getTranslation("lbl_Registration_Helper_password"));
 		});
 	}
@@ -197,6 +201,7 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 	@FXML
 	private void RegistrationShowHelperText_passwordRepeat(ActionEvent event) {
 		Platform.runLater(() -> {
+			lbl_Registration_msg.setTextFill(Paint.valueOf("BLACK"));
 			this.lbl_Registration_msg.setText(translator.getTranslation("lbl_Registration_Helper_passwordRepeat"));
 		});
 	}
