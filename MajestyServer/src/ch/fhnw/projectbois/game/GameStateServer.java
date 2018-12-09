@@ -6,7 +6,7 @@ import ch.fhnw.projectbois.gameobjects.Card;
 
 public class GameStateServer {
 
-	public static final int TURN_TIMER = 20;
+	public static final int TURN_TIMER = 60;
 
 	private ArrayList<Card> deckTier1;
 	private ArrayList<Card> deckTier2;
