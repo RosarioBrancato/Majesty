@@ -10,6 +10,8 @@ public class GameState {
 	private int startPlayerIndex = -1;
 	private boolean gameEnded = false;
 
+	private int turntimer = -1;
+
 	private Board board;
 
 	public GameState() {
@@ -66,6 +68,14 @@ public class GameState {
 
 	public void setGameEnded(boolean gameEnded) {
 		this.gameEnded = gameEnded;
+	}
+
+	public int getTurntimer() {
+		return turntimer;
+	}
+
+	public void setTurntimer(int turntimer) {
+		this.turntimer = turntimer;
 	}
 
 }

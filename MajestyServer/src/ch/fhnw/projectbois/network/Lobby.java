@@ -21,15 +21,18 @@ import javafx.beans.value.ChangeListener;
  *
  */
 public class Lobby {
-	
+
 	public static final int LIFETIME_DEFAULT = 360;
 
 	private int id = -1;
 	private boolean cardSideA = true;
 
-	private Time timer = null;
-	private ChangeListener<Number> periodicCounterPropertyListener = null;
+	private Time lifetimer = null;
+	private ChangeListener<Number> lifetimerPropertyListener = null;
 	private int lifetime = -1;
+
+	private Time turnTimer = null;
+	private ChangeListener<Number> turnTimerPropertyListener = null;
 
 	private ArrayList<ServerClient> clients = null;
 
@@ -58,6 +61,8 @@ public class Lobby {
 		boolean success = this.clients.removeIf(f -> f.getUser().getId() == client.getUser().getId());
 
 		if (this.gameStarted) {
+			this.stopTurnTimer();
+
 			// update game state object
 			Player player = gameState.getBoard().getPlayers().stream()
 					.filter(f -> f.getUsername().equals(client.getUser().getUsername())).findFirst().get();
@@ -79,20 +84,43 @@ public class Lobby {
 		return this.clients.size() <= 0;
 	}
 
-	public void startCountdown(int lifetime) {
+	public void startLifetimer(int lifetime) {
 		this.lifetime = lifetime;
 
-		this.timer = new Time();
-		timer.startCountdown(lifetime);
+		this.lifetimer = new Time();
+		lifetimer.startCountdown(lifetime);
 		this.initPeriodicCounterPropertyListener();
-		this.timer.getPeriodCounterProperty().addListener(this.periodicCounterPropertyListener);
+		this.lifetimer.getPeriodCounterProperty().addListener(this.lifetimerPropertyListener);
 	}
 
-	public void stopCountdown() {
-		if (this.timer != null) {
-			this.timer.stop();
-			this.timer.getPeriodCounterProperty().removeListener(this.periodicCounterPropertyListener);
-			this.timer = null;
+	public void stopLifetimer() {
+		if (this.lifetimer != null) {
+			this.lifetimer.stop();
+			this.lifetimer.getPeriodCounterProperty().removeListener(this.lifetimerPropertyListener);
+			this.lifetimer = null;
+		}
+	}
+
+	public void startTurnTimer() {
+		if (this.gameStarted && !this.gameState.isGameEnded()) {
+			this.gameState.setTurntimer(GameStateServer.TURN_TIMER);
+
+			if (this.turnTimer == null) {
+				this.turnTimer = new Time();
+				this.initPeriodCounterPropertyListener();
+				this.turnTimer.getPeriodCounterProperty().addListener(this.turnTimerPropertyListener);
+				this.turnTimer.startCountdown(GameStateServer.TURN_TIMER);
+			} else {
+				this.turnTimer.setCounter(GameStateServer.TURN_TIMER);
+			}
+		}
+	}
+
+	public void stopTurnTimer() {
+		if (this.turnTimer != null) {
+			this.turnTimer.stop();
+			this.turnTimer.getPeriodCounterProperty().removeListener(this.turnTimerPropertyListener);
+			this.turnTimer = null;
 		}
 	}
 
@@ -110,13 +138,26 @@ public class Lobby {
 	}
 
 	public void destroy() {
-		this.stopCountdown();
+		this.stopLifetimer();
+		this.stopTurnTimer();
 	}
 
 	private void initPeriodicCounterPropertyListener() {
-		this.periodicCounterPropertyListener = (observer, oldValue, newValue) -> {
+		this.lifetimerPropertyListener = (observer, oldValue, newValue) -> {
 			if (lifetime > 0) {
 				lifetime--;
+			}
+		};
+	}
+
+	private void initPeriodCounterPropertyListener() {
+		this.turnTimerPropertyListener = (observer, oldValue, newValue) -> {
+			if (gameState.getTurntimer() > 0) {
+				gameState.setTurntimer(gameState.getTurntimer() - 1);
+			}
+
+			if (newValue.intValue() == 0) {
+				this.sendResponseTurnTimeOver();
 			}
 		};
 	}
@@ -134,7 +175,7 @@ public class Lobby {
 				// message other players about a player leaving
 				response = new Response(ResponseId.GAME_PLAYER_LEFT, RequestId.EMPTY, json);
 
-			} else if (clientsCount == 1) {
+			} else if (clientsCount == 1 || gameState.isGameEnded()) {
 				// only 1 player left in the lobby -> game ended
 				response = new Response(ResponseId.GAME_ENDED, RequestId.EMPTY, json);
 			}
@@ -150,6 +191,33 @@ public class Lobby {
 		if (response != null) {
 			for (ServerClient c : this.getClients()) {
 				c.sendResponse(response);
+			}
+		}
+	}
+
+	private void sendResponseTurnTimeOver() {
+		if (this.gameStarted && !this.gameState.isGameEnded()) {
+			this.stopTurnTimer();
+
+			// find current player's client
+			Player currentPlayer = this.gameState.getBoard().getPlayers().get(this.gameState.getPlayersTurn());
+
+			// start new turn
+			GameLogic logic = new GameLogic(this.gameState, this.gameStateServer);
+			logic.startNextTurn();
+			this.startTurnTimer();
+
+			// tell player his turn time is over
+			String json = JsonUtils.Serialize(this.gameState);
+
+			for (ServerClient client : this.clients) {
+				Response response;
+				if (client.getUser().getUsername().equals(currentPlayer.getUsername())) {
+					response = new Response(ResponseId.GAME_TURN_TIME_OVER, RequestId.EMPTY, json);
+				} else {
+					response = new Response(ResponseId.UPDATE_GAMESTATE, RequestId.EMPTY, json);
+				}
+				client.sendResponse(response);
 			}
 		}
 	}

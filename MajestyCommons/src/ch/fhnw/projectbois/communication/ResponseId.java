@@ -30,6 +30,7 @@ public class ResponseId {
 	public static final int GAME_STARTED = 202;
 	public static final int GAME_ENDED = 203;
 	public static final int GAME_PLAYER_LEFT = 204;
+	public static final int GAME_TURN_TIME_OVER = 205;
 	public static final int GAME_ERROR = 298;
 	public static final int GAME_RANGE_END = 299;
 

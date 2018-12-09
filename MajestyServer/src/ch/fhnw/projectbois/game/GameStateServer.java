@@ -6,6 +6,8 @@ import ch.fhnw.projectbois.gameobjects.Card;
 
 public class GameStateServer {
 
+	public static final int TURN_TIMER = 20;
+
 	private ArrayList<Card> deckTier1;
 	private ArrayList<Card> deckTier2;
 	private boolean gameEnded = false;
@@ -15,10 +17,12 @@ public class GameStateServer {
 		this.deckTier2 = new ArrayList<>();
 	}
 
+	// GETTER UND SETTER
+
 	public ArrayList<Card> getDeckTier1() {
 		return this.deckTier1;
 	}
-	
+
 	public ArrayList<Card> getDeckTier2() {
 		return this.deckTier2;
 	}

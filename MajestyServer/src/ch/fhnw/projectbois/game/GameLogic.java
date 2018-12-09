@@ -26,6 +26,9 @@ public class GameLogic {
 	public GameLogic(GameState gameState, GameStateServer gameStateServer) {
 		this.gameState = gameState;
 		this.gameStateServer = gameStateServer;
+
+		// increment id to demonstrate changes
+		this.gameState.setId(this.gameState.getId() + 1);
 	}
 
 	public void executeMove(String username, GameMove move) {
@@ -119,9 +122,6 @@ public class GameLogic {
 
 		// meeple overflow
 		calculations.convertMeepleOverflowToPoints();
-
-		// final changes
-		this.gameState.setId(this.gameState.getId() + 1);
 	}
 
 	public boolean startNextTurn() {
@@ -173,8 +173,8 @@ public class GameLogic {
 
 	public void endGame() {
 		System.out.println("What up I am the final caluclation");
-		//do final caluclations here
-		//show user a statistic and write points to db
+		// do final caluclations here
+		// show user a statistic and write points to db
 	}
 
 	public void removePlayer(Player player) {
@@ -185,6 +185,13 @@ public class GameLogic {
 
 		if (currentPlayer.getUsername().equals(player.getUsername())) {
 			this.startNextTurn();
+		
+		} else {
+			long ingame = this.gameState.getBoard().getPlayers().stream().filter(f -> !f.isPlayerLeft()).count();
+			
+			if(ingame <= 1)  {
+				this.gameState.setGameEnded(true);
+			}
 		}
 	}
 
