@@ -20,6 +20,7 @@ import ch.fhnw.projectbois.requesthandlers.ChatRequestHandler;
 import ch.fhnw.projectbois.requesthandlers.GameRequestHandler;
 import ch.fhnw.projectbois.requesthandlers.LeaderboardRequestHandler;
 import ch.fhnw.projectbois.requesthandlers.LobbyRequestHandler;
+import ch.fhnw.projectbois.requesthandlers.ProfileRequestHandler;
 
 /**
  * 
@@ -71,6 +72,11 @@ public class ServerClient {
 										&& request.getRequestId() < RequestId.LOBBY_RANGE_END) {
 
 									new LobbyRequestHandler(request, server, client);
+
+								} else if (request.getRequestId() > RequestId.PROFILE_RANGE_START
+										&& request.getRequestId() < RequestId.PROFILE_RANGE_END) {
+
+									new ProfileRequestHandler(request, server, client);
 
 								} else if (request.getRequestId() > RequestId.GAME_RANGE_START
 										&& request.getRequestId() < RequestId.GAME_RANGE_END) {

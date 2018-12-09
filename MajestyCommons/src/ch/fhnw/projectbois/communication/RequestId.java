@@ -36,6 +36,10 @@ public class RequestId {
 	public static final int CHAT_RANGE_START = 400;
 	public static final int CHAT_SEND_MSG = 401;
 	public static final int CHAT_RANGE_END = 499;
+	
+	public static final int PROFILE_RANGE_START = 500;
+	public static final int PROFILE_UPDATE = 501;
+	public static final int PROFILE_RANGE_END = 599;
 
 	public static final int TEST = 999;
 
