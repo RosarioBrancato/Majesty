@@ -138,27 +138,32 @@ public class GameLogic {
 			int playersCount = this.gameState.getBoard().getPlayers().size();
 			int playersTurn = this.gameState.getPlayersTurn();
 
-			Player player;
-			int whileBreaker = 0;
-			do {
-				playersTurn++;
-				if (playersTurn >= playersCount) {
-					playersTurn = 0;
-				}
+			// check how many player are left
+			long ingame = this.gameState.getBoard().getPlayers().stream().filter(f -> !f.isPlayerLeft()).count();
 
-				if (playersTurn == startPlayer) {
-					round++;
-				}
+			if (ingame > 1) {
+				Player player;
+				int whileBreaker = 0;
+				do {
+					playersTurn++;
+					if (playersTurn >= playersCount) {
+						playersTurn = 0;
+					}
 
-				// if a player left, skip his turn
-				player = this.gameState.getBoard().getPlayers().get(playersTurn);
-				whileBreaker++;
-				if (whileBreaker > 4) {
-					break;
-				}
-			} while (player.isPlayerLeft());
+					if (playersTurn == startPlayer) {
+						round++;
+					}
 
-			if (round > 12) {
+					// if a player left, skip his turn
+					player = this.gameState.getBoard().getPlayers().get(playersTurn);
+					whileBreaker++;
+					if (whileBreaker > 4) {
+						break;
+					}
+				} while (player.isPlayerLeft());
+			}
+			
+			if (round > 12 || ingame <= 1) {
 				gameOver = true;
 				this.gameState.setGameEnded(true);
 				this.gameStateServer.setGameEnded(true);
@@ -185,12 +190,13 @@ public class GameLogic {
 
 		if (currentPlayer.getUsername().equals(player.getUsername())) {
 			this.startNextTurn();
-		
+
 		} else {
+			// if only 1 player is left -> end game
 			long ingame = this.gameState.getBoard().getPlayers().stream().filter(f -> !f.isPlayerLeft()).count();
-			
-			if(ingame <= 1)  {
+			if (ingame <= 1) {
 				this.gameState.setGameEnded(true);
+				this.gameStateServer.setGameEnded(true);
 			}
 		}
 	}
