@@ -1,5 +1,5 @@
 #pane{
-    -fx-background-image: url("../../../../../resources/images/main_bg.jpg");
+    /*-fx-background-image: url("../../../../../resources/images/main_bg.jpg");*/
     -fx-background-repeat: stretch;   
     -fx-background-size: 1920 1280;
     -fx-background-position: center center;

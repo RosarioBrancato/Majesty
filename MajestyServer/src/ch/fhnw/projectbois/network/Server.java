@@ -101,6 +101,7 @@ public class Server {
 		Lobby lobby = client.getLobby();
 		if (lobby != null) {
 			lobby.removeClient(client);
+			client.setLobby(null);
 
 			// if lobby is empty, remove it
 			if (lobby.isEmpty()) {
