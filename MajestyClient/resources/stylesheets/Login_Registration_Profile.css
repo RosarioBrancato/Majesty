@@ -1,11 +1,23 @@
-Label{
-	-fx-min-width: 50;
-}
-
 .field_ok{
 	-fx-border-color: green;
 }
 
 .field_error{
 	-fx-border-color: red;
+}
+
+#lbl_ErrorMsg{
+	-fx-text-fill: red;
+}
+
+.headerHelper{
+	-fx-padding: 0 0 5 0;
+}
+
+HBox{
+	-fx-padding: 0 0 5 0;
+}
+
+Label{
+	-fx-min-width: 80;
 }
