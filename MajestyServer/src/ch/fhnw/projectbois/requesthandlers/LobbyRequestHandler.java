@@ -62,7 +62,7 @@ public class LobbyRequestHandler extends RequestHandler {
 		// create lobby
 		Lobby lobby = new Lobby();
 		lobby.setCardSideA(lobbyDTO.isCardSideA());
-		lobby.startCountdown(Lobby.LIFETIME_DEFAULT);
+		lobby.startLifetimer(Lobby.LIFETIME_DEFAULT);
 
 		// add player
 		lobby.addClient(client);

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
@@ -8,7 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="325.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="325.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane prefHeight="75.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -37,8 +41,8 @@
             <Slider fx:id="sliderMeeples" blockIncrement="1.0" layoutX="60.0" layoutY="151.0" majorTickUnit="1.0" max="5.0" minorTickCount="0" prefHeight="14.0" prefWidth="577.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="151.0" />
             <Label layoutX="278.0" layoutY="123.0" text="Meeples" />
             <Button layoutX="277.0" layoutY="198.0" mnemonicParsing="false" onAction="#btnTrade_Click" text="Trade" />
-            <Label layoutX="14.0" layoutY="14.0" text="Meeples (after card costs payed):" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
-            <Label layoutX="153.0" layoutY="39.0" text="Points:" AnchorPane.leftAnchor="153.0" AnchorPane.topAnchor="39.0" />
+            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="175.0" text="Meeples (after calculations):" textAlignment="RIGHT" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="153.0" layoutY="39.0" prefHeight="17.0" prefWidth="175.0" text="Points:" textAlignment="RIGHT" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="39.0" />
             <Label fx:id="lblMeeples" alignment="CENTER_RIGHT" layoutX="195.0" layoutY="14.0" prefWidth="20.0" text="-1" AnchorPane.leftAnchor="195.0" AnchorPane.topAnchor="14.0" />
             <Label fx:id="lblPoints" alignment="CENTER_RIGHT" layoutX="195.0" layoutY="39.0" prefWidth="20.0" text="-1" AnchorPane.leftAnchor="195.0" AnchorPane.topAnchor="39.0" />
          </children>

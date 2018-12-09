@@ -57,7 +57,9 @@ public class GameRequestHandler extends RequestHandler {
 
 	private void doMove() {
 		Lobby lobby = client.getLobby();
-		if (lobby != null && lobby.isGameStarted()) {
+		if (lobby != null && lobby.isGameStarted() && !lobby.getGameState().isGameEnded()) {
+			lobby.stopTurnTimer();
+
 			String json = request.getJsonDataObject();
 			GameMove gameMove = JsonUtils.Deserialize(json, GameMove.class);
 
@@ -72,14 +74,15 @@ public class GameRequestHandler extends RequestHandler {
 				boolean gameOver = logic.startNextTurn();
 
 				Response response;
-				json = JsonUtils.Serialize(gameState);
 
 				if (!gameOver) {
+					lobby.startTurnTimer();
+					json = JsonUtils.Serialize(gameState);
 					response = new Response(ResponseId.UPDATE_GAMESTATE, request.getRequestId(), json);
 
 				} else {
 					logic.endGame();
-
+					json = JsonUtils.Serialize(gameState);
 					response = new Response(ResponseId.GAME_ENDED, request.getRequestId(), json);
 				}
 
@@ -93,8 +96,7 @@ public class GameRequestHandler extends RequestHandler {
 	private void startGame() {
 		Lobby lobby = client.getLobby();
 		if (lobby != null && !lobby.isGameStarted()) {
-			lobby.stopCountdown();
-			
+
 			GameState gameState = new GameState();
 			gameState.setId(IdFactory.getInstance().getNewId(GameState.class.getName()));
 			gameState.setCardSideA(lobby.isCardSideA());
@@ -111,6 +113,7 @@ public class GameRequestHandler extends RequestHandler {
 			lobby.setGameState(gameState);
 			lobby.setGameStateServer(gameStateServer);
 			lobby.setGameStarted(true);
+			lobby.startTurnTimer();
 
 			Response response = new Response(ResponseId.GAME_STARTED, request.getRequestId(),
 					request.getJsonDataObject());
@@ -118,6 +121,7 @@ public class GameRequestHandler extends RequestHandler {
 			for (ServerClient c : lobby.getClients()) {
 				c.sendResponse(response);
 			}
+
 		}
 	}
 
