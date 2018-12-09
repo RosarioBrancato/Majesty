@@ -12,9 +12,14 @@ import java.util.Base64;
  */
 
 public class PasswordHandler {
+	static PasswordHandler ph = null;
 	
-	public PasswordHandler(){
-		
+	private PasswordHandler(){}
+	
+	public static PasswordHandler getInstance() {
+		if(ph == null)
+			ph = new PasswordHandler();
+		return ph;
 	}
 	
 	public String getNextSalt(){

@@ -33,12 +33,13 @@ public class AuthRequestHandler extends RequestHandler {
 			int DBuid = 0;
 			String DBpassword = null;
 			String DBsalt = null;
+			String DBemail = null;
 			TokenFactory token = null;
 			UserDTO user = null;
 			Response response = null;
 			String json = "";
 			LoginDTO loginRequest = JsonUtils.Deserialize(request.getJsonDataObject(), LoginDTO.class);
-			String getUserString = "SELECT `uid`, `password`, `salt` FROM `user` WHERE `nickname` = ? LIMIT 1;";
+			String getUserString = "SELECT `uid`, `email`, `password`, `salt` FROM `user` WHERE `nickname` = ? LIMIT 1;";
 			Connection con = null;
 			PreparedStatement getUser = null;
 			
@@ -49,8 +50,9 @@ public class AuthRequestHandler extends RequestHandler {
 				ResultSet dbUsers = getUser.executeQuery();
 				while(dbUsers.next()) {
 					DBuid = dbUsers.getInt(1);
-					DBpassword = dbUsers.getString(2);
-					DBsalt = dbUsers.getString(3);
+					DBemail = dbUsers.getString(2);
+					DBpassword = dbUsers.getString(3);
+					DBsalt = dbUsers.getString(4);
 				}
 				getUser.close();
 				if(DBuid == 0) {
@@ -75,10 +77,10 @@ public class AuthRequestHandler extends RequestHandler {
 			}
 			
 			if(DBuid != 0 && response == null) {
-				PasswordHandler ph = new PasswordHandler();
+				PasswordHandler ph = PasswordHandler.getInstance();
 				if(ph.checkMatchingPasswords(loginRequest.getPassword(), DBpassword, DBsalt)) {
 					token = TokenFactory.getInstance();
-					user = new UserDTO(DBuid, loginRequest.getUsername(), token.getNewToken());
+					user = new UserDTO(DBuid, loginRequest.getUsername(), DBemail, token.getNewToken());
 					client.setUser(user);
 					json = JsonUtils.Serialize(user);
 					response = new Response(ResponseId.AUTH_OK, request.getRequestId(), json);
@@ -92,10 +94,10 @@ public class AuthRequestHandler extends RequestHandler {
 		}
 		
 		if(request.getRequestId() == RequestId.REGISTER) {
-			CredentialsValidator cv = new CredentialsValidator();
+			CredentialsValidator cv = CredentialsValidator.getInstance();
 			Response response = null;
 			RegistrationDTO regReq = JsonUtils.Deserialize(request.getJsonDataObject(),RegistrationDTO.class);
-			UserHandler uh = new UserHandler();
+			UserHandler uh = UserHandler.getInstance();
 			int uid = 0;
 			
 			if(!cv.stringIsAlphanumeric(regReq.getUsername()) || !cv.stringIsValidEmailAddress(regReq.getEmail()) || !cv.passwordStrenghtIsSufficient(regReq.getPassword())) {

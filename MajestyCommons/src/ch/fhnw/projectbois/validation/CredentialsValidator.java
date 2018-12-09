@@ -3,9 +3,15 @@ package ch.fhnw.projectbois.validation;
 import org.apache.commons.validator.routines.EmailValidator;
 
 public class CredentialsValidator {
+	static CredentialsValidator cv;
 	
-	public CredentialsValidator() {
-		
+	private CredentialsValidator() {}
+	
+	public static CredentialsValidator getInstance() {
+		if(cv == null) {
+			cv = new CredentialsValidator();
+		}
+		return cv;
 	}
 	
 	public boolean stringIsAlphanumeric(String input) {
