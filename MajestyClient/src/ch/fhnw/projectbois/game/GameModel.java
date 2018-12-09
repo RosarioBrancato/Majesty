@@ -79,7 +79,7 @@ public class GameModel extends Model {
 					GameState  gameState = JsonUtils.Deserialize(json, GameState.class);
 					gameStateProperty.setValue(gameState);
 					
-					ReportDTO report = new ReportDTO(ReportSeverity.INFO, "Your turn time is over! Play quicker next time!");
+					ReportDTO report = new ReportDTO(ReportSeverity.WARNING, "Your turn time is over! Play quicker next time!");
 					getReportProperty().setValue(report);
 					
 				} else if (newValue.getResponseId() == ResponseId.GAME_ERROR) {
