@@ -101,6 +101,7 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 			processCredentials();
 		} else {
 			Platform.runLater(() -> {
+				this.lbl_Login_loginMsg.setVisible(true);
 				this.lbl_Login_loginMsg.setText(translator.getTranslation("lbl_Login_loginMsg_BadInputBoth"));
 			});
 		}
@@ -152,6 +153,7 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 			}
 		} else {
 			Platform.runLater(() -> {
+				this.lbl_Login_loginMsg.setVisible(true);
 				this.lbl_Login_loginMsg.setText(translator.getTranslation("lbl_Login_loginMsg_BadInputBoth"));
 			});
 		}
@@ -239,8 +241,11 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		this.loginStatusPropertyListener = new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				timer.getPeriodCounterProperty().removeListener(timerPropertyListener);
-				timer.stop();
+				try{
+					timer.getPeriodCounterProperty().removeListener(timerPropertyListener);
+					timer.stop();
+				}catch(NullPointerException e) {}
+				
 				if (newValue != null) {
 					Platform.runLater(() -> {
 						lbl_Login_loginMsg.setText(translator.getTranslation(newValue.toString()));
@@ -255,6 +260,7 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		this.timerPropertyListener = (observer, oldValue, newValue) -> {
 			Platform.runLater(() -> {
 				switchLoaderDisplay(false);
+				this.lbl_Login_loginMsg.setVisible(true);
 				this.lbl_Login_loginMsg.setText(translator.getTranslation("lbl_Login_loginMsg_ServerNoReaction"));
 			});
 		};
@@ -304,6 +310,7 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 
 	protected void LoginSetMessage(String reference) {
 		Platform.runLater(() -> {
+			this.lbl_Login_loginMsg.setVisible(true);
 			this.lbl_Login_loginMsg.setText(translator.getTranslation(reference));
 		});
 	}
