@@ -26,8 +26,10 @@ import ch.fhnw.projectbois.gameobjects.GameState;
 import ch.fhnw.projectbois.gameobjects.Location;
 import ch.fhnw.projectbois.gameobjects.Player;
 import ch.fhnw.projectbois.session.Session;
+import ch.fhnw.projectbois.time.Time;
 import ch.fhnw.projectbois.utils.DialogUtils;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -53,6 +55,9 @@ public class GameController extends Controller<GameModel, GameView> {
 
 	private GamePlayerContainer player = null;
 	private ArrayList<GamePlayerContainer> opponents = null;
+	
+	private Time turntimer = null;
+	private ChangeListener<Number> turntimerPropertyListener = null;
 
 	@FXML
 	private Label lblGameInfo;
@@ -89,6 +94,17 @@ public class GameController extends Controller<GameModel, GameView> {
 
 		this.model.getGameState();
 	}
+	
+	@Override
+	public void destroy() {
+		super.destroy();
+		
+		if(this.turntimer != null) {
+			this.turntimer.stop();
+			this.turntimer.getPeriodCounterProperty().removeListener(this.turntimerPropertyListener);
+			this.turntimer = null;
+		}
+	}
 
 	private void loadGameState(GameState gameState) {
 		boolean firstLoading = this.gameState == null;
@@ -100,6 +116,11 @@ public class GameController extends Controller<GameModel, GameView> {
 				this.readPlayerIndex();
 				this.initGamePlayerContainers();
 				this.initLocations();
+				
+				this.turntimer = new Time();
+				this.initTurntimerPropertyListener();
+				this.turntimer.getPeriodCounterProperty().addListener(this.turntimerPropertyListener);
+				this.turntimer.startCountdown(gameState.getTurntimer());
 			}
 
 			this.drawGui();
@@ -226,6 +247,12 @@ public class GameController extends Controller<GameModel, GameView> {
 			});
 		}
 	}
+	
+	private void initTurntimerPropertyListener() {
+		this.turntimerPropertyListener = (observer, oldValue, newValue) -> {
+			updateInfoBar();
+		};
+	}
 
 	// MAIN METHODS
 
@@ -239,13 +266,13 @@ public class GameController extends Controller<GameModel, GameView> {
 	private void loadGameInfos() {
 		ArrayList<Player> players = this.gameState.getBoard().getPlayers();
 
-		Integer round = new Integer(this.gameState.getRound());
-		int playersTurn = this.gameState.getPlayersTurn();
-		String username = new String(players.get(playersTurn).getUsername());
-		
-		Platform.runLater(() -> {
-			this.lblGameInfo.setText("Round: " + round + "/12 | Player's turn: " + username);
-		});
+		int turntimer = this.gameState.getTurntimer();
+		if(this.gameState.isGameEnded()) {
+			this.turntimer.stop();
+		} else {
+			this.turntimer.setCounter(turntimer);
+		}
+		this.updateInfoBar();
 
 		{
 			Player player = players.stream().filter(f -> f.getUsername().equals(this.player.getUsername())).findFirst()
@@ -266,6 +293,19 @@ public class GameController extends Controller<GameModel, GameView> {
 
 			this.loadGameInfoPlayer(player, opponent, isStartingPlayer);
 		}
+	}
+	
+	private void updateInfoBar() {
+		ArrayList<Player> players = this.gameState.getBoard().getPlayers();
+		
+		Integer round = new Integer(this.gameState.getRound());
+		int playersTurn = this.gameState.getPlayersTurn();
+		String username = new String(players.get(playersTurn).getUsername());
+		int timeleft = this.turntimer.getCounter();
+
+		Platform.runLater(() -> {
+			this.lblGameInfo.setText("Round: " + round + "/12 | Player's turn: " + username + " | Timer: " + timeleft);
+		});
 	}
 
 	private void loadGameInfoPlayer(Player player, GamePlayerContainer container, boolean isStartingPlayer) {
@@ -296,7 +336,7 @@ public class GameController extends Controller<GameModel, GameView> {
 				.filter(f -> f.getUsername().equals(Session.getCurrentUsername())).findFirst().get();
 
 		int col = 0;
-		boolean allowMove = allowMove();
+		boolean allowMove = isTurnPlayer();
 
 		for (int i = 0; i < displayCards.size(); i++) {
 			Card card = displayCards.get(i);
@@ -422,7 +462,7 @@ public class GameController extends Controller<GameModel, GameView> {
 		return decision;
 	}
 
-	private boolean allowMove() {
+	private boolean isTurnPlayer() {
 		int playersTurn = this.gameState.getPlayersTurn();
 		Player player = this.gameState.getBoard().getPlayers().get(playersTurn);
 		String username = Session.getCurrentUsername();
