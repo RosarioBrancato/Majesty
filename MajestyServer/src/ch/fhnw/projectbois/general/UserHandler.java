@@ -10,9 +10,14 @@ import ch.fhnw.projectbois.access.DbAccess;
 import ch.fhnw.projectbois.auth.PasswordHandler;
 
 public class UserHandler {
+	static UserHandler uh = null;
 	
-	public UserHandler() {
-		
+	private UserHandler() {}
+	
+	public static UserHandler getInstance() {
+		if(uh == null)
+			uh = new UserHandler();
+		return uh;
 	}
 	
 	public boolean checkUserExists(String username) throws Exception{
@@ -39,7 +44,7 @@ public class UserHandler {
 	 */
 	public int createUser(String username, String email, String password) throws Exception{
 		if(!checkUserExists(username)) {
-			PasswordHandler ph = new PasswordHandler();
+			PasswordHandler ph = PasswordHandler.getInstance();
 			String salt = ph.getNextSalt();
 			String hash = ph.getHashedPassword(salt, password);
 			int uid = 0;		
@@ -79,7 +84,7 @@ public class UserHandler {
 	}
 	
 	public void updatePassword(int uid, String password) throws Exception{
-		PasswordHandler ph = new PasswordHandler();
+		PasswordHandler ph = PasswordHandler.getInstance();
 		String salt = ph.getNextSalt();
 		String hash = ph.getHashedPassword(salt, password);
 		
@@ -88,6 +93,24 @@ public class UserHandler {
 		ps.setString(1, hash);
 		ps.setString(2, salt);
 		ps.setInt(3, uid);
+		int response = ps.executeUpdate();
+		if(response != 1) {
+			throw new SQLException();
+		}
+		ps.close();
+	}
+	
+	public void updateEmailPassword(int uid, String email, String password) throws Exception{
+		PasswordHandler ph = PasswordHandler.getInstance();
+		String salt = ph.getNextSalt();
+		String hash = ph.getHashedPassword(salt, password);
+		
+		Connection con = DbAccess.getConnection();
+		PreparedStatement ps = con.prepareStatement("UPDATE `user` SET `email` = ?, `password` = ?, `salt` = ? WHERE `user`.`uid` = ?;");
+		ps.setString(1, email);
+		ps.setString(2, hash);
+		ps.setString(3, salt);
+		ps.setInt(4, uid);
 		int response = ps.executeUpdate();
 		if(response != 1) {
 			throw new SQLException();
