@@ -124,11 +124,192 @@ public class GameCalculations {
 	}
 
 	public void distributeFinalScoring() {
-		// TO-DO: final scoring
+		int points;
+		// final scoring
+		for (Player player : players) {
+			System.out.println(player.getUsername() + ": Points collected during game: " + player.getPoints());
+			points = player.getPoints();
 		// 1. infirmary
-		// 2. variety
+			int infirmaryCount = player.getLocationByIndex(Location.INFIRMARY).getCards().size();
+			points = points-infirmaryCount;
+			System.out.println(player.getUsername() + ": Points lost because of infirmary: " + infirmaryCount);
+		// 2. variety - ignore infirmary
+			int locationCount = 0;
+			for (int i=0; i<player.getLocations().length-1; i++) {
+				if(player.getLocationByIndex(i).getCards().size()>0) {
+					int locationSize = player.getLocationByIndex(i).getCards().size();
+					locationCount = locationCount + (locationSize*locationSize);
+				}			
+			}
+			// update points for player and turn to the final calculations with majority
+			points = points+locationCount;
+			System.out.println(player.getUsername() + ": Points collected with variety: " + locationCount);
+			player.setPoints(points);
 		// 3. majority
+			// for every player location
+			for (int locationno=0; locationno<8; locationno++) {
+				int thisLocationCardSize = player.getLocationByIndex(locationno).getCards().size();
+				// check against player location cards
+				for (Player otherplayer : players) {
+					//except if the player is checked against him/herself
+					if (!player.getUsername().equals(otherplayer.getUsername())) {
+						int otherLocationCardSize = otherplayer.getLocationByIndex(locationno).getCards().size();
+						if (thisLocationCardSize>otherLocationCardSize) {
+							player.getLocationByIndex(locationno).setMajorityWinner();
+							otherplayer.getLocationByIndex(locationno).unsetMajorityWinner();
+							System.out.println(1);
+							System.out.println(player.getUsername() + player.getLocationByIndex(locationno).getMajorityWinner());
+							System.out.println(otherplayer.getUsername() + otherplayer.getLocationByIndex(locationno).getMajorityWinner());
+						} else if (thisLocationCardSize==otherLocationCardSize) {
+							player.getLocationByIndex(locationno).setMajorityWinner();
+							otherplayer.getLocationByIndex(locationno).setMajorityWinner();
+							System.out.println(2);
+							System.out.println(player.getUsername() + player.getLocationByIndex(locationno).getMajorityWinner());
+							System.out.println(otherplayer.getUsername() + otherplayer.getLocationByIndex(locationno).getMajorityWinner());
+						} else if (thisLocationCardSize<otherLocationCardSize) {
+							player.getLocationByIndex(locationno).unsetMajorityWinner();
+							otherplayer.getLocationByIndex(locationno).setMajorityWinner();
+							System.out.println(3);
+							System.out.println(player.getUsername() + player.getLocationByIndex(locationno).getMajorityWinner());
+							System.out.println(otherplayer.getUsername() + otherplayer.getLocationByIndex(locationno).getMajorityWinner());
+						}
+					}
+				}
+			}
+		}	
+		
+		// determine active side to distribute majority points
+		if (isSideA) {
+			for(Player player : players) {
+				int majoritycount = 0;
+				points = player.getPoints();
+				// mill
+				System.out.println("will the player get points?");
+				System.out.println( player.getUsername() + player.getLocationByIndex(Location.MILL).getMajorityWinner());
+				if (player.getLocationByIndex(Location.MILL).getMajorityWinner()) {
+					majoritycount = majoritycount + 10;
+					System.out.println(player.getUsername() + ": Points collected with majority Mill");
+				}
+				// brewery
+				System.out.println("will the player get points?");
+				System.out.println( player.getUsername() + player.getLocationByIndex(Location.BREWERY).getMajorityWinner());
+				if (player.getLocationByIndex(Location.BREWERY).getMajorityWinner()) {
+					majoritycount = majoritycount + 11;
+					System.out.println(player.getUsername() + ": Points collected with majority Brewery");
+				}
+				// cottage
+				System.out.println("will the player get points?");
+				System.out.println( player.getUsername() + player.getLocationByIndex(Location.COTTAGE).getMajorityWinner());
+				if (player.getLocationByIndex(Location.COTTAGE).getMajorityWinner()) {
+					majoritycount = majoritycount + 12;
+					System.out.println(player.getUsername() + ": Points collected with majority Cottage");
+				}
+				// guardhouse
+				System.out.println("will the player get points?");
+				System.out.println( player.getUsername() + player.getLocationByIndex(Location.GUARDHOUSE).getMajorityWinner());
+				if (player.getLocationByIndex(Location.GUARDHOUSE).getMajorityWinner()) {
+					majoritycount = majoritycount + 13;
+					System.out.println(player.getUsername() + ": Points collected with majority Guardhouse");
+				}
+				// baracks
+				System.out.println("will the player get points?");
+				System.out.println( player.getUsername() + player.getLocationByIndex(Location.BARACKS).getMajorityWinner());
+				if (player.getLocationByIndex(Location.BARACKS).getMajorityWinner()) {
+					majoritycount = majoritycount + 14;
+					System.out.println(player.getUsername() + ": Points collected with majority Baracks");
+				}
+				// inn
+				System.out.println("will the player get points?");
+				System.out.println( player.getUsername() + player.getLocationByIndex(Location.INN).getMajorityWinner());
+				if (player.getLocationByIndex(Location.INN).getMajorityWinner()) {
+					majoritycount = majoritycount + 15;
+					System.out.println(player.getUsername() + ": Points collected with majority inn");
+				}
+				// castle
+				System.out.println("will the player get points?");
+				System.out.println( player.getUsername() + player.getLocationByIndex(Location.CASTLE).getMajorityWinner());
+				if (player.getLocationByIndex(Location.CASTLE).getMajorityWinner()) {
+					majoritycount = majoritycount + 16;
+					System.out.println(player.getUsername() + ": Points collected with majority castle");
+				}
+				
+				System.out.println(player.getUsername() + ": Points collected with majority: " + majoritycount);
+				points = points + majoritycount;
+				player.setPoints(points);
+				
+			}	
+		} else {
+			for(Player player : players) {
+				int majoritycount = 0;
+				points = player.getPoints();
+				// mill
+				System.out.println("will the player get points?");
+				System.out.println( player.getUsername() + player.getLocationByIndex(Location.MILL).getMajorityWinner());
+				if (player.getLocationByIndex(Location.MILL).getMajorityWinner()) {
+					majoritycount = majoritycount + 10;
+					System.out.println(player.getUsername() + ": Points collected with majority Mill");
+				}
+				// brewery
+				System.out.println("will the player get points?");
+				System.out.println( player.getUsername() + player.getLocationByIndex(Location.BREWERY).getMajorityWinner());
+				if (player.getLocationByIndex(Location.BREWERY).getMajorityWinner()) {
+					majoritycount = majoritycount + 11;
+					System.out.println(player.getUsername() + ": Points collected with majority Brewery");
+				}
+				// cottage
+				System.out.println("will the player get points?");
+				System.out.println( player.getUsername() + player.getLocationByIndex(Location.COTTAGE).getMajorityWinner());
+				if (player.getLocationByIndex(Location.COTTAGE).getMajorityWinner()) {
+					majoritycount = majoritycount + 12;
+					System.out.println(player.getUsername() + ": Points collected with majority Cottage");
+				}
+				// guardhouse
+				System.out.println("will the player get points?");
+				System.out.println( player.getUsername() + player.getLocationByIndex(Location.GUARDHOUSE).getMajorityWinner());
+				if (player.getLocationByIndex(Location.GUARDHOUSE).getMajorityWinner()) {
+					majoritycount = majoritycount + 13;
+					System.out.println(player.getUsername() + ": Points collected with majority Guardhouse");
+				}
+				// baracks
+				System.out.println("will the player get points?");
+				System.out.println( player.getUsername() + player.getLocationByIndex(Location.BARACKS).getMajorityWinner());
+				if (player.getLocationByIndex(Location.BARACKS).getMajorityWinner()) {
+					majoritycount = majoritycount + 14;
+					System.out.println(player.getUsername() + ": Points collected with majority Baracks");
+				}
+				// inn
+				System.out.println("will the player get points?");
+				System.out.println( player.getUsername() + player.getLocationByIndex(Location.INN).getMajorityWinner());
+				if (player.getLocationByIndex(Location.INN).getMajorityWinner()) {
+					majoritycount = majoritycount + 15;
+					System.out.println(player.getUsername() + ": Points collected with majority inn");
+				}
+				// castle
+				System.out.println("will the player get points?");
+				System.out.println( player.getUsername() + player.getLocationByIndex(Location.CASTLE).getMajorityWinner());
+				if (player.getLocationByIndex(Location.CASTLE).getMajorityWinner()) {
+					majoritycount = majoritycount + 16;
+					System.out.println(player.getUsername() + ": Points collected with majority castle");
+				}
+				// infirmary
+				System.out.println("will the player get points?");
+				System.out.println( player.getUsername() + player.getLocationByIndex(Location.INFIRMARY).getMajorityWinner());
+				if (player.getLocationByIndex(Location.INFIRMARY).getMajorityWinner()) {
+					majoritycount = majoritycount - 10;
+					System.out.println(player.getUsername() + ": Points collected with majority infirmary");
+				}
+				
+				System.out.println(player.getUsername() + ": Points collected with majority: " + majoritycount);
+				points = points + majoritycount;
+				player.setPoints(points);
+				
+			}	
+		}
+		
+		for (Player player : players) System.out.println(player.getUsername() + ": Points total: " + player.getPoints());
+		
 	}
+
 
 	private void calcMiller() {
 		int millerCount = currentPlayer.getLocationByIndex(Location.MILL).getCards().size();
