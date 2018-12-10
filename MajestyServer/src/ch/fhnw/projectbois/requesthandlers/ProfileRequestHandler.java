@@ -1,3 +1,8 @@
+/*
+ * 
+ * @author Alexandre Miccoli
+ * 
+ */
 package ch.fhnw.projectbois.requesthandlers;
 
 import ch.fhnw.projectbois.communication.Request;
@@ -14,10 +19,20 @@ import ch.fhnw.projectbois.validation.CredentialsValidator;
 
 public class ProfileRequestHandler extends RequestHandler {
 	
+	/**
+	 * Instantiates a new profile request handler.
+	 *
+	 * @param request the request
+	 * @param server the server
+	 * @param client the client
+	 */
 	public ProfileRequestHandler(Request request, Server server, ServerClient client) {
 		super(request, server, client);
 	}
 	
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois.requesthandlers.RequestHandler#handleRequest()
+	 */
 	@Override
 	protected void handleRequest() {
 		if(request.getRequestId() == RequestId.PROFILE_UPDATE) {
