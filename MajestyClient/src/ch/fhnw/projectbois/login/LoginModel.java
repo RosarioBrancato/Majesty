@@ -1,3 +1,8 @@
+/*
+ * 
+ * @author Alexandre Miccoli
+ * 
+ */
 package ch.fhnw.projectbois.login;
 
 import ch.fhnw.projectbois._mvc.Model;
@@ -25,24 +30,48 @@ public class LoginModel extends Model {
 	private SimpleObjectProperty<UserDTO> loggedInUser = null;
 	private SimpleObjectProperty<String> responseMsg = null;
 
+	/**
+	 * Instantiates a new login model.
+	 */
 	public LoginModel() {
 		this.loggedInUser = new SimpleObjectProperty<>();
 		this.responseMsg = new SimpleObjectProperty<>();
 		this.initResponseListener();
 	}
 	
+	/**
+	 * Reset status.
+	 */
 	public void resetStatus() {
 		this.responseMsg.set(null);
 	}
 	
+	/**
+	 * Gets the logged in user.
+	 *
+	 * @return the logged in user
+	 */
 	protected SimpleObjectProperty<UserDTO> getLoggedInUser() {
 		return this.loggedInUser;
 	}
 	
+	/**
+	 * Gets the login status.
+	 *
+	 * @return the login status
+	 */
 	protected SimpleObjectProperty<String> getLoginStatus() {
 		return this.responseMsg;
 	}
 	
+	/**
+	 * Login process credentials.
+	 *
+	 * @param server the server
+	 * @param port_in the port in
+	 * @param username the username
+	 * @param password the password
+	 */
 	protected void LoginProcessCredentials(String server, String port_in, String username, String password) {
 		int port = Integer.parseInt(port_in);
 				
@@ -57,6 +86,9 @@ public class LoginModel extends Model {
 		Network.getInstance().sendRequest(request);
 	}
 	
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois._mvc.Model#getChangeListener()
+	 */
 	@Override
 	protected ChangeListener<Response> getChangeListener() {
 		return new ChangeListener<Response>() {

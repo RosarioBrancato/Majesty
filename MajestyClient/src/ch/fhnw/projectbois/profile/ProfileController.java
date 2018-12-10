@@ -1,3 +1,8 @@
+/*
+ * 
+ * @author Alexandre Miccoli
+ * 
+ */
 package ch.fhnw.projectbois.profile;
 
 import ch.fhnw.projectbois._mvc.Controller;
@@ -21,12 +26,21 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 	private Time timer = null;
 	private ChangeListener<Number> timerPropertyListener = null;
 	
+	/**
+	 * Instantiates a new profile controller.
+	 *
+	 * @param model the model
+	 * @param view the view
+	 */
 	public ProfileController(ProfileModel model, ProfileView view) {
 		super(model, view);
 	}
 	
 	private ChangeListener<String> profUpdateStat = null;
 	
+	/**
+	 * Inits the registration status property listener.
+	 */
 	private void initRegistrationStatusPropertyListener() {
 		this.profUpdateStat = new ChangeListener<String>() {
 			
@@ -51,6 +65,9 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 		};	
 	}
 	
+	/**
+	 * Inits the timer property listener.
+	 */
 	private void initTimerPropertyListener() {
 		this.timerPropertyListener = (observer, oldValue, newValue) -> {
 			Platform.runLater(() -> {
@@ -63,6 +80,11 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 		};
 	}
 	
+	/**
+	 * Start timer.
+	 *
+	 * @param seconds the seconds
+	 */
 	private void startTimer(int seconds) {
 		switchLoaderDisplay(true);
 		this.timer = new Time();
@@ -72,6 +94,11 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 		this.timer.getPeriodCounterProperty().addListener(this.timerPropertyListener);
 	}
 	
+	/**
+	 * Switch loader display.
+	 *
+	 * @param loading the loading
+	 */
 	private void switchLoaderDisplay(boolean loading) {
 		Platform.runLater(() -> {
 			this.vbox_Profile_loader.setVisible(loading);
@@ -79,6 +106,9 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 		});
 	}
 	
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois._mvc.Controller#initialize()
+	 */
 	@Override
 	protected void initialize() {
 		super.initialize();
@@ -105,6 +135,9 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois._mvc.Controller#destroy()
+	 */
 	@Override
 	public void destroy() {
 		try {
@@ -153,6 +186,11 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 	@FXML
 	private VBox vbox_Profile_form;
 	
+	/**
+	 * Btn profile update clicked.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	private void btn_Profile_updateClicked(ActionEvent event) {
 		model.resetStatus();
@@ -160,6 +198,12 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 		model.UpdateProfileProcessInput(this.txt_Profile_email.getText(), this.txt_Profile_pwd.getText());
 	}
 	
+	/**
+	 * Change field color.
+	 *
+	 * @param f the f
+	 * @param valid the valid
+	 */
 	private void changeFieldColor(TextField f, Boolean valid) {
 		if(f.getText().toString().length() > 0 && valid) {
 			Platform.runLater(() -> {
@@ -174,6 +218,9 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 		}
 	}
 	
+	/**
+	 * Check input validity.
+	 */
 	private void checkInputValidity() {
 		CredentialsValidator cv = CredentialsValidator.getInstance();
 		String email = this.txt_Profile_email.getText();
@@ -193,6 +240,11 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 		});
 	}
 	
+	/**
+	 * Profile show helper text username.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	private void ProfileShowHelperText_username(ActionEvent event) {
 		Platform.runLater(() -> {
@@ -201,6 +253,11 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 		});
 	}
 	
+	/**
+	 * Profile show helper text email.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	private void ProfileShowHelperText_email(ActionEvent event) {
 		Platform.runLater(() -> {
@@ -209,6 +266,11 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 		});
 	}
 	
+	/**
+	 * Profile show helper text password.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	private void ProfileShowHelperText_password(ActionEvent event) {
 		Platform.runLater(() -> {
@@ -217,6 +279,11 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 		});
 	}
 	
+	/**
+	 * Profile show helper text password repeat.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	private void ProfileShowHelperText_passwordRepeat(ActionEvent event) {
 		Platform.runLater(() -> {

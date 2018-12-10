@@ -1,3 +1,8 @@
+/*
+ * 
+ * @author Alexandre Miccoli
+ * 
+ */
 package ch.fhnw.projectbois.registration;
 
 import ch.fhnw.projectbois._mvc.Model;
@@ -16,15 +21,32 @@ public class RegistrationModel extends Model {
 	// Registration Status
 	private SimpleObjectProperty<String> regStat = null;
 
+	/**
+	 * Instantiates a new registration model.
+	 */
 	public RegistrationModel() {
 		this.regStat = new SimpleObjectProperty<>();
 		this.initResponseListener();
 	}
 	
+	/**
+	 * Gets the registration status.
+	 *
+	 * @return the registration status
+	 */
 	public SimpleObjectProperty<String> getRegistrationStatus() {
 		return this.regStat;
 	}
 	
+	/**
+	 * Registration process input.
+	 *
+	 * @param server the server
+	 * @param port the port
+	 * @param username the username
+	 * @param password the password
+	 * @param email the email
+	 */
 	protected void RegistrationProcessInput(String server, int port, String username, String password, String email) {
 		try {
 			Network.getInstance().initConnection(server, port);
@@ -37,6 +59,9 @@ public class RegistrationModel extends Model {
 		Network.getInstance().sendRequest(request);
 	}
 	
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois._mvc.Model#getChangeListener()
+	 */
 	@Override
 	protected ChangeListener<Response> getChangeListener() {
 		return new ChangeListener<Response>() {
@@ -58,6 +83,9 @@ public class RegistrationModel extends Model {
 		};
 	}
 
+	/**
+	 * Reset status.
+	 */
 	public void resetStatus() {
 		this.regStat.set(null);
 	}

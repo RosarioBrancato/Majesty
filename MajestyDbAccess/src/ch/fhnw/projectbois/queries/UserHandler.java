@@ -1,3 +1,8 @@
+/*
+ * 
+ * @author Alexandre Miccoli
+ * 
+ */
 package ch.fhnw.projectbois.queries;
 
 import java.sql.Connection;
@@ -11,14 +16,29 @@ import ch.fhnw.projectbois.access.DbAccess;
 public class UserHandler {
 	static UserHandler uh = null;
 	
+	/**
+	 * Instantiates a new user handler.
+	 */
 	private UserHandler() {}
 	
+	/**
+	 * Gets the single instance of UserHandler.
+	 *
+	 * @return single instance of UserHandler
+	 */
 	public static UserHandler getInstance() {
 		if(uh == null)
 			uh = new UserHandler();
 		return uh;
 	}
 	
+	/**
+	 * Check user exists.
+	 *
+	 * @param username the username
+	 * @return true, if successful
+	 * @throws Exception the exception
+	 */
 	public boolean checkUserExists(String username) throws Exception{
 		boolean userExists = false;
 		Connection con = DbAccess.getConnection();
@@ -33,13 +53,13 @@ public class UserHandler {
 	}
 	
 	/**
-	 * 
-	 * @param username
-	 * @param email
-	 * @param password
+	 * Creates the user.
+	 *
+	 * @param username the username
+	 * @param email the email
+	 * @param password the password
 	 * @return positive int with the generated user ID if the user has been created or -1 in case user already exists
-	 * @throws Exception
-	 * 
+	 * @throws Exception the exception
 	 */
 	public int createUser(String username, String email, String password) throws Exception{
 		if(!checkUserExists(username)) {
@@ -70,6 +90,13 @@ public class UserHandler {
 		}
 	}
 	
+	/**
+	 * Update email.
+	 *
+	 * @param uid the uid
+	 * @param email the email
+	 * @throws Exception the exception
+	 */
 	public void updateEmail(int uid, String email) throws Exception{
 		Connection con = DbAccess.getConnection();
 		PreparedStatement ps = con.prepareStatement("UPDATE `user` SET `email` = ? WHERE `user`.`uid` = ?;");
@@ -82,6 +109,13 @@ public class UserHandler {
 		ps.close();
 	}
 	
+	/**
+	 * Update password.
+	 *
+	 * @param uid the uid
+	 * @param password the password
+	 * @throws Exception the exception
+	 */
 	public void updatePassword(int uid, String password) throws Exception{
 		PasswordHandler ph = PasswordHandler.getInstance();
 		String salt = ph.getNextSalt();
@@ -99,6 +133,14 @@ public class UserHandler {
 		ps.close();
 	}
 	
+	/**
+	 * Update email password.
+	 *
+	 * @param uid the uid
+	 * @param email the email
+	 * @param password the password
+	 * @throws Exception the exception
+	 */
 	public void updateEmailPassword(int uid, String email, String password) throws Exception{
 		PasswordHandler ph = PasswordHandler.getInstance();
 		String salt = ph.getNextSalt();
@@ -117,6 +159,13 @@ public class UserHandler {
 		ps.close();
 	}
 	
+	/**
+	 * Update points.
+	 *
+	 * @param uid the uid
+	 * @param diff the diff
+	 * @throws Exception the exception
+	 */
 	public void updatePoints(int uid, int diff) throws Exception{
 		Connection con = DbAccess.getConnection();
 		PreparedStatement ps = con.prepareStatement("UPDATE `user` SET `points` = `points`+? WHERE `user`.`uid` = ?;");
@@ -129,6 +178,12 @@ public class UserHandler {
 		ps.close();
 	}
 	
+	/**
+	 * Delete user.
+	 *
+	 * @param uid the uid
+	 * @throws Exception the exception
+	 */
 	public void deleteUser(int uid) throws Exception{
 		Connection con = DbAccess.getConnection();
 		PreparedStatement ps = con.prepareStatement("DELETE FROM `user` WHERE `user`.`uid` = ?;");

@@ -1,3 +1,8 @@
+/*
+ * 
+ * @author Alexandre Miccoli
+ * 
+ */
 package ch.fhnw.projectbois.auth;
 
 import java.util.UUID;
@@ -6,9 +11,17 @@ public class TokenFactory {
 
 	private static TokenFactory instance = null;
 
+	/**
+	 * Instantiates a new token factory.
+	 */
 	private TokenFactory() {
 	}
 
+	/**
+	 * Gets the single instance of TokenFactory.
+	 *
+	 * @return single instance of TokenFactory
+	 */
 	public static TokenFactory getInstance() {
 		if (instance == null) {
 			instance = new TokenFactory();
@@ -16,6 +29,11 @@ public class TokenFactory {
 		return instance;
 	}
 
+	/**
+	 * Gets the new token.
+	 *
+	 * @return the new token
+	 */
 	public String getNewToken() {
 		String token;
 

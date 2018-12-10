@@ -1,3 +1,8 @@
+/*
+ * 
+ * @author Alexandre Miccoli
+ * 
+ */
 package ch.fhnw.projectbois.profile;
 
 import ch.fhnw.projectbois._mvc.Model;
@@ -18,21 +23,38 @@ public class ProfileModel extends Model {
 
 	private SimpleObjectProperty<String> profUpdateStat = null;
 
+	/**
+	 * Instantiates a new profile model.
+	 */
 	public ProfileModel() {
 		this.profUpdateStat = new SimpleObjectProperty<>();
 		this.initResponseListener();
 	}
 	
+	/**
+	 * Gets the prof update status.
+	 *
+	 * @return the prof update status
+	 */
 	public SimpleObjectProperty<String> getProfUpdateStatus() {
 		return this.profUpdateStat;
 	}
 	
+	/**
+	 * Update profile process input.
+	 *
+	 * @param email the email
+	 * @param password the password
+	 */
 	protected void UpdateProfileProcessInput(String email, String password) {
 		String update = JsonUtils.Serialize(new RegistrationDTO(email, password));
 		Request request = new Request(Session.getCurrentUserToken(), RequestId.PROFILE_UPDATE, update);
 		Network.getInstance().sendRequest(request);
 	}
 	
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois._mvc.Model#getChangeListener()
+	 */
 	@Override
 	protected ChangeListener<Response> getChangeListener() {
 		return new ChangeListener<Response>() {
@@ -54,6 +76,9 @@ public class ProfileModel extends Model {
 		};
 	}
 	
+	/**
+	 * Reset status.
+	 */
 	public void resetStatus() {
 		this.profUpdateStat.set(null);
 	}

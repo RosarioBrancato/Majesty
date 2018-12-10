@@ -1,3 +1,8 @@
+/*
+ * 
+ * @author Alexandre Miccoli
+ * 
+ */
 package ch.fhnw.projectbois.requesthandlers;
 
 import java.sql.Connection;
@@ -23,10 +28,20 @@ import ch.fhnw.projectbois.validation.CredentialsValidator;
 
 public class AuthRequestHandler extends RequestHandler {
 	
+	/**
+	 * Instantiates a new auth request handler.
+	 *
+	 * @param request the request
+	 * @param server the server
+	 * @param client the client
+	 */
 	public AuthRequestHandler(Request request, Server server, ServerClient client) {
 		super(request, server, client);
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois.requesthandlers.RequestHandler#handleRequest()
+	 */
 	@Override
 	protected void handleRequest() {
 		if(request.getRequestId() == RequestId.LOGIN) {
