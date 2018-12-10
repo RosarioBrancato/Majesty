@@ -1,4 +1,4 @@
-package ch.fhnw.projectbois.general;
+package ch.fhnw.projectbois.queries;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import ch.fhnw.projectbois.access.DbAccess;
-import ch.fhnw.projectbois.auth.PasswordHandler;
 
 public class UserHandler {
 	static UserHandler uh = null;

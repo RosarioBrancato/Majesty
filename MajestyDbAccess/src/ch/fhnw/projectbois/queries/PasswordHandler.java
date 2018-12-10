@@ -1,4 +1,4 @@
-package ch.fhnw.projectbois.auth;
+package ch.fhnw.projectbois.queries;
 
 import java.security.MessageDigest;
 import java.security.SecureRandom;

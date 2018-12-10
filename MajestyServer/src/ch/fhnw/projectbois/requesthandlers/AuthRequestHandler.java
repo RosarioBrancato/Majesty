@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import ch.fhnw.projectbois.access.DbAccess;
-import ch.fhnw.projectbois.auth.PasswordHandler;
 import ch.fhnw.projectbois.auth.TokenFactory;
 import ch.fhnw.projectbois.communication.Request;
 import ch.fhnw.projectbois.communication.RequestId;
@@ -15,10 +14,11 @@ import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.dto.LoginDTO;
 import ch.fhnw.projectbois.dto.RegistrationDTO;
 import ch.fhnw.projectbois.dto.UserDTO;
-import ch.fhnw.projectbois.general.UserHandler;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.network.Server;
 import ch.fhnw.projectbois.network.ServerClient;
+import ch.fhnw.projectbois.queries.PasswordHandler;
+import ch.fhnw.projectbois.queries.UserHandler;
 import ch.fhnw.projectbois.validation.CredentialsValidator;
 
 public class AuthRequestHandler extends RequestHandler {
