@@ -188,10 +188,8 @@ public class Lobby {
 		}
 
 		// send response
-		if (response != null) {
-			for (ServerClient c : this.getClients()) {
-				c.sendResponse(response);
-			}
+		for (ServerClient c : this.getClients()) {
+			c.sendResponse(response);
 		}
 	}
 

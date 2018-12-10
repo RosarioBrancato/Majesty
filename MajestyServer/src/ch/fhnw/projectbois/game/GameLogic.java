@@ -163,11 +163,11 @@ public class GameLogic {
 					}
 				} while (player.isPlayerLeft());
 			}
-			
+
 			if (round > 12 || ingame <= 1) {
 				gameOver = true;
-				this.gameState.setGameEnded(true);
-				this.gameStateServer.setGameEnded(true);
+				this.endGame();
+
 			} else {
 				this.gameState.setPlayersTurn(playersTurn);
 				this.gameState.setRound(round);
@@ -178,34 +178,36 @@ public class GameLogic {
 	}
 
 	public void endGame() {
+		this.gameState.setGameEnded(true);
+		this.gameStateServer.setGameEnded(true);
+
 		System.out.println("What up I am the final caluclation");
 		// calculate and distribute points
 		GameCalculations calculations = new GameCalculations(gameState);
 		calculations.distributeFinalScoring();
-		
+
 		ArrayList<Player> players = new ArrayList<Player>();
 		players = this.gameState.getBoard().getPlayers();
 		// write scores to db
-		UpdatePointsQuery updatepointsquery = new UpdatePointsQuery();			
+		UpdatePointsQuery updatepointsquery = new UpdatePointsQuery();
 		updatepointsquery.setPoints(players);
-		// show user a statistic 
+		// show user a statistic
 	}
 
 	public void removePlayer(Player player) {
 		player.setPlayerLeft(true);
 
-		int playersTurn = this.gameState.getPlayersTurn();
-		Player currentPlayer = this.gameState.getBoard().getPlayers().get(playersTurn);
-
-		if (currentPlayer.getUsername().equals(player.getUsername())) {
-			this.startNextTurn();
+		// if only 1 player is left -> end game
+		long ingame = this.gameState.getBoard().getPlayers().stream().filter(f -> !f.isPlayerLeft()).count();
+		if (ingame <= 1) {
+			this.endGame();
 
 		} else {
-			// if only 1 player is left -> end game
-			long ingame = this.gameState.getBoard().getPlayers().stream().filter(f -> !f.isPlayerLeft()).count();
-			if (ingame <= 1) {
-				this.gameState.setGameEnded(true);
-				this.gameStateServer.setGameEnded(true);
+			int playersTurn = this.gameState.getPlayersTurn();
+			Player currentPlayer = this.gameState.getBoard().getPlayers().get(playersTurn);
+
+			if (currentPlayer.getUsername().equals(player.getUsername())) {
+				this.startNextTurn();
 			}
 		}
 	}
