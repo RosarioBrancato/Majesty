@@ -52,7 +52,7 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
-		Locale.setDefault(new Locale("en"));
+		Locale.setDefault(new Locale(UserPrefs.getInstance().get("LANG", "en")));
 		launch(args);
 	}
 	

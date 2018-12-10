@@ -55,7 +55,7 @@ public class GameController extends Controller<GameModel, GameView> {
 
 	private GamePlayerContainer player = null;
 	private ArrayList<GamePlayerContainer> opponents = null;
-	
+
 	private Time turntimer = null;
 	private ChangeListener<Number> turntimerPropertyListener = null;
 
@@ -94,12 +94,12 @@ public class GameController extends Controller<GameModel, GameView> {
 
 		this.model.getGameState();
 	}
-	
+
 	@Override
 	public void destroy() {
 		super.destroy();
-		
-		if(this.turntimer != null) {
+
+		if (this.turntimer != null) {
 			this.turntimer.stop();
 			this.turntimer.getPeriodCounterProperty().removeListener(this.turntimerPropertyListener);
 			this.turntimer = null;
@@ -116,7 +116,7 @@ public class GameController extends Controller<GameModel, GameView> {
 				this.readPlayerIndex();
 				this.initGamePlayerContainers();
 				this.initLocations();
-				
+
 				this.turntimer = new Time();
 				this.initTurntimerPropertyListener();
 				this.turntimer.getPeriodCounterProperty().addListener(this.turntimerPropertyListener);
@@ -232,7 +232,7 @@ public class GameController extends Controller<GameModel, GameView> {
 			imgLocation.setImage(image);
 
 			BorderPane borderPane = new BorderPane(imgLocation);
-			Label label = new Label("Cards: 0");
+			Label label = new Label(translator.getTranslation("lbl_Cards", 0));
 
 			container.setLabelCardCountByIndex(i, label);
 
@@ -247,7 +247,7 @@ public class GameController extends Controller<GameModel, GameView> {
 			});
 		}
 	}
-	
+
 	private void initTurntimerPropertyListener() {
 		this.turntimerPropertyListener = (observer, oldValue, newValue) -> {
 			updateInfoBar();
@@ -267,7 +267,7 @@ public class GameController extends Controller<GameModel, GameView> {
 		ArrayList<Player> players = this.gameState.getBoard().getPlayers();
 
 		int turntimer = this.gameState.getTurntimer();
-		if(this.gameState.isGameEnded()) {
+		if (this.gameState.isGameEnded()) {
 			this.turntimer.stop();
 		} else {
 			this.turntimer.setCounter(turntimer);
@@ -294,25 +294,27 @@ public class GameController extends Controller<GameModel, GameView> {
 			this.loadGameInfoPlayer(player, opponent, isStartingPlayer);
 		}
 	}
-	
+
 	private void updateInfoBar() {
 		ArrayList<Player> players = this.gameState.getBoard().getPlayers();
-		
+
 		Integer round = new Integer(this.gameState.getRound());
 		int playersTurn = this.gameState.getPlayersTurn();
 		String username = new String(players.get(playersTurn).getUsername());
 		int timeleft = this.turntimer.getCounter();
 
+		String textToDisplay = translator.getTranslation("lbl_Game_Info", round, username, timeleft);
 		Platform.runLater(() -> {
-			this.lblGameInfo.setText("Round: " + round + "/12 | Player's turn: " + username + " | Timer: " + timeleft);
+			this.lblGameInfo.setText(textToDisplay);
 		});
 	}
 
 	private void loadGameInfoPlayer(Player player, GamePlayerContainer container, boolean isStartingPlayer) {
-		String text = player.getUsername() + " | Meeples: " + player.getMeeples() + " | Points: " + player.getPoints();
+		String text = translator.getTranslation("lbl_Player_Info", player.getUsername(), player.getMeeples(),
+				player.getPoints());
 
 		if (isStartingPlayer) {
-			text += " | 1st";
+			text += translator.getTranslation("lbl_Player_Info_First");
 		}
 
 		String toUpdate = new String(text);
@@ -320,8 +322,8 @@ public class GameController extends Controller<GameModel, GameView> {
 			container.getLblInfo().setText(toUpdate);
 
 			for (int i = 0; i < player.getLocations().length; i++) {
-				String locationText = "Cards: ";
-				locationText += String.valueOf(player.getLocationByIndex(i).getCards().size());
+				int cards = player.getLocationByIndex(i).getCards().size();
+				String locationText = translator.getTranslation("lbl_Cards", cards);
 				container.getLabelCardCountByIndex(i).setText(locationText);
 			}
 		});
@@ -352,7 +354,7 @@ public class GameController extends Controller<GameModel, GameView> {
 			vbox.getStyleClass().add("display");
 			vbox.setAlignment(Pos.CENTER);
 			vbox.getChildren().add(imgCard);
-			vbox.getChildren().add(new Label("Meeples: " + card.getMeeples()));
+			vbox.getChildren().add(new Label(translator.getTranslation("lbl_Meeples", card.getMeeples())));
 
 			// click event
 			if (currentPlayer.getMeeples() >= i && allowMove) {
@@ -379,7 +381,8 @@ public class GameController extends Controller<GameModel, GameView> {
 		VBox vbox = new VBox();
 		vbox.setAlignment(Pos.CENTER);
 		vbox.getChildren().add(imgDeck);
-		vbox.getChildren().add(new Label("Cards left: " + this.gameState.getBoard().getCardsLeft()));
+		vbox.getChildren()
+				.add(new Label(translator.getTranslation("lbl_Cards_Left", this.gameState.getBoard().getCardsLeft())));
 
 		Platform.runLater(() -> {
 			this.pnlDisplay.add(vbox, 6, 0);
@@ -399,7 +402,8 @@ public class GameController extends Controller<GameModel, GameView> {
 				// handle split card
 				Card card = gameState.getBoard().getDisplay().get(index);
 				if (card.isSplitCard()) {
-					int decision = showSplitCardChooser(card, "Card from display is a split card!");
+					int decision = showSplitCardChooser(card,
+							translator.getTranslation("lbl_SplitCardChooser_DisplayCard"));
 					card.setActiveCardType(decision);
 					move.getDecisions().add(decision);
 				}
@@ -413,7 +417,8 @@ public class GameController extends Controller<GameModel, GameView> {
 						Card toRevive = infirmary.getCards().get(cardCount - 1);
 
 						if (toRevive.isSplitCard()) {
-							int decision = showSplitCardChooser(toRevive, "Card to revive is a split card!");
+							int decision = showSplitCardChooser(toRevive,
+									translator.getTranslation("lbl_SplitCardChooser_ReviveCard"));
 							move.getDecisions().add(decision);
 						}
 					}
@@ -475,10 +480,14 @@ public class GameController extends Controller<GameModel, GameView> {
 
 	@FXML
 	private void btnLeave_Click(ActionEvent e) {
-		ButtonType btnYes = new ButtonType("Yes", ButtonData.YES);
+		String alertText = translator.getTranslation("inf_Leave_Game");
+		String btnYesText = translator.getTranslation("btn_Leave_Game_Yes");
+		String btnNoText = translator.getTranslation("btn_Leave_Game_No");
+
+		ButtonType btnYes = new ButtonType(btnYesText, ButtonData.YES);
 
 		Alert alert = DialogUtils.getAlert(MetaContainer.getInstance().getMainStage(), AlertType.CONFIRMATION,
-				"Leave game?", btnYes, new ButtonType("No", ButtonData.NO));
+				alertText, btnYes, new ButtonType(btnNoText, ButtonData.NO));
 
 		Optional<ButtonType> result = alert.showAndWait();
 
