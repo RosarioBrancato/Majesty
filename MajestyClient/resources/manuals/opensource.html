@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Majesty Open Source</title>
+</head>
+
+	<style>
+		body{
+			font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, "sans-serif"
+		}
+		
+		#main{
+			width: 80vw;
+			max-width: 800px;
+			margin: auto;
+		}
+		
+		.package{
+			border: solid 1px #000;
+			margin-top: 1em;
+		}
+		
+		h1, h3{
+			line-height: 0;
+		}
+	</style>
+	
+<body>
+	
+	<div id="main">
+		<h1 id="AppTitle">Majesty for the Realm</h1>
+		<h2 id="SubTitle">Open Source Resources Declaration</h2>
+		<p id="Info">We are thankful for any developer who shares his or her code with others. In our program we make use of the following packages. Furthermore, we make use of slides out of the FHNW modules "Programming 1", "Programming 2" and "Software Engineering 2" for ideas, patterns and code examples.</p>
+		
+		<div class="package">
+			<h3>Commons Validator</h3>
+			<p>Apache Commons</p>
+			<a href="https://commons.apache.org/proper/commons-validator" target="new" class="weblink">Visit Website</a>
+		</div>
+		
+		<div class="package">
+			<h3>Game Background Image</h3>
+			<p>Unsplash, Derek Story</p>
+			<a href="https://unsplash.com/photos/DfB43Xt13d0" target="new" class="weblink">Visit Website</a>
+		</div>
+
+		<div class="package">
+			<h3>Jackson JSON Parser</h3>
+			<p>GitHub, FasterXML</p>
+			<a href="https://code.makery.ch/blog/javafx-dialogs-official/" target="new" class="weblink">Visit Website</a>
+		</div>
+		
+		<div class="package">
+			<h3>JavaFX Alert Tutorial</h3>
+			<p>Marco Jakob, makery.ch</p>
+			<a href="https://code.makery.ch/blog/javafx-dialogs-official/" target="new" class="weblink">Visit Website</a>
+		</div>
+		
+		<div class="package">
+			<h3>jboot - Bootstrap CSS Theme</h3>
+			<p>GitHub, dicolar</p>
+			<a href="https://github.com/dicolar/jbootx" target="new" class="weblink">Visit Website</a>
+		</div>
+		
+		<p style="text-align: right;">
+			<a href="?lang=de">DE</a>&nbsp;
+			<a href="?lang=en">EN</a>&nbsp;
+			<a href="?lang=fr">FR</a>&nbsp;
+			<a href="?lang=it">IT</a>&nbsp;
+		</p>
+	</div>
+	
+	<script>
+		const parameters = new URLSearchParams(window.location.search);
+		var lang = navigator.language || navigator.userLanguage;
+				
+		if(lang.length > 2){
+			lang = lang.substr(0, lang.indexOf("-"))
+		}
+		
+		if(parameters.get('lang') != null){
+			lang = parameters.get('lang');
+		}
+				
+		var weblink = "Visit Website";
+		
+		switch(lang){
+			case "de":
+				document.getElementById("SubTitle").innerHTML = "Deklaration über Open Source Resourcen";
+				document.getElementById("Info").innerHTML = "Wir sind dankbar für alle Entwickler, die ihren Code mit anderen teilen. In unserem Programm verwenden wir  folgende Pakete. Darüber hinaus verwenden wir Folien aus den FHNW-Modulen \"Programming 1\", \"Programming 2\" und \"Software Engineering 2\" für Ideen, Muster und Codebeispiele.";
+				weblink = "Zur Website";
+				break;
+			case "fr":
+				document.getElementById("SubTitle").innerHTML = "Declaration sur les paquets Open Source utilisés";
+				document.getElementById("Info").innerHTML = "Nous sommes reconnaissants à tout développeur qui partage son code avec d’autres. Dans notre programme, nous utilisons les packages suivants. De plus, nous utilisons des diapositives extraites des modules FHNW \"Programming 1 \", \"Programming 2 \" et \"Software Engineering 2 \" pour des idées, des modèles et des exemples de code.";
+				weblink = "Visiter le site web";
+				break;
+			case "it":
+				document.getElementById("SubTitle").innerHTML = "Deklaration über Open Source Resourcen";
+				document.getElementById("Info").innerHTML = "Siamo grati a qualsiasi sviluppatore che condivide il suo codice con altri. Nel nostro programma utilizziamo i seguenti pacchetti. Inoltre, utilizziamo le diapositive dei moduli FHNW \"Programming 1 \", \"Programming 2 \" e \"Software Engineering 2 \" per idee, modelli ed esempi di codice.";
+				weblink = "Vai al sito";
+				break;
+		}
+		
+		var links = document.getElementsByClassName("weblink");
+		for (var i = 0; i < links.length; i++) {
+			links[i].innerHTML = weblink;
+		}
+	</script>
+	
+</body>
+</html>
