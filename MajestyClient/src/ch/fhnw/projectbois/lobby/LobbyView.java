@@ -9,6 +9,7 @@ import ch.fhnw.projectbois.components.chat.ChatModel;
 import ch.fhnw.projectbois.components.chat.ChatView;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.Control;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
@@ -41,6 +42,7 @@ public class LobbyView extends View<LobbyModel> {
 		StackPane.setAlignment(chat, Pos.TOP_RIGHT);
 		chat.setPrefWidth(200);
 		chat.setMaxWidth(200);
+		chatController.setPrefHeightOpen(Control.USE_COMPUTED_SIZE);
 
 		// Set gridpane as new root
 		this.root = stackpane;
