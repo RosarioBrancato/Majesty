@@ -60,7 +60,7 @@
 .info > .label,
 .warning > .label,
 .danger > .label {
-	-fx-text-fill: white;
+	/*-fx-text-fill: white;*/
 }
 
 .action-btn {
