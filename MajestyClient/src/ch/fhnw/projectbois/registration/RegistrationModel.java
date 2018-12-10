@@ -57,4 +57,8 @@ public class RegistrationModel extends Model {
 			}
 		};
 	}
+
+	public void resetStatus() {
+		this.regStat.set(null);
+	}
 }

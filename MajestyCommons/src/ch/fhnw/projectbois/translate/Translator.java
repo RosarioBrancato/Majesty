@@ -1,5 +1,6 @@
 package ch.fhnw.projectbois.translate;
 
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -36,6 +37,11 @@ public class Translator {
 			logger.warning("Missing string: " + translation);
 			return "--";
 		}
+	}
+	
+	public String getTranslation(String translation, Object... arguments) {
+		String message = this.getTranslation(translation);
+		return MessageFormat.format(message, arguments);
 	}
 
 	public Locale getLocale() {

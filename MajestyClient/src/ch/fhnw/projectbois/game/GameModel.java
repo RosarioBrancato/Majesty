@@ -63,7 +63,7 @@ public class GameModel extends Model {
 					GameState gameState = JsonUtils.Deserialize(json, GameState.class);
 					gameStateProperty.setValue(gameState);
 					
-					ReportDTO report = new ReportDTO(ReportSeverity.INFO, "Game ended!");
+					ReportDTO report = new ReportDTO(ReportSeverity.INFO, "inf_Game_Endend");
 					getReportProperty().setValue(report);
 					
 				} else if(newValue.getResponseId() == ResponseId.GAME_PLAYER_LEFT) {
@@ -71,7 +71,7 @@ public class GameModel extends Model {
 					GameState gameState = JsonUtils.Deserialize(json, GameState.class);
 					gameStateProperty.setValue(gameState);
 					
-					ReportDTO report = new ReportDTO(ReportSeverity.INFO, "A player left the game!");
+					ReportDTO report = new ReportDTO(ReportSeverity.INFO, "inf_Player_Left_Game");
 					getReportProperty().setValue(report);
 					
 				} else if(newValue.getResponseId() == ResponseId.GAME_TURN_TIME_OVER) {
@@ -79,7 +79,7 @@ public class GameModel extends Model {
 					GameState  gameState = JsonUtils.Deserialize(json, GameState.class);
 					gameStateProperty.setValue(gameState);
 					
-					ReportDTO report = new ReportDTO(ReportSeverity.WARNING, "Your turn time is over! Play quicker next time!");
+					ReportDTO report = new ReportDTO(ReportSeverity.WARNING, "wrn_Game_Turn_Time_Over");
 					getReportProperty().setValue(report);
 					
 				} else if (newValue.getResponseId() == ResponseId.GAME_ERROR) {

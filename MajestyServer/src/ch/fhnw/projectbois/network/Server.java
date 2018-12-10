@@ -127,7 +127,7 @@ public class Server {
 
 	public void broadcastGameMsg() {
 		// info
-		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "Game received an info message!");
+		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "inf_Broadcast_Game_Msg");
 
 		String json = JsonUtils.Serialize(report);
 		Response response = new Response(ResponseId.GAME_ERROR, RequestId.TEST, json);
@@ -139,7 +139,7 @@ public class Server {
 
 	public void broadcastLobbyMsg() {
 		// info
-		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "Lobby received an info message!");
+		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "inf_Broadcast_Lobby_Msg");
 
 		String json = JsonUtils.Serialize(report);
 		Response response = new Response(ResponseId.LOBBY_ERROR, RequestId.TEST, json);
@@ -151,7 +151,7 @@ public class Server {
 
 	public void broadcastPlayScreenMsg() {
 		// info
-		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "Play Screen received an info message!");
+		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "inf_Broadcast_Play_Screen_Msg");
 
 		String json = JsonUtils.Serialize(report);
 		Response response = new Response(ResponseId.PLAY_SCREEN_ERROR, RequestId.TEST, json);
@@ -163,7 +163,7 @@ public class Server {
 
 	public void broadcastLoginMsg() {
 		// info
-		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "Login received an info message!");
+		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "inf_Broadcast_Login_Msg");
 
 		String json = JsonUtils.Serialize(report);
 		Response response = new Response(ResponseId.AUTH_ERROR_SERVER, RequestId.TEST, json);
@@ -175,19 +175,19 @@ public class Server {
 
 	public void broadcastProfile() {
 		// info
-//		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "Profile received an info message!");
-//
-//		String json = JsonUtils.Serialize(report);
-//		Response response = new Response(ResponseId.PROFILE_ERROR, RequestId.TEST, json);
-//
-//		for (ServerClient c : this.clients) {
-//			c.sendResponse(response);
-//		}
+		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "inf_Broadcast_Profile_Msg");
+
+		String json = JsonUtils.Serialize(report);
+		Response response = new Response(ResponseId.PROFILE_ERROR, RequestId.TEST, json);
+
+		for (ServerClient c : this.clients) {
+			c.sendResponse(response);
+		}
 	}
 
 	public void broadcastLoginLeaderboard() {
 		// info
-		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "Leaderboard received an info message!");
+		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "inf_Broadcast_Leaderboard_Msg");
 
 		String json = JsonUtils.Serialize(report);
 		Response response = new Response(ResponseId.LEADERBOARD_ERROR, RequestId.TEST, json);
@@ -199,7 +199,7 @@ public class Server {
 
 	public void broadcastLoginChat() {
 		// info
-		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "Chat received an info message!");
+		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "inf_Broadcast_Chat_Msg");
 
 		String json = JsonUtils.Serialize(report);
 		Response response = new Response(ResponseId.CHAT_ERROR, RequestId.TEST, json);
