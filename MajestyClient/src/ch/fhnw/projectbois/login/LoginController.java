@@ -334,5 +334,11 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 			this.vbox_Login_form.setVisible(!loading);
 		});
 	}
+	
+	public void setUsername(String username) {
+		Platform.runLater(() -> {
+			this.txt_Login_username.setText(username);
+		});
+	}
 
 }
