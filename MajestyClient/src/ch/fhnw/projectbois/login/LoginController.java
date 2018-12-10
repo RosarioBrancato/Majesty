@@ -1,5 +1,7 @@
 package ch.fhnw.projectbois.login;
 
+import java.awt.Desktop;
+import java.io.File;
 import java.util.Locale;
 
 import ch.fhnw.projectbois._application.MetaContainer;
@@ -105,7 +107,7 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 			processCredentials();
 		} else {
 			Platform.runLater(() -> {
-				this.lbl_Login_loginMsg.setVisible(true);
+				
 				this.lbl_Login_loginMsg.setText(translator.getTranslation("lbl_Login_loginMsg_BadInputBoth"));
 			});
 		}
@@ -155,13 +157,32 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 			}
 		} else {
 			Platform.runLater(() -> {
-				this.lbl_Login_loginMsg.setVisible(true);
+
 				this.lbl_Login_loginMsg.setText(translator.getTranslation("lbl_Login_loginMsg_BadInputBoth"));
 			});
 		}
 
 	}
-
+	
+	@FXML
+	private void link_Login_OpenSourceResourcesClicked(ActionEvent event) {
+		String tmp_path = System.getProperty("user.dir") + "/resources/manuals/opensource.html";
+		
+		if(tmp_path.indexOf("\\") > -1)
+			tmp_path = tmp_path.replace("/", "\\");
+		
+		String path = tmp_path;
+		File file = new File(path);
+		try {
+			Desktop.getDesktop().browse(file.toURI());
+		} catch (Exception e) {
+			Platform.runLater(() -> {
+				this.lbl_Login_loginMsg.setText(translator.getTranslation("lbl_Login_loginMsg_OpenSourceDeclNotFound") + " " + path);
+			});
+			logger.warning("Unable to open the open source declaration: " + e.getMessage());
+		}
+	}
+	
 	private boolean checkServerPortValidity() {
 		boolean response = CredentialsValidator.getInstance().stringIsValidServerAddress(this.txt_Login_serverServer.getText());
 		try {
@@ -289,7 +310,7 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		this.timerPropertyListener = (observer, oldValue, newValue) -> {
 			Platform.runLater(() -> {
 				switchLoaderDisplay(false);
-				this.lbl_Login_loginMsg.setVisible(true);
+				
 				this.lbl_Login_loginMsg.setText(translator.getTranslation("lbl_Login_loginMsg_ServerNoReaction"));
 			});
 		};
@@ -345,7 +366,6 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 
 	protected void LoginSetMessage(String reference) {
 		Platform.runLater(() -> {
-			this.lbl_Login_loginMsg.setVisible(true);
 			this.lbl_Login_loginMsg.setText(translator.getTranslation(reference));
 		});
 	}
