@@ -91,9 +91,11 @@ public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 
 	@FXML
 	private void btnLogout_Click(ActionEvent event) {
+		String username = Session.getCurrentUsername();
 		Network.getInstance().stopConnection();
 
-		Controller.initMVCAsRoot(LoginController.class, LoginModel.class, LoginView.class);
+		LoginController controller = Controller.initMVCAsRoot(LoginController.class, LoginModel.class, LoginView.class);
+		controller.setUsername(username);
 	}
 	
 	@FXML
