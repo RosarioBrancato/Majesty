@@ -53,5 +53,9 @@ public class ProfileModel extends Model {
 			}
 		};
 	}
+	
+	public void resetStatus() {
+		this.profUpdateStat.set(null);
+	}
 
 }
