@@ -6,10 +6,10 @@ import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
 import ch.fhnw.projectbois.dto.RegistrationDTO;
 import ch.fhnw.projectbois.dto.UserDTO;
-import ch.fhnw.projectbois.general.UserHandler;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.network.Server;
 import ch.fhnw.projectbois.network.ServerClient;
+import ch.fhnw.projectbois.queries.UserHandler;
 import ch.fhnw.projectbois.validation.CredentialsValidator;
 
 public class ProfileRequestHandler extends RequestHandler {
