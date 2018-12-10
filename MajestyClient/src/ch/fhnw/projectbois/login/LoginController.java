@@ -1,3 +1,8 @@
+/*
+ * 
+ * @author Alexandre Miccoli
+ * 
+ */
 package ch.fhnw.projectbois.login;
 
 import java.awt.Desktop;
@@ -97,10 +102,21 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	private ChangeListener<UserDTO> userPropertyListener = null;
 	private ChangeListener<String> loginStatusPropertyListener = null;
 
+	/**
+	 * Instantiates a new login controller.
+	 *
+	 * @param model the model
+	 * @param view the view
+	 */
 	public LoginController(LoginModel model, LoginView view) {
 		super(model, view);
 	}
 	
+	/**
+	 * Btn login login clicked.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	private void btn_Login_loginClicked(ActionEvent event) {
 		if (checkServerPortValidity()) {
@@ -113,6 +129,11 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		}
 	}
 
+	/**
+	 * Btn login log in alex clicked.
+	 *
+	 * @param event the event
+	 */
 	/* START: DELETE AFTER DEVELOPMENT PHASE */
 	@FXML
 	private void btn_Login_logInAlexClicked(ActionEvent event) {
@@ -120,18 +141,33 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 				"ABCDEFGH12345678");
 	}
 
+	/**
+	 * Btn login log in dario clicked.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	private void btn_Login_logInDarioClicked(ActionEvent event) {
 		model.LoginProcessCredentials(txt_Login_serverServer.getText(), txt_Login_serverPort.getText(), "dario",
 				"ABCDEFGH12345678");
 	}
 
+	/**
+	 * Btn login log in lee clicked.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	private void btn_Login_logInLeeClicked(ActionEvent event) {
 		model.LoginProcessCredentials(txt_Login_serverServer.getText(), txt_Login_serverPort.getText(), "lee",
 				"ABCDEFGH12345678");
 	}
 
+	/**
+	 * Btn login log in rosario clicked.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	private void btn_Login_logInRosarioClicked(ActionEvent event) {
 		model.LoginProcessCredentials(txt_Login_serverServer.getText(), txt_Login_serverPort.getText(), "rosario",
@@ -139,6 +175,11 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	}
 	/* END: DELETE AFTER DEVELOPMENT PHASE */
 
+	/**
+	 * Btn login register clicked.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	private void btn_Login_registerClicked(ActionEvent event) {
 		if (checkServerPortValidity()) {
@@ -164,6 +205,11 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 
 	}
 	
+	/**
+	 * Link login open source resources clicked.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	private void link_Login_OpenSourceResourcesClicked(ActionEvent event) {
 		String tmp_path = System.getProperty("user.dir") + "/resources/manuals/opensource.html";
@@ -183,6 +229,11 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		}
 	}
 	
+	/**
+	 * Check server port validity.
+	 *
+	 * @return true, if successful
+	 */
 	private boolean checkServerPortValidity() {
 		boolean response = CredentialsValidator.getInstance().stringIsValidServerAddress(this.txt_Login_serverServer.getText());
 		try {
@@ -193,6 +244,9 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		return response;
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois._mvc.Controller#destroy()
+	 */
 	@Override
 	public void destroy() {
 		try {
@@ -206,6 +260,9 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		model.getLoginStatus().removeListener(loginStatusPropertyListener);
 	}
 
+	/**
+	 * Fill choice box.
+	 */
 	private void fillChoiceBox() {
 		this.cmb_Login_language.getItems().add(ENGLISH);
 		this.cmb_Login_language.getItems().add(GERMAN);
@@ -228,6 +285,9 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		}		
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois._mvc.Controller#initialize()
+	 */
 	@Override
 	protected void initialize() {
 		super.initialize();
@@ -287,6 +347,9 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 
 	}
 
+	/**
+	 * Inits the login status property listener.
+	 */
 	private void initLoginStatusPropertyListener() {
 		this.loginStatusPropertyListener = new ChangeListener<String>() {
 			@Override
@@ -306,6 +369,9 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		};
 	}
 
+	/**
+	 * Inits the timer property listener.
+	 */
 	private void initTimerPropertyListener() {
 		this.timerPropertyListener = (observer, oldValue, newValue) -> {
 			Platform.runLater(() -> {
@@ -316,6 +382,9 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		};
 	}
 
+	/**
+	 * Inits the user property listener.
+	 */
 	private void initUserPropertyListener() {
 		this.userPropertyListener = new ChangeListener<UserDTO>() {
 
@@ -335,6 +404,9 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		};
 	}
 
+	/**
+	 * Login credentials changed.
+	 */
 	private void LoginCredentialsChanged() {
 		try {
 			if (this.txt_Login_username.getText().equals("") || this.txt_Login_password.getText().equals("")) {
@@ -351,6 +423,9 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 
 	}
 
+	/**
+	 * Login set language.
+	 */
 	protected void LoginSetLanguage() {
 		Platform.runLater(() -> {
 			this.lbl_Login_username.setText(translator.getTranslation("lbl_Login_username"));
@@ -364,12 +439,20 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		});
 	}
 
+	/**
+	 * Login set message.
+	 *
+	 * @param reference the reference
+	 */
 	protected void LoginSetMessage(String reference) {
 		Platform.runLater(() -> {
 			this.lbl_Login_loginMsg.setText(translator.getTranslation(reference));
 		});
 	}
 
+	/**
+	 * Process credentials.
+	 */
 	private void processCredentials() {
 		model.resetStatus();
 		startTimer(30);
@@ -377,6 +460,11 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 				txt_Login_username.getText(), txt_Login_password.getText());
 	}
 
+	/**
+	 * Start timer.
+	 *
+	 * @param seconds the seconds
+	 */
 	private void startTimer(int seconds) {
 		switchLoaderDisplay(true);
 		this.timer = new Time();
@@ -386,6 +474,11 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		this.timer.getPeriodCounterProperty().addListener(this.timerPropertyListener);
 	}
 
+	/**
+	 * Switch loader display.
+	 *
+	 * @param loading the loading
+	 */
 	private void switchLoaderDisplay(boolean loading) {
 		Platform.runLater(() -> {
 			this.vbox_Login_loading.setVisible(loading);

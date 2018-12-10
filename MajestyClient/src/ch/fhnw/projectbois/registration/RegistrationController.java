@@ -1,3 +1,8 @@
+/*
+ * 
+ * @author Alexandre Miccoli
+ * 
+ */
 package ch.fhnw.projectbois.registration;
 
 import ch.fhnw.projectbois._application.MetaContainer;
@@ -32,10 +37,19 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 	private Time timer = null;
 	private ChangeListener<Number> timerPropertyListener = null;
 	
+	/**
+	 * Instantiates a new registration controller.
+	 *
+	 * @param model the model
+	 * @param view the view
+	 */
 	public RegistrationController(RegistrationModel model, RegistrationView view) {
 		super(model, view);
 	}
 	
+	/**
+	 * Inits the registration status property listener.
+	 */
 	private void initRegistrationStatusPropertyListener() {
 		this.regStat = new ChangeListener<String>() {
 			
@@ -58,6 +72,9 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 		};	
 	}
 	
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois._mvc.Controller#initialize()
+	 */
 	@Override
 	protected void initialize() {
 		super.initialize();
@@ -82,6 +99,9 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 		});
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois.interfaces.IDialog#showAndWait()
+	 */
 	public void showAndWait() {
 		this.stage = DialogUtils.getStageModal(MetaContainer.getInstance().getMainStage());
 		this.stage.setTitle(translator.getTranslation("lbl_Registration_Title"));
@@ -90,11 +110,20 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 		
 	}
 	
+	/**
+	 * Sets the server param.
+	 *
+	 * @param server the server
+	 * @param port the port
+	 */
 	public void setServerParam(String server, int port) {
 		this.server = server;
 		this.port = port;
 	}
 	
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois._mvc.Controller#destroy()
+	 */
 	@Override
 	public void destroy() {
 		try {
@@ -143,11 +172,21 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 	@FXML
 	private VBox vbox_Registration_form;
 	
+	/**
+	 * Btn registration cancel clicked.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	private void btn_Registration_cancelClicked(ActionEvent event) {
 		this.stage.close();
 	}
 	
+	/**
+	 * Btn registration register clicked.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	private void btn_Registration_registerClicked(ActionEvent event) {
 		model.resetStatus();
@@ -156,6 +195,9 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 				this.server, this.port, this.txt_Registration_username.getText(), this.txt_Registration_pwd.getText(), this.txt_Registration_email.getText());
 	}
 	
+	/**
+	 * Inits the timer property listener.
+	 */
 	private void initTimerPropertyListener() {
 		this.timerPropertyListener = (observer, oldValue, newValue) -> {
 			Platform.runLater(() -> {
@@ -165,6 +207,11 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 		};
 	}
 	
+	/**
+	 * Start timer.
+	 *
+	 * @param seconds the seconds
+	 */
 	private void startTimer(int seconds) {
 		switchLoaderDisplay(true);
 		this.timer = new Time();
@@ -174,6 +221,11 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 		this.timer.getPeriodCounterProperty().addListener(this.timerPropertyListener);
 	}
 	
+	/**
+	 * Switch loader display.
+	 *
+	 * @param loading the loading
+	 */
 	private void switchLoaderDisplay(boolean loading) {
 		Platform.runLater(() -> {
 			this.vbox_Registration_loading.setVisible(loading);
@@ -181,6 +233,12 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 		});
 	}
 	
+	/**
+	 * Change field color.
+	 *
+	 * @param f the f
+	 * @param valid the valid
+	 */
 	private void changeFieldColor(TextField f, Boolean valid) {
 		if(f.getText().toString().length() > 0 && valid) {
 			Platform.runLater(() -> {
@@ -195,6 +253,9 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 		}
 	}
 	
+	/**
+	 * Check input validity.
+	 */
 	private void checkInputValidity() {
 		CredentialsValidator cv = CredentialsValidator.getInstance();
 		String username = this.txt_Registration_username.getText();
@@ -217,6 +278,11 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 		});
 	}
 	
+	/**
+	 * Registration show helper text username.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	private void RegistrationShowHelperText_username(ActionEvent event) {
 		Platform.runLater(() -> {
@@ -225,6 +291,11 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 		});
 	}
 	
+	/**
+	 * Registration show helper text email.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	private void RegistrationShowHelperText_email(ActionEvent event) {
 		Platform.runLater(() -> {
@@ -233,6 +304,11 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 		});
 	}
 	
+	/**
+	 * Registration show helper text password.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	private void RegistrationShowHelperText_password(ActionEvent event) {
 		Platform.runLater(() -> {
@@ -241,6 +317,11 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 		});
 	}
 	
+	/**
+	 * Registration show helper text password repeat.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	private void RegistrationShowHelperText_passwordRepeat(ActionEvent event) {
 		Platform.runLater(() -> {
@@ -249,10 +330,20 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 		});
 	}
 	
+	/**
+	 * Gets the username.
+	 *
+	 * @return the username
+	 */
 	public String getUsername() {
 		return this.final_username;
 	}
 	
+	/**
+	 * Gets the password.
+	 *
+	 * @return the password
+	 */
 	public String getPassword() {
 		return this.final_password;
 	}

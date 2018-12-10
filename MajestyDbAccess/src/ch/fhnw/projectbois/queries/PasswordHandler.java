@@ -1,3 +1,8 @@
+/*
+ * 
+ * @author Alexandre Miccoli
+ * 
+ */
 package ch.fhnw.projectbois.queries;
 
 import java.security.MessageDigest;
@@ -14,14 +19,27 @@ import java.util.Base64;
 public class PasswordHandler {
 	static PasswordHandler ph = null;
 	
+	/**
+	 * Instantiates a new password handler.
+	 */
 	private PasswordHandler(){}
 	
+	/**
+	 * Gets the single instance of PasswordHandler.
+	 *
+	 * @return single instance of PasswordHandler
+	 */
 	public static PasswordHandler getInstance() {
 		if(ph == null)
 			ph = new PasswordHandler();
 		return ph;
 	}
 	
+	/**
+	 * Gets the next salt.
+	 *
+	 * @return the next salt
+	 */
 	public String getNextSalt(){
 		String output = "";
 		SecureRandom rand = new SecureRandom();
@@ -34,6 +52,13 @@ public class PasswordHandler {
 		return output;
 	}
 	
+	/**
+	 * Gets the hashed password.
+	 *
+	 * @param salt the salt
+	 * @param password the password
+	 * @return the hashed password
+	 */
 	public String getHashedPassword(String salt, String password) {
 		String input = salt + password;
 		
@@ -50,6 +75,14 @@ public class PasswordHandler {
 		}
 	}
 	
+	/**
+	 * Check matching passwords.
+	 *
+	 * @param enteredPassword the entered password
+	 * @param expectedHash the expected hash
+	 * @param salt the salt
+	 * @return true, if successful
+	 */
 	public boolean checkMatchingPasswords(String enteredPassword, String expectedHash, String salt) {
 		if(getHashedPassword(salt, enteredPassword).equals(expectedHash)) {
 			return true;
