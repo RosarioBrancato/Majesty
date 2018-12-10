@@ -26,129 +26,7 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 	private Time timer = null;
 	private ChangeListener<Number> timerPropertyListener = null;
 	
-	/**
-	 * Instantiates a new profile controller.
-	 *
-	 * @param model the model
-	 * @param view the view
-	 */
-	public ProfileController(ProfileModel model, ProfileView view) {
-		super(model, view);
-	}
-	
 	private ChangeListener<String> profUpdateStat = null;
-	
-	/**
-	 * Inits the registration status property listener.
-	 */
-	private void initRegistrationStatusPropertyListener() {
-		this.profUpdateStat = new ChangeListener<String>() {
-			
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if(newValue.equals("OK")) {
-					Platform.runLater(() -> {
-						lbl_Profile_msg.setTextFill(Paint.valueOf("GREEN"));
-						lbl_Profile_msg.setText(translator.getTranslation("lbl_Profile_Response_Success"));
-					});
-					
-				}else {
-					Platform.runLater(() -> {
-						lbl_Profile_msg.setTextFill(Paint.valueOf("RED"));
-						lbl_Profile_msg.setText(translator.getTranslation(newValue.toString()));
-					});
-				}
-				timer.getPeriodCounterProperty().removeListener(timerPropertyListener);
-				timer.stop();
-				switchLoaderDisplay(false);
-			}
-		};	
-	}
-	
-	/**
-	 * Inits the timer property listener.
-	 */
-	private void initTimerPropertyListener() {
-		this.timerPropertyListener = (observer, oldValue, newValue) -> {
-			Platform.runLater(() -> {
-				switchLoaderDisplay(false);
-				Platform.runLater(() -> {
-					lbl_Profile_msg.setTextFill(Paint.valueOf("RED"));
-					this.lbl_Profile_msg.setText(translator.getTranslation("lbl_Login_loginMsg_ServerNoReaction"));
-				});
-			});
-		};
-	}
-	
-	/**
-	 * Start timer.
-	 *
-	 * @param seconds the seconds
-	 */
-	private void startTimer(int seconds) {
-		switchLoaderDisplay(true);
-		this.timer = new Time();
-		this.timer.startTimer(seconds * 1000);
-
-		this.initTimerPropertyListener();
-		this.timer.getPeriodCounterProperty().addListener(this.timerPropertyListener);
-	}
-	
-	/**
-	 * Switch loader display.
-	 *
-	 * @param loading the loading
-	 */
-	private void switchLoaderDisplay(boolean loading) {
-		Platform.runLater(() -> {
-			this.vbox_Profile_loader.setVisible(loading);
-			this.vbox_Profile_form.setVisible(!loading);
-		});
-	}
-	
-	/* (non-Javadoc)
-	 * @see ch.fhnw.projectbois._mvc.Controller#initialize()
-	 */
-	@Override
-	protected void initialize() {
-		super.initialize();
-		
-		this.initRegistrationStatusPropertyListener();
-		model.getProfUpdateStatus().addListener(profUpdateStat);
-		
-		txt_Profile_email.textProperty().addListener((observable, oldValue, newValue) -> {
-			checkInputValidity();
-		});
-
-		txt_Profile_pwd.textProperty().addListener((observable, oldValue, newValue) -> {
-			checkInputValidity();
-		});
-
-		txt_Profile_pwdRepeat.textProperty().addListener((observable, oldValue, newValue) -> {
-			checkInputValidity();
-		});
-		
-		Platform.runLater(() -> {
-			txt_Profile_username.setText(Session.getCurrentUsername());
-			txt_Profile_email.setText(Session.getCurrentEmail());
-		});
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see ch.fhnw.projectbois._mvc.Controller#destroy()
-	 */
-	@Override
-	public void destroy() {
-		try {
-			this.timer.getPeriodCounterProperty().removeListener(this.timerPropertyListener);
-			this.timer.stop();
-		} catch (Exception e) {}
-		
-		super.destroy();
-
-		model.getProfUpdateStatus().removeListener(profUpdateStat);
-	}
 	
 	@FXML
 	private Label lbl_Profile_msg;
@@ -167,7 +45,7 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 	
 	@FXML
 	private PasswordField txt_Profile_pwdRepeat;
-	
+
 	@FXML
 	private Hyperlink hyp_Profile_Helper_username;
 	
@@ -185,6 +63,16 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 	
 	@FXML
 	private VBox vbox_Profile_form;
+	
+	/**
+	 * Instantiates a new profile controller.
+	 *
+	 * @param model the model
+	 * @param view the view
+	 */
+	public ProfileController(ProfileModel model, ProfileView view) {
+		super(model, view);
+	}
 	
 	/**
 	 * Btn profile update clicked.
@@ -240,17 +128,90 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 		});
 	}
 	
-	/**
-	 * Profile show helper text username.
-	 *
-	 * @param event the event
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois._mvc.Controller#destroy()
 	 */
-	@FXML
-	private void ProfileShowHelperText_username(ActionEvent event) {
-		Platform.runLater(() -> {
-			lbl_Profile_msg.setTextFill(Paint.valueOf("BLACK"));
-			this.lbl_Profile_msg.setText(translator.getTranslation("lbl_Profile_Helper_username"));
+	@Override
+	public void destroy() {
+		try {
+			this.timer.getPeriodCounterProperty().removeListener(this.timerPropertyListener);
+			this.timer.stop();
+		} catch (Exception e) {}
+		
+		super.destroy();
+
+		model.getProfUpdateStatus().removeListener(profUpdateStat);
+	}
+	
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois._mvc.Controller#initialize()
+	 */
+	@Override
+	protected void initialize() {
+		super.initialize();
+		
+		this.initRegistrationStatusPropertyListener();
+		model.getProfUpdateStatus().addListener(profUpdateStat);
+		
+		txt_Profile_email.textProperty().addListener((observable, oldValue, newValue) -> {
+			checkInputValidity();
 		});
+
+		txt_Profile_pwd.textProperty().addListener((observable, oldValue, newValue) -> {
+			checkInputValidity();
+		});
+
+		txt_Profile_pwdRepeat.textProperty().addListener((observable, oldValue, newValue) -> {
+			checkInputValidity();
+		});
+		
+		Platform.runLater(() -> {
+			txt_Profile_username.setText(Session.getCurrentUsername());
+			txt_Profile_email.setText(Session.getCurrentEmail());
+		});
+		
+	}
+	
+	/**
+	 * Inits the registration status property listener.
+	 */
+	private void initRegistrationStatusPropertyListener() {
+		this.profUpdateStat = new ChangeListener<String>() {
+			
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if(newValue.equals("OK")) {
+					Platform.runLater(() -> {
+						lbl_Profile_msg.setTextFill(Paint.valueOf("GREEN"));
+						lbl_Profile_msg.setText(translator.getTranslation("lbl_Profile_Response_Success"));
+					});
+					
+				}else {
+					Platform.runLater(() -> {
+						lbl_Profile_msg.setTextFill(Paint.valueOf("RED"));
+						lbl_Profile_msg.setText(translator.getTranslation(newValue.toString()));
+					});
+				}
+				timer.getPeriodCounterProperty().removeListener(timerPropertyListener);
+				timer.stop();
+				switchLoaderDisplay(false);
+			}
+		};	
+	}
+	
+	/**
+	 * Inits the timer property listener.
+	 */
+	private void initTimerPropertyListener() {
+		this.timerPropertyListener = (observer, oldValue, newValue) -> {
+			Platform.runLater(() -> {
+				switchLoaderDisplay(false);
+				Platform.runLater(() -> {
+					lbl_Profile_msg.setTextFill(Paint.valueOf("RED"));
+					this.lbl_Profile_msg.setText(translator.getTranslation("lbl_Login_loginMsg_ServerNoReaction"));
+				});
+			});
+		};
 	}
 	
 	/**
@@ -289,6 +250,45 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 		Platform.runLater(() -> {
 			lbl_Profile_msg.setTextFill(Paint.valueOf("BLACK"));
 			this.lbl_Profile_msg.setText(translator.getTranslation("lbl_Profile_Helper_passwordRepeat"));
+		});
+	}
+	
+	/**
+	 * Profile show helper text username.
+	 *
+	 * @param event the event
+	 */
+	@FXML
+	private void ProfileShowHelperText_username(ActionEvent event) {
+		Platform.runLater(() -> {
+			lbl_Profile_msg.setTextFill(Paint.valueOf("BLACK"));
+			this.lbl_Profile_msg.setText(translator.getTranslation("lbl_Profile_Helper_username"));
+		});
+	}
+	
+	/**
+	 * Start timer.
+	 *
+	 * @param seconds the seconds
+	 */
+	private void startTimer(int seconds) {
+		switchLoaderDisplay(true);
+		this.timer = new Time();
+		this.timer.startTimer(seconds * 1000);
+
+		this.initTimerPropertyListener();
+		this.timer.getPeriodCounterProperty().addListener(this.timerPropertyListener);
+	}
+	
+	/**
+	 * Switch loader display.
+	 *
+	 * @param loading the loading
+	 */
+	private void switchLoaderDisplay(boolean loading) {
+		Platform.runLater(() -> {
+			this.vbox_Profile_loader.setVisible(loading);
+			this.vbox_Profile_form.setVisible(!loading);
 		});
 	}
 }
