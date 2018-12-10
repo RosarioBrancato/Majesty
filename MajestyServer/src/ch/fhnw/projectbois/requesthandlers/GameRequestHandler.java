@@ -81,7 +81,6 @@ public class GameRequestHandler extends RequestHandler {
 					response = new Response(ResponseId.UPDATE_GAMESTATE, request.getRequestId(), json);
 
 				} else {
-					logic.endGame();
 					json = JsonUtils.Serialize(gameState);
 					response = new Response(ResponseId.GAME_ENDED, request.getRequestId(), json);
 				}
