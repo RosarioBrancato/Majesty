@@ -15,6 +15,7 @@ public class MessageDTO {
 	private ArrayList<String> formatVariables;
 
 	public MessageDTO() {
+		this.message = "";
 		this.formatVariables = new ArrayList<>();
 	}
 	

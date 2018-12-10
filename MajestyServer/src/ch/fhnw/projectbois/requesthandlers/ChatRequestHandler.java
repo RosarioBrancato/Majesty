@@ -85,11 +85,6 @@ public class ChatRequestHandler extends RequestHandler {
 			id = IdFactory.getInstance().getNewId(MessageDTO.class.getName());
 			whisperMessage.setId(id);
 			whisperMessage.setAuthor(ChatMember.System);
-
-			String notificationMessage = "Psst, " + getUsernameByChatmember(author) + " just whispered to "
-					+ getUsernameByChatmember(receiver) + "...";
-			whisperMessage.setMessage(notificationMessage);
-
 			whisperMessage.setTranslationKey("msg_System_Whisper");
 			whisperMessage.getFormatVariables().add(getUsernameByChatmember(author));
 			whisperMessage.getFormatVariables().add(getUsernameByChatmember(receiver));

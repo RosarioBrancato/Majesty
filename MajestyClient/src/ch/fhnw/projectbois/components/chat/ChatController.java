@@ -86,9 +86,9 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 		String key = message.getTranslationKey();
 		if (key != null) {
 			messageText = translator.getTranslation(key);
-			messageText = MessageFormat.format(messageText, message.getFormatVariables());
+			messageText = MessageFormat.format(messageText, message.getFormatVariables().toArray());
 		}
-		if (messageText != null) {
+		if (messageText == null || messageText == "") {
 			messageText = message.getMessage();
 		}
 
