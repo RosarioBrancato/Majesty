@@ -36,9 +36,9 @@
             <Image url="@../../../../../../resources/chat/images/send%20plane.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="imgNotification" fitHeight="15.0" fitWidth="15.0" layoutX="2.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgNotification" fitHeight="15.0" fitWidth="15.0" layoutX="5.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../resources/chat/images/notification.gif" />
+            <Image url="@../../../../../../resources/chat/images/Notifications.png" />
          </image>
       </ImageView>
    </children>
