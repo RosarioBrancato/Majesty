@@ -8,21 +8,21 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="pnlRoot" prefHeight="330.0" prefWidth="76.0" style="-fx-background-color: #2464ab;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="pnlRoot" prefHeight="330.0" prefWidth="76.0" style="-fx-background-color: #2464ab;" stylesheets="@ChatView.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button fx:id="btnSend" layoutX="59.0" layoutY="305.0" mnemonicParsing="false" onAction="#btnSend_Click" prefHeight="30.0" prefWidth="20.0" AnchorPane.bottomAnchor="2.0" AnchorPane.rightAnchor="2.0">
+      <Button fx:id="btnSend" layoutX="59.0" layoutY="305.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnSend_Click" prefHeight="30.0" prefWidth="20.0" AnchorPane.bottomAnchor="3.0" AnchorPane.rightAnchor="2.0">
          <font>
             <Font size="1.0" />
          </font></Button>
-      <TextArea fx:id="txtChat" editable="false" layoutX="2.0" layoutY="18.0" prefHeight="279.0" prefWidth="72.0" wrapText="true" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="18.0">
+      <TextArea fx:id="txtChat" editable="false" layoutX="2.0" layoutY="22.0" prefHeight="271.0" prefWidth="72.0" wrapText="true" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="22.0">
          <font>
             <Font size="14.0" />
          </font></TextArea>
-      <TextField fx:id="txtMessage" layoutX="2.0" layoutY="305.0" onKeyPressed="#onEnterKey" prefHeight="30.0" prefWidth="51.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="23.0">
+      <TextField fx:id="txtMessage" layoutX="2.0" layoutY="305.0" onKeyPressed="#onEnterKey" prefHeight="30.0" prefWidth="47.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="27.0">
          <font>
             <Font size="14.0" />
          </font></TextField>
-      <Button fx:id="btnMinimize" graphicTextGap="0.0" layoutX="64.0" layoutY="1.0" mnemonicParsing="false" onAction="#btnMinimize_Click" prefHeight="15.0" prefWidth="20.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="1.0">
+      <Button fx:id="btnMinimize" graphicTextGap="0.0" layoutX="64.0" layoutY="1.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnMinimize_Click" prefHeight="15.0" prefWidth="20.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="1.0">
          <font>
             <Font size="1.0" />
          </font></Button>
@@ -36,7 +36,7 @@
             <Image url="@../../../../../../resources/chat/images/send%20plane.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="2.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgNotification" fitHeight="15.0" fitWidth="15.0" layoutX="2.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../../../resources/chat/images/notification.gif" />
          </image>

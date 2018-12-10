@@ -1,7 +1,5 @@
 package ch.fhnw.projectbois.components.chat;
 
-import java.text.MessageFormat;
-
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.dto.MessageDTO;
 import ch.fhnw.projectbois.enumerations.ChatMember;
@@ -42,6 +40,9 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 
 	@FXML
 	private ImageView imgArrow;
+	
+	@FXML
+	private ImageView imgNotification;
 
 	@FXML
 	private Button btnClose;
@@ -49,7 +50,8 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 	@FXML
 	private AnchorPane pnlRoot;
 
-	private boolean isClosed = false;
+	private boolean isClosed = false;	
+	
 
 	public ChatController(ChatModel model, ChatView view) {
 		super(model, view);
@@ -58,6 +60,9 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 	@Override
 	protected void initialize() {
 		super.initialize();
+
+		view.setPrefHeightOpen(ChatView.PREF_HEIGHT);
+		imgNotification.setVisible(false); 
 
 		model.getLobbyInfo();
 
@@ -85,13 +90,16 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 		String messageText = "";
 		String key = message.getTranslationKey();
 		if (key != null) {
-			messageText = translator.getTranslation(key);
-			messageText = MessageFormat.format(messageText, message.getFormatVariables().toArray());
+			messageText = translator.getTranslation(key, message.getFormatVariablesAsArray());
 		}
 		if (messageText == null || messageText == "") {
 			messageText = message.getMessage();
 		}
-
+		
+		if (isClosed == true) {
+			showNotification();
+		}
+		
 		final String messageToPrint = messageText;
 		Platform.runLater(() -> {
 			txtChat.appendText(username + ": " + messageToPrint + "\n");
@@ -155,6 +163,8 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 			pnlRoot.setMaxHeight(20);
 			pnlRoot.setPrefHeight(20);
 
+			imgNotification.setVisible(false);
+			
 			imgArrow.setRotate(0);
 
 			isClosed = true;
@@ -163,16 +173,24 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 			txtMessage.setVisible(true);
 			btnSend.setVisible(true);
 			imgSend.setVisible(true);
+			
 
-			// match prefHeight to window size
-			pnlRoot.setMaxHeight(1000);
-			pnlRoot.setPrefHeight(1000);
+			pnlRoot.setMaxHeight(view.getPrefHeightOpen());
+			pnlRoot.setPrefHeight(view.getPrefHeightOpen());
 
 			imgArrow.setRotate(180);
-
+			
 			isClosed = false;
 		}
 
+	}
+	
+	private void showNotification() {
+		imgNotification.setVisible(true);	
+	}
+	
+	public void setPrefHeightOpen(double height)  {
+		view.setPrefHeightOpen(height);
 	}
 
 }
