@@ -3,31 +3,37 @@
 <?import java.lang.String?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox styleClass="mainContent">
+      <VBox fx:id="vbox_Registration_form" layoutX="10.0" layoutY="10.0">
          <children>
             <Label styleClass="headerHelper" text="%lbl_Registration_Helper">
                <VBox.margin>
                   <Insets bottom="10.0" />
-               </VBox.margin></Label>
+               </VBox.margin>
+            </Label>
             <HBox>
                <children>
                   <Label fx:id="lbl_Registration_username" text="%lbl_Login_username" />
                   <TextField fx:id="txt_Registration_username" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets right="5.0" />
-                     </HBox.margin></TextField>
+                     </HBox.margin>
+                  </TextField>
                   <Hyperlink fx:id="hyp_Registration_Helper_username" focusTraversable="false" onAction="#RegistrationShowHelperText_username" styleClass="helper" text="?">
                      <tooltip>
                         <Tooltip text="%lbl_Registration_Helper_username" />
@@ -41,7 +47,8 @@
                   <TextField fx:id="txt_Registration_email" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets right="5.0" />
-                     </HBox.margin></TextField>
+                     </HBox.margin>
+                  </TextField>
                   <Hyperlink fx:id="hyp_Registration_Helper_email" focusTraversable="false" onAction="#RegistrationShowHelperText_email" styleClass="helper" text="?">
                      <tooltip>
                         <Tooltip text="%lbl_Registration_Helper_email" />
@@ -55,7 +62,8 @@
                   <PasswordField fx:id="txt_Registration_pwd" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets right="5.0" />
-                     </HBox.margin></PasswordField>
+                     </HBox.margin>
+                  </PasswordField>
                   <Hyperlink fx:id="hyp_Registration_Helper_password" focusTraversable="false" onAction="#RegistrationShowHelperText_password" styleClass="helper" text="?">
                      <tooltip>
                         <Tooltip text="%lbl_Registration_Helper_password" />
@@ -69,7 +77,8 @@
                   <PasswordField fx:id="txt_Registration_pwdRepeat" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets right="5.0" />
-                     </HBox.margin></PasswordField>
+                     </HBox.margin>
+                  </PasswordField>
                   <Hyperlink fx:id="hyp_Registration_Helper_passwordRepeat" focusTraversable="false" onAction="#RegistrationShowHelperText_passwordRepeat" styleClass="helper" text="?">
                      <tooltip>
                         <Tooltip text="%lbl_Registration_Helper_passwordRepeat" />
@@ -77,9 +86,9 @@
                   </Hyperlink>
                </children>
             </HBox>
-            <HBox>
+            <HBox prefWidth="366.0">
                <children>
-                  <Label fx:id="lbl_Registration_msg" maxWidth="360.0" textFill="RED" wrapText="true" HBox.hgrow="ALWAYS" />
+                  <Label fx:id="lbl_Registration_msg" maxWidth="360.0" prefWidth="360.0" textFill="RED" wrapText="true" HBox.hgrow="ALWAYS" />
                </children>
                <VBox.margin>
                   <Insets bottom="5.0" />
@@ -91,15 +100,30 @@
                      <styleClass>
                         <String fx:value="warning" />
                         <String fx:value="first" />
-                     </styleClass></Button>
+                     </styleClass>
+                  </Button>
                   <Button fx:id="btn_Registration_register" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#btn_Registration_registerClicked" text="%btn_Registration_register">
                      <styleClass>
                         <String fx:value="success" />
                         <String fx:value="last" />
-                     </styleClass></Button>
+                     </styleClass>
+                  </Button>
                </children>
             </HBox>
          </children>
+      </VBox>
+      <VBox fx:id="vbox_Registration_loading" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="252.0" prefWidth="380.0" visible="false">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../resources/icons/waiting_animation.gif" />
+               </image>
+            </ImageView>
+            <Label fx:id="lbl_Login_loaderText" alignment="CENTER" maxWidth="1.7976931348623157E308" text="%lbl_Login_loaderText" textAlignment="CENTER" />
+         </children>
+         <cursor>
+            <Cursor fx:constant="WAIT" />
+         </cursor>
       </VBox>
    </children>
    <stylesheets>
@@ -107,4 +131,4 @@
       <URL value="@../_application/Main.css" />
       <URL value="@../../../../../resources/stylesheets/Login_Registration_Profile.css" />
    </stylesheets>
-</AnchorPane>
+</Pane>
