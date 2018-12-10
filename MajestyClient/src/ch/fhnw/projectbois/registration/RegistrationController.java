@@ -3,6 +3,7 @@ package ch.fhnw.projectbois.registration;
 import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.interfaces.IDialog;
+import ch.fhnw.projectbois.time.Time;
 import ch.fhnw.projectbois.utils.DialogUtils;
 import ch.fhnw.projectbois.validation.CredentialsValidator;
 import javafx.application.Platform;
@@ -16,6 +17,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -26,6 +28,9 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 	private int port = 0;
 	private String final_username = null;
 	private String final_password = null;
+	
+	private Time timer = null;
+	private ChangeListener<Number> timerPropertyListener = null;
 	
 	public RegistrationController(RegistrationModel model, RegistrationView view) {
 		super(model, view);
@@ -48,6 +53,7 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 						lbl_Registration_msg.setText(translator.getTranslation(newValue.toString()));
 					});
 				}
+				switchLoaderDisplay(false);
 			}
 		};	
 	}
@@ -91,6 +97,11 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 	
 	@Override
 	public void destroy() {
+		try {
+			this.timer.getPeriodCounterProperty().removeListener(this.timerPropertyListener);
+			this.timer.stop();
+		} catch (Exception e) {}
+		
 		super.destroy();
 
 		model.getRegistrationStatus().removeListener(regStat);
@@ -127,14 +138,47 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 	private Hyperlink hyp_Registration_Helper_passwordRepeat;
 	
 	@FXML
+	private VBox vbox_Registration_loading;
+	
+	@FXML
+	private VBox vbox_Registration_form;
+	
+	@FXML
 	private void btn_Registration_cancelClicked(ActionEvent event) {
 		this.stage.close();
 	}
 	
 	@FXML
 	private void btn_Registration_registerClicked(ActionEvent event) {
+		model.resetStatus();
+		startTimer(30);
 		model.RegistrationProcessInput(
 				this.server, this.port, this.txt_Registration_username.getText(), this.txt_Registration_pwd.getText(), this.txt_Registration_email.getText());
+	}
+	
+	private void initTimerPropertyListener() {
+		this.timerPropertyListener = (observer, oldValue, newValue) -> {
+			Platform.runLater(() -> {
+				switchLoaderDisplay(false);
+				this.lbl_Registration_msg.setText(translator.getTranslation("lbl_Login_loginMsg_ServerNoReaction"));
+			});
+		};
+	}
+	
+	private void startTimer(int seconds) {
+		switchLoaderDisplay(true);
+		this.timer = new Time();
+		this.timer.startTimer(seconds * 1000);
+
+		this.initTimerPropertyListener();
+		this.timer.getPeriodCounterProperty().addListener(this.timerPropertyListener);
+	}
+	
+	private void switchLoaderDisplay(boolean loading) {
+		Platform.runLater(() -> {
+			this.vbox_Registration_loading.setVisible(loading);
+			this.vbox_Registration_form.setVisible(!loading);
+		});
 	}
 	
 	private void changeFieldColor(TextField f, Boolean valid) {
@@ -149,7 +193,6 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 				f.getStyleClass().add("field_error");
 			});
 		}
-		
 	}
 	
 	private void checkInputValidity() {
