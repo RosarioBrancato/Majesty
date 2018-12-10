@@ -140,15 +140,8 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 			}
 
 			// Context
-			String message = "";
 			String translationKey = report.getTranslationKey();
-			if (translationKey != null) {
-				message = translator.getTranslation(translationKey);
-
-			}
-			if (message == null || (message != null && message.length() <= 0)) {
-				message = report.getMessage();
-			}
+			String message = translator.getTranslation(translationKey);
 
 			// Show Alert
 			if (message.length() > 0) {

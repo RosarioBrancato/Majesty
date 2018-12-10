@@ -108,13 +108,14 @@ public class LobbyRequestHandler extends RequestHandler {
 			message.setAuthor(ChatMember.System);
 			message.setTranslationKey("msg_LobbyView_PlayerJoined");
 			message.getFormatVariables().add(client.getUser().getUsername());
-			String json1 = JsonUtils.Serialize(message);
-			request = new Request(client.getUser().getToken(), RequestId.CHAT_SEND_MSG, json1);
-			new ChatRequestHandler(request, server, client);
+			
+			String messageJson = JsonUtils.Serialize(message);
+			Request messageRequest = new Request(client.getUser().getToken(), RequestId.CHAT_SEND_MSG, messageJson);
+			new ChatRequestHandler(messageRequest, server, client);
 		} else {
 			ReportDTO report = new ReportDTO();
 			report.setSeverity(ReportSeverity.WARNING);
-			report.setMessage("Lobby is already full.");
+			report.setTranslationKey("lbl_PlayScreenView_LobbyFull");
 			json = JsonUtils.Serialize(report);
 			response = new Response(ResponseId.LOBBY_ERROR, request.getRequestId(), json);
 		}
@@ -185,7 +186,7 @@ public class LobbyRequestHandler extends RequestHandler {
 		lobby.destroy();
 		server.getLobbies().remove(lobby);
 		// Answer all clients	
-		ReportDTO reportDTO = new ReportDTO(ReportSeverity.INFO, "Owner let lobby die", "msg_LobbyView_LobbyDied");
+		ReportDTO reportDTO = new ReportDTO(ReportSeverity.INFO, "msg_LobbyView_LobbyDied");
 		String json = JsonUtils.Serialize(reportDTO);
 		Response responseall = new Response(ResponseId.LOBBY_DIED, request.getRequestId(), json);
 
