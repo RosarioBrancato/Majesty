@@ -2,6 +2,8 @@ package ch.fhnw.projectbois.dto;
 
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import ch.fhnw.projectbois.enumerations.ChatMember;
 
 public class MessageDTO {
@@ -65,6 +67,11 @@ public class MessageDTO {
 
 	public void setFormatVariables(ArrayList<String> formatVariables) {
 		this.formatVariables = formatVariables;
+	}
+	
+	@JsonIgnore
+	public Object[] getFormatVariablesAsArray() {
+		return this.formatVariables.toArray();
 	}
 
 }

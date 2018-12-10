@@ -2,6 +2,7 @@ package ch.fhnw.projectbois.profile;
 
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.session.Session;
+import ch.fhnw.projectbois.time.Time;
 import ch.fhnw.projectbois.validation.CredentialsValidator;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -13,9 +14,12 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 
 public class ProfileController extends Controller<ProfileModel, ProfileView> {
+	private Time timer = null;
+	private ChangeListener<Number> timerPropertyListener = null;
 	
 	public ProfileController(ProfileModel model, ProfileView view) {
 		super(model, view);
@@ -40,8 +44,39 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 						lbl_Profile_msg.setText(translator.getTranslation(newValue.toString()));
 					});
 				}
+				timer.getPeriodCounterProperty().removeListener(timerPropertyListener);
+				timer.stop();
+				switchLoaderDisplay(false);
 			}
 		};	
+	}
+	
+	private void initTimerPropertyListener() {
+		this.timerPropertyListener = (observer, oldValue, newValue) -> {
+			Platform.runLater(() -> {
+				switchLoaderDisplay(false);
+				Platform.runLater(() -> {
+					lbl_Profile_msg.setTextFill(Paint.valueOf("RED"));
+					this.lbl_Profile_msg.setText(translator.getTranslation("lbl_Login_loginMsg_ServerNoReaction"));
+				});
+			});
+		};
+	}
+	
+	private void startTimer(int seconds) {
+		switchLoaderDisplay(true);
+		this.timer = new Time();
+		this.timer.startTimer(seconds * 1000);
+
+		this.initTimerPropertyListener();
+		this.timer.getPeriodCounterProperty().addListener(this.timerPropertyListener);
+	}
+	
+	private void switchLoaderDisplay(boolean loading) {
+		Platform.runLater(() -> {
+			this.vbox_Profile_loader.setVisible(loading);
+			this.vbox_Profile_form.setVisible(!loading);
+		});
 	}
 	
 	@Override
@@ -72,6 +107,11 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 
 	@Override
 	public void destroy() {
+		try {
+			this.timer.getPeriodCounterProperty().removeListener(this.timerPropertyListener);
+			this.timer.stop();
+		} catch (Exception e) {}
+		
 		super.destroy();
 
 		model.getProfUpdateStatus().removeListener(profUpdateStat);
@@ -108,7 +148,15 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 	private Hyperlink hyp_Profile_Helper_passwordRepeat;
 	
 	@FXML
+	private VBox vbox_Profile_loader;
+	
+	@FXML
+	private VBox vbox_Profile_form;
+	
+	@FXML
 	private void btn_Profile_updateClicked(ActionEvent event) {
+		model.resetStatus();
+		startTimer(30);
 		model.UpdateProfileProcessInput(this.txt_Profile_email.getText(), this.txt_Profile_pwd.getText());
 	}
 	
@@ -124,7 +172,6 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 				f.getStyleClass().add("field_error");
 			});
 		}
-		
 	}
 	
 	private void checkInputValidity() {

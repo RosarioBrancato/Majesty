@@ -1,7 +1,5 @@
 package ch.fhnw.projectbois.components.chat;
 
-import java.text.MessageFormat;
-
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.dto.MessageDTO;
 import ch.fhnw.projectbois.enumerations.ChatMember;
@@ -92,8 +90,7 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 		String messageText = "";
 		String key = message.getTranslationKey();
 		if (key != null) {
-			messageText = translator.getTranslation(key);
-			messageText = MessageFormat.format(messageText, message.getFormatVariables().toArray());
+			messageText = translator.getTranslation(key, message.getFormatVariablesAsArray());
 		}
 		if (messageText == null || messageText == "") {
 			messageText = message.getMessage();
