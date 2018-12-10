@@ -12,6 +12,7 @@ import ch.fhnw.projectbois.gameobjects.Location;
 import ch.fhnw.projectbois.gameobjects.Player;
 import ch.fhnw.projectbois.network.Lobby;
 import ch.fhnw.projectbois.network.ServerClient;
+import ch.fhnw.projectbois.queries.UpdatePointsQuery;
 
 /**
  * 
@@ -178,9 +179,16 @@ public class GameLogic {
 
 	public void endGame() {
 		System.out.println("What up I am the final caluclation");
+		// calculate and distribute points
 		GameCalculations calculations = new GameCalculations(gameState);
 		calculations.distributeFinalScoring();
-		// show user a statistic and write points to db
+		
+		ArrayList<Player> players = new ArrayList<Player>();
+		players = this.gameState.getBoard().getPlayers();
+		// write scores to db
+		UpdatePointsQuery updatepointsquery = new UpdatePointsQuery();			
+		updatepointsquery.setPoints(players);
+		// show user a statistic 
 	}
 
 	public void removePlayer(Player player) {
