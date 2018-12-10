@@ -3,6 +3,7 @@ package ch.fhnw.projectbois.login;
 import java.util.Locale;
 
 import ch.fhnw.projectbois._application.MetaContainer;
+import ch.fhnw.projectbois._application.UserPrefs;
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.components.menubar.MenuBarController;
 import ch.fhnw.projectbois.components.menubar.MenuBarModel;
@@ -33,7 +34,10 @@ import javafx.scene.layout.VBox;
  */
 
 public class LoginController extends Controller<LoginModel, LoginView> {
-
+	private final String pref_user = UserPrefs.getInstance().get("USERNAME", null);
+	private final String pref_server = UserPrefs.getInstance().get("SERVER", "localhost");
+	private final String pref_port = UserPrefs.getInstance().get("SERVER_PORT", "8200");
+	
 	// Language PickList selection
 	private final String ENGLISH = "English";
 	private final String GERMAN = "Deutsch";
@@ -186,8 +190,21 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		this.cmb_Login_language.getItems().add(GERMAN);
 		this.cmb_Login_language.getItems().add(FRENCH);
 		this.cmb_Login_language.getItems().add(ITALIAN);
-
-		this.cmb_Login_language.getSelectionModel().selectFirst();
+		
+		String lang = UserPrefs.getInstance().get("LANG", "en");
+		switch(lang) {
+			case("de"):
+				this.cmb_Login_language.getSelectionModel().select(GERMAN);
+				break;
+			case("fr"):
+				this.cmb_Login_language.getSelectionModel().select(FRENCH);
+				break;
+			case("it"):
+				this.cmb_Login_language.getSelectionModel().select(ITALIAN);
+				break;
+			default:
+				this.cmb_Login_language.getSelectionModel().select(ENGLISH);
+		}		
 	}
 
 	@Override
@@ -209,16 +226,31 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		});
 
 		this.fillChoiceBox();
-
+		
+		Platform.runLater(() -> {
+			if(this.pref_user != null)
+				this.txt_Login_username.setText(pref_user);
+				this.txt_Login_password.requestFocus();
+			this.txt_Login_serverServer.setText(pref_server);
+			this.txt_Login_serverPort.setText(pref_port);
+		});
+		
 		cmb_Login_language.getSelectionModel().selectedItemProperty()
 				.addListener((ObservableValue, oldValue, newValue) -> {
-					Locale locale = new Locale("en");
+					Locale locale = null;
+					
 					if (newValue.equals(GERMAN)) {
 						locale = new Locale("de");
+						UserPrefs.getInstance().put("LANG", "de");
 					} else if (newValue.equals(FRENCH)) {
 						locale = new Locale("fr");
+						UserPrefs.getInstance().put("LANG", "fr");
 					} else if (newValue.equals(ITALIAN)) {
 						locale = new Locale("it");
+						UserPrefs.getInstance().put("LANG", "it");
+					} else {
+						locale = new Locale("de");
+						UserPrefs.getInstance().put("LANG", "en");
 					}
 					translator.setResourceBundle(locale);
 					LoginSetLanguage();
@@ -268,7 +300,13 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 
 			@Override
 			public void changed(ObservableValue<? extends UserDTO> observable, UserDTO oldValue, UserDTO newValue) {
+				UserPrefs.getInstance().put("USERNAME", txt_Login_username.getText());
+				UserPrefs.getInstance().put("SERVER", txt_Login_serverServer.getText());
+				UserPrefs.getInstance().put("SERVER_PORT", txt_Login_serverPort.getText());
+				UserPrefs.getInstance().put("LANG", translator.getLocale().getLanguage());
+
 				destroy();
+				
 				Platform.runLater(() -> {
 					Controller.initMVCAsRoot(MenuBarController.class, MenuBarModel.class, MenuBarView.class);
 				});
@@ -332,12 +370,6 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		Platform.runLater(() -> {
 			this.vbox_Login_loading.setVisible(loading);
 			this.vbox_Login_form.setVisible(!loading);
-		});
-	}
-	
-	public void setUsername(String username) {
-		Platform.runLater(() -> {
-			this.txt_Login_username.setText(username);
 		});
 	}
 
