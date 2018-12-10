@@ -1,0 +1,34 @@
+
+#pnlRoot {
+	-fx-background-color: #2464ab;
+	-fx-background-radius: 4;
+	-fx-pref-height: 500;
+	-fx-pref-width: 500;
+
+}
+
+#btnMinimize {
+	-fx-font-size: 0;
+	-fx-background-radius: 4;
+	-fx-border-radius: 4;
+	-fx-pref-height: 15;
+	-fx-pref-width: 20;
+	-fx-min-height: 15;
+	-fx-min-width: 20;
+	-fx-max-height: 15;
+	-fx-max-width: 20;
+	
+}
+
+#btnSend {
+	-fx-font-size: 0;
+	-fx-background-radius: 4;
+	-fx-border-radius: 4;
+	-fx-pref-height: 30;
+	-fx-min-width: 20;
+	-fx-min-height: 30;
+	-fx-min-width: 20;
+	-fx-max-height: 30;
+	-fx-max-width: 20;
+	
+}

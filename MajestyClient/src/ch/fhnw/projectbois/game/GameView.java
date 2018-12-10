@@ -41,6 +41,8 @@ public class GameView extends View<GameModel> {
 		StackPane.setAlignment(chat, Pos.TOP_RIGHT);
 		chat.setPrefWidth(200);
 		chat.setMaxWidth(200);
+		chat.setPrefHeight(ChatView.PREF_HEIGHT);
+		chat.setMaxHeight(ChatView.PREF_HEIGHT);
 
 		// Set gridpane as new root
 		this.root = stackpane;
