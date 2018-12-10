@@ -49,6 +49,7 @@ public class GameView extends View<GameModel> {
 
 		// Load CSS
 		stackpane.setStyle("-fx-background-color: #CCFF99");
+		chat.setStyle("-fx-background-color: yellow; -fx-width: 100px;");
 		String displayCSS = this.getClass().getResource("GameView.css").toExternalForm();
 		this.root.getStylesheets().add(displayCSS);
 	}
