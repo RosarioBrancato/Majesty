@@ -178,7 +178,8 @@ public class GameLogic {
 
 	public void endGame() {
 		System.out.println("What up I am the final caluclation");
-		// do final caluclations here
+		GameCalculations calculations = new GameCalculations(gameState);
+		calculations.distributeFinalScoring();
 		// show user a statistic and write points to db
 	}
 
