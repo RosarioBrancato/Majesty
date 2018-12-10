@@ -113,6 +113,18 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	}
 	
 	/**
+	 * Btn login log in alex clicked.
+	 *
+	 * @param event the event
+	 */
+	/* START: DELETE AFTER DEVELOPMENT PHASE */
+	@FXML
+	private void btn_Login_logInAlexClicked(ActionEvent event) {
+		model.LoginProcessCredentials(txt_Login_serverServer.getText(), txt_Login_serverPort.getText(), "alex",
+				"ABCDEFGH12345678");
+	}
+
+	/**
 	 * Btn login login clicked.
 	 *
 	 * @param event the event
@@ -127,18 +139,6 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 				this.lbl_Login_loginMsg.setText(translator.getTranslation("lbl_Login_loginMsg_BadInputBoth"));
 			});
 		}
-	}
-
-	/**
-	 * Btn login log in alex clicked.
-	 *
-	 * @param event the event
-	 */
-	/* START: DELETE AFTER DEVELOPMENT PHASE */
-	@FXML
-	private void btn_Login_logInAlexClicked(ActionEvent event) {
-		model.LoginProcessCredentials(txt_Login_serverServer.getText(), txt_Login_serverPort.getText(), "alex",
-				"ABCDEFGH12345678");
 	}
 
 	/**
@@ -206,30 +206,6 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	}
 	
 	/**
-	 * Link login open source resources clicked.
-	 *
-	 * @param event the event
-	 */
-	@FXML
-	private void link_Login_OpenSourceResourcesClicked(ActionEvent event) {
-		String tmp_path = System.getProperty("user.dir") + "/resources/manuals/opensource.html";
-		
-		if(tmp_path.indexOf("\\") > -1)
-			tmp_path = tmp_path.replace("/", "\\");
-		
-		String path = tmp_path;
-		File file = new File(path);
-		try {
-			Desktop.getDesktop().browse(file.toURI());
-		} catch (Exception e) {
-			Platform.runLater(() -> {
-				this.lbl_Login_loginMsg.setText(translator.getTranslation("lbl_Login_loginMsg_OpenSourceDeclNotFound") + " " + path);
-			});
-			logger.warning("Unable to open the open source declaration: " + e.getMessage());
-		}
-	}
-	
-	/**
 	 * Check server port validity.
 	 *
 	 * @return true, if successful
@@ -243,7 +219,7 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		}
 		return response;
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see ch.fhnw.projectbois._mvc.Controller#destroy()
 	 */
@@ -402,6 +378,30 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 				});
 			}
 		};
+	}
+
+	/**
+	 * Link login open source resources clicked.
+	 *
+	 * @param event the event
+	 */
+	@FXML
+	private void link_Login_OpenSourceResourcesClicked(ActionEvent event) {
+		String tmp_path = System.getProperty("user.dir") + "/resources/manuals/opensource.html";
+		
+		if(tmp_path.indexOf("\\") > -1)
+			tmp_path = tmp_path.replace("/", "\\");
+		
+		String path = tmp_path;
+		File file = new File(path);
+		try {
+			Desktop.getDesktop().browse(file.toURI());
+		} catch (Exception e) {
+			Platform.runLater(() -> {
+				this.lbl_Login_loginMsg.setText(translator.getTranslation("lbl_Login_loginMsg_OpenSourceDeclNotFound") + " " + path);
+			});
+			logger.warning("Unable to open the open source declaration: " + e.getMessage());
+		}
 	}
 
 	/**

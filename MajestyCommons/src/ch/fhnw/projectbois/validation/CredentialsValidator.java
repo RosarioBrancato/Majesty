@@ -11,11 +11,6 @@ public class CredentialsValidator {
 	static CredentialsValidator cv;
 	
 	/**
-	 * Instantiates a new credentials validator.
-	 */
-	private CredentialsValidator() {}
-	
-	/**
 	 * Gets the single instance of CredentialsValidator.
 	 *
 	 * @return single instance of CredentialsValidator
@@ -28,15 +23,9 @@ public class CredentialsValidator {
 	}
 	
 	/**
-	 * String is alphanumeric.
-	 *
-	 * @param input the input
-	 * @return true, if successful
+	 * Instantiates a new credentials validator.
 	 */
-	public boolean stringIsAlphanumeric(String input) {
-		// Minimum length of 3 alphanumeric characters
-		return input.matches("^[a-zA-Z0-9_-][a-zA-Z0-9_-][a-zA-Z0-9_-]+$");
-	}
+	private CredentialsValidator() {}
 	
 	/**
 	 * Password strenght is sufficient.
@@ -48,6 +37,17 @@ public class CredentialsValidator {
 		// Minimum 1 uppercase, 1 lowercase, 1 numeric, 1 special, minimum length is 8 in total
 		// Source: https://www.regextester.com/97402
 		return input.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[#$^+=!*()@%&]).{8,24}$");
+	}
+	
+	/**
+	 * String is alphanumeric.
+	 *
+	 * @param input the input
+	 * @return true, if successful
+	 */
+	public boolean stringIsAlphanumeric(String input) {
+		// Minimum length of 3 alphanumeric characters
+		return input.matches("^[a-zA-Z0-9_-][a-zA-Z0-9_-][a-zA-Z0-9_-]+$");
 	}
 	
 	/**

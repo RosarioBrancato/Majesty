@@ -20,11 +20,6 @@ public class PasswordHandler {
 	static PasswordHandler ph = null;
 	
 	/**
-	 * Instantiates a new password handler.
-	 */
-	private PasswordHandler(){}
-	
-	/**
 	 * Gets the single instance of PasswordHandler.
 	 *
 	 * @return single instance of PasswordHandler
@@ -36,20 +31,24 @@ public class PasswordHandler {
 	}
 	
 	/**
-	 * Gets the next salt.
-	 *
-	 * @return the next salt
+	 * Instantiates a new password handler.
 	 */
-	public String getNextSalt(){
-		String output = "";
-		SecureRandom rand = new SecureRandom();
-		byte[] salt = new byte[16];
-		rand.nextBytes(salt);
-		byte[] encodedBytes = Base64.getEncoder().encode(salt);
-		for (int i = 0; i < encodedBytes.length; i++) {
-			output = output + Character.toString((char) encodedBytes[i]);
-	    }
-		return output;
+	private PasswordHandler(){}
+	
+	/**
+	 * Check matching passwords.
+	 *
+	 * @param enteredPassword the entered password
+	 * @param expectedHash the expected hash
+	 * @param salt the salt
+	 * @return true, if successful
+	 */
+	public boolean checkMatchingPasswords(String enteredPassword, String expectedHash, String salt) {
+		if(getHashedPassword(salt, enteredPassword).equals(expectedHash)) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 	/**
@@ -76,19 +75,20 @@ public class PasswordHandler {
 	}
 	
 	/**
-	 * Check matching passwords.
+	 * Gets the next salt.
 	 *
-	 * @param enteredPassword the entered password
-	 * @param expectedHash the expected hash
-	 * @param salt the salt
-	 * @return true, if successful
+	 * @return the next salt
 	 */
-	public boolean checkMatchingPasswords(String enteredPassword, String expectedHash, String salt) {
-		if(getHashedPassword(salt, enteredPassword).equals(expectedHash)) {
-			return true;
-		}else {
-			return false;
-		}
+	public String getNextSalt(){
+		String output = "";
+		SecureRandom rand = new SecureRandom();
+		byte[] salt = new byte[16];
+		rand.nextBytes(salt);
+		byte[] encodedBytes = Base64.getEncoder().encode(salt);
+		for (int i = 0; i < encodedBytes.length; i++) {
+			output = output + Character.toString((char) encodedBytes[i]);
+	    }
+		return output;
 	}
 	
 }
