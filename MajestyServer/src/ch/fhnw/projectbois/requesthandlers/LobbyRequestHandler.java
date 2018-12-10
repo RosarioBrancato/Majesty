@@ -106,11 +106,12 @@ public class LobbyRequestHandler extends RequestHandler {
 			MessageDTO message = new MessageDTO();
 			message.setReceiver(ChatMember.All);
 			message.setAuthor(ChatMember.System);
-			message.setMessage(client.getUser().getUsername() + " has joined the game...");			
+			message.setTranslationKey("msg_LobbyView_PlayerJoined");
+			message.getFormatVariables().add(client.getUser().getUsername());
+			
 			String messageJson = JsonUtils.Serialize(message);
 			Request messageRequest = new Request(client.getUser().getToken(), RequestId.CHAT_SEND_MSG, messageJson);
 			new ChatRequestHandler(messageRequest, server, client);
-			
 		} else {
 			ReportDTO report = new ReportDTO();
 			report.setSeverity(ReportSeverity.WARNING);

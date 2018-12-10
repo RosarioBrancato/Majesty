@@ -114,7 +114,7 @@
                         </HBox>
                         <HBox maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                            <children>
-                              <Button fx:id="btn_Login_register1" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btn_Login_registerClicked" text="%btn_Login_register" HBox.hgrow="ALWAYS">
+                              <Button fx:id="btn_Login_register" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btn_Login_registerClicked" text="%btn_Login_register" HBox.hgrow="ALWAYS">
                                  <styleClass>
                                     <String fx:value="default" />
                                     <String fx:value="first" />
@@ -146,12 +146,12 @@
                                                       <Insets right="10.0" />
                                                    </HBox.margin>
                                                 </Label>
-                                                <TextField fx:id="txt_Login_serverServer" prefHeight="25.0" prefWidth="159.0" text="localhost">
+                                                <TextField fx:id="txt_Login_serverServer" prefHeight="25.0" prefWidth="159.0">
                                                    <HBox.margin>
                                                       <Insets right="10.0" />
                                                    </HBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="txt_Login_serverPort" layoutX="90.0" layoutY="10.0" prefHeight="25.0" prefWidth="64.0" text="8200" />
+                                                <TextField fx:id="txt_Login_serverPort" layoutX="90.0" layoutY="10.0" prefHeight="25.0" prefWidth="64.0" />
                                              </children>
                                              <padding>
                                                 <Insets bottom="10.0" top="10.0" />
