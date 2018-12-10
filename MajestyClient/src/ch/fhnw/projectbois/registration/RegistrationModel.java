@@ -29,6 +29,30 @@ public class RegistrationModel extends Model {
 		this.initResponseListener();
 	}
 	
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois._mvc.Model#getChangeListener()
+	 */
+	@Override
+	protected ChangeListener<Response> getChangeListener() {
+		return new ChangeListener<Response>() {
+			@Override
+			public void changed(ObservableValue<? extends Response> observable, Response oldValue, Response newValue) {
+				if(newValue.getResponseId() == ResponseId.REGISTRATION_SUCCESS) {
+					regStat.set("OK");
+				} else if(newValue.getResponseId() == ResponseId.REGISTRATION_ERROR_USER_ALREADY_EXISTS) {
+					logger.warning("Registration failed. User already exists.");
+					regStat.set("lbl_Registration_Response_UserAlreadyExists");
+				} else if(newValue.getResponseId() == ResponseId.REGISTRATION_ERROR_DATABASE) {
+					logger.warning("Registration failed due to a server-side error. Please check server logs for further information.");
+					regStat.set("lbl_Registration_Response_DBError");
+				} else if(newValue.getResponseId() == ResponseId.REGISTRATION_ERROR_BAD_CREDENTIALS) {
+					logger.warning("Registration failed due to invalid credentials submitted.");
+					regStat.set("lbl_Registration_Response_DBError");
+				}
+			}
+		};
+	}
+	
 	/**
 	 * Gets the registration status.
 	 *
@@ -57,30 +81,6 @@ public class RegistrationModel extends Model {
 		String regReq = JsonUtils.Serialize(new RegistrationDTO(username, email, password));
 		Request request = new Request("", RequestId.REGISTER, regReq);
 		Network.getInstance().sendRequest(request);
-	}
-	
-	/* (non-Javadoc)
-	 * @see ch.fhnw.projectbois._mvc.Model#getChangeListener()
-	 */
-	@Override
-	protected ChangeListener<Response> getChangeListener() {
-		return new ChangeListener<Response>() {
-			@Override
-			public void changed(ObservableValue<? extends Response> observable, Response oldValue, Response newValue) {
-				if(newValue.getResponseId() == ResponseId.REGISTRATION_SUCCESS) {
-					regStat.set("OK");
-				} else if(newValue.getResponseId() == ResponseId.REGISTRATION_ERROR_USER_ALREADY_EXISTS) {
-					logger.warning("Registration failed. User already exists.");
-					regStat.set("lbl_Registration_Response_UserAlreadyExists");
-				} else if(newValue.getResponseId() == ResponseId.REGISTRATION_ERROR_DATABASE) {
-					logger.warning("Registration failed due to a server-side error. Please check server logs for further information.");
-					regStat.set("lbl_Registration_Response_DBError");
-				} else if(newValue.getResponseId() == ResponseId.REGISTRATION_ERROR_BAD_CREDENTIALS) {
-					logger.warning("Registration failed due to invalid credentials submitted.");
-					regStat.set("lbl_Registration_Response_DBError");
-				}
-			}
-		};
 	}
 
 	/**

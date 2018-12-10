@@ -39,11 +39,35 @@ public class LoginModel extends Model {
 		this.initResponseListener();
 	}
 	
-	/**
-	 * Reset status.
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois._mvc.Model#getChangeListener()
 	 */
-	public void resetStatus() {
-		this.responseMsg.set(null);
+	@Override
+	protected ChangeListener<Response> getChangeListener() {
+		return new ChangeListener<Response>() {
+			@Override
+			public void changed(ObservableValue<? extends Response> observable, Response oldValue, Response newValue) {
+				if (newValue.getResponseId() == ResponseId.AUTH_OK) {
+					UserDTO user = JsonUtils.Deserialize(newValue.getJsonDataObject(), UserDTO.class);
+					Session session = Session.getInstance();
+					session.setCurrentUser(user);
+					logger.info("Login successful for user " + user.getUsername() + " (UID: " + user.getId() + ") - Token received: " + user.getToken());
+					loggedInUser.setValue(user);
+				} else if (newValue.getResponseId() == ResponseId.AUTH_ERROR_SERVER) {
+					logger.warning("Login failed due to a general server error. Please check server logs for further information.");
+					responseMsg.set("lbl_Login_loginMsg_GeneralServerError");
+				} else  if (newValue.getResponseId() == ResponseId.AUTH_ERROR_CREDENTIALS) {
+					logger.warning("Login failed due to invalid credentials.");
+					responseMsg.set("lbl_Login_loginMsg_CredentialsError");
+				} else if (newValue.getResponseId() == ResponseId.AUTH_ERROR_ALREADYLOGGEDIN) {
+					logger.warning("Login failed. Another user with the same username is already logged in.");
+					responseMsg.set("lbl_Login_loginMsg_UserAlreadyLoggedIn");
+				} else {
+					logger.warning("Login failed. Empty response.");
+					responseMsg.set("lbl_Login_loginMsg_GeneralServerError");
+				}
+			}
+		};
 	}
 	
 	/**
@@ -86,35 +110,11 @@ public class LoginModel extends Model {
 		Network.getInstance().sendRequest(request);
 	}
 	
-	/* (non-Javadoc)
-	 * @see ch.fhnw.projectbois._mvc.Model#getChangeListener()
+	/**
+	 * Reset status.
 	 */
-	@Override
-	protected ChangeListener<Response> getChangeListener() {
-		return new ChangeListener<Response>() {
-			@Override
-			public void changed(ObservableValue<? extends Response> observable, Response oldValue, Response newValue) {
-				if (newValue.getResponseId() == ResponseId.AUTH_OK) {
-					UserDTO user = JsonUtils.Deserialize(newValue.getJsonDataObject(), UserDTO.class);
-					Session session = Session.getInstance();
-					session.setCurrentUser(user);
-					logger.info("Login successful for user " + user.getUsername() + " (UID: " + user.getId() + ") - Token received: " + user.getToken());
-					loggedInUser.setValue(user);
-				} else if (newValue.getResponseId() == ResponseId.AUTH_ERROR_SERVER) {
-					logger.warning("Login failed due to a general server error. Please check server logs for further information.");
-					responseMsg.set("lbl_Login_loginMsg_GeneralServerError");
-				} else  if (newValue.getResponseId() == ResponseId.AUTH_ERROR_CREDENTIALS) {
-					logger.warning("Login failed due to invalid credentials.");
-					responseMsg.set("lbl_Login_loginMsg_CredentialsError");
-				} else if (newValue.getResponseId() == ResponseId.AUTH_ERROR_ALREADYLOGGEDIN) {
-					logger.warning("Login failed. Another user with the same username is already logged in.");
-					responseMsg.set("lbl_Login_loginMsg_UserAlreadyLoggedIn");
-				} else {
-					logger.warning("Login failed. Empty response.");
-					responseMsg.set("lbl_Login_loginMsg_GeneralServerError");
-				}
-			}
-		};
+	public void resetStatus() {
+		this.responseMsg.set(null);
 	}
 	
 }

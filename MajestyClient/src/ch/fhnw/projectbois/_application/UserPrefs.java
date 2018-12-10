@@ -11,11 +11,6 @@ public class UserPrefs {
 	private static Preferences prefs;
 	
 	/**
-	 * Instantiates a new user prefs.
-	 */
-	private UserPrefs() {}
-	
-	/**
 	 * Gets the single instance of UserPrefs.
 	 *
 	 * @return single instance of UserPrefs
@@ -26,4 +21,9 @@ public class UserPrefs {
 		}
 		return prefs;
 	}
+	
+	/**
+	 * Instantiates a new user prefs.
+	 */
+	private UserPrefs() {}
 }

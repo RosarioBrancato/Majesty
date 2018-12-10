@@ -17,11 +17,6 @@ public class UserHandler {
 	static UserHandler uh = null;
 	
 	/**
-	 * Instantiates a new user handler.
-	 */
-	private UserHandler() {}
-	
-	/**
 	 * Gets the single instance of UserHandler.
 	 *
 	 * @return single instance of UserHandler
@@ -31,6 +26,11 @@ public class UserHandler {
 			uh = new UserHandler();
 		return uh;
 	}
+	
+	/**
+	 * Instantiates a new user handler.
+	 */
+	private UserHandler() {}
 	
 	/**
 	 * Check user exists.
@@ -91,6 +91,23 @@ public class UserHandler {
 	}
 	
 	/**
+	 * Delete user.
+	 *
+	 * @param uid the uid
+	 * @throws Exception the exception
+	 */
+	public void deleteUser(int uid) throws Exception{
+		Connection con = DbAccess.getConnection();
+		PreparedStatement ps = con.prepareStatement("DELETE FROM `user` WHERE `user`.`uid` = ?;");
+		ps.setInt(1, uid);
+		int response = ps.executeUpdate();
+		if(response != 1) {
+			throw new SQLException();
+		}
+		ps.close();
+	}
+	
+	/**
 	 * Update email.
 	 *
 	 * @param uid the uid
@@ -102,30 +119,6 @@ public class UserHandler {
 		PreparedStatement ps = con.prepareStatement("UPDATE `user` SET `email` = ? WHERE `user`.`uid` = ?;");
 		ps.setString(1, email);
 		ps.setInt(2, uid);
-		int response = ps.executeUpdate();
-		if(response != 1) {
-			throw new SQLException();
-		}
-		ps.close();
-	}
-	
-	/**
-	 * Update password.
-	 *
-	 * @param uid the uid
-	 * @param password the password
-	 * @throws Exception the exception
-	 */
-	public void updatePassword(int uid, String password) throws Exception{
-		PasswordHandler ph = PasswordHandler.getInstance();
-		String salt = ph.getNextSalt();
-		String hash = ph.getHashedPassword(salt, password);
-		
-		Connection con = DbAccess.getConnection();
-		PreparedStatement ps = con.prepareStatement("UPDATE `user` SET `password` = ?, `salt` = ? WHERE `user`.`uid` = ?;");
-		ps.setString(1, hash);
-		ps.setString(2, salt);
-		ps.setInt(3, uid);
 		int response = ps.executeUpdate();
 		if(response != 1) {
 			throw new SQLException();
@@ -160,6 +153,30 @@ public class UserHandler {
 	}
 	
 	/**
+	 * Update password.
+	 *
+	 * @param uid the uid
+	 * @param password the password
+	 * @throws Exception the exception
+	 */
+	public void updatePassword(int uid, String password) throws Exception{
+		PasswordHandler ph = PasswordHandler.getInstance();
+		String salt = ph.getNextSalt();
+		String hash = ph.getHashedPassword(salt, password);
+		
+		Connection con = DbAccess.getConnection();
+		PreparedStatement ps = con.prepareStatement("UPDATE `user` SET `password` = ?, `salt` = ? WHERE `user`.`uid` = ?;");
+		ps.setString(1, hash);
+		ps.setString(2, salt);
+		ps.setInt(3, uid);
+		int response = ps.executeUpdate();
+		if(response != 1) {
+			throw new SQLException();
+		}
+		ps.close();
+	}
+	
+	/**
 	 * Update points.
 	 *
 	 * @param uid the uid
@@ -171,23 +188,6 @@ public class UserHandler {
 		PreparedStatement ps = con.prepareStatement("UPDATE `user` SET `points` = `points`+? WHERE `user`.`uid` = ?;");
 		ps.setInt(1, diff);
 		ps.setInt(2, uid);
-		int response = ps.executeUpdate();
-		if(response != 1) {
-			throw new SQLException();
-		}
-		ps.close();
-	}
-	
-	/**
-	 * Delete user.
-	 *
-	 * @param uid the uid
-	 * @throws Exception the exception
-	 */
-	public void deleteUser(int uid) throws Exception{
-		Connection con = DbAccess.getConnection();
-		PreparedStatement ps = con.prepareStatement("DELETE FROM `user` WHERE `user`.`uid` = ?;");
-		ps.setInt(1, uid);
 		int response = ps.executeUpdate();
 		if(response != 1) {
 			throw new SQLException();

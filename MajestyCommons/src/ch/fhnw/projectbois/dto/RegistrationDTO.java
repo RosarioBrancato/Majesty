@@ -48,39 +48,12 @@ public class RegistrationDTO {
 	}
 	
 	/**
-	 * Gets the username.
-	 *
-	 * @return the username
-	 */
-	public String getUsername() {
-		return username;
-	}
-	
-	/**
-	 * Sets the username.
-	 *
-	 * @param username the new username
-	 */
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	
-	/**
 	 * Gets the email.
 	 *
 	 * @return the email
 	 */
 	public String getEmail() {
 		return email;
-	}
-	
-	/**
-	 * Sets the email.
-	 *
-	 * @param email the new email
-	 */
-	public void setEmail(String email) {
-		this.email = email;
 	}
 	
 	/**
@@ -93,11 +66,38 @@ public class RegistrationDTO {
 	}
 	
 	/**
+	 * Gets the username.
+	 *
+	 * @return the username
+	 */
+	public String getUsername() {
+		return username;
+	}
+	
+	/**
+	 * Sets the email.
+	 *
+	 * @param email the new email
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	/**
 	 * Sets the password.
 	 *
 	 * @param password the new password
 	 */
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	/**
+	 * Sets the username.
+	 *
+	 * @param username the new username
+	 */
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

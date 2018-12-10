@@ -48,24 +48,6 @@ public class UserDTO {
 	}
 
 	/**
-	 * Gets the id.
-	 *
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
-	}
-
-	/**
-	 * Sets the id.
-	 *
-	 * @param id the new id
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	/**
 	 * Gets the email.
 	 *
 	 * @return the email
@@ -73,16 +55,25 @@ public class UserDTO {
 	public String getEmail() {
 		return email;
 	}
+
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
 	
 	/**
-	 * Sets the email.
+	 * Gets the token.
 	 *
-	 * @param email the new email
+	 * @return the token
 	 */
-	public void setEmail(String email) {
-		this.email = email;
+	public String getToken() {
+		return token;
 	}
-
+	
 	/**
 	 * Gets the username.
 	 *
@@ -93,21 +84,21 @@ public class UserDTO {
 	}
 
 	/**
-	 * Sets the username.
+	 * Sets the email.
 	 *
-	 * @param username the new username
+	 * @param email the new email
 	 */
-	public void setUsername(String username) {
-		this.username = username;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	/**
-	 * Gets the token.
+	 * Sets the id.
 	 *
-	 * @return the token
+	 * @param id the new id
 	 */
-	public String getToken() {
-		return token;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	/**
@@ -117,6 +108,15 @@ public class UserDTO {
 	 */
 	public void setToken(String token) {
 		this.token = token;
+	}
+
+	/**
+	 * Sets the username.
+	 *
+	 * @param username the new username
+	 */
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 }

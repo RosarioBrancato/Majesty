@@ -12,12 +12,6 @@ public class TokenFactory {
 	private static TokenFactory instance = null;
 
 	/**
-	 * Instantiates a new token factory.
-	 */
-	private TokenFactory() {
-	}
-
-	/**
 	 * Gets the single instance of TokenFactory.
 	 *
 	 * @return single instance of TokenFactory
@@ -27,6 +21,12 @@ public class TokenFactory {
 			instance = new TokenFactory();
 		}
 		return instance;
+	}
+
+	/**
+	 * Instantiates a new token factory.
+	 */
+	private TokenFactory() {
 	}
 
 	/**
