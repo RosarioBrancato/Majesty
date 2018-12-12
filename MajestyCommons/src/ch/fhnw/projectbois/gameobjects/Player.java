@@ -8,6 +8,8 @@ public class Player {
 	private Location[] locations;
 	private int meeples;
 	private int points;
+	private FinalCalculation finalCalculation;
+
 	
 	private boolean playerLeft = false;
 
@@ -53,10 +55,19 @@ public class Player {
 	public void setPlayerLeft(boolean playerLeft) {
 		this.playerLeft = playerLeft;
 	}
+	
+	public FinalCalculation getFinalCalculation() {
+		return finalCalculation;
+	}
+
+	public void setFinalCalculation(FinalCalculation finalCalculation) {
+		this.finalCalculation = finalCalculation;
+	}
 
 	@JsonIgnore
 	public Location getLocationByIndex(int locationIndex) {
 		return this.locations[locationIndex];
 	}
+
 
 }

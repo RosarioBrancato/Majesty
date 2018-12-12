@@ -18,6 +18,9 @@ import ch.fhnw.projectbois.game.meepletrader.MeepleTraderView;
 import ch.fhnw.projectbois.game.splitcardchooser.SplitCardChooserController;
 import ch.fhnw.projectbois.game.splitcardchooser.SplitCardChooserModel;
 import ch.fhnw.projectbois.game.splitcardchooser.SplitCardChooserView;
+import ch.fhnw.projectbois.gameend.GameEndController;
+import ch.fhnw.projectbois.gameend.GameEndModel;
+import ch.fhnw.projectbois.gameend.GameEndView;
 import ch.fhnw.projectbois.gameobjects.Board;
 import ch.fhnw.projectbois.gameobjects.Card;
 import ch.fhnw.projectbois.gameobjects.CardType;
@@ -91,6 +94,11 @@ public class GameController extends Controller<GameModel, GameView> {
 		this.model.getGameStateProperty().addListener((observer, oldValue, newValue) -> {
 			loadGameState(newValue);
 		});
+		
+		this.model.getGameEndProperty().addListener((observer, oldValue, newValue) -> {
+			showGameEndView(gameState);
+		});
+		
 
 		this.model.getGameState();
 	}
@@ -466,6 +474,23 @@ public class GameController extends Controller<GameModel, GameView> {
 		}
 
 		return decision;
+	}
+	
+	private static void showGameEndView(GameState gameState) {
+		Platform.runLater(() -> {
+		GameEndController controller = Controller.initMVC(GameEndController.class,
+				GameEndModel.class, GameEndView.class);
+		
+		controller.setGameState(gameState);
+		
+		controller.showAndWait();
+
+		MetaContainer.getInstance().destroyController(controller);
+		});
+	}
+	
+	public GameState getGameState() {
+		return gameState;
 	}
 
 	private boolean isTurnPlayer() {
