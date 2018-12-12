@@ -180,22 +180,36 @@ public class GameLogic {
 	public void endGame() {
 		this.gameState.setGameEnded(true);
 		this.gameStateServer.setGameEnded(true);
-
-		System.out.println("What up I am the final caluclation");
-		// calculate and distribute points
+		int round = this.gameState.getRound();
+		
+		// game ended normally
+		if (round > 12) {
+		// calculate and distribute points which will get forwarded to all clients with latest gamestate
 		GameCalculations calculations = new GameCalculations(gameState);
 		calculations.distributeFinalScoring();
-
 		ArrayList<Player> players = new ArrayList<Player>();
 		players = this.gameState.getBoard().getPlayers();
 		// write scores to db
 		UpdatePointsQuery updatepointsquery = new UpdatePointsQuery();
 		updatepointsquery.setPoints(players);
-		// show user a statistic
+		
+		// there was a rage quit
+		} else {
+			// calculate and distribute points
+			GameCalculations calculations = new GameCalculations(gameState);
+			calculations.distributeFinalScoring();
+			ArrayList<Player> players = new ArrayList<Player>();
+			players = this.gameState.getBoard().getPlayers();
+			// write scores to db
+			UpdatePointsQuery updatepointsquery = new UpdatePointsQuery();
+			updatepointsquery.setPoints(players);
+		}
 	}
 
 	public void removePlayer(Player player) {
+		
 		player.setPlayerLeft(true);
+		if (!gameState.isGameEnded()) {
 
 		// if only 1 player is left -> end game
 		long ingame = this.gameState.getBoard().getPlayers().stream().filter(f -> !f.isPlayerLeft()).count();
@@ -209,6 +223,7 @@ public class GameLogic {
 			if (currentPlayer.getUsername().equals(player.getUsername())) {
 				this.startNextTurn();
 			}
+		}
 		}
 	}
 
