@@ -77,5 +77,5 @@ public class GameState {
 	public void setTurntimer(int turntimer) {
 		this.turntimer = turntimer;
 	}
-
+	
 }

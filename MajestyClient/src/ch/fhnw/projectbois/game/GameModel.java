@@ -9,9 +9,12 @@ import ch.fhnw.projectbois.dto.ReportDTO;
 import ch.fhnw.projectbois.enumerations.ReportSeverity;
 import ch.fhnw.projectbois.gameobjects.GameMove;
 import ch.fhnw.projectbois.gameobjects.GameState;
+import ch.fhnw.projectbois.gameobjects.Player;
 import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.network.Network;
 import ch.fhnw.projectbois.session.Session;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -19,14 +22,20 @@ import javafx.beans.value.ObservableValue;
 public class GameModel extends Model {
 
 	private SimpleObjectProperty<GameState> gameStateProperty = null;
+	private SimpleBooleanProperty gameEndProperty;
 
 	public GameModel() {
 		this.gameStateProperty = new SimpleObjectProperty<>();
+		this.gameEndProperty = new SimpleBooleanProperty();
 		this.initResponseListener();
 	}
 
 	public SimpleObjectProperty<GameState> getGameStateProperty() {
 		return this.gameStateProperty;
+	}
+	
+	public SimpleBooleanProperty getGameEndProperty() {
+		return this.gameEndProperty;
 	}
 
 	public void getGameState() {
@@ -62,9 +71,18 @@ public class GameModel extends Model {
 					String json = newValue.getJsonDataObject();
 					GameState gameState = JsonUtils.Deserialize(json, GameState.class);
 					gameStateProperty.setValue(gameState);
+					gameEndProperty.setValue(true);
 					
-					ReportDTO report = new ReportDTO(ReportSeverity.INFO, "inf_Game_Endend");
-					getReportProperty().setValue(report);
+					//ReportDTO report = new ReportDTO(ReportSeverity.INFO, "inf_Game_Endend");
+					//getReportProperty().setValue(report);
+					for (Player player : gameState.getBoard().getPlayers()) {
+						System.out.println("Username: " + player.getUsername());
+						System.out.println("GameCount: " + player.getFinalCalculation().getGameCount());
+						System.out.println("InfirmaryCount: " + player.getFinalCalculation().getInfirmaryCount());
+						System.out.println("LocationCount: " + player.getFinalCalculation().getLocationCount());
+						System.out.println("MajorityCount: " + player.getFinalCalculation().getMajorityCount());
+						System.out.println("TotalCount: " + player.getFinalCalculation().getTotalCount());
+					}
 					
 				} else if(newValue.getResponseId() == ResponseId.GAME_PLAYER_LEFT) {
 					String json = newValue.getJsonDataObject();
