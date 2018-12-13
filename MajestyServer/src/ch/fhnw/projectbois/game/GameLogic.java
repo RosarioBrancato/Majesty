@@ -180,50 +180,36 @@ public class GameLogic {
 	public void endGame() {
 		this.gameState.setGameEnded(true);
 		this.gameStateServer.setGameEnded(true);
-		int round = this.gameState.getRound();
-		
-		// game ended normally
-		if (round > 12) {
-		// calculate and distribute points which will get forwarded to all clients with latest gamestate
+
+		// calculate and distribute points which will get forwarded to all clients with
+		// latest gamestate
 		GameCalculations calculations = new GameCalculations(gameState);
 		calculations.distributeFinalScoring();
-		ArrayList<Player> players = new ArrayList<Player>();
-		players = this.gameState.getBoard().getPlayers();
+
 		// write scores to db
+		ArrayList<Player> players = this.gameState.getBoard().getPlayers();
 		UpdatePointsQuery updatepointsquery = new UpdatePointsQuery();
 		updatepointsquery.setPoints(players);
-		
-		// there was a rage quit
-		} else {
-			// calculate and distribute points
-			GameCalculations calculations = new GameCalculations(gameState);
-			calculations.distributeFinalScoring();
-			ArrayList<Player> players = new ArrayList<Player>();
-			players = this.gameState.getBoard().getPlayers();
-			// write scores to db
-			UpdatePointsQuery updatepointsquery = new UpdatePointsQuery();
-			updatepointsquery.setPoints(players);
-		}
 	}
 
 	public void removePlayer(Player player) {
-		
+
 		player.setPlayerLeft(true);
 		if (!gameState.isGameEnded()) {
 
-		// if only 1 player is left -> end game
-		long ingame = this.gameState.getBoard().getPlayers().stream().filter(f -> !f.isPlayerLeft()).count();
-		if (ingame <= 1) {
-			this.endGame();
+			// if only 1 player is left -> end game
+			long ingame = this.gameState.getBoard().getPlayers().stream().filter(f -> !f.isPlayerLeft()).count();
+			if (ingame <= 1) {
+				this.endGame();
 
-		} else {
-			int playersTurn = this.gameState.getPlayersTurn();
-			Player currentPlayer = this.gameState.getBoard().getPlayers().get(playersTurn);
+			} else {
+				int playersTurn = this.gameState.getPlayersTurn();
+				Player currentPlayer = this.gameState.getBoard().getPlayers().get(playersTurn);
 
-			if (currentPlayer.getUsername().equals(player.getUsername())) {
-				this.startNextTurn();
+				if (currentPlayer.getUsername().equals(player.getUsername())) {
+					this.startNextTurn();
+				}
 			}
-		}
 		}
 	}
 
