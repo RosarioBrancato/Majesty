@@ -94,11 +94,10 @@ public class GameController extends Controller<GameModel, GameView> {
 		this.model.getGameStateProperty().addListener((observer, oldValue, newValue) -> {
 			loadGameState(newValue);
 		});
-		
+
 		this.model.getGameEndProperty().addListener((observer, oldValue, newValue) -> {
 			showGameEndView(gameState);
 		});
-		
 
 		this.model.getGameState();
 	}
@@ -475,20 +474,19 @@ public class GameController extends Controller<GameModel, GameView> {
 
 		return decision;
 	}
-	
-	private static void showGameEndView(GameState gameState) {
-		Platform.runLater(() -> {
-		GameEndController controller = Controller.initMVC(GameEndController.class,
-				GameEndModel.class, GameEndView.class);
-		
-		controller.setGameState(gameState);
-		
-		controller.showAndWait();
 
-		MetaContainer.getInstance().destroyController(controller);
+	private void showGameEndView(GameState gameState) {
+		Platform.runLater(() -> {
+			GameEndController controller = Controller.initMVC(GameEndController.class, GameEndModel.class,
+					GameEndView.class);
+
+			controller.setGameState(gameState);
+			controller.showAndWait();
+
+			MetaContainer.getInstance().destroyController(controller);
 		});
 	}
-	
+
 	public GameState getGameState() {
 		return gameState;
 	}
