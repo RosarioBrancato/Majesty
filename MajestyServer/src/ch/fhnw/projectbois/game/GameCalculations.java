@@ -125,149 +125,67 @@ public class GameCalculations {
 	}
 
 	public void distributeFinalScoring() {
-		int points;
 		// final scoring
 		for (Player player : players) {
 			player.setFinalCalculation(new FinalCalculation());
-			//PlayerEndStateDTO playerdto = new PlayerEndStateDTO(player.getUsername());
-			points = player.getPoints();
-			player.getFinalCalculation().setGameCount(points);
-		// 1. infirmary
+			player.getFinalCalculation().setGameCount(player.getPoints());
+
+			// 1. infirmary
 			int infirmaryCount = player.getLocationByIndex(Location.INFIRMARY).getCards().size();
-			points = points-infirmaryCount;
-			player.getFinalCalculation().setInfirmaryCount(infirmaryCount);
-		// 2. variety - ignore infirmary
+			player.getFinalCalculation().setInfirmaryCount(infirmaryCount * -1);
+
+			// 2. variety - ignore infirmary
 			int locationCount = 0;
-			for (int i=0; i<player.getLocations().length-1; i++) {
-				if(player.getLocationByIndex(i).getCards().size()>0) {
-					int locationSize = player.getLocationByIndex(i).getCards().size();
-					locationCount = locationCount + (locationSize*locationSize);
-				}			
+			for (int i = 0; i < Location.MAX_COUNT - 1; i++) {
+				if (player.getLocationByIndex(i).getCards().size() > 0) {
+					locationCount++;
+				}
 			}
+			locationCount *= locationCount;
 			// update points for player and turn to the final calculations with majority
-			points = points+locationCount;
 			player.getFinalCalculation().setLocationCount(locationCount);
-			player.setPoints(points);
+		}
+
 		// 3. majority
-			// for every player location
-			for (int locationno=0; locationno<8; locationno++) {
-				int thisLocationCardSize = player.getLocationByIndex(locationno).getCards().size();
-				// check against player location cards
-				for (Player otherplayer : players) {
-					//except if the player is checked against him/herself
-					if (!player.getUsername().equals(otherplayer.getUsername())) {
-						int otherLocationCardSize = otherplayer.getLocationByIndex(locationno).getCards().size();
-						if (thisLocationCardSize>otherLocationCardSize) {
-							player.getLocationByIndex(locationno).setMajorityWinner();
-							otherplayer.getLocationByIndex(locationno).unsetMajorityWinner();
-						} else if (thisLocationCardSize==otherLocationCardSize) {
-							player.getLocationByIndex(locationno).setMajorityWinner();
-							otherplayer.getLocationByIndex(locationno).setMajorityWinner();
-						} else if (thisLocationCardSize<otherLocationCardSize) {
-							player.getLocationByIndex(locationno).unsetMajorityWinner();
-							otherplayer.getLocationByIndex(locationno).setMajorityWinner();
-						}
-					}
+		int highestCount = 0;
+		ArrayList<Player> majorityWinners = new ArrayList<>();
+
+		for (int i = 0; i < Location.MAX_COUNT; i++) {
+			highestCount = 0;
+			majorityWinners.clear();
+
+			for (Player player : players) {
+				int size = player.getLocationByIndex(i).getCards().size();
+				if (size > highestCount) {
+					highestCount = size;
+					majorityWinners.clear();
+					majorityWinners.add(player);
+
+				} else if (size == highestCount) {
+					majorityWinners.add(player);
 				}
 			}
-		}	
-		
-		// determine active side to distribute majority points
-		if (isSideA) {
-			for(Player player : players) {
-				int majoritycount = 0;
-				points = player.getPoints();
-				// mill
-				if (player.getLocationByIndex(Location.MILL).getMajorityWinner()) {
-					majoritycount = majoritycount + 10;
+
+			if (highestCount > 0) {
+				for (Player player : majorityWinners) {
+					int majorityPoints = player.getFinalCalculation().getMajorityCount();
+					majorityPoints += Location.getMajorityPoints(i, isSideA);
+					player.getFinalCalculation().setMajorityCount(majorityPoints);
 				}
-				// brewery
-				if (player.getLocationByIndex(Location.BREWERY).getMajorityWinner()) {
-					majoritycount = majoritycount + 11;
-				}
-				// cottage
-				if (player.getLocationByIndex(Location.COTTAGE).getMajorityWinner()) {
-					majoritycount = majoritycount + 12;
-				}
-				// guardhouse
-				if (player.getLocationByIndex(Location.GUARDHOUSE).getMajorityWinner()) {
-					majoritycount = majoritycount + 13;
-				}
-				// baracks
-				if (player.getLocationByIndex(Location.BARACKS).getMajorityWinner()) {
-					majoritycount = majoritycount + 14;
-				}
-				// inn
-				if (player.getLocationByIndex(Location.INN).getMajorityWinner()) {
-					majoritycount = majoritycount + 15;
-				}
-				// castle
-				if (player.getLocationByIndex(Location.CASTLE).getMajorityWinner()) {
-					majoritycount = majoritycount + 16;
-				}
-				
-				points = points + majoritycount;
-				player.getFinalCalculation().setMajorityCount(majoritycount);
-				player.setPoints(points);
-				
-			}	
-		} else {
-			for(Player player : players) {
-				int majoritycount = 0;
-				points = player.getPoints();
-				// mill
-				if (player.getLocationByIndex(Location.MILL).getMajorityWinner()) {
-					majoritycount = majoritycount + 10;
-				}
-				// brewery
-				if (player.getLocationByIndex(Location.BREWERY).getMajorityWinner()) {
-					majoritycount = majoritycount + 11;
-				}
-				// cottage
-				if (player.getLocationByIndex(Location.COTTAGE).getMajorityWinner()) {
-					majoritycount = majoritycount + 12;
-				}
-				// guardhouse
-				if (player.getLocationByIndex(Location.GUARDHOUSE).getMajorityWinner()) {
-					majoritycount = majoritycount + 13;
-				}
-				// baracks
-				if (player.getLocationByIndex(Location.BARACKS).getMajorityWinner()) {
-					majoritycount = majoritycount + 14;
-				}
-				// inn
-				if (player.getLocationByIndex(Location.INN).getMajorityWinner()) {
-					majoritycount = majoritycount + 15;
-				}
-				// castle
-				if (player.getLocationByIndex(Location.CASTLE).getMajorityWinner()) {
-					majoritycount = majoritycount + 16;
-				}
-				// infirmary
-				if (player.getLocationByIndex(Location.INFIRMARY).getMajorityWinner()) {
-					majoritycount = majoritycount - 10;
-				}
-				
-				points = points + majoritycount;
-				player.getFinalCalculation().setMajorityCount(majoritycount);
-				player.setPoints(points);
-				
-			}	
+			}
 		}
+
 		// note down total score
 		for (Player player : players) {
-			//if player left before the end of the game, deduct collected points as punishment
+			// if player left before the end of the game, deduct collected points as
+			// punishment
 			if (player.isPlayerLeft()) {
-				player.setPoints(-player.getPoints());
-				player.getFinalCalculation().setTotalCount(player.getPoints());
-			} else {
-				player.getFinalCalculation().setTotalCount(player.getPoints());
+				player.getFinalCalculation().setMalus(true);
 			}
+			
+			player.setPoints(player.getFinalCalculation().getTotalCount());
 		}
-		
-		
 	}
-
 
 	private void calcMiller() {
 		int millerCount = currentPlayer.getLocationByIndex(Location.MILL).getCards().size();
@@ -322,7 +240,7 @@ public class GameCalculations {
 				points += 10;
 			}
 			currentPlayer.setPoints(points);
-		}	
+		}
 	}
 
 	private void calcWitch() {
@@ -331,7 +249,7 @@ public class GameCalculations {
 		int witchCount = currentPlayer.getLocationByIndex(Location.COTTAGE).getCards().size();
 
 		int points = currentPlayer.getPoints();
-	
+
 		if (isSideA) {
 			points += (millerCount * 2);
 			points += (brewerCount * 2);
@@ -351,7 +269,7 @@ public class GameCalculations {
 		int innkeeperCount = currentPlayer.getLocationByIndex(Location.INN).getCards().size();
 
 		int points = currentPlayer.getPoints();
-		
+
 		if (isSideA) {
 			points += (guardCount * 2);
 			points += (knightCount * 2);
@@ -362,7 +280,7 @@ public class GameCalculations {
 			points += (witchCount * 2);
 			points += (guardCount * 2);
 			currentPlayer.setPoints(points);
-			
+
 			for (Player player : players) {
 				if (player.getLocationByIndex(Location.INN).getCards().size() > 0) {
 					points = player.getPoints();
@@ -379,7 +297,7 @@ public class GameCalculations {
 		int nobleCount = currentPlayer.getLocationByIndex(Location.CASTLE).getCards().size();
 
 		int points = currentPlayer.getPoints();
-		
+
 		if (isSideA) {
 			points += (knightCount * 3);
 			currentPlayer.setPoints(points);
@@ -399,7 +317,7 @@ public class GameCalculations {
 		if (isSideA) {
 			points += (innkeeperCount * 4);
 			currentPlayer.setPoints(points);
-			
+
 			for (Player player : players) {
 				if (player.getLocationByIndex(Location.BREWERY).getCards().size() > 0) {
 					points = player.getPoints();
@@ -409,15 +327,15 @@ public class GameCalculations {
 			}
 		} else {
 			int highestCount = 0;
-			
+
 			for (int i = 0; i < currentPlayer.getLocations().length; i++) {
 				int cardCount = currentPlayer.getLocationByIndex(i).getCards().size();
-				
+
 				if (cardCount > highestCount) {
 					highestCount = cardCount;
-				}	
+				}
 			}
-			
+
 			points += (innkeeperCount * (highestCount * 2));
 			currentPlayer.setPoints(points);
 		}
@@ -427,7 +345,7 @@ public class GameCalculations {
 	private void calcNoble() {
 		int nobleCount = currentPlayer.getLocationByIndex(Location.CASTLE).getCards().size();
 		int infirmaryCount = currentPlayer.getLocationByIndex(Location.INFIRMARY).getCards().size();
-		
+
 		int points = currentPlayer.getPoints();
 		int meeples = currentPlayer.getMeeples();
 
@@ -436,16 +354,16 @@ public class GameCalculations {
 			meeples += (nobleCount * 1);
 			currentPlayer.setPoints(points);
 			currentPlayer.setMeeples(meeples);
-			
+
 		} else {
 			// ignore first effect of side B
-			
+
 			points += (nobleCount * 4);
 			points += (infirmaryCount * 4);
-			
+
 			currentPlayer.setPoints(points);
 		}
-		
+
 	}
 
 }

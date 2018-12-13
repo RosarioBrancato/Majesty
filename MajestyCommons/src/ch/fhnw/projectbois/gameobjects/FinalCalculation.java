@@ -1,12 +1,22 @@
 package ch.fhnw.projectbois.gameobjects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class FinalCalculation {
-	
+
+	private boolean malus;
 	private int gameCount;
 	private int infirmaryCount;
 	private int locationCount;
 	private int majorityCount;
-	private int totalCount;
+
+	public boolean isMalus() {
+		return malus;
+	}
+
+	public void setMalus(boolean malus) {
+		this.malus = malus;
+	}
 
 	public int getGameCount() {
 		return gameCount;
@@ -14,14 +24,6 @@ public class FinalCalculation {
 
 	public void setGameCount(int gameCount) {
 		this.gameCount = gameCount;
-	}
-
-	public int getTotalCount() {
-		return totalCount;
-	}
-
-	public void setTotalCount(int totalCount) {
-		this.totalCount = totalCount;
 	}
 
 	public int getInfirmaryCount() {
@@ -47,5 +49,15 @@ public class FinalCalculation {
 	public void setMajorityCount(int majorityCount) {
 		this.majorityCount = majorityCount;
 	}
-	
+
+	@JsonIgnore
+	public int getTotalCount() {
+		int total = gameCount + infirmaryCount + locationCount + majorityCount;
+		if (malus) {
+			total = Math.abs(total) * -1;
+		}
+
+		return total;
+	}
+
 }
