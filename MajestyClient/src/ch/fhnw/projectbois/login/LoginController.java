@@ -1,5 +1,5 @@
-/*
- * 
+/**
+ * Controls the login view
  * @author Alexandre Miccoli
  * 
  */
@@ -33,12 +33,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
-
-/**
- * 
- * @author Alexandre Miccoli
- *
- */
 
 public class LoginController extends Controller<LoginModel, LoginView> {
 	private final String pref_user = UserPrefs.getInstance().get("USERNAME", null);
@@ -111,23 +105,12 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	public LoginController(LoginModel model, LoginView view) {
 		super(model, view);
 	}
-	
-	/**
-	 * Btn login log in alex clicked.
-	 *
-	 * @param event the event
-	 */
-	/* START: DELETE AFTER DEVELOPMENT PHASE */
-	@FXML
-	private void btn_Login_logInAlexClicked(ActionEvent event) {
-		model.LoginProcessCredentials(txt_Login_serverServer.getText(), txt_Login_serverPort.getText(), "alex",
-				"ABCDEFGH12345678");
-	}
 
 	/**
-	 * Btn login login clicked.
+	 * When the "Login" button is clicked:
+	 * If inputs are plausible/valid, the credentials are to be processed by the model. Else the error message is shown.
 	 *
-	 * @param event the event
+	 * @param event the click event
 	 */
 	@FXML
 	private void btn_Login_loginClicked(ActionEvent event) {
@@ -139,6 +122,13 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 				this.lbl_Login_loginMsg.setText(translator.getTranslation("lbl_Login_loginMsg_BadInputBoth"));
 			});
 		}
+	}
+	
+	/* START: DELETE AFTER DEVELOPMENT PHASE */
+	@FXML
+	private void btn_Login_logInAlexClicked(ActionEvent event) {
+		model.LoginProcessCredentials(txt_Login_serverServer.getText(), txt_Login_serverPort.getText(), "alex",
+				"ABCDEFGH12345678");
 	}
 
 	/**
@@ -176,9 +166,9 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	/* END: DELETE AFTER DEVELOPMENT PHASE */
 
 	/**
-	 * Btn login register clicked.
+	 * Asks the model to handle the login request once the login button is clicked.
 	 *
-	 * @param event the event
+	 * @param event the click event
 	 */
 	@FXML
 	private void btn_Login_registerClicked(ActionEvent event) {
@@ -206,9 +196,9 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	}
 	
 	/**
-	 * Check server port validity.
+	 * Checks whether the entered port is valid or not.
 	 *
-	 * @return true, if successful
+	 * @return true, if the port entered is an int
 	 */
 	private boolean checkServerPortValidity() {
 		boolean response = CredentialsValidator.getInstance().stringIsValidServerAddress(this.txt_Login_serverServer.getText());
@@ -222,6 +212,9 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	
 	/* (non-Javadoc)
 	 * @see ch.fhnw.projectbois._mvc.Controller#destroy()
+	 */
+	/**
+	 * Removes property listeners before closing the MVC.
 	 */
 	@Override
 	public void destroy() {
@@ -237,7 +230,7 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	}
 
 	/**
-	 * Fill choice box.
+	 * Fills the language options in the dropdown menu.
 	 */
 	private void fillChoiceBox() {
 		this.cmb_Login_language.getItems().add(ENGLISH);
@@ -263,6 +256,11 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 
 	/* (non-Javadoc)
 	 * @see ch.fhnw.projectbois._mvc.Controller#initialize()
+	 */
+	/**
+	 * Creates change listeners for fields in the form and the login status coming from model,
+	 * initializes the user properties, asks to fill out the menu and pre-fills fields according
+	 * to the properties set or the defaults.
 	 */
 	@Override
 	protected void initialize() {
@@ -324,7 +322,7 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	}
 
 	/**
-	 * Inits the login status property listener.
+	 * Initializes the login status property listener and allows to react on new login status messages.
 	 */
 	private void initLoginStatusPropertyListener() {
 		this.loginStatusPropertyListener = new ChangeListener<String>() {
@@ -346,7 +344,7 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	}
 
 	/**
-	 * Inits the timer property listener.
+	 * Initializes the timeout timer property listener.
 	 */
 	private void initTimerPropertyListener() {
 		this.timerPropertyListener = (observer, oldValue, newValue) -> {
@@ -359,7 +357,8 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	}
 
 	/**
-	 * Inits the user property listener.
+	 * Initializes the user property listener.
+	 * Once a UserDTO is set, the login is completed and the MenuBarController can be shown.
 	 */
 	private void initUserPropertyListener() {
 		this.userPropertyListener = new ChangeListener<UserDTO>() {
@@ -381,9 +380,9 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	}
 
 	/**
-	 * Link login open source resources clicked.
+	 * Opens a web page in the default browser where the used Open Source packages are declared.
 	 *
-	 * @param event the event
+	 * @param event the click event
 	 */
 	@FXML
 	private void link_Login_OpenSourceResourcesClicked(ActionEvent event) {
@@ -405,7 +404,7 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	}
 
 	/**
-	 * Login credentials changed.
+	 * Checks if both fields in the form are filled out and decides whether to enable the "Login" button or not.
 	 */
 	private void LoginCredentialsChanged() {
 		try {
@@ -424,7 +423,7 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	}
 
 	/**
-	 * Login set language.
+	 * Changes the language on the current view.
 	 */
 	protected void LoginSetLanguage() {
 		Platform.runLater(() -> {
@@ -440,9 +439,9 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	}
 
 	/**
-	 * Login set message.
+	 * Sets the message in the status bar.
 	 *
-	 * @param reference the reference
+	 * @param reference the login status message (out of language resources)
 	 */
 	protected void LoginSetMessage(String reference) {
 		Platform.runLater(() -> {
@@ -451,7 +450,7 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	}
 
 	/**
-	 * Process credentials.
+	 * Asks the model to process the login request.
 	 */
 	private void processCredentials() {
 		model.resetStatus();
@@ -461,9 +460,9 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	}
 
 	/**
-	 * Start timer.
+	 * Starts a timeout timer while waiting for the server response.
 	 *
-	 * @param seconds the seconds
+	 * @param seconds the number of seconds to wait before the form is shown again
 	 */
 	private void startTimer(int seconds) {
 		switchLoaderDisplay(true);
@@ -475,9 +474,9 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	}
 
 	/**
-	 * Switch loader display.
+	 * Switch between form and loading screen.
 	 *
-	 * @param loading the loading
+	 * @param loading is true if the loading screen has to be shown, false if the form has to be shown
 	 */
 	private void switchLoaderDisplay(boolean loading) {
 		Platform.runLater(() -> {

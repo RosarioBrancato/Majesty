@@ -1,5 +1,5 @@
-/*
- * 
+/**
+ * Processes profile update requests against the server
  * @author Alexandre Miccoli
  * 
  */
@@ -34,6 +34,10 @@ public class ProfileModel extends Model {
 	/* (non-Javadoc)
 	 * @see ch.fhnw.projectbois._mvc.Model#getChangeListener()
 	 */
+	/**
+	 * Listens to the responses belonging to the profile update section.
+	 * @see ch.fhnw.projectbois.communication
+	 */
 	@Override
 	protected ChangeListener<Response> getChangeListener() {
 		return new ChangeListener<Response>() {
@@ -56,26 +60,27 @@ public class ProfileModel extends Model {
 	}
 	
 	/**
-	 * Gets the prof update status.
+	 * Returns the current status of the profile update request.
 	 *
-	 * @return the prof update status
+	 * @return the profile update status
 	 */
 	public SimpleObjectProperty<String> getProfUpdateStatus() {
 		return this.profUpdateStat;
 	}
 	
 	/**
-	 * Reset status.
+	 * Resets the status of the timeout timer.
+	 * Used when a new request is sent to the server
 	 */
 	public void resetStatus() {
 		this.profUpdateStat.set(null);
 	}
 	
 	/**
-	 * Update profile process input.
+	 * Prepares and sends a request to the server to update a profile.
 	 *
-	 * @param email the email
-	 * @param password the password
+	 * @param email the new email
+	 * @param password the new password
 	 */
 	protected void UpdateProfileProcessInput(String email, String password) {
 		String update = JsonUtils.Serialize(new RegistrationDTO(email, password));
