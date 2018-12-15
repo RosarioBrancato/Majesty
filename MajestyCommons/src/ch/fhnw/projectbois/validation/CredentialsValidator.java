@@ -41,14 +41,14 @@ public class CredentialsValidator {
 	}
 	
 	/**
-	 * Checks if a string is an alphanumeric (plus ".", ",", "*", "_", "-", "$") and contains 3 or more characters.
+	 * Checks if a string is an alphanumeric (plus "_" and "-") and contains 3 or more characters.
 	 *
 	 * @param input the input
 	 * @return true, if string matches the requirements
 	 */
 	public boolean stringIsAlphanumeric(String input) {
 		// Minimum length of 3 alphanumeric characters
-		return input.matches("^[a-zA-Z0-9.*_-$][a-zA-Z0-9.*_-$][a-zA-Z0-9.*_-$]+$");
+		return input.matches("^[a-zA-Z0-9_-][a-zA-Z0-9_-][a-zA-Z0-9_-]+$");
 	}
 	
 	/**

@@ -48,6 +48,8 @@ public class ProfileModel extends Model {
 					String newEmail = JsonUtils.Deserialize(newValue.getJsonDataObject(), UserDTO.class).getEmail();
 					if(newEmail != null && !newEmail.equals(Session.getCurrentEmail()))
 						Session.getInstance().getCurrentUser().setEmail(newEmail);
+				} else if(newValue.getResponseId() == ResponseId.PROFILE_DELETED) {
+					profUpdateStat.set("DELETED");
 				} else if(newValue.getResponseId() == ResponseId.PROFILE_UPDATE_ERROR) {
 					logger.warning("Profile update failed due to an unspecified or database error on the server side. Please check server logs for further information.");
 					profUpdateStat.set("lbl_Profile_Response_DBError");
@@ -85,6 +87,15 @@ public class ProfileModel extends Model {
 	protected void UpdateProfileProcessInput(String email, String password) {
 		String update = JsonUtils.Serialize(new RegistrationDTO(email, password));
 		Request request = new Request(Session.getCurrentUserToken(), RequestId.PROFILE_UPDATE, update);
+		Network.getInstance().sendRequest(request);
+	}
+	
+	/**
+	 * Prepares and sends a request to the server to delete a profile.
+	 *
+	 */
+	protected void DeleteProfile() {
+		Request request = new Request(Session.getCurrentUserToken(), RequestId.PROFILE_DELETE, "");
 		Network.getInstance().sendRequest(request);
 	}
 

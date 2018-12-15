@@ -31,18 +31,19 @@ public class ProfileRequestHandler extends RequestHandler {
 	}
 	
 	/**
-	 * Handles requests for profile modifications and initiates a response with a response type 
-	 * and modified parameters for the client in case of successful change
+	 * Handles requests for profile modifications or deletions and initiates a response with
+	 * a response type and modified parameters for the client in case of successful change.
 	 *
 	 */
 	@Override
 	protected void handleRequest() {
+		Response response = null;
+		
 		if(request.getRequestId() == RequestId.PROFILE_UPDATE) {
 			int uid = this.client.getUser().getId();
 			RegistrationDTO req = JsonUtils.Deserialize(request.getJsonDataObject(), RegistrationDTO.class);
 			CredentialsValidator cv = CredentialsValidator.getInstance();
 			UserHandler uh = UserHandler.getInstance();
-			Response response = null;
 			
 			boolean pwdChange = !(req.getPassword() == null || req.getPassword().equals(""));
 			boolean pwd_ok = cv.passwordStrengthIsSufficient(req.getPassword());
@@ -77,9 +78,23 @@ public class ProfileRequestHandler extends RequestHandler {
 				logger.severe("Database error occurred while updating user profile: " + e.getMessage());
 				response = new Response(ResponseId.PROFILE_UPDATE_ERROR_DATABASE, request.getRequestId(), "");
 			}
-			
-			client.sendResponse(response);
 		}
+		
+		if(request.getRequestId() == RequestId.PROFILE_DELETE) {
+			int uid = this.client.getUser().getId();
+			UserHandler uh = UserHandler.getInstance();
+			
+			try {
+				uh.deleteUser(uid);
+				response = new Response(ResponseId.PROFILE_DELETED, request.getRequestId(), "");
+			}catch(Exception e) {
+				logger.severe("Database error occurred while deleting user profile: " + e.getMessage());
+				response = new Response(ResponseId.PROFILE_UPDATE_ERROR_DATABASE, request.getRequestId(), "");
+			}
+			
+		}
+		
+		client.sendResponse(response);
 	}
 
 }
