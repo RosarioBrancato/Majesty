@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -9,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane prefHeight="75.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -24,12 +29,12 @@
          <children>
             <GridPane layoutX="325.0" layoutY="194.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <columnConstraints>
-                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
                   <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <Label fx:id="lblCardInfo" text="Split card from display">
@@ -37,16 +42,8 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="cardBox" GridPane.rowIndex="1">
-                     <children>
-                        <ImageView fx:id="imgViewLeft" fitHeight="200.0" fitWidth="200.0" onMouseClicked="#imgViewLeft_Click" pickOnBounds="true" preserveRatio="true" />
-                     </children>
-                  </VBox>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="cardBox" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <children>
-                        <ImageView fx:id="imgViewRight" fitHeight="200.0" fitWidth="200.0" onMouseClicked="#imgViewRight_Click" pickOnBounds="true" preserveRatio="true" />
-                     </children>
-                  </VBox>
+                  <Pane fx:id="pnlLeft" maxHeight="-Infinity" maxWidth="-Infinity" onMouseClicked="#pnlLeft_Click" prefHeight="300.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                  <Pane fx:id="pnlRight" maxHeight="-Infinity" maxWidth="-Infinity" onMouseClicked="#pnlRight_Click" prefHeight="300.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </children>

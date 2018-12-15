@@ -1,39 +1,38 @@
 .pnlMillImage {
-	-fx-background-image: url('/resources/game/locations/Side%20A/Side%20A1.jpg');
+	-fx-background-image: url('/game/locations/Side%20A/Side%20A1.jpg');
 	
 }
 
 .pnlBreweryImage {
-	-fx-background-image: url('/resources/game/locations/Side%20A/Side%20A2.jpg');
+	-fx-background-image: url('/game/locations/Side%20A/Side%20A2.jpg');
 	
 }
 
 .pnlCottageImage {
-	-fx-background-image: url('/resources/game/locations/Side%20A/Side%20A3.jpg');
+	-fx-background-image: url('/game/locations/Side%20A/Side%20A3.jpg');
 	
 }
 
 .pnlGuardhouseImage {
-	-fx-background-image: url('/resources/game/locations/Side%20A/Side%20A4.jpg');
+	-fx-background-image: url('/game/locations/Side%20A/Side%20A4.jpg');
 	
 }
 
 .pnlBarracksImage {
-	-fx-background-image: url('/resources/game/locations/Side%20A/Side%20A5.jpg');
+	-fx-background-image: url('/game/locations/Side%20A/Side%20A5.jpg');
 	
 }
 
 .pnlInnImage {
-	-fx-background-image: url('/resources/game/locations/Side%20A/Side%20A6.jpg');
+	-fx-background-image: url('/game/locations/Side%20A/Side%20A6.jpg');
 	
 }
 
 .pnlCastleImage {
-	-fx-background-image: url('/resources/game/locations/Side%20A/Side%20A7.jpg');
+	-fx-background-image: url('/game/locations/Side%20A/Side%20A7.jpg');
 	
 }
 
 .pnlInfirmaryImage {
-	-fx-background-image: url('/resources/game/locations/Side%20A/Side%20A8.jpg');
-	
+	-fx-background-image: url('/game/locations/Side%20A/Side%20A8.jpg');
 }
