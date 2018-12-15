@@ -1,5 +1,5 @@
-/*
- * 
+/**
+ * Processes registration requests against the server
  * @author Alexandre Miccoli
  * 
  */
@@ -32,6 +32,10 @@ public class RegistrationModel extends Model {
 	/* (non-Javadoc)
 	 * @see ch.fhnw.projectbois._mvc.Model#getChangeListener()
 	 */
+	/**
+	 * Listens to the responses belonging to the registration section.
+	 * @see ch.fhnw.projectbois.communication
+	 */
 	@Override
 	protected ChangeListener<Response> getChangeListener() {
 		return new ChangeListener<Response>() {
@@ -54,22 +58,22 @@ public class RegistrationModel extends Model {
 	}
 	
 	/**
-	 * Gets the registration status.
+	 * Returns the current registration request status.
 	 *
-	 * @return the registration status
+	 * @return the current registration status
 	 */
 	public SimpleObjectProperty<String> getRegistrationStatus() {
 		return this.regStat;
 	}
 	
 	/**
-	 * Registration process input.
+	 * Sends a registration request to the server.
 	 *
-	 * @param server the server
-	 * @param port the port
-	 * @param username the username
-	 * @param password the password
-	 * @param email the email
+	 * @param server the server used for registration
+	 * @param port the server port used for registration
+	 * @param username the requested username
+	 * @param password the requested password
+	 * @param email the requested email
 	 */
 	protected void RegistrationProcessInput(String server, int port, String username, String password, String email) {
 		try {
@@ -84,7 +88,8 @@ public class RegistrationModel extends Model {
 	}
 
 	/**
-	 * Reset status.
+	 * Resets the registration status.
+	 * Used when a new timeout timer is started
 	 */
 	public void resetStatus() {
 		this.regStat.set(null);

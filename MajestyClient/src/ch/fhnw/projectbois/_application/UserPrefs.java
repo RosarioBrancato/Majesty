@@ -1,5 +1,5 @@
-/*
- * 
+/**
+ * Handle User Preferences using the Java Preferences package
  * @author Alexandre Miccoli
  * 
  */
@@ -11,7 +11,7 @@ public class UserPrefs {
 	private static Preferences prefs;
 	
 	/**
-	 * Gets the single instance of UserPrefs.
+	 * Gets the single instance of User Preferences.
 	 *
 	 * @return single instance of UserPrefs
 	 */
@@ -23,7 +23,7 @@ public class UserPrefs {
 	}
 	
 	/**
-	 * Instantiates a new user prefs.
+	 * Instantiates user preferences.
 	 */
 	private UserPrefs() {}
 }

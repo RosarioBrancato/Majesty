@@ -1,5 +1,5 @@
-/*
- * 
+/**
+ * Various methods helping to validate credentials (username, password, email) entered by users
  * @author Alexandre Miccoli
  * 
  */
@@ -28,43 +28,44 @@ public class CredentialsValidator {
 	private CredentialsValidator() {}
 	
 	/**
-	 * Password strenght is sufficient.
+	 * Password strength is sufficient as defined below.
+	 * Minimum 1 uppercase, 1 lowercase, 1 numeric, 1 special, minimum length is 8 in total, maximum length is 24 in total
+	 * 
+	 * Source of the regex string https://www.regextester.com/97402
 	 *
 	 * @param input the input
-	 * @return true, if successful
+	 * @return true, if the strength is suffiscient
 	 */
-	public boolean passwordStrenghtIsSufficient(String input) {
-		// Minimum 1 uppercase, 1 lowercase, 1 numeric, 1 special, minimum length is 8 in total
-		// Source: https://www.regextester.com/97402
+	public boolean passwordStrengthIsSufficient(String input) {
 		return input.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[#$^+=!*()@%&]).{8,24}$");
 	}
 	
 	/**
-	 * String is alphanumeric.
+	 * Checks if a string is an alphanumeric (plus ".", ",", "*", "_", "-", "$") and contains 3 or more characters.
 	 *
 	 * @param input the input
-	 * @return true, if successful
+	 * @return true, if string matches the requirements
 	 */
 	public boolean stringIsAlphanumeric(String input) {
 		// Minimum length of 3 alphanumeric characters
-		return input.matches("^[a-zA-Z0-9_-][a-zA-Z0-9_-][a-zA-Z0-9_-]+$");
+		return input.matches("^[a-zA-Z0-9.*_-$][a-zA-Z0-9.*_-$][a-zA-Z0-9.*_-$]+$");
 	}
 	
 	/**
-	 * String is valid email address.
+	 * Checks if a string is a valid email address.
 	 *
 	 * @param input the input
-	 * @return true, if successful
+	 * @return true, if valid
 	 */
 	public boolean stringIsValidEmailAddress(String input) {
 		return EmailValidator.getInstance().isValid(input);
 	}
 	
 	/**
-	 * String is valid server address.
+	 * Checks if the string is a plausible server address by having an alphanumeric composition of 1 to 255 characters.
 	 *
 	 * @param input the input
-	 * @return true, if successful
+	 * @return true, if plausible
 	 */
 	public boolean stringIsValidServerAddress(String input) {
 		// Alphanumeric between 1 and 255 characters, "." allowed excepted at start and end of string
