@@ -17,7 +17,6 @@ import ch.fhnw.projectbois.game.splitcardchooser.SplitCardChooserView;
 import ch.fhnw.projectbois.gameend.GameEndController;
 import ch.fhnw.projectbois.gameend.GameEndModel;
 import ch.fhnw.projectbois.gameend.GameEndView;
-import ch.fhnw.projectbois.gameobjects.Board;
 import ch.fhnw.projectbois.gameobjects.Card;
 import ch.fhnw.projectbois.gameobjects.CardType;
 import ch.fhnw.projectbois.gameobjects.GameMove;
@@ -33,6 +32,8 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
@@ -40,6 +41,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 public class GameController extends Controller<GameModel, GameView> {
 
@@ -50,10 +52,7 @@ public class GameController extends Controller<GameModel, GameView> {
 	private ChangeListener<Number> turntimerPropertyListener = null;
 
 	@FXML
-	private Label lblGameInfo;
-
-	@FXML
-	private GridPane pnlDisplay;
+	private GridPane pnlField;
 
 	@FXML
 	private Label lblRound;
@@ -62,7 +61,7 @@ public class GameController extends Controller<GameModel, GameView> {
 	private Label lblTimer;
 
 	@FXML
-	private Label pnlDisplayCardStack;
+	private StackPane pnlDisplayCardStack;
 
 	public GameController(GameModel model, GameView view) {
 		super(model, view);
@@ -75,9 +74,7 @@ public class GameController extends Controller<GameModel, GameView> {
 		super.initialize();
 
 		this.model.getGameStateProperty().addListener((observer, oldValue, newValue) -> {
-			if (newValue.getId() > oldValue.getId()) {
-				loadGameState(newValue);
-			}
+			loadGameState(newValue);
 		});
 
 		this.model.getGameEndProperty().addListener((observer, oldValue, newValue) -> {
@@ -103,9 +100,11 @@ public class GameController extends Controller<GameModel, GameView> {
 			model.definePlayersIndex();
 			view.initGamePlayerContainers();
 			view.initLocations();
-			this.initDisplayCardClickEvent();
+			initDisplayCardClickEvent();
 
-			this.initTurntimer(gameState.getTurntimer());
+			initTurntimer(gameState.getTurntimer());
+
+			firstLoading = false;
 		}
 
 		this.drawGui();
@@ -128,7 +127,7 @@ public class GameController extends Controller<GameModel, GameView> {
 
 	private void initDisplayCardClickEvent() {
 		for (int i = 0; i < 6; i++) {
-			Pane pnlDisplayCard = (Pane) view.getRoot().lookup("pnlDisplayCard" + (i + 1));
+			Pane pnlDisplayCard = (Pane) view.getRoot().lookup("#pnlDisplayCard" + (i + 1));
 			this.addDisplayClickEvent(pnlDisplayCard, i);
 		}
 	}
@@ -203,10 +202,9 @@ public class GameController extends Controller<GameModel, GameView> {
 	// MAIN METHODS
 
 	private void drawGui() {
-		Board board = model.getGameState().getBoard();
-
 		this.loadGameInfos();
-		this.drawDisplay(board.getDisplay());
+		this.drawDisplay();
+		this.drawLocationCards();
 	}
 
 	private void loadGameInfos() {
@@ -256,12 +254,12 @@ public class GameController extends Controller<GameModel, GameView> {
 	private void loadGameInfoPlayer(Player player, GamePlayerContainer container, boolean isStartingPlayer) {
 		String username;
 		if (isStartingPlayer) {
-			username = translator.getTranslation("lblFirst", player.getUsername());
+			username = translator.getTranslation("lbl_First", player.getUsername());
 		} else {
 			username = player.getUsername();
 		}
 
-		String points = translator.getTranslation("lblPoints", player.getPoints());
+		String points = translator.getTranslation("lbl_Points", player.getPoints());
 		String meeples = translator.getTranslation("lbl_Meeples", player.getMeeples());
 
 		Platform.runLater(() -> {
@@ -271,21 +269,91 @@ public class GameController extends Controller<GameModel, GameView> {
 		});
 	}
 
-	private void drawDisplay(ArrayList<Card> displayCards) {
+	private void drawDisplay() {
+		GameState gameState = model.getGameState();
+		ArrayList<Card> displayCards = gameState.getBoard().getDisplay();
+		Player player = gameState.getBoard().getPlayers().get(model.getPlayerIndex());
+
 		for (int i = 0; i < displayCards.size(); i++) {
 			Card card = displayCards.get(i);
+			Pane pnlDisplayCard = (Pane) view.getRoot().lookup("#pnlDisplayCard" + (i + 1));
 
-			Pane pnlDisplayCard = (Pane) view.getRoot().lookup("pnlDisplayCard" + (i + 1));
-			pnlDisplayCard.getStylesheets().clear();
+			final Integer index = new Integer(i);
+			final int meeples = player.getMeeples();
+			final boolean isTurnPlayer = isTurnPlayer();
+			final String url = this.resourceHelper.getUrlByCard(card);
 
-			String url = this.resourceHelper.getResourceByCard(card);
-			pnlDisplayCard.setStyle("-fx-background-image: url('" + url + "');");
+			Platform.runLater(() -> {
+				pnlDisplayCard.getStyleClass().clear();
+				pnlDisplayCard.getStyleClass().add("pnlImage");
+				
+				if (index <= meeples && isTurnPlayer) {
+					pnlDisplayCard.getStyleClass().add("displayToHover");
+				}
+				pnlDisplayCard.setStyle("-fx-background-image: url('" + url + "');");
+			});
 		}
 
 		// Deck
-		//int deckBack = gameState.getBoard().getDeckBack();
-		//Image image = this.resourceHelper.getDeckBackImage(deckBack);
-		this.pnlDisplayCardStack.setStyle("-fx-background-image: asf");
+		int deckBack = gameState.getBoard().getDeckBack();
+		String url = this.resourceHelper.getUrlGetBackImage(deckBack);
+		this.pnlDisplayCardStack.setStyle("-fx-background-image: url('" + url + "');");
+	}
+
+	private void drawLocationCards() {
+		ArrayList<Player> players = model.getGameState().getBoard().getPlayers();
+
+		Player currentPlayer = players.stream().filter(f -> f.getUsername().equals(Session.getCurrentUsername()))
+				.findFirst().get();
+
+		this.drawLocationOfPlayer(currentPlayer, view.getPlayerContainer());
+
+		for (GamePlayerContainer container : view.getOpponentContainers()) {
+			Player player = players.stream().filter(f -> f.getUsername().equals(container.getUsername())).findFirst()
+					.get();
+			this.drawLocationOfPlayer(player, container);
+		}
+	}
+
+	private void drawLocationOfPlayer(Player player, GamePlayerContainer container) {
+		final int playerRow = container.getPlayerRow();
+
+		for (int i = 0; i < Location.MAX_COUNT; i++) {
+			final int index = i;
+			final Integer col = (i + 1);
+
+			Platform.runLater(() -> {
+				StackPane stackPane = (StackPane) pnlField.getChildren().stream()
+						.filter(f -> GridPane.getColumnIndex(f) != null && GridPane.getRowIndex(f) != null
+								&& GridPane.getColumnIndex(f) == col && GridPane.getRowIndex(f) == playerRow)
+						.findFirst().get();
+				stackPane.getChildren().clear();
+				stackPane.setAlignment(Pos.TOP_RIGHT);
+
+				Location location = player.getLocationByIndex(index);
+
+				for (int k = 0; k < location.getCards().size(); k++) {
+					Card card = location.getCards().get(k);
+
+					Pane pane = new Pane();
+					pane.setMinWidth(50);
+					pane.setPrefWidth(50);
+					pane.setMaxWidth(50);
+					pane.setStyle("-fx-background-color: black;");
+
+					String style = "-fx-background-size: contain ; ";
+					style += "-fx-background-position: top ; ";
+					style += "-fx-background-repeat: stretch ; ";
+
+					String url = resourceHelper.getUrlByCard(card);
+					pane.setStyle(style + "-fx-background-image: url('" + url + "'); ");
+
+					stackPane.getChildren().add(pane);
+					StackPane.setAlignment(pane, Pos.TOP_RIGHT);
+					StackPane.setMargin(pane, new Insets(0, k * 20, 0, 0));
+				}
+			});
+		}
 	}
 
 	private int showSplitCardChooser(Card splitCard, String splitCardInfo) {

@@ -76,6 +76,17 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 
 		model.getChatProperty().removeListener(this.chatPropertyListener);
 	}
+	
+	public void openChat() {
+		isClosed = true;
+		btnMinimize_Click(new ActionEvent());
+	}
+	
+	public void closeChat() {
+		isClosed = false;
+		btnMinimize_Click(new ActionEvent());
+		
+	}
 
 	private void initChatPropertyListener() {
 		this.chatPropertyListener = (observer2, oldValue2, newValue2) -> {

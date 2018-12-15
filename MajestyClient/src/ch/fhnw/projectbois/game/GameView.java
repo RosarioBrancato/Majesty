@@ -11,10 +11,12 @@ import ch.fhnw.projectbois.components.chat.ChatView;
 import ch.fhnw.projectbois.gameobjects.GameState;
 import ch.fhnw.projectbois.gameobjects.Player;
 import ch.fhnw.projectbois.session.Session;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
 public class GameView extends View<GameModel> {
@@ -30,7 +32,7 @@ public class GameView extends View<GameModel> {
 
 	@Override
 	protected URL getFXML() {
-		return this.getClass().getResource("GameView2.fxml");
+		return this.getClass().getResource("GameView.fxml");
 	}
 
 	@Override
@@ -53,6 +55,7 @@ public class GameView extends View<GameModel> {
 		chat.setMaxWidth(200);
 		chat.setPrefHeight(ChatView.PREF_HEIGHT);
 		chat.setMaxHeight(ChatView.PREF_HEIGHT);
+		chatController.closeChat();
 
 		// Set gridpane as new root
 		this.root = stackpane;
@@ -64,44 +67,96 @@ public class GameView extends View<GameModel> {
 
 		ArrayList<Player> players = gameState.getBoard().getPlayers();
 
-		Player p = players.stream().filter(f -> f.getUsername().equals(Session.getCurrentUsername())).findFirst().get();
-		this.playerContainer = new GamePlayerContainer();
-		this.playerContainer.setUsername(p.getUsername());
-		this.playerContainer.setLblUsername((Label) this.root.lookup("lblName1"));
-		this.playerContainer.setLblPoints((Label) this.root.lookup("lblPoints1"));
-		this.playerContainer.setLblMeeples((Label) this.root.lookup("lblMeeples1"));
+		Player currentPlayer = players.stream().filter(f -> f.getUsername().equals(Session.getCurrentUsername()))
+				.findFirst().get();
+
+		this.initGamePlayerContainerOpponent(1, currentPlayer, true);
 
 		// turn clockwise -> player to left after current player
 		int opponentNr = 2;
 		for (int i = playerIndex + 1; i < players.size(); i++) {
 			Player player = players.get(i);
-			this.initGamePlayerContainerOpponent(opponentNr, player);
+			this.initGamePlayerContainerOpponent(opponentNr, player, false);
 			opponentNr++;
 		}
 
 		for (int i = 0; i < playerIndex; i++) {
 			Player player = players.get(i);
-			this.initGamePlayerContainerOpponent(opponentNr, player);
+			this.initGamePlayerContainerOpponent(opponentNr, player, false);
 			opponentNr++;
 		}
+
+		Platform.runLater(() -> {
+			// Player count
+			// removeIf:
+			// https://stackoverflow.com/questions/23002532/javafx-2-how-do-i-delete-a-row-or-column-in-gridpane
+			int playerCount = gameState.getBoard().getPlayers().size();
+			GridPane pnlField = (GridPane) this.root.lookup("#pnlField");
+
+			if (playerCount == 3) {
+				// pnlField.getRowConstraints().remove(3);
+
+				pnlField.getRowConstraints().get(3).setPercentHeight(-1);
+				pnlField.getRowConstraints().get(2).setPercentHeight(18);
+				pnlField.getRowConstraints().get(1).setPercentHeight(18);
+				pnlField.getChildren()
+						.removeIf(node -> GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) == 3);
+
+			} else if (playerCount == 2) {
+				// pnlField.getRowConstraints().remove(3);
+				// pnlField.getRowConstraints().remove(2);
+
+				pnlField.getRowConstraints().get(3).setPercentHeight(-1);
+				pnlField.getRowConstraints().get(2).setPercentHeight(-1);
+				pnlField.getRowConstraints().get(1).setPercentHeight(36);
+				pnlField.getChildren()
+						.removeIf(node -> GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) == 3);
+				pnlField.getChildren()
+						.removeIf(node -> GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) == 2);
+			}
+		});
 	}
 
-	public void initGamePlayerContainerOpponent(int opponentNr, Player player) {
+	public void initGamePlayerContainerOpponent(int opponentNr, Player player, boolean isCurrentPlayer) {
 		GamePlayerContainer container = new GamePlayerContainer();
 		container.setUsername(player.getUsername());
-		container.setLblUsername((Label) this.root.lookup("lblName" + opponentNr));
-		container.setLblPoints((Label) this.root.lookup("lblPoints" + opponentNr));
-		container.setLblMeeples((Label) this.root.lookup("lblMeeples" + opponentNr));
-		
-		this.opponentContainers.add(container);
-	}
-	
-	public void initLocations() {
-		if(model.getGameState().isCardSideA()) {
-			this.root.getStylesheets().add("CSSA");
+
+		Label lblName = (Label) this.root.lookup("#lblName" + opponentNr);
+		Label lblPoints = (Label) this.root.lookup("#lblPoints" + opponentNr);
+		Label lblMeeples = (Label) this.root.lookup("#lblMeeples" + opponentNr);
+
+		container.setLblUsername(lblName);
+		container.setLblPoints(lblPoints);
+		container.setLblMeeples(lblMeeples);
+
+		if (isCurrentPlayer) {
+			container.setPlayerRow(5);
+			this.playerContainer = container;
 		} else {
-			this.root.getStylesheets().add("CSS_B");
+			container.setPlayerRow(opponentNr - 1);
+			this.opponentContainers.add(container);
 		}
+
+		Platform.runLater(() -> {
+			lblName.setText(player.getUsername());
+			lblPoints.setText(translator.getTranslation("lbl_Points", player.getPoints()));
+			lblMeeples.setText(translator.getTranslation("lbl_Meeples", player.getMeeples()));
+		});
+	}
+
+	public void initLocations() {
+		String cssFileName;
+
+		if (model.getGameState().isCardSideA()) {
+			cssFileName = "GameViewSideA.css";
+		} else {
+			cssFileName = "GameViewSideB.css";
+		}
+
+		Platform.runLater(() -> {
+			String css = this.getClass().getResource(cssFileName).toExternalForm();
+			this.root.getStylesheets().add(css);
+		});
 	}
 
 	// GETTER AND SETTER
