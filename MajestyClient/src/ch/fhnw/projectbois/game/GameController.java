@@ -33,16 +33,13 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.Pane;
 
 public class GameController extends Controller<GameModel, GameView> {
 
@@ -59,10 +56,13 @@ public class GameController extends Controller<GameModel, GameView> {
 	private GridPane pnlDisplay;
 
 	@FXML
-	private GridPane pnlPlayer1Cards;
+	private Label lblRound;
 
 	@FXML
-	private GridPane pnlOpponents;
+	private Label lblTimer;
+
+	@FXML
+	private Label pnlDisplayCardStack;
 
 	public GameController(GameModel model, GameView view) {
 		super(model, view);
@@ -74,9 +74,6 @@ public class GameController extends Controller<GameModel, GameView> {
 	protected void initialize() {
 		super.initialize();
 
-		this.pnlPlayer1Cards.getStyleClass().add("playersCards");
-		this.pnlOpponents.getStyleClass().add("opponents");
-
 		this.model.getGameStateProperty().addListener((observer, oldValue, newValue) -> {
 			if (newValue.getId() > oldValue.getId()) {
 				loadGameState(newValue);
@@ -84,7 +81,7 @@ public class GameController extends Controller<GameModel, GameView> {
 		});
 
 		this.model.getGameEndProperty().addListener((observer, oldValue, newValue) -> {
-			showGameEndView(model.getGameStateProperty().getValue());
+			showGameEndView(model.getGameState());
 		});
 
 		this.model.requestGameState();
@@ -106,6 +103,7 @@ public class GameController extends Controller<GameModel, GameView> {
 			model.definePlayersIndex();
 			view.initGamePlayerContainers();
 			view.initLocations();
+			this.initDisplayCardClickEvent();
 
 			this.initTurntimer(gameState.getTurntimer());
 		}
@@ -121,11 +119,85 @@ public class GameController extends Controller<GameModel, GameView> {
 		this.turntimer.getPeriodCounterProperty().addListener(this.turntimerPropertyListener);
 		this.turntimer.startCountdown(seconds);
 	}
-	
+
 	private void initTurntimerPropertyListener() {
 		this.turntimerPropertyListener = (observer, oldValue, newValue) -> {
 			updateInfoBar();
 		};
+	}
+
+	private void initDisplayCardClickEvent() {
+		for (int i = 0; i < 6; i++) {
+			Pane pnlDisplayCard = (Pane) view.getRoot().lookup("pnlDisplayCard" + (i + 1));
+			this.addDisplayClickEvent(pnlDisplayCard, i);
+		}
+	}
+
+	private void addDisplayClickEvent(Pane pnlDisplayCard, int displayIndex) {
+		pnlDisplayCard.setOnMouseClicked(new EventHandler<Event>() {
+
+			int index = displayIndex;
+
+			@Override
+			public void handle(Event event) {
+				boolean allowMove = isTurnPlayer();
+
+				if (allowMove) {
+					GameState gameState = model.getGameState();
+
+					GameMove move = new GameMove();
+					move.setDisplayCardIndexSelected(index);
+
+					// handle split card
+					Card card = gameState.getBoard().getDisplay().get(index);
+					if (card.isSplitCard()) {
+						int decision = showSplitCardChooser(card,
+								translator.getTranslation("lbl_SplitCardChooser_DisplayCard"));
+						card.setActiveCardType(decision);
+						move.getDecisions().add(decision);
+					}
+
+					// handle witch
+					if (card.getCardTypeActive() == CardType.Witch) {
+						Location infirmary = gameState.getBoard().getPlayers().get(model.getPlayerIndex())
+								.getLocationByIndex(Location.INFIRMARY);
+						int cardCount = infirmary.getCards().size();
+						if (cardCount > 0) {
+							Card toRevive = infirmary.getCards().get(cardCount - 1);
+
+							if (toRevive.isSplitCard()) {
+								int decision = showSplitCardChooser(toRevive,
+										translator.getTranslation("lbl_SplitCardChooser_ReviveCard"));
+								move.getDecisions().add(decision);
+							}
+						}
+
+						// handle noble meeple trade
+					} else if (card.getCardTypeActive() == CardType.Noble && !gameState.isCardSideA()) {
+						Player currentPlayer = gameState.getBoard().getPlayers().get(model.getPlayerIndex());
+						int meeples = currentPlayer.getMeeples();
+						meeples -= index; // pay for the card, index = cost
+						meeples += card.getMeeples(); // add meeples you get from card
+						int points = currentPlayer.getPoints();
+
+						if (points > 0 || meeples > 0) {
+							MeepleTraderController controller = Controller.initMVC(MeepleTraderController.class,
+									MeepleTraderModel.class, MeepleTraderView.class);
+
+							controller.setCurrencies(meeples, points);
+							controller.showAndWait();
+
+							int decision = controller.getDecision();
+							move.getDecisions().add(decision);
+
+							MetaContainer.getInstance().destroyController(controller);
+						}
+					}
+
+					model.sendMove(move);
+				}
+			}
+		});
 	}
 
 	// MAIN METHODS
@@ -147,6 +219,7 @@ public class GameController extends Controller<GameModel, GameView> {
 		} else {
 			this.turntimer.setCounter(turntimer);
 		}
+
 		this.updateInfoBar();
 
 		{
@@ -171,164 +244,48 @@ public class GameController extends Controller<GameModel, GameView> {
 	}
 
 	private void updateInfoBar() {
-		GameState gameState = model.getGameState();
+		final String timer = translator.getTranslation("lbl_Timer", this.turntimer.getCounter());
+		final String round = translator.getTranslation("lbl_Round", model.getGameState().getRound());
 
-		ArrayList<Player> players = gameState.getBoard().getPlayers();
-
-		Integer round = new Integer(gameState.getRound());
-		int playersTurn = gameState.getPlayersTurn();
-		String username = new String(players.get(playersTurn).getUsername());
-		int timeleft = this.turntimer.getCounter();
-
-		String textToDisplay = translator.getTranslation("lbl_Game_Info", round, username, timeleft);
 		Platform.runLater(() -> {
-			this.lblGameInfo.setText(textToDisplay);
+			this.lblRound.setText(round);
+			this.lblTimer.setText(timer);
 		});
 	}
 
 	private void loadGameInfoPlayer(Player player, GamePlayerContainer container, boolean isStartingPlayer) {
-		String text = translator.getTranslation("lbl_Player_Info", player.getUsername(), player.getMeeples(),
-				player.getPoints());
-
+		String username;
 		if (isStartingPlayer) {
-			text += translator.getTranslation("lbl_Player_Info_First");
+			username = translator.getTranslation("lblFirst", player.getUsername());
+		} else {
+			username = player.getUsername();
 		}
 
-		String toUpdate = new String(text);
-		Platform.runLater(() -> {
-			container.getLblInfo().setText(toUpdate);
+		String points = translator.getTranslation("lblPoints", player.getPoints());
+		String meeples = translator.getTranslation("lbl_Meeples", player.getMeeples());
 
-			for (int i = 0; i < player.getLocations().length; i++) {
-				int cards = player.getLocationByIndex(i).getCards().size();
-				String locationText = translator.getTranslation("lbl_Cards", cards);
-				container.getLabelCardCountByIndex(i).setText(locationText);
-			}
+		Platform.runLater(() -> {
+			container.getLblUsername().setText(username);
+			container.getLblPoints().setText(points);
+			container.getLblMeeples().setText(meeples);
 		});
 	}
 
 	private void drawDisplay(ArrayList<Card> displayCards) {
-		Platform.runLater(() -> {
-			this.pnlDisplay.getChildren().clear();
-		});
-
-		GameState gameState = model.getGameState();
-
-		Player currentPlayer = gameState.getBoard().getPlayers().stream()
-				.filter(f -> f.getUsername().equals(Session.getCurrentUsername())).findFirst().get();
-
-		int col = 0;
-		boolean allowMove = isTurnPlayer();
-
 		for (int i = 0; i < displayCards.size(); i++) {
 			Card card = displayCards.get(i);
 
-			ImageView imgCard = new ImageView();
-			imgCard.setPreserveRatio(true);
-			imgCard.setFitHeight(175);
+			Pane pnlDisplayCard = (Pane) view.getRoot().lookup("pnlDisplayCard" + (i + 1));
+			pnlDisplayCard.getStylesheets().clear();
 
-			Image image = resourceHelper.getCardImage(card);
-			imgCard.setImage(image);
-
-			VBox vbox = new VBox();
-			vbox.getStyleClass().add("display");
-			vbox.setAlignment(Pos.CENTER);
-			vbox.getChildren().add(imgCard);
-			vbox.getChildren().add(new Label(translator.getTranslation("lbl_Meeples", card.getMeeples())));
-
-			// click event
-			if (currentPlayer.getMeeples() >= i && allowMove) {
-				vbox.getStyleClass().add("displayToHover");
-				this.addDisplayClickEvent(imgCard, i);
-			}
-
-			Integer colIndex = new Integer(col);
-			Platform.runLater(() -> {
-				this.pnlDisplay.add(vbox, colIndex, 0);
-			});
-			col++;
+			String url = this.resourceHelper.getResourceByCard(card);
+			pnlDisplayCard.setStyle("-fx-background-image: url('" + url + "');");
 		}
 
 		// Deck
-		ImageView imgDeck = new ImageView();
-		imgDeck.setPreserveRatio(true);
-		imgDeck.setFitHeight(175);
-
-		int deckBack = gameState.getBoard().getDeckBack();
-		Image image = this.resourceHelper.getDeckBackImage(deckBack);
-		imgDeck.setImage(image);
-
-		VBox vbox = new VBox();
-		vbox.setAlignment(Pos.CENTER);
-		vbox.getChildren().add(imgDeck);
-		vbox.getChildren()
-				.add(new Label(translator.getTranslation("lbl_Cards_Left", gameState.getBoard().getCardsLeft())));
-
-		Platform.runLater(() -> {
-			this.pnlDisplay.add(vbox, 6, 0);
-		});
-	}
-
-	private void addDisplayClickEvent(ImageView imgCard, int displayIndex) {
-		imgCard.setOnMouseClicked(new EventHandler<Event>() {
-
-			int index = displayIndex;
-
-			@Override
-			public void handle(Event event) {
-				GameState gameState = model.getGameState();
-
-				GameMove move = new GameMove();
-				move.setDisplayCardIndexSelected(index);
-
-				// handle split card
-				Card card = gameState.getBoard().getDisplay().get(index);
-				if (card.isSplitCard()) {
-					int decision = showSplitCardChooser(card,
-							translator.getTranslation("lbl_SplitCardChooser_DisplayCard"));
-					card.setActiveCardType(decision);
-					move.getDecisions().add(decision);
-				}
-
-				// handle witch
-				if (card.getCardTypeActive() == CardType.Witch) {
-					Location infirmary = gameState.getBoard().getPlayers().get(model.getPlayerIndex())
-							.getLocationByIndex(Location.INFIRMARY);
-					int cardCount = infirmary.getCards().size();
-					if (cardCount > 0) {
-						Card toRevive = infirmary.getCards().get(cardCount - 1);
-
-						if (toRevive.isSplitCard()) {
-							int decision = showSplitCardChooser(toRevive,
-									translator.getTranslation("lbl_SplitCardChooser_ReviveCard"));
-							move.getDecisions().add(decision);
-						}
-					}
-
-					// handle noble meeple trade
-				} else if (card.getCardTypeActive() == CardType.Noble && !gameState.isCardSideA()) {
-					Player currentPlayer = gameState.getBoard().getPlayers().get(model.getPlayerIndex());
-					int meeples = currentPlayer.getMeeples();
-					meeples -= index; // pay for the card, index = cost
-					meeples += card.getMeeples(); // add meeples you get from card
-					int points = currentPlayer.getPoints();
-
-					if (points > 0 || meeples > 0) {
-						MeepleTraderController controller = Controller.initMVC(MeepleTraderController.class,
-								MeepleTraderModel.class, MeepleTraderView.class);
-
-						controller.setCurrencies(meeples, points);
-						controller.showAndWait();
-
-						int decision = controller.getDecision();
-						move.getDecisions().add(decision);
-
-						MetaContainer.getInstance().destroyController(controller);
-					}
-				}
-
-				model.sendMove(move);
-			}
-		});
+		//int deckBack = gameState.getBoard().getDeckBack();
+		//Image image = this.resourceHelper.getDeckBackImage(deckBack);
+		this.pnlDisplayCardStack.setStyle("-fx-background-image: asf");
 	}
 
 	private int showSplitCardChooser(Card splitCard, String splitCardInfo) {
