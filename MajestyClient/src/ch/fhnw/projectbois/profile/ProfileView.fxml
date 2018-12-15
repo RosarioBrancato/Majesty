@@ -2,9 +2,11 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
@@ -13,7 +15,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" style="-fx-background-color: TRANSPARENT;" stylesheets="@../../../../../resources/stylesheets/Login_Registration_Profile.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -106,6 +107,21 @@
                         <HBox>
                            <children>
                               <Button fx:id="btn_Profile_update" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#btn_Profile_updateClicked" styleClass="success" text="%btn_Profile_update" />
+                           </children>
+                        </HBox>
+                        <Separator maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="10.0" top="10.0" />
+                           </VBox.margin>
+                        </Separator>
+                        <HBox layoutX="107.0" layoutY="229.0">
+                           <children>
+                              <CheckBox fx:id="lbl_Profile_Delete" mnemonicParsing="false" onAction="#lbl_Profile_DeleteChecked" text="%lbl_Profile_Delete" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </CheckBox>
+                              <Button fx:id="btn_Profile_Delete" disable="true" mnemonicParsing="false" onAction="#btn_Profile_DeleteClicked" styleClass="danger" text="%btn_Profile_Delete" />
                            </children>
                         </HBox>
                      </children>
