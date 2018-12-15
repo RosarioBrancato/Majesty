@@ -39,6 +39,7 @@ public class RequestId {
 	
 	public static final int PROFILE_RANGE_START = 500;
 	public static final int PROFILE_UPDATE = 501;
+	public static final int PROFILE_DELETE = 588;
 	public static final int PROFILE_RANGE_END = 599;
 
 	public static final int TEST = 999;
