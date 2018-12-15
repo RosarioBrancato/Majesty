@@ -13,28 +13,33 @@
 }
 
 .pnlCottage {
-	-fx-background-color: #BB9E5A;
+	-fx-background-color: #76BD5F;
 	
 }
 
 .pnlGuardhouse {
-	-fx-background-color: #BB9E5A;
+	-fx-background-color: #65C4CA;
 	
 }
 
 .pnlBarracks {
-	
+	-fx-background-color: #C56155;
 }
 
 .pnlInn {
-	
+	-fx-background-color: #E1C433;
 }
 
 .pnlCastle {
-	
+	-fx-background-color: #87699B;
 }
 
 .pnlInfirmary {
+	-fx-background-color: #948F83;
+}
+
+.pnlCardTable {
+	-fx-background-color: #85542D;
 	
 }
 .display {
