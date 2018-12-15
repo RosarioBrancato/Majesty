@@ -1,81 +1,227 @@
 ***REMOVED***
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@GameView.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane layoutX="262.0" prefHeight="220.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane id="pnlField" fx:id="pnlField" layoutX="7.0" layoutY="14.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" percentWidth="11.1" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="11.1" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="11.1" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="11.1" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="11.1" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="11.1" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="11.1" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="11.1" />
+          <ColumnConstraints hgrow="SOMETIMES" percentWidth="11.1" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints percentHeight="3.0" vgrow="SOMETIMES" />
+          <RowConstraints percentHeight="12.0" vgrow="SOMETIMES" />
+          <RowConstraints percentHeight="12.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="12.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="20.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="16.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
+        </rowConstraints>
          <children>
-            <GridPane fx:id="pnlOpponents" gridLinesVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <columnConstraints>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="33.33" />
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="33.33" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="33.33" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="100.0" prefHeight="200.0" valignment="CENTER" vgrow="SOMETIMES" />
-              </rowConstraints>
-            </GridPane>
-         </children></AnchorPane>
-      <AnchorPane layoutY="200.0" AnchorPane.bottomAnchor="285.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="220.0">
-         <children>
-            <GridPane fx:id="pnlDisplay" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <columnConstraints>
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.25" prefWidth="100.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.25" prefWidth="100.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.25" prefWidth="100.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.25" prefWidth="100.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.25" prefWidth="100.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.25" prefWidth="100.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.25" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="315.0" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutY="400.0" prefHeight="220.0" prefWidth="800.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <children>
-            <GridPane fx:id="pnlPlayer1Cards" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <columnConstraints>
-                <ColumnConstraints halignment="CENTER" hgrow="NEVER" prefWidth="150.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="NEVER" prefWidth="150.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" prefWidth="150.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" prefWidth="150.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" prefWidth="150.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" prefWidth="150.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" prefWidth="150.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" prefWidth="150.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints fillHeight="false" minHeight="200.0" prefHeight="200.0" valignment="CENTER" vgrow="SOMETIMES" />
-                  <RowConstraints fillHeight="false" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-              </rowConstraints>
+            <AnchorPane styleClass="pnlPlayerInfo">
                <children>
-                  <Label fx:id="lblPlayerInfo" alignment="CENTER" text="Meeples: 0 Points: 0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+                  <Label id="lblRound" fx:id="lblRound" layoutX="4.0" layoutY="3.0" text="Round: 12/12" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="3.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane styleClass="pnlPlayerInfo" GridPane.rowIndex="5" GridPane.rowSpan="2">
+               <children>
+                  <Label id="lblMeeples1" fx:id="lblMeeples1" layoutX="5.0" layoutY="59.0" text="Meeples:" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="59.0">
                      <font>
                         <Font size="18.0" />
+                     </font></Label>
+                  <Label id="lblPoints1" fx:id="lblPoints1" layoutX="5.0" layoutY="32.0" text="Points: 123" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="32.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+                  <Label id="lblName1" fx:id="lblName1" layoutX="39.0" layoutY="20.0" text="Player 1" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane styleClass="pnlCardTable" GridPane.columnSpan="2" GridPane.rowIndex="4">
+               <children>
+                  <Label id="lblTimer" fx:id="lblTimer" alignment="CENTER" layoutX="42.0" layoutY="45.0" prefHeight="70.0" prefWidth="205.0" text="Time: -1" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <font>
+                        <Font size="31.0" />
                      </font>
                   </Label>
                </children>
-            </GridPane>
+            </AnchorPane>
+            <AnchorPane styleClass="pnlPlayerInfo" GridPane.rowIndex="3">
+               <children>
+                  <Label id="lblName4" fx:id="lblName4" layoutX="5.0" layoutY="7.0" text="Player 4" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+                  <Label id="lblPoints4" fx:id="lblPoints4" layoutX="6.0" layoutY="32.0" text="Points: 123" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="32.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+                  <Label id="lblMeeples4" fx:id="lblMeeples4" layoutX="7.0" layoutY="59.0" text="Meeples: 5" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="59.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane styleClass="pnlPlayerInfo" GridPane.rowIndex="1">
+               <children>
+                  <Label id="lblName2" fx:id="lblName2" layoutX="16.0" layoutY="8.0" text="Player 2" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+                  <Label id="lblPoints2" fx:id="lblPoints2" layoutX="11.0" layoutY="35.0" text="Points: -1" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="35.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+                  <Label id="lblMeeples2" fx:id="lblMeeples2" layoutX="8.0" layoutY="59.0" text="Meeples: -1" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="59.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane styleClass="pnlPlayerInfo" GridPane.rowIndex="2">
+               <children>
+                  <Label id="lblMeeples3" fx:id="lblMeeples3" layoutX="6.0" layoutY="59.0" text="Meeples: 5" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="59.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+                  <Label id="lblPoints3" fx:id="lblPoints3" layoutX="5.0" layoutY="32.0" text="Points: 123" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="32.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+                  <Label id="lblName3" fx:id="lblName3" layoutX="4.0" text="Player 3" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane styleClass="pnlCardTable" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="4">
+               <children>
+                  <Pane id="pnlHover" fx:id="pnlDisplayCardDetailed" layoutX="69.0" layoutY="45.0" styleClass="pnlImage" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <HBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" spacing="5.0" styleClass="pnlCardTable" GridPane.columnIndex="4" GridPane.columnSpan="5" GridPane.rowIndex="4">
+               <children>
+                  <Pane id="pnlDisplayCard1" fx:id="pnlDisplayCard1" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage" />
+                  <Pane id="pnlDisplayCard2" fx:id="pnlDisplayCard2" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage" />
+                  <Pane id="pnlDisplayCard3" fx:id="pnlDisplayCard3" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage" />
+                  <Pane id="pnlDisplayCard4" fx:id="pnlDisplayCard4" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage" />
+                  <Pane id="pnlDisplayCard5" fx:id="pnlDisplayCard5" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage" />
+                  <Pane id="pnlDisplayCard6" fx:id="pnlDisplayCard6" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage" />
+                  <StackPane id="pnlDisplayCardStack" fx:id="pnlDisplayCardStack" prefHeight="150.0" prefWidth="200.0" styleClass="pnlImage" />
+               </children>
+            </HBox>
+            <StackPane styleClass="pnlMill" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <StackPane styleClass="pnlBrewery" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <StackPane styleClass="pnlMill" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <StackPane styleClass="pnlBrewery" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <StackPane styleClass="pnlMill" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <StackPane styleClass="pnlCottage" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <StackPane styleClass="pnlCottage" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <StackPane styleClass="pnlCottage" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <StackPane styleClass="pnlGuardhouse" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <StackPane styleClass="pnlGuardhouse" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <StackPane styleClass="pnlGuardhouse" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+            <StackPane styleClass="pnlBarracks" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+            <StackPane styleClass="pnlBarracks" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+            <StackPane styleClass="pnlBarracks" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+            <StackPane styleClass="pnlInn" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+            <StackPane styleClass="pnlInn" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+            <StackPane styleClass="pnlInn" GridPane.columnIndex="6" GridPane.rowIndex="3" />
+            <StackPane styleClass="pnlCastle" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+            <StackPane styleClass="pnlCastle" GridPane.columnIndex="7" GridPane.rowIndex="2" />
+            <StackPane styleClass="pnlCastle" GridPane.columnIndex="7" GridPane.rowIndex="3" />
+            <StackPane styleClass="pnlInfirmary" GridPane.columnIndex="8" GridPane.rowIndex="1" />
+            <StackPane styleClass="pnlInfirmary" GridPane.columnIndex="8" GridPane.rowIndex="2" />
+            <StackPane styleClass="pnlInfirmary" GridPane.columnIndex="8" GridPane.rowIndex="3" />
+            <Pane fx:id="pnlMill" GridPane.columnIndex="1" GridPane.rowIndex="6">
+               <styleClass>
+                  <String fx:value="pnlMill" />
+                  <String fx:value="pnlMillImage" />
+                  <String fx:value="pnlImage" />
+               </styleClass></Pane>
+            <Pane fx:id="pnlBrewery" GridPane.columnIndex="2" GridPane.rowIndex="6">
+               <styleClass>
+                  <String fx:value="pnlBrewery" />
+                  <String fx:value="pnlBreweryImage" />
+                  <String fx:value="pnlImage" />
+               </styleClass></Pane>
+            <Pane fx:id="pnlGuardhouse" GridPane.columnIndex="4" GridPane.rowIndex="6">
+               <styleClass>
+                  <String fx:value="pnlGuardhouse" />
+                  <String fx:value="pnlGuardhouseImage" />
+                  <String fx:value="pnlImage" />
+               </styleClass></Pane>
+            <Pane fx:id="pnlBarracks" GridPane.columnIndex="5" GridPane.rowIndex="6">
+               <styleClass>
+                  <String fx:value="pnlBarracks" />
+                  <String fx:value="pnlBarracksImage" />
+                  <String fx:value="pnlImage" />
+               </styleClass></Pane>
+            <Pane fx:id="pnlInn" GridPane.columnIndex="6" GridPane.rowIndex="6">
+               <styleClass>
+                  <String fx:value="pnlInn" />
+                  <String fx:value="pnlInnImage" />
+                  <String fx:value="pnlImage" />
+               </styleClass></Pane>
+            <Pane fx:id="pnlCastle" GridPane.columnIndex="7" GridPane.rowIndex="6">
+               <styleClass>
+                  <String fx:value="pnlCastle" />
+                  <String fx:value="pnlCastleImage" />
+                  <String fx:value="pnlImage" />
+               </styleClass></Pane>
+            <Pane fx:id="pnlInfirmary" GridPane.columnIndex="8" GridPane.rowIndex="6">
+               <styleClass>
+                  <String fx:value="pnlInfirmary" />
+                  <String fx:value="pnlInfirmaryImage" />
+                  <String fx:value="pnlImage" />
+               </styleClass></Pane>
+            <StackPane styleClass="pnlMill" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <StackPane styleClass="pnlBrewery" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <StackPane styleClass="pnlCottage" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+            <StackPane styleClass="pnlGuardhouse" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+            <StackPane styleClass="pnlBarracks" GridPane.columnIndex="5" GridPane.rowIndex="5" />
+            <StackPane styleClass="pnlInn" GridPane.columnIndex="6" GridPane.rowIndex="5" />
+            <StackPane styleClass="pnlCastle" GridPane.columnIndex="7" GridPane.rowIndex="5" />
+            <StackPane styleClass="pnlInfirmary" GridPane.columnIndex="8" GridPane.rowIndex="5" />
+            <Pane fx:id="pnlCottage" GridPane.columnIndex="3" GridPane.rowIndex="6">
+               <styleClass>
+                  <String fx:value="pnlCottage" />
+                  <String fx:value="pnlCottageImage" />
+                  <String fx:value="pnlImage" />
+               </styleClass></Pane>
+            <AnchorPane styleClass="pnlMill" GridPane.columnIndex="1" />
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="pnlBrewery" GridPane.columnIndex="2" />
+            <AnchorPane styleClass="pnlCottage" GridPane.columnIndex="3" />
+            <AnchorPane styleClass="pnlGuardhouse" GridPane.columnIndex="4" />
+            <AnchorPane styleClass="pnlBarracks" GridPane.columnIndex="5" />
+            <AnchorPane styleClass="pnlInn" GridPane.columnIndex="6" />
+            <AnchorPane styleClass="pnlCastle" GridPane.columnIndex="7" />
+            <AnchorPane styleClass="pnlInfirmary" GridPane.columnIndex="8" />
+            <StackPane styleClass="pnlBrewery" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <AnchorPane styleClass="pnlPlayerInfo" GridPane.rowIndex="6">
+               <children>
+                  <Button layoutX="14.0" layoutY="161.0" mnemonicParsing="false" onAction="#btnLeave_Click" text="%lbl_Game_Leave" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
+               </children></AnchorPane>
          </children>
-      </AnchorPane>
-      <AnchorPane layoutY="543.0" prefHeight="55.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <children>
-            <Button layoutX="18.0" layoutY="161.0" mnemonicParsing="false" onAction="#btnLeave_Click" text="%lbl_Game_Leave" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="18.0" />
-            <Label fx:id="lblGameInfo" alignment="CENTER_RIGHT" layoutX="76.0" layoutY="20.0" prefHeight="50.0" prefWidth="721.0" text="Round: 1/12 Player's turn: 1" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="76.0" AnchorPane.rightAnchor="3.0">
-               <font>
-                  <Font size="24.0" />
-               </font></Label>
-         </children>
-      </AnchorPane>
+      </GridPane>
    </children>
 </AnchorPane>

@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 public class GamePlayerContainer {
 
 	private String username = null;
+	private int playerRow = -1;
 
 	private Label lblUsername = null;
 	private Label lblPoints = null;
@@ -16,6 +17,14 @@ public class GamePlayerContainer {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public int getPlayerRow() {
+		return playerRow;
+	}
+
+	public void setPlayerRow(int playerRow) {
+		this.playerRow = playerRow;
 	}
 
 	public Label getLblUsername() {

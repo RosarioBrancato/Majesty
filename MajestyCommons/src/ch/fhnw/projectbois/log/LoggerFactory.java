@@ -19,12 +19,12 @@ public class LoggerFactory {
 
 		Handler[] handlers = logger.getHandlers();
 		if (handlers.length == 1) {
-			handlers[0].setLevel(Level.FINE);
+			handlers[0].setLevel(Level.SEVERE);
 
 			Handler fileHandler;
 			try {
 				fileHandler = new FileHandler("%t/" + className + "_%u" + "_%g" + ".log", 1000000, 9);
-				fileHandler.setLevel(Level.WARNING);
+				fileHandler.setLevel(Level.SEVERE);
 
 				logger.addHandler(fileHandler);
 

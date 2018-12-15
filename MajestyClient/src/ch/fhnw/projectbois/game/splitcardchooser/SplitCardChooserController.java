@@ -10,8 +10,8 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class SplitCardChooserController extends Controller<SplitCardChooserModel, SplitCardChooserView> implements IDialog {
@@ -24,10 +24,10 @@ public class SplitCardChooserController extends Controller<SplitCardChooserModel
 	private Label lblCardInfo;
 	
 	@FXML
-	private ImageView imgViewLeft;
+	private Pane pnlLeft;
 
 	@FXML
-	private ImageView imgViewRight;
+	private Pane pnlRight;
 
 	public SplitCardChooserController(SplitCardChooserModel model, SplitCardChooserView view) {
 		super(model, view);
@@ -38,16 +38,18 @@ public class SplitCardChooserController extends Controller<SplitCardChooserModel
 			GameResourceHelper helper = new GameResourceHelper();
 
 			this.lblCardInfo.setText(splitCardInfo);
+
+			String style = "-fx-background-size: contain ; ";
+			style += "-fx-background-position: center ; ";
+			style += "-fx-background-repeat: stretch ; ";
 			
 			Card left = new Card(splitCard.getCardType1());
-			this.imgViewLeft.setImage(helper.getCardImage(left));
-			this.imgViewLeft.setPreserveRatio(true);
-			this.imgViewLeft.setFitWidth(200);
+			String url = helper.getUrlByCard(left);
+			pnlLeft.setStyle(style + "-fx-background-image: url('" + url + "'); ");
 
 			Card right = new Card(splitCard.getCardType2());
-			this.imgViewRight.setImage(helper.getCardImage(right));
-			this.imgViewRight.setPreserveRatio(true);
-			this.imgViewRight.setFitWidth(200);
+			url = helper.getUrlByCard(right);
+			pnlRight.setStyle(style + "-fx-background-image: url('" + url + "'); ");
 		}
 	}
 
@@ -64,7 +66,7 @@ public class SplitCardChooserController extends Controller<SplitCardChooserModel
 	}
 
 	@FXML
-	private void imgViewLeft_Click(MouseEvent event) {
+	private void pnlLeft_Click(MouseEvent event) {
 		this.decision = 1;
 
 		Platform.runLater(() -> {
@@ -73,7 +75,7 @@ public class SplitCardChooserController extends Controller<SplitCardChooserModel
 	}
 
 	@FXML
-	private void imgViewRight_Click(MouseEvent event) {
+	private void pnlRight_Click(MouseEvent event) {
 		this.decision = 2;
 
 		Platform.runLater(() -> {

@@ -1,5 +1,53 @@
+
+.pnlMill {
+	-fx-background-color: #EB9A4E;
+}
+
+.pnlBrewery {
+	-fx-background-color: #BB9E5A;
+}
+
+.pnlCottage {
+	-fx-background-color: #76BD5F;
+}
+
+.pnlGuardhouse {
+	-fx-background-color: #65C4CA;
+}
+
+.pnlBarracks {
+	-fx-background-color: #C56155;
+}
+
+.pnlInn {
+	-fx-background-color: #E1C433;
+}
+
+.pnlCastle {
+	-fx-background-color: #87699B;
+}
+
+.pnlInfirmary {
+	-fx-background-color: #948F83;
+}
+
+.pnlImage {
+	-fx-background-size: contain  ;
+	-fx-background-position: center ;
+	-fx-background-repeat: stretch ;
+}
+
+.pnlCardTable {
+	-fx-background-color: #85542D;
+	
+}
+
+.pnlPlayerInfo {
+	-fx-background-color: #EBD58B;
+}
+
 .display {
-	-fx-padding: 3px;
+	-fx-padding: 3.0px;
 	-fx-background-color: #fff5dd;
 }
 
@@ -10,8 +58,8 @@
 .displayToHover:hover {
 	-fx-border-style: solid;
 	-fx-border-color: red;
-	-fx-border-width: 3px;
-	-fx-padding: 0px;
+	-fx-border-width: 3.0px;
+	-fx-padding: 0.0px;
 }
 
 .playersCards {
@@ -19,5 +67,10 @@
 }
 
 .opponents {
-	-fx-background-color: #b0b3b7
+	-fx-background-color: #b0b3b7;
+}
+
+#pnlDisplaySelectedCard {
+	-fx-shape: circle;
+	-fx-background-color: #EBD58B;
 }
