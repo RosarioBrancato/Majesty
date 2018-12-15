@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
@@ -21,32 +23,32 @@
           <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="11.1" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="19.68353271484375" minHeight="10.0" prefHeight="19.68353271484375" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="92.54159545898438" minHeight="10.0" percentHeight="12.0" prefHeight="86.31646728515625" vgrow="ALWAYS" />
+          <RowConstraints maxHeight="23.505837440490723" minHeight="10.0" prefHeight="23.505837440490723" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="92.54159545898438" minHeight="10.0" percentHeight="12.0" prefHeight="82.49416255950928" vgrow="ALWAYS" />
           <RowConstraints minHeight="10.0" percentHeight="12.0" prefHeight="30.0" vgrow="ALWAYS" />
             <RowConstraints maxHeight="149.0" minHeight="0.0" percentHeight="12.0" prefHeight="0.0" vgrow="ALWAYS" />
-            <RowConstraints maxHeight="372.0" minHeight="10.0" prefHeight="176.95925903320312" vgrow="ALWAYS" />
+            <RowConstraints maxHeight="372.0" minHeight="10.0" percentHeight="20.0" prefHeight="176.95925903320312" vgrow="ALWAYS" />
             <RowConstraints maxHeight="376.0865478515625" minHeight="10.0" prefHeight="157.04074096679688" vgrow="ALWAYS" />
             <RowConstraints maxHeight="316.0" minHeight="10.0" prefHeight="200.7080078125" vgrow="ALWAYS" />
         </rowConstraints>
          <children>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="pnlPlayerInfo">
                <children>
-                  <Label layoutX="4.0" layoutY="3.0" text="Round: 12/12">
+                  <Label fx:id="lblRound" layoutX="4.0" layoutY="3.0" text="Round: 12/12" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="3.0">
                      <font>
-                        <Font size="12.0" />
+                        <Font size="7.0" />
                      </font>
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="5">
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="pnlPlayerInfo" GridPane.rowIndex="5">
                <children>
                   <Label fx:id="lblMeeples1" layoutX="4.0" layoutY="199.0" text="Meeples:" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="105.0" />
                   <Label fx:id="lblPoints1" layoutX="17.0" layoutY="135.0" text="Points: 123" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="55.0" />
                   <Label fx:id="lblName1" layoutX="39.0" layoutY="20.0" text="Player1" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
                </children>
             </AnchorPane>
-            <AnchorPane prefHeight="166.0" prefWidth="358.0" GridPane.columnSpan="2" GridPane.rowIndex="4">
+            <AnchorPane prefHeight="166.0" prefWidth="358.0" styleClass="pnlCardTable" GridPane.columnSpan="2" GridPane.rowIndex="4">
                <children>
                   <Label fx:id="lblTimer" layoutX="42.0" layoutY="45.0" prefHeight="70.0" prefWidth="205.0" text="Timer: 00:53" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="45.0">
                      <font>
@@ -55,33 +57,43 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="pnlPlayerInfo" GridPane.rowIndex="3">
                <children>
                   <Label fx:id="lblName4" layoutX="5.0" layoutY="7.0" text="Player1" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
                   <Label fx:id="lblPoints4" layoutX="5.0" layoutY="7.0" text="Points: 123" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="30.0" />
                   <Label fx:id="lblMeeples4" layoutX="5.0" layoutY="7.0" text="Meeples: 5" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="55.0" />
                </children>
             </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="pnlPlayerInfo" GridPane.rowIndex="1">
                <children>
                   <Label fx:id="lblName2" layoutX="16.0" layoutY="8.0" text="Player1" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
                   <Label fx:id="lblPoints2" layoutX="11.0" layoutY="30.0" prefHeight="35.0" prefWidth="125.0" text="Points: 123" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="30.0" />
                   <Label fx:id="lblMeeples2" layoutX="7.0" layoutY="55.0" text="Meeples: 5" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="55.0" />
                </children>
             </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="pnlPlayerInfo" GridPane.rowIndex="2">
                <children>
                   <Label fx:id="lblMeeples3" layoutX="5.0" layoutY="57.0" text="Meeples: 5" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="55.0" />
                   <Label fx:id="lblPoints3" layoutX="4.0" layoutY="29.0" text="Points: 123" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="30.0" />
                   <Label fx:id="lblName3" layoutX="4.0" text="Player1" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
                </children>
             </AnchorPane>
-            <AnchorPane prefHeight="166.0" prefWidth="752.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="4">
+            <AnchorPane prefHeight="192.0" prefWidth="261.0" styleClass="pnlCardTable" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="4">
                <children>
-                  <Pane fx:id="pnlDisplayCardDetailed" layoutX="71.0" layoutY="16.0" prefHeight="139.0" prefWidth="128.0" />
+                  <Circle id="pnlDisplaySelectedCard" layoutX="123.0" layoutY="110.0" radius="113.0" stroke="TRANSPARENT" strokeType="INSIDE">
+                     <fill>
+                        <RadialGradient centerX="0.5" centerY="0.5" focusDistance="0.02777777777777768" radius="0.4861111111111111">
+                           <stops>
+                              <Stop color="#ebd58b" />
+                              <Stop color="#85542d" offset="1.0" />
+                           </stops>
+                        </RadialGradient>
+                     </fill>
+                  </Circle>
+                  <Pane fx:id="pnlDisplayCardDetailed" layoutX="69.0" layoutY="45.0" prefHeight="127.0" prefWidth="119.0" />
                </children>
             </AnchorPane>
-            <HBox prefHeight="165.0" prefWidth="661.0" GridPane.columnIndex="4" GridPane.columnSpan="5" GridPane.rowIndex="4">
+            <HBox prefHeight="165.0" prefWidth="661.0" styleClass="pnlCardTable" GridPane.columnIndex="4" GridPane.columnSpan="5" GridPane.rowIndex="4">
                <children>
                   <Pane fx:id="pnlDisplayCard1" prefHeight="200.0" prefWidth="200.0" />
                   <Pane fx:id="pnlDisplayCard2" prefHeight="200.0" prefWidth="200.0" />
@@ -97,7 +109,6 @@
             <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlMill" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlBrewery" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlMill" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" />
             <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlCottage" GridPane.columnIndex="3" GridPane.rowIndex="1" />
             <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlCottage" GridPane.columnIndex="3" GridPane.rowIndex="2" />
             <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlCottage" GridPane.columnIndex="3" GridPane.rowIndex="3" />
@@ -141,6 +152,7 @@
             <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="pnlCastle" GridPane.columnIndex="7" />
             <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="pnlInfirmary" GridPane.columnIndex="8" />
             <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlBrewery" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="pnlPlayerInfo" GridPane.rowIndex="6" />
          </children>
       </GridPane>
    </children>
