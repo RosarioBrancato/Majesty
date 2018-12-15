@@ -1,5 +1,5 @@
-/*
- * 
+/**
+ * Various methods to manage user accounts (CRUD)
  * @author Alexandre Miccoli
  * 
  */
@@ -33,11 +33,11 @@ public class UserHandler {
 	private UserHandler() {}
 	
 	/**
-	 * Check user exists.
+	 * Check if the given user exists in the database
 	 *
-	 * @param username the username
-	 * @return true, if successful
-	 * @throws Exception the exception
+	 * @param username the username to check
+	 * @return true, if if the user already exists
+	 * @throws Exception in case something goes wrong in the database connection
 	 */
 	public boolean checkUserExists(String username) throws Exception{
 		boolean userExists = false;
@@ -53,13 +53,13 @@ public class UserHandler {
 	}
 	
 	/**
-	 * Creates the user.
+	 * Creates the user in the database.
 	 *
-	 * @param username the username
-	 * @param email the email
-	 * @param password the password
-	 * @return positive int with the generated user ID if the user has been created or -1 in case user already exists
-	 * @throws Exception the exception
+	 * @param username the username for the newely created user
+	 * @param email the email for the newely created user
+	 * @param password the password for the newely created user
+	 * @return positive int with the generated user ID if the user has been created or -1 in case user was not created
+	 * @throws Exception in case something goes wrong in the database connection
 	 */
 	public int createUser(String username, String email, String password) throws Exception{
 		if(!checkUserExists(username)) {
@@ -91,10 +91,10 @@ public class UserHandler {
 	}
 	
 	/**
-	 * Delete user.
+	 * Delete a user from the database.
 	 *
-	 * @param uid the uid
-	 * @throws Exception the exception
+	 * @param uid the unique db identifier of the user
+	 * @throws Exception in case something goes wrong in the database connection
 	 */
 	public void deleteUser(int uid) throws Exception{
 		Connection con = DbAccess.getConnection();
@@ -108,11 +108,11 @@ public class UserHandler {
 	}
 	
 	/**
-	 * Update email.
+	 * Update email address of the user.
 	 *
-	 * @param uid the uid
-	 * @param email the email
-	 * @throws Exception the exception
+	 * @param uid the unique db identifier of the user
+	 * @param email the new email
+	 * @throws Exception in case something goes wrong in the database connection
 	 */
 	public void updateEmail(int uid, String email) throws Exception{
 		Connection con = DbAccess.getConnection();
@@ -127,12 +127,12 @@ public class UserHandler {
 	}
 	
 	/**
-	 * Update email password.
+	 * Update email AND password of the user in one command.
 	 *
-	 * @param uid the uid
-	 * @param email the email
-	 * @param password the password
-	 * @throws Exception the exception
+	 * @param uid the unique db identifier of the user
+	 * @param email the new email
+	 * @param password the new password
+	 * @throws Exception in case something goes wrong in the database connection
 	 */
 	public void updateEmailPassword(int uid, String email, String password) throws Exception{
 		PasswordHandler ph = PasswordHandler.getInstance();
@@ -153,11 +153,11 @@ public class UserHandler {
 	}
 	
 	/**
-	 * Update password.
+	 * Update password of the user.
 	 *
-	 * @param uid the uid
-	 * @param password the password
-	 * @throws Exception the exception
+	 * @param uid the unique db identifier of the user
+	 * @param password the new password
+	 * @throws Exception in case something goes wrong in the database connection
 	 */
 	public void updatePassword(int uid, String password) throws Exception{
 		PasswordHandler ph = PasswordHandler.getInstance();
@@ -177,11 +177,11 @@ public class UserHandler {
 	}
 	
 	/**
-	 * Update points.
+	 * Update points of a user.
 	 *
-	 * @param uid the uid
-	 * @param diff the diff
-	 * @throws Exception the exception
+	 * @param uid the unique db identifier of the user
+	 * @param diff the points to add (positive int) or to subtract (negative int)
+	 * @throws Exception in case something goes wrong in the database connection
 	 */
 	public void updatePoints(int uid, int diff) throws Exception{
 		Connection con = DbAccess.getConnection();

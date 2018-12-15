@@ -1,5 +1,5 @@
-/*
- * 
+/**
+ * Handles requests for changing profile information from clients
  * @author Alexandre Miccoli
  * 
  */
@@ -30,8 +30,10 @@ public class ProfileRequestHandler extends RequestHandler {
 		super(request, server, client);
 	}
 	
-	/* (non-Javadoc)
-	 * @see ch.fhnw.projectbois.requesthandlers.RequestHandler#handleRequest()
+	/**
+	 * Handles requests for profile modifications and initiates a response with a response type 
+	 * and modified parameters for the client in case of successful change
+	 *
 	 */
 	@Override
 	protected void handleRequest() {
@@ -43,7 +45,7 @@ public class ProfileRequestHandler extends RequestHandler {
 			Response response = null;
 			
 			boolean pwdChange = !(req.getPassword() == null || req.getPassword().equals(""));
-			boolean pwd_ok = cv.passwordStrenghtIsSufficient(req.getPassword());
+			boolean pwd_ok = cv.passwordStrengthIsSufficient(req.getPassword());
 			boolean emailChange = !(req.getEmail().equals(client.getUser().getEmail()));
 			boolean email_ok = cv.stringIsValidEmailAddress(req.getEmail());
 			
@@ -61,7 +63,7 @@ public class ProfileRequestHandler extends RequestHandler {
 					client.getUser().setEmail(req.getEmail());
 					newUser.setEmail(req.getEmail());
 				}else {
-					// Cannot handle those credentials
+					// Cannot handle the new credentials received
 					logger.warning( "Cannot update profile. Bad credentials or invalid request:"
 							+ "\n REQ_PwdChange " + pwdChange 
 							+ "\n REQ_PwdStrengthOk " + pwd_ok 
