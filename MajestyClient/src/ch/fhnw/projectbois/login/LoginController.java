@@ -35,7 +35,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 
 public class LoginController extends Controller<LoginModel, LoginView> {
-	private final String pref_user = UserPrefs.getInstance().get("USERNAME", null);
+	private final String pref_user = UserPrefs.getInstance().get("USERNAME", "");
 	private final String pref_server = UserPrefs.getInstance().get("SERVER", "localhost");
 	private final String pref_port = UserPrefs.getInstance().get("SERVER_PORT", "8200");
 	
@@ -443,7 +443,7 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	 *
 	 * @param reference the login status message (out of language resources)
 	 */
-	protected void LoginSetMessage(String reference) {
+	public void LoginSetMessage(String reference) {
 		Platform.runLater(() -> {
 			this.lbl_Login_loginMsg.setText(translator.getTranslation(reference));
 		});

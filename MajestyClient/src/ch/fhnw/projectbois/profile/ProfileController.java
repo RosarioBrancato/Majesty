@@ -5,7 +5,12 @@
  */
 package ch.fhnw.projectbois.profile;
 
+import ch.fhnw.projectbois._application.UserPrefs;
 import ch.fhnw.projectbois._mvc.Controller;
+import ch.fhnw.projectbois.login.LoginController;
+import ch.fhnw.projectbois.login.LoginModel;
+import ch.fhnw.projectbois.login.LoginView;
+import ch.fhnw.projectbois.network.Network;
 import ch.fhnw.projectbois.session.Session;
 import ch.fhnw.projectbois.time.Time;
 import ch.fhnw.projectbois.validation.CredentialsValidator;
@@ -15,6 +20,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -33,6 +39,12 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 	
 	@FXML
 	private Button btn_Profile_update;
+	
+	@FXML
+	private Button btn_Profile_Delete;
+	
+	@FXML
+	private CheckBox lbl_Profile_Delete;
 	
 	@FXML
 	private TextField txt_Profile_username;
@@ -72,6 +84,36 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 	 */
 	public ProfileController(ProfileModel model, ProfileView view) {
 		super(model, view);
+	}
+	
+	/**
+	 * Checks whether the deletion warning is checked before activating the "Delete profile" button.
+	 * 
+	 * @param event the change event
+	 */
+	@FXML
+	private void lbl_Profile_DeleteChecked(ActionEvent event) {
+		if(this.lbl_Profile_Delete.isSelected()) {
+			Platform.runLater(() -> {
+				this.btn_Profile_Delete.setDisable(false);
+			});
+		}else {
+			Platform.runLater(() -> {
+				this.btn_Profile_Delete.setDisable(true);
+			});
+		}
+	}
+	
+	/**
+	 * Asks the model to delete the profile.
+	 * 
+	 * @param event the change event
+	 */
+	@FXML
+	private void btn_Profile_DeleteClicked(ActionEvent event) {
+		model.resetStatus();
+		startTimer(5);
+		model.DeleteProfile();
 	}
 	
 	/**
@@ -192,6 +234,11 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 						lbl_Profile_msg.setText(translator.getTranslation("lbl_Profile_Response_Success"));
 					});
 					
+				}else if(newValue.equals("DELETED")){
+					Network.getInstance().stopConnection();
+					UserPrefs.getInstance().put("USERNAME", "");
+					LoginController controller = Controller.initMVCAsRoot(LoginController.class, LoginModel.class, LoginView.class);
+					controller.LoginSetMessage("msg_Profile_Deleted");
 				}else {
 					Platform.runLater(() -> {
 						lbl_Profile_msg.setTextFill(Paint.valueOf("RED"));
