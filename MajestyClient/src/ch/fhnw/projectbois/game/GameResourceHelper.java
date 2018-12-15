@@ -13,6 +13,12 @@ public class GameResourceHelper {
 	private final String PATH_TO_LOCATION_A = "game/locations/Side A/";
 	private final String PATH_TO_LOCATION_B = "game/locations/Side B/";
 	private final String PATH_TO_CARDBACKS = "game/cards/backs/";
+	
+	public String getResourceByCard(Card card) {
+		String url = "";
+		
+		return url;
+	}
 
 	public Image getCardImage(Card card) {
 		Image image = null;
