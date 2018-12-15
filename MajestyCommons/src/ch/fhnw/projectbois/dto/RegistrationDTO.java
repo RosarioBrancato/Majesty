@@ -1,5 +1,5 @@
-/*
- * 
+/**
+ * Registration request data transfer object (DTO) to exchange between server and client
  * @author Alexandre Miccoli
  * 
  */
@@ -25,9 +25,10 @@ public class RegistrationDTO {
 	
 	/**
 	 * Instantiates a new registration DTO.
+	 * Used for profile changes
 	 *
-	 * @param email the email
-	 * @param password the password
+	 * @param email the requested new email
+	 * @param password the requested new password
 	 */
 	public RegistrationDTO(String email, String password) {
 		this.email = email;
@@ -36,10 +37,11 @@ public class RegistrationDTO {
 	
 	/**
 	 * Instantiates a new registration DTO.
+	 * Used for new profile creation.
 	 *
-	 * @param username the username
-	 * @param email the email
-	 * @param password the password
+	 * @param username the wished username
+	 * @param email the requested email
+	 * @param password the requested password
 	 */
 	public RegistrationDTO(String username, String email, String password) {
 		this.username = username;
@@ -48,54 +50,54 @@ public class RegistrationDTO {
 	}
 	
 	/**
-	 * Gets the email.
+	 * Returns the email address out of the DTO.
 	 *
-	 * @return the email
+	 * @return the email out of the DTO
 	 */
 	public String getEmail() {
 		return email;
 	}
 	
 	/**
-	 * Gets the password.
+	 * Returns the password out of the DTO.
 	 *
-	 * @return the password
+	 * @return the password out of the DTO
 	 */
 	public String getPassword() {
 		return password;
 	}
 	
 	/**
-	 * Gets the username.
+	 * Returns the username out of the DTO.
 	 *
-	 * @return the username
+	 * @return the username out of the DTO
 	 */
 	public String getUsername() {
 		return username;
 	}
 	
 	/**
-	 * Sets the email.
+	 * Sets the email address in the DTO.
 	 *
-	 * @param email the new email
+	 * @param email the email address to set
 	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
 	
 	/**
-	 * Sets the password.
+	 * Sets the password in the DTO.
 	 *
-	 * @param password the new password
+	 * @param password the password to set
 	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
 	
 	/**
-	 * Sets the username.
+	 * Sets the username in the DTO.
 	 *
-	 * @param username the new username
+	 * @param username the username to set
 	 */
 	public void setUsername(String username) {
 		this.username = username;

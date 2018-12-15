@@ -1,17 +1,13 @@
 package ch.fhnw.projectbois.game;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
 
 import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
-import ch.fhnw.projectbois.components.Component;
-import ch.fhnw.projectbois.components.ComponentLoader;
 import ch.fhnw.projectbois.components.menubar.MenuBarController;
 import ch.fhnw.projectbois.components.menubar.MenuBarModel;
 import ch.fhnw.projectbois.components.menubar.MenuBarView;
-import ch.fhnw.projectbois.fxml.FXMLUtils;
 import ch.fhnw.projectbois.game.meepletrader.MeepleTraderController;
 import ch.fhnw.projectbois.game.meepletrader.MeepleTraderModel;
 import ch.fhnw.projectbois.game.meepletrader.MeepleTraderView;
@@ -45,7 +41,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
@@ -53,12 +48,7 @@ public class GameController extends Controller<GameModel, GameView> {
 
 	private GameResourceHelper resourceHelper = null;
 
-	private int playerIndex = -1;
-	private GameState gameState = null;
-
-	private GamePlayerContainer player = null;
-	private ArrayList<GamePlayerContainer> opponents = null;
-
+	private boolean firstLoading = true;
 	private Time turntimer = null;
 	private ChangeListener<Number> turntimerPropertyListener = null;
 
@@ -69,9 +59,6 @@ public class GameController extends Controller<GameModel, GameView> {
 	private GridPane pnlDisplay;
 
 	@FXML
-	private Label lblPlayerInfo;
-
-	@FXML
 	private GridPane pnlPlayer1Cards;
 
 	@FXML
@@ -80,7 +67,6 @@ public class GameController extends Controller<GameModel, GameView> {
 	public GameController(GameModel model, GameView view) {
 		super(model, view);
 
-		this.opponents = new ArrayList<>();
 		this.resourceHelper = new GameResourceHelper();
 	}
 
@@ -92,14 +78,16 @@ public class GameController extends Controller<GameModel, GameView> {
 		this.pnlOpponents.getStyleClass().add("opponents");
 
 		this.model.getGameStateProperty().addListener((observer, oldValue, newValue) -> {
-			loadGameState(newValue);
+			if (newValue.getId() > oldValue.getId()) {
+				loadGameState(newValue);
+			}
 		});
 
 		this.model.getGameEndProperty().addListener((observer, oldValue, newValue) -> {
-			showGameEndView(gameState);
+			showGameEndView(model.getGameStateProperty().getValue());
 		});
 
-		this.model.getGameState();
+		this.model.requestGameState();
 	}
 
 	@Override
@@ -114,147 +102,26 @@ public class GameController extends Controller<GameModel, GameView> {
 	}
 
 	private void loadGameState(GameState gameState) {
-		boolean firstLoading = this.gameState == null;
+		if (firstLoading) {
+			model.definePlayersIndex();
+			view.initGamePlayerContainers();
+			view.initLocations();
 
-		if (this.gameState == null || (this.gameState != null && gameState.getId() > this.gameState.getId())) {
-			this.gameState = gameState;
-
-			if (firstLoading) {
-				this.readPlayerIndex();
-				this.initGamePlayerContainers();
-				this.initLocations();
-
-				this.turntimer = new Time();
-				this.initTurntimerPropertyListener();
-				this.turntimer.getPeriodCounterProperty().addListener(this.turntimerPropertyListener);
-				this.turntimer.startCountdown(gameState.getTurntimer());
-			}
-
-			this.drawGui();
+			this.initTurntimer(gameState.getTurntimer());
 		}
+
+		this.drawGui();
 	}
 
 	// SET UP
 
-	private void readPlayerIndex() {
-		ArrayList<Player> players = this.gameState.getBoard().getPlayers();
-
-		for (int i = 0; i < players.size(); i++) {
-			if (players.get(i).getUsername().equals(Session.getCurrentUsername())) {
-				this.playerIndex = i;
-				break;
-			}
-		}
+	private void initTurntimer(int seconds) {
+		this.turntimer = new Time();
+		this.initTurntimerPropertyListener();
+		this.turntimer.getPeriodCounterProperty().addListener(this.turntimerPropertyListener);
+		this.turntimer.startCountdown(seconds);
 	}
-
-	private void initGamePlayerContainers() {
-		ArrayList<Player> players = this.gameState.getBoard().getPlayers();
-
-		Player p = players.stream().filter(f -> f.getUsername().equals(Session.getCurrentUsername())).findFirst().get();
-		this.player = new GamePlayerContainer();
-		this.player.setUsername(p.getUsername());
-		this.player.setPnlCards(this.pnlPlayer1Cards);
-		this.player.setLblInfo(this.lblPlayerInfo);
-
-		// turn clockwise -> player to left after current player
-		int opponentIndex = 0;
-		for (int i = this.playerIndex + 1; i < players.size(); i++) {
-			Player player = players.get(i);
-			this.initGamePlayerContainerOpponent(opponentIndex, player);
-			opponentIndex++;
-		}
-
-		for (int i = 0; i < this.playerIndex; i++) {
-			Player player = players.get(i);
-			this.initGamePlayerContainerOpponent(opponentIndex, player);
-			opponentIndex++;
-		}
-	}
-
-	private void initGamePlayerContainerOpponent(int index, Player player) {
-		GamePlayerContainer container = new GamePlayerContainer();
-		container.setUsername(player.getUsername());
-
-		URL url = ComponentLoader.getResource(Component.PlayerField);
-		GridPane gridPane = (GridPane) FXMLUtils.loadFXML(url);
-		Label lblInfo = (Label) gridPane.getChildren().get(0);
-
-		container.setPnlCards(gridPane);
-		container.setLblInfo(lblInfo);
-		this.opponents.add(container);
-
-		Integer i = new Integer(index);
-		Platform.runLater(() -> {
-			this.pnlOpponents.add(gridPane, i, 0);
-		});
-	}
-
-	private void initLocations() {
-		int playersCount = this.gameState.getBoard().getPlayers().size();
-
-		Platform.runLater(() -> {
-			if (playersCount == 3) {
-				this.pnlOpponents.getColumnConstraints().remove(2);
-				this.pnlOpponents.getColumnConstraints().get(0).setPercentWidth(50);
-				this.pnlOpponents.getColumnConstraints().get(1).setPercentWidth(50);
-
-			} else if (playersCount == 2) {
-				this.pnlOpponents.getColumnConstraints().remove(2);
-				this.pnlOpponents.getColumnConstraints().remove(1);
-				this.pnlOpponents.getColumnConstraints().get(0).setPercentWidth(100);
-			}
-		});
-
-		this.fillGamePlayerComponent(this.player, true);
-
-		for (GamePlayerContainer opponent : this.opponents) {
-			this.fillGamePlayerComponent(opponent, false);
-		}
-	}
-
-	private void fillGamePlayerComponent(GamePlayerContainer container, boolean isPlayer) {
-		int playersCount = this.gameState.getBoard().getPlayers().size();
-
-		int sideChange = 0;
-		if (!this.gameState.isCardSideA()) {
-			sideChange = Location.OFFSET_B;
-		}
-
-		for (int i = 0; i < 8; i++) {
-
-			ImageView imgLocation = new ImageView();
-			imgLocation.setPreserveRatio(true);
-
-			if (isPlayer) {
-				imgLocation.setFitHeight(175);
-			} else if (playersCount == 2) {
-				imgLocation.setFitHeight(150);
-			} else if (playersCount == 3) {
-				imgLocation.setFitWidth(70);
-			} else if (playersCount == 4) {
-				imgLocation.setFitWidth(45);
-			}
-
-			Image image = resourceHelper.getLocationImage(i + sideChange);
-			imgLocation.setImage(image);
-
-			BorderPane borderPane = new BorderPane(imgLocation);
-			Label label = new Label(translator.getTranslation("lbl_Cards", 0));
-
-			container.setLabelCardCountByIndex(i, label);
-
-			VBox box = new VBox();
-			box.setAlignment(Pos.CENTER);
-			box.getChildren().add(label);
-			borderPane.setBottom(box);
-
-			Integer col = new Integer(i);
-			Platform.runLater(() -> {
-				container.getPnlCards().add(borderPane, col, 0);
-			});
-		}
-	}
-
+	
 	private void initTurntimerPropertyListener() {
 		this.turntimerPropertyListener = (observer, oldValue, newValue) -> {
 			updateInfoBar();
@@ -264,17 +131,18 @@ public class GameController extends Controller<GameModel, GameView> {
 	// MAIN METHODS
 
 	private void drawGui() {
-		Board board = this.gameState.getBoard();
+		Board board = model.getGameState().getBoard();
 
 		this.loadGameInfos();
 		this.drawDisplay(board.getDisplay());
 	}
 
 	private void loadGameInfos() {
-		ArrayList<Player> players = this.gameState.getBoard().getPlayers();
+		GameState gameState = model.getGameState();
+		ArrayList<Player> players = gameState.getBoard().getPlayers();
 
-		int turntimer = this.gameState.getTurntimer();
-		if (this.gameState.isGameEnded()) {
+		int turntimer = gameState.getTurntimer();
+		if (gameState.isGameEnded()) {
 			this.turntimer.stop();
 		} else {
 			this.turntimer.setCounter(turntimer);
@@ -282,20 +150,20 @@ public class GameController extends Controller<GameModel, GameView> {
 		this.updateInfoBar();
 
 		{
-			Player player = players.stream().filter(f -> f.getUsername().equals(this.player.getUsername())).findFirst()
-					.get();
+			Player player = players.stream()
+					.filter(f -> f.getUsername().equals(view.getPlayerContainer().getUsername())).findFirst().get();
 
-			boolean isStartingPlayer = players.get(this.gameState.getStartPlayerIndex()).getUsername()
+			boolean isStartingPlayer = players.get(gameState.getStartPlayerIndex()).getUsername()
 					.equals(Session.getCurrentUsername());
 
-			this.loadGameInfoPlayer(player, this.player, isStartingPlayer);
+			this.loadGameInfoPlayer(player, view.getPlayerContainer(), isStartingPlayer);
 		}
 
-		for (GamePlayerContainer opponent : this.opponents) {
+		for (GamePlayerContainer opponent : view.getOpponentContainers()) {
 			Player player = players.stream().filter(f -> f.getUsername().equals(opponent.getUsername())).findFirst()
 					.get();
 
-			boolean isStartingPlayer = players.get(this.gameState.getStartPlayerIndex()).getUsername()
+			boolean isStartingPlayer = players.get(gameState.getStartPlayerIndex()).getUsername()
 					.equals(opponent.getUsername());
 
 			this.loadGameInfoPlayer(player, opponent, isStartingPlayer);
@@ -303,10 +171,12 @@ public class GameController extends Controller<GameModel, GameView> {
 	}
 
 	private void updateInfoBar() {
-		ArrayList<Player> players = this.gameState.getBoard().getPlayers();
+		GameState gameState = model.getGameState();
 
-		Integer round = new Integer(this.gameState.getRound());
-		int playersTurn = this.gameState.getPlayersTurn();
+		ArrayList<Player> players = gameState.getBoard().getPlayers();
+
+		Integer round = new Integer(gameState.getRound());
+		int playersTurn = gameState.getPlayersTurn();
 		String username = new String(players.get(playersTurn).getUsername());
 		int timeleft = this.turntimer.getCounter();
 
@@ -341,7 +211,9 @@ public class GameController extends Controller<GameModel, GameView> {
 			this.pnlDisplay.getChildren().clear();
 		});
 
-		Player currentPlayer = this.gameState.getBoard().getPlayers().stream()
+		GameState gameState = model.getGameState();
+
+		Player currentPlayer = gameState.getBoard().getPlayers().stream()
 				.filter(f -> f.getUsername().equals(Session.getCurrentUsername())).findFirst().get();
 
 		int col = 0;
@@ -381,7 +253,7 @@ public class GameController extends Controller<GameModel, GameView> {
 		imgDeck.setPreserveRatio(true);
 		imgDeck.setFitHeight(175);
 
-		int deckBack = this.gameState.getBoard().getDeckBack();
+		int deckBack = gameState.getBoard().getDeckBack();
 		Image image = this.resourceHelper.getDeckBackImage(deckBack);
 		imgDeck.setImage(image);
 
@@ -389,7 +261,7 @@ public class GameController extends Controller<GameModel, GameView> {
 		vbox.setAlignment(Pos.CENTER);
 		vbox.getChildren().add(imgDeck);
 		vbox.getChildren()
-				.add(new Label(translator.getTranslation("lbl_Cards_Left", this.gameState.getBoard().getCardsLeft())));
+				.add(new Label(translator.getTranslation("lbl_Cards_Left", gameState.getBoard().getCardsLeft())));
 
 		Platform.runLater(() -> {
 			this.pnlDisplay.add(vbox, 6, 0);
@@ -403,6 +275,8 @@ public class GameController extends Controller<GameModel, GameView> {
 
 			@Override
 			public void handle(Event event) {
+				GameState gameState = model.getGameState();
+
 				GameMove move = new GameMove();
 				move.setDisplayCardIndexSelected(index);
 
@@ -417,7 +291,7 @@ public class GameController extends Controller<GameModel, GameView> {
 
 				// handle witch
 				if (card.getCardTypeActive() == CardType.Witch) {
-					Location infirmary = gameState.getBoard().getPlayers().get(playerIndex)
+					Location infirmary = gameState.getBoard().getPlayers().get(model.getPlayerIndex())
 							.getLocationByIndex(Location.INFIRMARY);
 					int cardCount = infirmary.getCards().size();
 					if (cardCount > 0) {
@@ -432,7 +306,7 @@ public class GameController extends Controller<GameModel, GameView> {
 
 					// handle noble meeple trade
 				} else if (card.getCardTypeActive() == CardType.Noble && !gameState.isCardSideA()) {
-					Player currentPlayer = gameState.getBoard().getPlayers().get(playerIndex);
+					Player currentPlayer = gameState.getBoard().getPlayers().get(model.getPlayerIndex());
 					int meeples = currentPlayer.getMeeples();
 					meeples -= index; // pay for the card, index = cost
 					meeples += card.getMeeples(); // add meeples you get from card
@@ -487,16 +361,13 @@ public class GameController extends Controller<GameModel, GameView> {
 		});
 	}
 
-	public GameState getGameState() {
-		return gameState;
-	}
-
 	private boolean isTurnPlayer() {
-		int playersTurn = this.gameState.getPlayersTurn();
-		Player player = this.gameState.getBoard().getPlayers().get(playersTurn);
+		GameState gameState = model.getGameState();
+		int playersTurn = gameState.getPlayersTurn();
+		Player player = gameState.getBoard().getPlayers().get(playersTurn);
 		String username = Session.getCurrentUsername();
 
-		return player.getUsername().equals(username) && !this.gameState.isGameEnded();
+		return player.getUsername().equals(username) && !gameState.isGameEnded();
 	}
 
 	// EVENT METHODS

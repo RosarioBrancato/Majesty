@@ -1,5 +1,5 @@
-/*
- * 
+/**
+ * Controls the registration view
  * @author Alexandre Miccoli
  * 
  */
@@ -37,105 +37,6 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 	private Time timer = null;
 	private ChangeListener<Number> timerPropertyListener = null;
 	
-	/**
-	 * Instantiates a new registration controller.
-	 *
-	 * @param model the model
-	 * @param view the view
-	 */
-	public RegistrationController(RegistrationModel model, RegistrationView view) {
-		super(model, view);
-	}
-	
-	/**
-	 * Inits the registration status property listener.
-	 */
-	private void initRegistrationStatusPropertyListener() {
-		this.regStat = new ChangeListener<String>() {
-			
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if(newValue.equals("OK")) {
-					final_username = txt_Registration_username.getText();
-					final_password = txt_Registration_pwd.getText();
-					Platform.runLater(() -> {
-						stage.close();
-					});
-				}else {
-					Platform.runLater(() -> {
-						lbl_Registration_msg.setTextFill(Paint.valueOf("RED"));
-						lbl_Registration_msg.setText(translator.getTranslation(newValue.toString()));
-					});
-				}
-				switchLoaderDisplay(false);
-			}
-		};	
-	}
-	
-	/* (non-Javadoc)
-	 * @see ch.fhnw.projectbois._mvc.Controller#initialize()
-	 */
-	@Override
-	protected void initialize() {
-		super.initialize();
-		
-		this.initRegistrationStatusPropertyListener();
-		model.getRegistrationStatus().addListener(regStat);
-		
-		txt_Registration_username.textProperty().addListener((observable, oldValue, newValue) -> {
-			checkInputValidity();
-		});
-
-		txt_Registration_email.textProperty().addListener((observable, oldValue, newValue) -> {
-			checkInputValidity();
-		});
-
-		txt_Registration_pwd.textProperty().addListener((observable, oldValue, newValue) -> {
-			checkInputValidity();
-		});
-
-		txt_Registration_pwdRepeat.textProperty().addListener((observable, oldValue, newValue) -> {
-			checkInputValidity();
-		});
-	}
-
-	/* (non-Javadoc)
-	 * @see ch.fhnw.projectbois.interfaces.IDialog#showAndWait()
-	 */
-	public void showAndWait() {
-		this.stage = DialogUtils.getStageModal(MetaContainer.getInstance().getMainStage());
-		this.stage.setTitle(translator.getTranslation("lbl_Registration_Title"));
-		this.stage.setScene(new Scene(this.getViewRoot()));
-		this.stage.showAndWait();
-		
-	}
-	
-	/**
-	 * Sets the server param.
-	 *
-	 * @param server the server
-	 * @param port the port
-	 */
-	public void setServerParam(String server, int port) {
-		this.server = server;
-		this.port = port;
-	}
-	
-	/* (non-Javadoc)
-	 * @see ch.fhnw.projectbois._mvc.Controller#destroy()
-	 */
-	@Override
-	public void destroy() {
-		try {
-			this.timer.getPeriodCounterProperty().removeListener(this.timerPropertyListener);
-			this.timer.stop();
-		} catch (Exception e) {}
-		
-		super.destroy();
-
-		model.getRegistrationStatus().removeListener(regStat);
-	}
-	
 	@FXML
 	private Label lbl_Registration_msg;
 	
@@ -144,7 +45,7 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 	
 	@FXML
 	private TextField txt_Registration_username;
-	
+
 	@FXML
 	private TextField txt_Registration_email;
 	
@@ -173,9 +74,19 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 	private VBox vbox_Registration_form;
 	
 	/**
-	 * Btn registration cancel clicked.
+	 * Instantiates a new registration controller.
 	 *
-	 * @param event the event
+	 * @param model the model
+	 * @param view the view
+	 */
+	public RegistrationController(RegistrationModel model, RegistrationView view) {
+		super(model, view);
+	}
+	
+	/**
+	 * Closes the view when the "Cancel" button in clicked in the view.
+	 *
+	 * @param event the click event
 	 */
 	@FXML
 	private void btn_Registration_cancelClicked(ActionEvent event) {
@@ -183,9 +94,9 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 	}
 	
 	/**
-	 * Btn registration register clicked.
+	 * Processes the input in the model when the "Register" button in clicked in the view.
 	 *
-	 * @param event the event
+	 * @param event the click event
 	 */
 	@FXML
 	private void btn_Registration_registerClicked(ActionEvent event) {
@@ -196,48 +107,10 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 	}
 	
 	/**
-	 * Inits the timer property listener.
-	 */
-	private void initTimerPropertyListener() {
-		this.timerPropertyListener = (observer, oldValue, newValue) -> {
-			Platform.runLater(() -> {
-				switchLoaderDisplay(false);
-				this.lbl_Registration_msg.setText(translator.getTranslation("lbl_Login_loginMsg_ServerNoReaction"));
-			});
-		};
-	}
-	
-	/**
-	 * Start timer.
+	 * Change color of a text field border to indicate validity of the input.
 	 *
-	 * @param seconds the seconds
-	 */
-	private void startTimer(int seconds) {
-		switchLoaderDisplay(true);
-		this.timer = new Time();
-		this.timer.startTimer(seconds * 1000);
-
-		this.initTimerPropertyListener();
-		this.timer.getPeriodCounterProperty().addListener(this.timerPropertyListener);
-	}
-	
-	/**
-	 * Switch loader display.
-	 *
-	 * @param loading the loading
-	 */
-	private void switchLoaderDisplay(boolean loading) {
-		Platform.runLater(() -> {
-			this.vbox_Registration_loading.setVisible(loading);
-			this.vbox_Registration_form.setVisible(!loading);
-		});
-	}
-	
-	/**
-	 * Change field color.
-	 *
-	 * @param f the f
-	 * @param valid the valid
+	 * @param f the field to alter
+	 * @param valid true if field has to become green, false if it has to become red
 	 */
 	private void changeFieldColor(TextField f, Boolean valid) {
 		if(f.getText().toString().length() > 0 && valid) {
@@ -254,7 +127,7 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 	}
 	
 	/**
-	 * Check input validity.
+	 * Checks whether the inputs have valid values in order to enable/disable the "Register" button.
 	 */
 	private void checkInputValidity() {
 		CredentialsValidator cv = CredentialsValidator.getInstance();
@@ -265,7 +138,7 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 		
 		boolean username_ok = cv.stringIsAlphanumeric(username);
 		boolean email_ok = cv.stringIsValidEmailAddress(email);
-		boolean pwd_ok = cv.passwordStrenghtIsSufficient(pwd);
+		boolean pwd_ok = cv.passwordStrengthIsSufficient(pwd);
 		boolean pwd_match = (pwd.length() > 0 && pwd.equals(pwd_repeat));
 		
 		changeFieldColor(this.txt_Registration_username, username_ok);
@@ -278,23 +151,115 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 		});
 	}
 	
-	/**
-	 * Registration show helper text username.
-	 *
-	 * @param event the event
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois._mvc.Controller#destroy()
 	 */
-	@FXML
-	private void RegistrationShowHelperText_username(ActionEvent event) {
-		Platform.runLater(() -> {
-			lbl_Registration_msg.setTextFill(Paint.valueOf("BLACK"));
-			this.lbl_Registration_msg.setText(translator.getTranslation("lbl_Registration_Helper_username"));
+	/**
+	 * Removes property listeners before closing the MVC.
+	 */
+	@Override
+	public void destroy() {
+		try {
+			this.timer.getPeriodCounterProperty().removeListener(this.timerPropertyListener);
+			this.timer.stop();
+		} catch (Exception e) {}
+		
+		super.destroy();
+
+		model.getRegistrationStatus().removeListener(regStat);
+	}
+	
+	/**
+	 * Returns the entered password.
+	 * Used by the LoginController to get back the input after registration
+	 *
+	 * @return the entered password
+	 */
+	public String getPassword() {
+		return this.final_password;
+	}
+	
+	/**
+	 * Returns the entered username.
+	 * Used by the LoginController to get back the input after registration
+	 *
+	 * @return the entered username
+	 */
+	public String getUsername() {
+		return this.final_username;
+	}
+	
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois._mvc.Controller#initialize()
+	 */
+	/**
+	 * Creates change listeners for fields in the form.
+	 */
+	@Override
+	protected void initialize() {
+		super.initialize();
+		
+		this.initRegistrationStatusPropertyListener();
+		model.getRegistrationStatus().addListener(regStat);
+		
+		txt_Registration_username.textProperty().addListener((observable, oldValue, newValue) -> {
+			checkInputValidity();
+		});
+
+		txt_Registration_email.textProperty().addListener((observable, oldValue, newValue) -> {
+			checkInputValidity();
+		});
+
+		txt_Registration_pwd.textProperty().addListener((observable, oldValue, newValue) -> {
+			checkInputValidity();
+		});
+
+		txt_Registration_pwdRepeat.textProperty().addListener((observable, oldValue, newValue) -> {
+			checkInputValidity();
 		});
 	}
 	
 	/**
-	 * Registration show helper text email.
+	 * Initializes the registration status property listener.
+	 */
+	private void initRegistrationStatusPropertyListener() {
+		this.regStat = new ChangeListener<String>() {
+			
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if(newValue.equals("OK")) {
+					final_username = txt_Registration_username.getText();
+					final_password = txt_Registration_pwd.getText();
+					Platform.runLater(() -> {
+						stage.close();
+					});
+				}else {
+					Platform.runLater(() -> {
+						lbl_Registration_msg.setTextFill(Paint.valueOf("RED"));
+						lbl_Registration_msg.setText(translator.getTranslation(newValue.toString()));
+					});
+				}
+				switchLoaderDisplay(false);
+			}
+		};	
+	}
+	
+	/**
+	 * Initializes the timeout timer property listener.
+	 */
+	private void initTimerPropertyListener() {
+		this.timerPropertyListener = (observer, oldValue, newValue) -> {
+			Platform.runLater(() -> {
+				switchLoaderDisplay(false);
+				this.lbl_Registration_msg.setText(translator.getTranslation("lbl_Login_loginMsg_ServerNoReaction"));
+			});
+		};
+	}
+	
+	/**
+	 * Displays the hint regarding "email address" field.
 	 *
-	 * @param event the event
+	 * @param event the click event
 	 */
 	@FXML
 	private void RegistrationShowHelperText_email(ActionEvent event) {
@@ -305,9 +270,9 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 	}
 	
 	/**
-	 * Registration show helper text password.
+	 * Displays the hint regarding "password" field.
 	 *
-	 * @param event the event
+	 * @param event the click event
 	 */
 	@FXML
 	private void RegistrationShowHelperText_password(ActionEvent event) {
@@ -318,9 +283,9 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 	}
 	
 	/**
-	 * Registration show helper text password repeat.
+	 * Displays the hint regarding "repeated password" field.
 	 *
-	 * @param event the event
+	 * @param event the click event
 	 */
 	@FXML
 	private void RegistrationShowHelperText_passwordRepeat(ActionEvent event) {
@@ -331,21 +296,66 @@ public class RegistrationController extends Controller<RegistrationModel, Regist
 	}
 	
 	/**
-	 * Gets the username.
+	 * Displays the hint regarding "username" field.
 	 *
-	 * @return the username
+	 * @param event the click event
 	 */
-	public String getUsername() {
-		return this.final_username;
+	@FXML
+	private void RegistrationShowHelperText_username(ActionEvent event) {
+		Platform.runLater(() -> {
+			lbl_Registration_msg.setTextFill(Paint.valueOf("BLACK"));
+			this.lbl_Registration_msg.setText(translator.getTranslation("lbl_Registration_Helper_username"));
+		});
 	}
 	
 	/**
-	 * Gets the password.
+	 * Sets the server parameters for the registration.
+	 * Data is set by the LoginController when the MVC is opened
 	 *
-	 * @return the password
+	 * @param server the server to use for registration
+	 * @param port the port of the server to use for registration
 	 */
-	public String getPassword() {
-		return this.final_password;
+	public void setServerParam(String server, int port) {
+		this.server = server;
+		this.port = port;
+	}
+	
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois.interfaces.IDialog#showAndWait()
+	 */
+	@Override
+	public void showAndWait() {
+		this.stage = DialogUtils.getStageModal(MetaContainer.getInstance().getMainStage());
+		this.stage.setTitle(translator.getTranslation("lbl_Registration_Title"));
+		this.stage.setScene(new Scene(this.getViewRoot()));
+		this.stage.showAndWait();
+		
+	}
+	
+	/**
+	 * Starts the timeout timer while waiting for response from server.
+	 *
+	 * @param seconds the number of seconds for the timer
+	 */
+	private void startTimer(int seconds) {
+		switchLoaderDisplay(true);
+		this.timer = new Time();
+		this.timer.startTimer(seconds * 1000);
+
+		this.initTimerPropertyListener();
+		this.timer.getPeriodCounterProperty().addListener(this.timerPropertyListener);
+	}
+	
+	/**
+	 * Switch between form and loading screen.
+	 *
+	 * @param loading true to show loading screen, false for showing form
+	 */
+	private void switchLoaderDisplay(boolean loading) {
+		Platform.runLater(() -> {
+			this.vbox_Registration_loading.setVisible(loading);
+			this.vbox_Registration_form.setVisible(!loading);
+		});
 	}
 
 }
