@@ -1,0 +1,62 @@
+
+.pnlMill {
+	-fx-background-color: #EB9A4E;
+	/*-fx-background-image: url('/resources/game/locations/Side%20A/Side%20A1.jpg');
+	 * 
+	 */
+	-fx-background-size: contain;  
+}
+
+.pnlBrewery {
+	-fx-background-color: #BB9E5A;
+	
+}
+
+.pnlCottage {
+	-fx-background-color: #BB9E5A;
+	
+}
+
+.pnlGuardhouse {
+	-fx-background-color: #BB9E5A;
+	
+}
+
+.pnlBarracks {
+	
+}
+
+.pnlInn {
+	
+}
+
+.pnlCastle {
+	
+}
+
+.pnlInfirmary {
+	
+}
+.display {
+	-fx-padding: 3px;
+	-fx-background-color: #fff5dd;
+}
+
+.displayToHover {
+	-fx-background-color: #ffff7a;
+}
+
+.displayToHover:hover {
+	-fx-border-style: solid;
+	-fx-border-color: red;
+	-fx-border-width: 3px;
+	-fx-padding: 0px;
+}
+
+.playersCards {
+	-fx-background-color: #c3dff4;
+}
+
+.opponents {
+	-fx-background-color: #b0b3b7;
+}
