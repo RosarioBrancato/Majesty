@@ -1,5 +1,5 @@
-/*
- * 
+/**
+ * Processes login requests against the server
  * @author Alexandre Miccoli
  * 
  */
@@ -42,6 +42,10 @@ public class LoginModel extends Model {
 	/* (non-Javadoc)
 	 * @see ch.fhnw.projectbois._mvc.Model#getChangeListener()
 	 */
+	/**
+	 * Listens to the responses belonging to the authentication (auth) section.
+	 * @see ch.fhnw.projectbois.communication
+	 */
 	@Override
 	protected ChangeListener<Response> getChangeListener() {
 		return new ChangeListener<Response>() {
@@ -71,16 +75,17 @@ public class LoginModel extends Model {
 	}
 	
 	/**
-	 * Gets the logged in user.
+	 * Returns the logged in user.
+	 * Null while no UserDTO has been returned by the server
 	 *
-	 * @return the logged in user
+	 * @return the logged in user (DTO)
 	 */
 	protected SimpleObjectProperty<UserDTO> getLoggedInUser() {
 		return this.loggedInUser;
 	}
 	
 	/**
-	 * Gets the login status.
+	 * Returns the response message, which has to be shown in the status bar.
 	 *
 	 * @return the login status
 	 */
@@ -89,10 +94,10 @@ public class LoginModel extends Model {
 	}
 	
 	/**
-	 * Login process credentials.
+	 * Prepares and sends a login request to the server.
 	 *
 	 * @param server the server
-	 * @param port_in the port in
+	 * @param port_in the server port
 	 * @param username the username
 	 * @param password the password
 	 */
@@ -111,7 +116,8 @@ public class LoginModel extends Model {
 	}
 	
 	/**
-	 * Reset status.
+	 * Resets the authentication/login status.
+	 * Used when a new timeout timer is started.
 	 */
 	public void resetStatus() {
 		this.responseMsg.set(null);

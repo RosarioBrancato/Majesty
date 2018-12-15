@@ -1,20 +1,14 @@
-/*
- * 
+/**
+ * Various methods used to create and validate secure passwords
  * @author Alexandre Miccoli
- * 
+ * Inspired by the example found at https://stackoverflow.com/questions/9290533/byte-to-string-and-vice-versa
+ *
  */
 package ch.fhnw.projectbois.queries;
 
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.Base64;
-
-/**
- * 
- * @author Alexandre Miccoli
- * Inspired by the example found at https://stackoverflow.com/questions/9290533/byte-to-string-and-vice-versa
- *
- */
 
 public class PasswordHandler {
 	static PasswordHandler ph = null;
@@ -36,12 +30,12 @@ public class PasswordHandler {
 	private PasswordHandler(){}
 	
 	/**
-	 * Check matching passwords.
+	 * Check if the entered password matches the password/salt combination of the database.
 	 *
 	 * @param enteredPassword the entered password
-	 * @param expectedHash the expected hash
-	 * @param salt the salt
-	 * @return true, if successful
+	 * @param expectedHash the hashed password from the database
+	 * @param salt the salt from the database
+	 * @return true, if entered password matches the password/salt combination of the database
 	 */
 	public boolean checkMatchingPasswords(String enteredPassword, String expectedHash, String salt) {
 		if(getHashedPassword(salt, enteredPassword).equals(expectedHash)) {
@@ -52,11 +46,11 @@ public class PasswordHandler {
 	}
 	
 	/**
-	 * Gets the hashed password.
+	 * Transforms the desired password and generated salt into a hashed string.
 	 *
-	 * @param salt the salt
-	 * @param password the password
-	 * @return the hashed password
+	 * @param salt the generated salt
+	 * @param password the desired (validated) password
+	 * @return the hashed password string
 	 */
 	public String getHashedPassword(String salt, String password) {
 		String input = salt + password;
@@ -75,9 +69,11 @@ public class PasswordHandler {
 	}
 	
 	/**
-	 * Gets the next salt.
+	 * Generated a random salt string.
+	 * Salting passwords helps prevent dictionary brute-force attacks by prepending
+	 * a random string to the password before hashing the whole string.
 	 *
-	 * @return the next salt
+	 * @return a random string of 16 bytes
 	 */
 	public String getNextSalt(){
 		String output = "";
