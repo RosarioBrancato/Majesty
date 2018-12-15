@@ -1,5 +1,5 @@
-/*
- * 
+/**
+ * User data transfer object (DTO) to exchange between server and client
  * @author Alexandre Miccoli
  * 
  */
@@ -20,11 +20,12 @@ public class UserDTO {
 	}
 	
 	/**
-	 * Instantiates a new user DTO.
+	 * Instantiates a new user data transfer object.
+	 * Used for the authentication
 	 *
-	 * @param id the id
-	 * @param username the username
-	 * @param token the token
+	 * @param id the unique database identifier of the user
+	 * @param username the username of the user
+	 * @param token the authentication token to be sent with each request
 	 */
 	public UserDTO(int id, String username, String token) {
 		this.id = id;
@@ -33,12 +34,14 @@ public class UserDTO {
 	}
 		
 	/**
-	 * Instantiates a new user DTO.
+	 * Instantiates a new user data transfer object.
+	 * Used when the email address is changed
 	 *
-	 * @param id the id
-	 * @param username the username
+	 * @param id the unique database identifier of the user
+	 * @param username the username of the user
+	 * @param email the new email address of a user
+	 * @param token the authentication token to be sent with each request
 	 * @param email the email
-	 * @param token the token
 	 */
 	public UserDTO(int id, String username, String email, String token) {
 		this.id = id;
@@ -48,61 +51,61 @@ public class UserDTO {
 	}
 
 	/**
-	 * Gets the email.
+	 * Get email address out of the DTO.
 	 *
-	 * @return the email
+	 * @return the email address set in the DTO
 	 */
 	public String getEmail() {
 		return email;
 	}
 
 	/**
-	 * Gets the id.
+	 * Gets the id out of the DTO.
 	 *
-	 * @return the id
+	 * @return the id set in the DTO
 	 */
 	public int getId() {
 		return id;
 	}
 	
 	/**
-	 * Gets the token.
+	 * Get the token out of the DTO.
 	 *
-	 * @return the token
+	 * @return the token set in the DTO
 	 */
 	public String getToken() {
 		return token;
 	}
 	
 	/**
-	 * Gets the username.
+	 * Get the username out of the DTO.
 	 *
-	 * @return the username
+	 * @return the username set in the DTO
 	 */
 	public String getUsername() {
 		return username;
 	}
 
 	/**
-	 * Sets the email.
+	 * Sets the email address in a DTO.
 	 *
-	 * @param email the new email
+	 * @param email the new email address
 	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
 	/**
-	 * Sets the id.
+	 * Sets the UID in a DTO.
 	 *
-	 * @param id the new id
+	 * @param id the uid (unique identifier out of the database)
 	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
 	/**
-	 * Sets the token.
+	 * Sets the token in a DTO.
 	 *
 	 * @param token the new token
 	 */
@@ -111,9 +114,9 @@ public class UserDTO {
 	}
 
 	/**
-	 * Sets the username.
+	 * Sets the username in a DTO.
 	 *
-	 * @param username the new username
+	 * @param username the username
 	 */
 	public void setUsername(String username) {
 		this.username = username;

@@ -1,5 +1,5 @@
-/*
- * 
+/**
+ * Controls the profile view
  * @author Alexandre Miccoli
  * 
  */
@@ -75,9 +75,9 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 	}
 	
 	/**
-	 * Btn profile update clicked.
+	 * Resets and starts a timeout timer before letting the model process the input after the "save" button gets clicked.
 	 *
-	 * @param event the event
+	 * @param event the click event
 	 */
 	@FXML
 	private void btn_Profile_updateClicked(ActionEvent event) {
@@ -87,10 +87,10 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 	}
 	
 	/**
-	 * Change field color.
+	 * Change color of a text field border to indicate validity of the input.
 	 *
-	 * @param f the f
-	 * @param valid the valid
+	 * @param f the field to alter
+	 * @param valid true if field has to become green, false if it has to become red
 	 */
 	private void changeFieldColor(TextField f, Boolean valid) {
 		if(f.getText().toString().length() > 0 && valid) {
@@ -107,7 +107,7 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 	}
 	
 	/**
-	 * Check input validity.
+	 * Check the validity of typed data against defined patterns to decide whether the "save" button shall be enabled.
 	 */
 	private void checkInputValidity() {
 		CredentialsValidator cv = CredentialsValidator.getInstance();
@@ -116,7 +116,7 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 		String pwd_repeat = this.txt_Profile_pwdRepeat.getText();
 		
 		boolean email_ok = (!Session.getCurrentEmail().equals(email) && cv.stringIsValidEmailAddress(email));
-		boolean pwd_ok = cv.passwordStrenghtIsSufficient(pwd);
+		boolean pwd_ok = cv.passwordStrengthIsSufficient(pwd);
 		boolean pwd_match = (pwd.length() > 0 && pwd.equals(pwd_repeat));
 		
 		changeFieldColor(this.txt_Profile_email, email_ok);
@@ -130,6 +130,9 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 	
 	/* (non-Javadoc)
 	 * @see ch.fhnw.projectbois._mvc.Controller#destroy()
+	 */
+	/**
+	 * Removes property listeners before closing the MVC.
 	 */
 	@Override
 	public void destroy() {
@@ -145,6 +148,9 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 	
 	/* (non-Javadoc)
 	 * @see ch.fhnw.projectbois._mvc.Controller#initialize()
+	 */
+	/**
+	 * Creates change listeners for the fields in the form and pre-fills them.
 	 */
 	@Override
 	protected void initialize() {
@@ -173,7 +179,7 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 	}
 	
 	/**
-	 * Inits the registration status property listener.
+	 * Initializes the registration status property listener.
 	 */
 	private void initRegistrationStatusPropertyListener() {
 		this.profUpdateStat = new ChangeListener<String>() {
@@ -200,7 +206,7 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 	}
 	
 	/**
-	 * Inits the timer property listener.
+	 * Initializes the timeout timer property listener.
 	 */
 	private void initTimerPropertyListener() {
 		this.timerPropertyListener = (observer, oldValue, newValue) -> {
@@ -215,9 +221,9 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 	}
 	
 	/**
-	 * Profile show helper text email.
+	 * Displays the hint regarding "email address" field.
 	 *
-	 * @param event the event
+	 * @param event the click event
 	 */
 	@FXML
 	private void ProfileShowHelperText_email(ActionEvent event) {
@@ -228,9 +234,9 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 	}
 	
 	/**
-	 * Profile show helper text password.
+	 * Displays the hint regarding "password" field.
 	 *
-	 * @param event the event
+	 * @param event the click event
 	 */
 	@FXML
 	private void ProfileShowHelperText_password(ActionEvent event) {
@@ -241,9 +247,9 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 	}
 	
 	/**
-	 * Profile show helper text password repeat.
+	 * Displays the hint regarding "repeated password" field.
 	 *
-	 * @param event the event
+	 * @param event the click event
 	 */
 	@FXML
 	private void ProfileShowHelperText_passwordRepeat(ActionEvent event) {
@@ -254,7 +260,7 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 	}
 	
 	/**
-	 * Profile show helper text username.
+	 * Displays the hint regarding "username" field (not editable by the user).
 	 *
 	 * @param event the event
 	 */
@@ -267,7 +273,7 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 	}
 	
 	/**
-	 * Start timer.
+	 * Start timeout timer while waiting for a server response.
 	 *
 	 * @param seconds the seconds
 	 */
@@ -281,9 +287,9 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 	}
 	
 	/**
-	 * Switch loader display.
+	 * Hide the form and show the loading screen or vice-versa.
 	 *
-	 * @param loading the loading
+	 * @param loading true if loading view shall be shown, false if form has to be visible
 	 */
 	private void switchLoaderDisplay(boolean loading) {
 		Platform.runLater(() -> {

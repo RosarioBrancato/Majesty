@@ -1,5 +1,5 @@
-/*
- * 
+/**
+ * Generation of authentication tokens
  * @author Alexandre Miccoli
  * 
  */
@@ -30,18 +30,12 @@ public class TokenFactory {
 	}
 
 	/**
-	 * Gets the new token.
+	 * Generate a new authentication token based on UUID (time-based and immutable identifier).
 	 *
-	 * @return the new token
+	 * @return the newely generated token
 	 */
 	public String getNewToken() {
 		String token;
-
-		// bytes
-//		SecureRandom random = new SecureRandom();
-//		byte bytes[] = new byte[20];
-//		random.nextBytes(bytes);
-//		token = bytes.toString();
 
 		// UUID
 		token = UUID.randomUUID().toString();

@@ -1,5 +1,5 @@
-/*
- * 
+/**
+ * Processes authentication/login and registration requests from the clients
  * @author Alexandre Miccoli
  * 
  */
@@ -39,11 +39,20 @@ public class AuthRequestHandler extends RequestHandler {
 		super(request, server, client);
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.fhnw.projectbois.requesthandlers.RequestHandler#handleRequest()
+	/**
+	 * 
+	 * Handles registration and login requests and prepares a response with response ID.
+	 * In successful login cases, the response includes a UserDTO object with an authentication token.
+	 * 
+	 * Conditions for Login request: User exists, credentials are OK, user is not already logged in.
+	 * Conditions for Registration request: User does not exist, credentials are validated
+	 * 
 	 */
 	@Override
 	protected void handleRequest() {
+		
+		// Case: Login
+		
 		if(request.getRequestId() == RequestId.LOGIN) {
 			int DBuid = 0;
 			String DBpassword = null;
@@ -108,6 +117,8 @@ public class AuthRequestHandler extends RequestHandler {
 			client.sendResponse(response);
 		}
 		
+		// Case: Registration
+		
 		if(request.getRequestId() == RequestId.REGISTER) {
 			CredentialsValidator cv = CredentialsValidator.getInstance();
 			Response response = null;
@@ -115,7 +126,7 @@ public class AuthRequestHandler extends RequestHandler {
 			UserHandler uh = UserHandler.getInstance();
 			int uid = 0;
 			
-			if(!cv.stringIsAlphanumeric(regReq.getUsername()) || !cv.stringIsValidEmailAddress(regReq.getEmail()) || !cv.passwordStrenghtIsSufficient(regReq.getPassword())) {
+			if(!cv.stringIsAlphanumeric(regReq.getUsername()) || !cv.stringIsValidEmailAddress(regReq.getEmail()) || !cv.passwordStrengthIsSufficient(regReq.getPassword())) {
 				uid = -99;
 			}
 			
