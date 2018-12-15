@@ -8,7 +8,7 @@
 
 <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@GameView2.css/" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane fx:id="pnlField" layoutX="7.0" layoutY="14.0" prefHeight="800.0" prefWidth="1200.0" AnchorPane.bottomAnchor="-14.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="-7.0" AnchorPane.topAnchor="14.0">
+      <GridPane fx:id="pnlField" layoutX="7.0" layoutY="14.0" prefHeight="800.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
           <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="11.1" prefWidth="100.0" />
             <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="11.1" prefWidth="100.0" />
@@ -41,9 +41,9 @@
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="5">
                <children>
-                  <Label fx:id="lblOwnMeeplesCount" layoutX="4.0" layoutY="199.0" text="Meeples:" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="105.0" />
-                  <Label fx:id="lblOwnPointsCount" layoutX="17.0" layoutY="135.0" text="Points: 123" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="55.0" />
-                  <Label fx:id="lblOwnUserName" layoutX="39.0" layoutY="20.0" text="Player1" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                  <Label fx:id="lblMeeples1" layoutX="4.0" layoutY="199.0" text="Meeples:" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="105.0" />
+                  <Label fx:id="lblPoints1" layoutX="17.0" layoutY="135.0" text="Points: 123" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="55.0" />
+                  <Label fx:id="lblName1" layoutX="39.0" layoutY="20.0" text="Player1" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="166.0" prefWidth="358.0" GridPane.columnSpan="2" GridPane.rowIndex="4">
@@ -57,23 +57,23 @@
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
                <children>
-                  <Label fx:id="lblPlayer3UserName" layoutX="5.0" layoutY="7.0" text="Player1" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                  <Label fx:id="lblPlayer3PointsCount" layoutX="5.0" layoutY="7.0" text="Points: 123" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="30.0" />
-                  <Label fx:id="lblPlayer3MeeplesCount" layoutX="5.0" layoutY="7.0" text="Meeples: 5" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="55.0" />
+                  <Label fx:id="lblName4" layoutX="5.0" layoutY="7.0" text="Player1" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                  <Label fx:id="lblPoints4" layoutX="5.0" layoutY="7.0" text="Points: 123" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="30.0" />
+                  <Label fx:id="lblMeeples4" layoutX="5.0" layoutY="7.0" text="Meeples: 5" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="55.0" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                <children>
-                  <Label fx:id="lblPlayer1UserName" layoutX="16.0" layoutY="8.0" text="Player1" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                  <Label fx:id="lblPlayer1PointsCount" layoutX="11.0" layoutY="30.0" prefHeight="35.0" prefWidth="125.0" text="Points: 123" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="30.0" />
-                  <Label fx:id="lblPlayer1MeeplesCount" layoutX="7.0" layoutY="55.0" text="Meeples: 5" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="55.0" />
+                  <Label fx:id="lblName2" layoutX="16.0" layoutY="8.0" text="Player1" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                  <Label fx:id="lblPoints2" layoutX="11.0" layoutY="30.0" prefHeight="35.0" prefWidth="125.0" text="Points: 123" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="30.0" />
+                  <Label fx:id="lblMeeples2" layoutX="7.0" layoutY="55.0" text="Meeples: 5" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="55.0" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                <children>
-                  <Label fx:id="lblPlayer2MeeplesCount" layoutX="5.0" layoutY="57.0" text="Meeples: 5" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="55.0" />
-                  <Label fx:id="lblPlayer2PointsCount" layoutX="4.0" layoutY="29.0" text="Points: 123" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="30.0" />
-                  <Label fx:id="lblPlayer2UserName" layoutX="4.0" text="Player1" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                  <Label fx:id="lblMeeples3" layoutX="5.0" layoutY="57.0" text="Meeples: 5" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="55.0" />
+                  <Label fx:id="lblPoints3" layoutX="4.0" layoutY="29.0" text="Points: 123" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="30.0" />
+                  <Label fx:id="lblName3" layoutX="4.0" text="Player1" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="166.0" prefWidth="752.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="4">
@@ -98,48 +98,48 @@
             <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlBrewery" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlMill" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <StackPane prefHeight="150.0" prefWidth="200.0" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="3" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="1" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="2" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="3" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="1" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="2" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="3" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="8" GridPane.rowIndex="1" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="8" GridPane.rowIndex="2" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="8" GridPane.rowIndex="3" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlCottage" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlCottage" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlCottage" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlGuardhouse" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlGuardhouse" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlGuardhouse" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlBarracks" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlBarracks" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlBarracks" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlInn" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlInn" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlInn" GridPane.columnIndex="6" GridPane.rowIndex="3" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlCastle" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlCastle" GridPane.columnIndex="7" GridPane.rowIndex="2" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlCastle" GridPane.columnIndex="7" GridPane.rowIndex="3" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlInfirmary" GridPane.columnIndex="8" GridPane.rowIndex="1" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlInfirmary" GridPane.columnIndex="8" GridPane.rowIndex="2" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlInfirmary" GridPane.columnIndex="8" GridPane.rowIndex="3" />
             <Pane fx:id="pnlMill" prefHeight="101.0" prefWidth="134.0" styleClass="pnlMill" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <Pane fx:id="pnlBrewery" prefHeight="200.0" prefWidth="200.0" styleClass="pnlBrewery" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-            <Pane fx:id="pnlGuardhouse" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="6" />
-            <Pane fx:id="pnlBarracks" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="6" />
-            <Pane fx:id="pnlInn" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="6" />
-            <Pane fx:id="pnlCastle" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="6" />
-            <Pane fx:id="pnlInfirmary" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="8" GridPane.rowIndex="6" />
+            <Pane fx:id="pnlGuardhouse" prefHeight="200.0" prefWidth="200.0" styleClass="pnlGuardhouse" GridPane.columnIndex="4" GridPane.rowIndex="6" />
+            <Pane fx:id="pnlBarracks" prefHeight="200.0" prefWidth="200.0" styleClass="pnlBarracks" GridPane.columnIndex="5" GridPane.rowIndex="6" />
+            <Pane fx:id="pnlInn" prefHeight="200.0" prefWidth="200.0" styleClass="pnlInn" GridPane.columnIndex="6" GridPane.rowIndex="6" />
+            <Pane fx:id="pnlCastle" prefHeight="200.0" prefWidth="200.0" styleClass="pnlCastle" GridPane.columnIndex="7" GridPane.rowIndex="6" />
+            <Pane fx:id="pnlInfirmary" prefHeight="200.0" prefWidth="200.0" styleClass="pnlInfirmary" GridPane.columnIndex="8" GridPane.rowIndex="6" />
             <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlMill" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlBrewery" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="5" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="5" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="5" />
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="8" GridPane.rowIndex="5" />
-            <Pane fx:id="pnlCottage" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlCottage" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlGuardhouse" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlBarracks" GridPane.columnIndex="5" GridPane.rowIndex="5" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlInn" GridPane.columnIndex="6" GridPane.rowIndex="5" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlCastle" GridPane.columnIndex="7" GridPane.rowIndex="5" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlInfirmary" GridPane.columnIndex="8" GridPane.rowIndex="5" />
+            <Pane fx:id="pnlCottage" prefHeight="200.0" prefWidth="200.0" styleClass="pnlCottage" GridPane.columnIndex="3" GridPane.rowIndex="6" />
             <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="pnlMill" GridPane.columnIndex="1" />
             <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="pnlBrewery" GridPane.columnIndex="2" />
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" />
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" />
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" />
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" />
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" />
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="8" />
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="pnlCottage" GridPane.columnIndex="3" />
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="pnlGuardhouse" GridPane.columnIndex="4" />
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="pnlBarracks" GridPane.columnIndex="5" />
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="pnlInn" GridPane.columnIndex="6" />
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="pnlCastle" GridPane.columnIndex="7" />
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="pnlInfirmary" GridPane.columnIndex="8" />
             <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pnlBrewery" GridPane.columnIndex="2" GridPane.rowIndex="3" />
          </children>
       </GridPane>
