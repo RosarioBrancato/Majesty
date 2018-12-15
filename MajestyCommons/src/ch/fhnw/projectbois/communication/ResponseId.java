@@ -62,6 +62,7 @@ public class ResponseId {
 	public static final int PROFILE_UPDATE_ERROR_DATABASE = 702;
 	public static final int PROFILE_UPDATE_ERROR_BAD_CREDENTIALS = 703;
 	public static final int PROFILE_UPDATE_ERROR = 704;
+	public static final int PROFILE_DELETED = 797;
 	public static final int PROFILE_ERROR = 798;
 	public static final int PROFILE_RANGE_END = 799;
 
