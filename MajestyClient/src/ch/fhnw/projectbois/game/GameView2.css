@@ -1,10 +1,7 @@
 
 .pnlMill {
 	-fx-background-color: #EB9A4E;
-	/*-fx-background-image: url('/resources/game/locations/Side%20A/Side%20A1.jpg');
-	 * 
-	 */
-	-fx-background-size: contain;  
+
 }
 
 .pnlBrewery {
@@ -42,6 +39,11 @@
 	-fx-background-color: #85542D;
 	
 }
+
+.pnlPlayerInfo {
+	-fx-background-color: #EBD58B;
+}
+
 .display {
 	-fx-padding: 3px;
 	-fx-background-color: #fff5dd;
@@ -64,4 +66,9 @@
 
 .opponents {
 	-fx-background-color: #b0b3b7;
+}
+
+#pnlDisplaySelectedCard {
+	-fx-shape: circle;
+	-fx-background-color: #EBD58B;
 }
