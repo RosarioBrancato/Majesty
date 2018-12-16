@@ -40,7 +40,7 @@
                      </font></Label>
                </children>
             </AnchorPane>
-            <AnchorPane styleClass="pnlPlayerInfo" GridPane.rowIndex="5" GridPane.rowSpan="2">
+            <AnchorPane GridPane.rowIndex="5" GridPane.rowSpan="2">
                <children>
                   <Label id="lblMeeples1" fx:id="lblMeeples1" layoutX="5.0" layoutY="59.0" text="Meeples:" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="59.0">
                      <font>
@@ -55,6 +55,10 @@
                         <Font size="18.0" />
                      </font></Label>
                </children>
+               <styleClass>
+                  <String fx:value="pnlPlayerInfo" />
+                  <String fx:value="pnlPlayersLeft" />
+               </styleClass>
             </AnchorPane>
             <AnchorPane styleClass="pnlCardTable" GridPane.columnSpan="2" GridPane.rowIndex="4">
                <children>
@@ -65,7 +69,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane styleClass="pnlPlayerInfo" GridPane.rowIndex="3">
+            <AnchorPane GridPane.rowIndex="3">
                <children>
                   <Label id="lblName4" fx:id="lblName4" layoutX="5.0" layoutY="7.0" text="Player 4" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
                      <font>
@@ -80,8 +84,12 @@
                         <Font size="18.0" />
                      </font></Label>
                </children>
+               <styleClass>
+                  <String fx:value="pnlPlayerInfo" />
+                  <String fx:value="pnlPlayersLeft" />
+               </styleClass>
             </AnchorPane>
-            <AnchorPane styleClass="pnlPlayerInfo" GridPane.rowIndex="1">
+            <AnchorPane GridPane.rowIndex="1">
                <children>
                   <Label id="lblName2" fx:id="lblName2" layoutX="16.0" layoutY="8.0" text="Player 2" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
                      <font>
@@ -96,8 +104,12 @@
                         <Font size="18.0" />
                      </font></Label>
                </children>
+               <styleClass>
+                  <String fx:value="pnlPlayerInfo" />
+                  <String fx:value="pnlPlayersLeft" />
+               </styleClass>
             </AnchorPane>
-            <AnchorPane styleClass="pnlPlayerInfo" GridPane.rowIndex="2">
+            <AnchorPane GridPane.rowIndex="2">
                <children>
                   <Label id="lblMeeples3" fx:id="lblMeeples3" layoutX="6.0" layoutY="59.0" text="Meeples: 5" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="59.0">
                      <font>
@@ -112,46 +124,164 @@
                         <Font size="18.0" />
                      </font></Label>
                </children>
+               <styleClass>
+                  <String fx:value="pnlPlayerInfo" />
+                  <String fx:value="pnlPlayersLeft" />
+               </styleClass>
             </AnchorPane>
             <AnchorPane styleClass="pnlCardTable" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="4">
                <children>
-                  <Pane id="pnlHover" fx:id="pnlDisplayCardDetailed" layoutX="69.0" layoutY="45.0" styleClass="pnlImage" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Pane id="pnlHover" fx:id="pnlDisplayCardDetailed" layoutX="69.0" layoutY="45.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <styleClass>
+                        <String fx:value="pnlImage" />
+                        <String fx:value="pnlDisplaySelectedCard" />
+                     </styleClass></Pane>
                </children>
             </AnchorPane>
             <HBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" spacing="5.0" styleClass="pnlCardTable" GridPane.columnIndex="4" GridPane.columnSpan="5" GridPane.rowIndex="4">
                <children>
-                  <Pane id="pnlDisplayCard1" fx:id="pnlDisplayCard1" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage" />
-                  <Pane id="pnlDisplayCard2" fx:id="pnlDisplayCard2" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage" />
-                  <Pane id="pnlDisplayCard3" fx:id="pnlDisplayCard3" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage" />
-                  <Pane id="pnlDisplayCard4" fx:id="pnlDisplayCard4" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage" />
-                  <Pane id="pnlDisplayCard5" fx:id="pnlDisplayCard5" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage" />
-                  <Pane id="pnlDisplayCard6" fx:id="pnlDisplayCard6" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage" />
+                  <Pane id="pnlDisplayCard1" fx:id="pnlDisplayCard1" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="35.0" layoutY="51.0" styleClass="lblMeeplesOnCard" text="3" />
+                     </children></Pane>
+                  <Pane id="pnlDisplayCard2" fx:id="pnlDisplayCard2" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="37.0" layoutY="50.0" styleClass="lblMeeplesOnCard" text="2" />
+                     </children></Pane>
+                  <Pane id="pnlDisplayCard3" fx:id="pnlDisplayCard3" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="35.0" layoutY="50.0" styleClass="lblMeeplesOnCard" text="2" />
+                     </children></Pane>
+                  <Pane id="pnlDisplayCard4" fx:id="pnlDisplayCard4" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="35.0" layoutY="51.0" styleClass="lblMeeplesOnCard" text="1" />
+                     </children></Pane>
+                  <Pane id="pnlDisplayCard5" fx:id="pnlDisplayCard5" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="35.0" layoutY="50.0" styleClass="lblMeeplesOnCard" text="0" />
+                     </children></Pane>
+                  <Pane id="pnlDisplayCard6" fx:id="pnlDisplayCard6" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="35.0" layoutY="50.0" styleClass="lblMeeplesOnCard" text="0" />
+                     </children></Pane>
                   <StackPane id="pnlDisplayCardStack" fx:id="pnlDisplayCardStack" prefHeight="150.0" prefWidth="200.0" styleClass="pnlImage" />
                </children>
             </HBox>
-            <StackPane styleClass="pnlMill" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <StackPane styleClass="pnlBrewery" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <StackPane styleClass="pnlMill" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <StackPane styleClass="pnlBrewery" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <StackPane styleClass="pnlMill" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <StackPane styleClass="pnlCottage" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <StackPane styleClass="pnlCottage" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-            <StackPane styleClass="pnlCottage" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <StackPane styleClass="pnlGuardhouse" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-            <StackPane styleClass="pnlGuardhouse" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-            <StackPane styleClass="pnlGuardhouse" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-            <StackPane styleClass="pnlBarracks" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-            <StackPane styleClass="pnlBarracks" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-            <StackPane styleClass="pnlBarracks" GridPane.columnIndex="5" GridPane.rowIndex="3" />
-            <StackPane styleClass="pnlInn" GridPane.columnIndex="6" GridPane.rowIndex="1" />
-            <StackPane styleClass="pnlInn" GridPane.columnIndex="6" GridPane.rowIndex="2" />
-            <StackPane styleClass="pnlInn" GridPane.columnIndex="6" GridPane.rowIndex="3" />
-            <StackPane styleClass="pnlCastle" GridPane.columnIndex="7" GridPane.rowIndex="1" />
-            <StackPane styleClass="pnlCastle" GridPane.columnIndex="7" GridPane.rowIndex="2" />
-            <StackPane styleClass="pnlCastle" GridPane.columnIndex="7" GridPane.rowIndex="3" />
-            <StackPane styleClass="pnlInfirmary" GridPane.columnIndex="8" GridPane.rowIndex="1" />
-            <StackPane styleClass="pnlInfirmary" GridPane.columnIndex="8" GridPane.rowIndex="2" />
-            <StackPane styleClass="pnlInfirmary" GridPane.columnIndex="8" GridPane.rowIndex="3" />
+            <StackPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <styleClass>
+                  <String fx:value="pnlMill" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <styleClass>
+                  <String fx:value="pnlBrewery" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <styleClass>
+                  <String fx:value="pnlMill" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <styleClass>
+                  <String fx:value="pnlBrewery" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <styleClass>
+                  <String fx:value="pnlMill" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <styleClass>
+                  <String fx:value="pnlCottage" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="3" GridPane.rowIndex="2">
+               <styleClass>
+                  <String fx:value="pnlCottage" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="3" GridPane.rowIndex="3">
+               <styleClass>
+                  <String fx:value="pnlCottage" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="4" GridPane.rowIndex="1">
+               <styleClass>
+                  <String fx:value="pnlGuardhouse" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="4" GridPane.rowIndex="2">
+               <styleClass>
+                  <String fx:value="pnlGuardhouse" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="4" GridPane.rowIndex="3">
+               <styleClass>
+                  <String fx:value="pnlGuardhouse" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="5" GridPane.rowIndex="1">
+               <styleClass>
+                  <String fx:value="pnlBarracks" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="5" GridPane.rowIndex="2">
+               <styleClass>
+                  <String fx:value="pnlBarracks" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="5" GridPane.rowIndex="3">
+               <styleClass>
+                  <String fx:value="pnlBarracks" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="6" GridPane.rowIndex="1">
+               <styleClass>
+                  <String fx:value="pnlInn" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="6" GridPane.rowIndex="2">
+               <styleClass>
+                  <String fx:value="pnlInn" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="6" GridPane.rowIndex="3">
+               <styleClass>
+                  <String fx:value="pnlInn" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="7" GridPane.rowIndex="1">
+               <styleClass>
+                  <String fx:value="pnlCastle" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="7" GridPane.rowIndex="2">
+               <styleClass>
+                  <String fx:value="pnlCastle" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="7" GridPane.rowIndex="3">
+               <styleClass>
+                  <String fx:value="pnlCastle" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="8" GridPane.rowIndex="1">
+               <styleClass>
+                  <String fx:value="pnlInfirmary" />
+                  <String fx:value="pnlPlayersRight" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="8" GridPane.rowIndex="2">
+               <styleClass>
+                  <String fx:value="pnlInfirmary" />
+                  <String fx:value="pnlPlayersRight" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="8" GridPane.rowIndex="3">
+               <styleClass>
+                  <String fx:value="pnlInfirmary" />
+                  <String fx:value="pnlPlayersRight" />
+               </styleClass></StackPane>
             <Pane fx:id="pnlMill" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <styleClass>
                   <String fx:value="pnlMill" />
@@ -194,14 +324,46 @@
                   <String fx:value="pnlInfirmaryImage" />
                   <String fx:value="pnlImage" />
                </styleClass></Pane>
-            <StackPane styleClass="pnlMill" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <StackPane styleClass="pnlBrewery" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-            <StackPane styleClass="pnlCottage" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-            <StackPane styleClass="pnlGuardhouse" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-            <StackPane styleClass="pnlBarracks" GridPane.columnIndex="5" GridPane.rowIndex="5" />
-            <StackPane styleClass="pnlInn" GridPane.columnIndex="6" GridPane.rowIndex="5" />
-            <StackPane styleClass="pnlCastle" GridPane.columnIndex="7" GridPane.rowIndex="5" />
-            <StackPane styleClass="pnlInfirmary" GridPane.columnIndex="8" GridPane.rowIndex="5" />
+            <StackPane GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <styleClass>
+                  <String fx:value="pnlMill" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="5">
+               <styleClass>
+                  <String fx:value="pnlBrewery" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="3" GridPane.rowIndex="5">
+               <styleClass>
+                  <String fx:value="pnlCottage" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="4" GridPane.rowIndex="5">
+               <styleClass>
+                  <String fx:value="pnlGuardhouse" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="5" GridPane.rowIndex="5">
+               <styleClass>
+                  <String fx:value="pnlBarracks" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="6" GridPane.rowIndex="5">
+               <styleClass>
+                  <String fx:value="pnlInn" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="7" GridPane.rowIndex="5">
+               <styleClass>
+                  <String fx:value="pnlCastle" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass></StackPane>
+            <StackPane GridPane.columnIndex="8" GridPane.rowIndex="5">
+               <styleClass>
+                  <String fx:value="pnlInfirmary" />
+                  <String fx:value="pnlPlayersRight" />
+               </styleClass></StackPane>
             <Pane fx:id="pnlCottage" GridPane.columnIndex="3" GridPane.rowIndex="6">
                <styleClass>
                   <String fx:value="pnlCottage" />
@@ -216,7 +378,12 @@
             <AnchorPane styleClass="pnlInn" GridPane.columnIndex="6" />
             <AnchorPane styleClass="pnlCastle" GridPane.columnIndex="7" />
             <AnchorPane styleClass="pnlInfirmary" GridPane.columnIndex="8" />
-            <StackPane styleClass="pnlBrewery" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="3">
+               <styleClass>
+                  <String fx:value="pnlBrewery" />
+                  <String fx:value="pnlRowPlayers" />
+               </styleClass>
+            </StackPane>
             <AnchorPane styleClass="pnlPlayerInfo" GridPane.rowIndex="6">
                <children>
                   <Button layoutX="14.0" layoutY="161.0" mnemonicParsing="false" onAction="#btnLeave_Click" text="%lbl_Game_Leave" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
