@@ -40,7 +40,7 @@
                      </font></Label>
                </children>
             </AnchorPane>
-            <AnchorPane GridPane.rowIndex="5" GridPane.rowSpan="2">
+            <AnchorPane GridPane.rowIndex="5">
                <children>
                   <Label id="lblMeeples1" fx:id="lblMeeples1" layoutX="5.0" layoutY="59.0" text="Meeples:" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="59.0">
                      <font>
@@ -140,30 +140,36 @@
             </AnchorPane>
             <HBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" spacing="5.0" styleClass="pnlCardTable" GridPane.columnIndex="4" GridPane.columnSpan="5" GridPane.rowIndex="4">
                <children>
-                  <Pane id="pnlDisplayCard1" fx:id="pnlDisplayCard1" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage">
+                  <AnchorPane id="pnlDisplayCard1" fx:id="pnlDisplayCard1" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="35.0" layoutY="51.0" styleClass="lblMeeplesOnCard" text="3" />
-                     </children></Pane>
-                  <Pane id="pnlDisplayCard2" fx:id="pnlDisplayCard2" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage">
+                        <Label id="lblCardMeeples1" fx:id="lblCardMeeples1" alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="3.0" styleClass="lblMeeplesOnCard" text="-1" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane id="pnlDisplayCard2" fx:id="pnlDisplayCard2" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="37.0" layoutY="50.0" styleClass="lblMeeplesOnCard" text="2" />
-                     </children></Pane>
-                  <Pane id="pnlDisplayCard3" fx:id="pnlDisplayCard3" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage">
+                        <Label id="lblCardMeeples2" fx:id="lblCardMeeples2" alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="3.0" styleClass="lblMeeplesOnCard" text="-1" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane id="pnlDisplayCard3" fx:id="pnlDisplayCard3" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="35.0" layoutY="50.0" styleClass="lblMeeplesOnCard" text="2" />
-                     </children></Pane>
-                  <Pane id="pnlDisplayCard4" fx:id="pnlDisplayCard4" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage">
+                        <Label id="lblCardMeeples3" fx:id="lblCardMeeples3" alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="3.0" styleClass="lblMeeplesOnCard" text="-1" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane id="pnlDisplayCard4" fx:id="pnlDisplayCard4" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="35.0" layoutY="51.0" styleClass="lblMeeplesOnCard" text="1" />
-                     </children></Pane>
-                  <Pane id="pnlDisplayCard5" fx:id="pnlDisplayCard5" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage">
+                        <Label id="lblCardMeeples4" fx:id="lblCardMeeples4" alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="3.0" styleClass="lblMeeplesOnCard" text="-1" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane id="pnlDisplayCard5" fx:id="pnlDisplayCard5" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="35.0" layoutY="50.0" styleClass="lblMeeplesOnCard" text="0" />
-                     </children></Pane>
-                  <Pane id="pnlDisplayCard6" fx:id="pnlDisplayCard6" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage">
+                        <Label id="lblCardMeeples5" fx:id="lblCardMeeples5" alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="3.0" styleClass="lblMeeplesOnCard" text="-1" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane id="pnlDisplayCard6" fx:id="pnlDisplayCard6" prefHeight="200.0" prefWidth="200.0" styleClass="pnlImage">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="35.0" layoutY="50.0" styleClass="lblMeeplesOnCard" text="0" />
-                     </children></Pane>
+                        <Label id="lblCardMeeples6" fx:id="lblCardMeeples6" alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="3.0" styleClass="lblMeeplesOnCard" text="-1" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
                   <StackPane id="pnlDisplayCardStack" fx:id="pnlDisplayCardStack" prefHeight="150.0" prefWidth="200.0" styleClass="pnlImage" />
                </children>
             </HBox>
