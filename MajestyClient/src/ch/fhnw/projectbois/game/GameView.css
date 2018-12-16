@@ -39,7 +39,7 @@
 
 .pnlCardTable {
 	-fx-background-color: #85542D;
-	
+	-fx-padding: 5px;
 }
 
 .pnlPlayerInfo {
@@ -50,16 +50,14 @@
 	-fx-font-weight: bold;	
 	-fx-font-size: 40px;
 	-fx-text-fill: yellow;
-	-fx-font-family: "Edwardian Script ITC";
-    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.7, 0 , 2 );
-    
+	-fx-font-family: "Blackadder ITC";
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.8, 0 , 2 );
 }
 
 .pnlRowPlayers {
 	-fx-border-color: black;
 	-fx-border-style: solid;
 	-fx-border-width: 3px 0px 3px 0px;
-	
 }
 
 .pnlPlayersLeft {
