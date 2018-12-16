@@ -50,7 +50,10 @@ public class GameLogic {
 			int decision = move.getNextDecision();
 			if (decision == 2) {
 				currentCardType = selectedCard.getCardType2();
+				selectedCard.setActiveCardType(2);
 			}
+		} else {
+			selectedCard.setActiveCardType(1);
 		}
 
 		// move card meeples to player

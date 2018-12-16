@@ -22,10 +22,6 @@ public class Card {
 
 	}
 
-	public Card(CardType cardType, int cardBack) {
-		this(cardType, null, cardBack);
-	}
-
 	public Card(CardType cardType1, CardType cardType2, int cardBack) {
 		this.cardType1 = cardType1;
 		this.cardType2 = cardType2;
@@ -36,16 +32,8 @@ public class Card {
 		}
 	}
 
-	public CardType getCardType1() {
-		return cardType1;
-	}
-
-	public CardType getCardType2() {
-		return cardType2;
-	}
-
-	public boolean isSplitCard() {
-		return splitCard;
+	public Card(CardType cardType, int cardBack) {
+		this(cardType, null, cardBack);
 	}
 
 	public int getActiveCardType() {
@@ -56,23 +44,44 @@ public class Card {
 		return cardBack;
 	}
 
-	public void setCardBack(int cardBack) {
-		this.cardBack = cardBack;
+	public CardType getCardType1() {
+		return cardType1;
+	}
+
+	public CardType getCardType2() {
+		return cardType2;
 	}
 
 	public int getMeeples() {
 		return meeples;
 	}
 
+	public boolean isSplitCard() {
+		return splitCard;
+	}
+
+	public void setActiveCardType(int activeCardType) {
+		this.activeCardType = activeCardType;
+	}
+
+	public void setCardBack(int cardBack) {
+		this.cardBack = cardBack;
+	}
+
+	public void setCardType1(CardType cardType1) {
+		this.cardType1 = cardType1;
+	}
+
+	public void setCardType2(CardType cardType2) {
+		this.cardType2 = cardType2;
+	}
+
 	public void setMeeples(int meeples) {
 		this.meeples = meeples;
 	}
 
-	@JsonIgnore
-	public void setActiveCardType(int activeCardType) {
-		if (this.splitCard && (activeCardType == 1 || activeCardType == 2)) {
-			this.activeCardType = activeCardType;
-		}
+	public void setSplitCard(boolean splitCard) {
+		this.splitCard = splitCard;
 	}
 
 	@JsonIgnore
