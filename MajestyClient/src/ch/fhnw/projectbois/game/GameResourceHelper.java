@@ -1,6 +1,5 @@
 package ch.fhnw.projectbois.game;
 
-import ch.fhnw.projectbois.gameobjects.Board;
 import ch.fhnw.projectbois.gameobjects.Card;
 import ch.fhnw.projectbois.gameobjects.CardType;
 
@@ -84,18 +83,17 @@ public class GameResourceHelper {
 		return url;
 	}
 
-	public String getUrlGetBackImage(int deckBack) {
+	public String getUrlByCardBack(int deckBack) {
 		String url = "";
 
 		switch (deckBack) {
-		case Board.DECKBACK_TIER1:
+		case Card.BACK_TIER1:
 			url = PATH_TO_CARDBACKS + "Back%201.jpg";
 			break;
-		case Board.DECKBACK_TIER2:
+		case Card.BACK_TIER2:
 			url = PATH_TO_CARDBACKS + "Back%202.jpg";
 			break;
-		case Board.DECKBACK_EMPTY:
-			// image = null;
+		case Card.BACK_NONE:
 			break;
 		}
 

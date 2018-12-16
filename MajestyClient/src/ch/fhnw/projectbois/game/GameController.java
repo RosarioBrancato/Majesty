@@ -296,7 +296,7 @@ public class GameController extends Controller<GameModel, GameView> {
 
 		// Deck
 		int deckBack = gameState.getBoard().getDeckBack();
-		String url = this.resourceHelper.getUrlGetBackImage(deckBack);
+		String url = this.resourceHelper.getUrlByCardBack(deckBack);
 		this.pnlDisplayCardStack.setStyle("-fx-background-image: url('" + url + "');");
 	}
 
@@ -345,7 +345,12 @@ public class GameController extends Controller<GameModel, GameView> {
 					style += "-fx-background-position: top ; ";
 					style += "-fx-background-repeat: stretch ; ";
 
-					String url = resourceHelper.getUrlByCard(card);
+					String url;
+					if(index == Location.INFIRMARY) {
+						url = resourceHelper.getUrlByCardBack(card.getCardBack());
+					} else {
+						url = resourceHelper.getUrlByCard(card);
+					}
 					pane.setStyle(style + "-fx-background-image: url('" + url + "'); ");
 
 					stackPane.getChildren().add(pane);

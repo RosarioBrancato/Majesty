@@ -43,11 +43,11 @@ public class SplitCardChooserController extends Controller<SplitCardChooserModel
 			style += "-fx-background-position: center ; ";
 			style += "-fx-background-repeat: stretch ; ";
 			
-			Card left = new Card(splitCard.getCardType1());
+			Card left = new Card(splitCard.getCardType1(), splitCard.getCardBack());
 			String url = helper.getUrlByCard(left);
 			pnlLeft.setStyle(style + "-fx-background-image: url('" + url + "'); ");
 
-			Card right = new Card(splitCard.getCardType2());
+			Card right = new Card(splitCard.getCardType2(), splitCard.getCardBack());
 			url = helper.getUrlByCard(right);
 			pnlRight.setStyle(style + "-fx-background-image: url('" + url + "'); ");
 		}
