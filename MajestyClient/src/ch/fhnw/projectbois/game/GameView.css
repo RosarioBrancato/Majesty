@@ -46,6 +46,51 @@
 	-fx-background-color: #EBD58B;
 }
 
+.lblMeeplesOnCard {
+	-fx-font-weight: bold;	
+	-fx-font-size: 40px;
+	-fx-text-fill: yellow;
+	-fx-font-family: "Edwardian Script ITC";
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.7, 0 , 2 );
+    
+}
+
+.pnlRowPlayers {
+	-fx-border-color: black;
+	-fx-border-style: solid;
+	-fx-border-width: 3px 0px 3px 0px;
+	
+}
+
+.pnlPlayersLeft {
+	-fx-border-color: black;
+	-fx-border-style: solid;
+	-fx-border-width: 3px 0px 3px 3px;
+	-fx-border-radius: 10px 0px 0px 10px;
+}
+
+.pnlPlayersRight {
+	-fx-border-color: black;
+	-fx-border-style: solid;
+	-fx-border-width: 3px 3px 3px 0px;
+	-fx-border-radius: 0px 10px 10px 0px;
+}
+
+.pnlRowPlayersTurn {
+	-fx-border-color: yellow;
+}
+
+.pnlDisplaySelectedCard {
+	-fx-background-color: #EBD58B;
+	-fx-background-radius: 75;
+}
+
+
+
+
+
+
+
 .display {
 	-fx-padding: 3.0px;
 	-fx-background-color: #fff5dd;
@@ -70,7 +115,4 @@
 	-fx-background-color: #b0b3b7;
 }
 
-#pnlDisplaySelectedCard {
-	-fx-shape: circle;
-	-fx-background-color: #EBD58B;
-}
+
