@@ -142,10 +142,14 @@ public class GameController extends Controller<GameModel, GameView> {
 
 			@Override
 			public void handle(Event event) {
+				GameState gameState = model.getGameState();
+				Player currentPlayer = gameState.getBoard().getPlayers().get(model.getPlayerIndex());
+				int meeples = currentPlayer.getMeeples();
+				
 				boolean allowMove = isTurnPlayer();
+				allowMove &= (index <= meeples);
 
 				if (allowMove) {
-					GameState gameState = model.getGameState();
 
 					GameMove move = new GameMove();
 					move.setDisplayCardIndexSelected(index);
@@ -176,8 +180,6 @@ public class GameController extends Controller<GameModel, GameView> {
 
 						// handle noble meeple trade
 					} else if (card.getCardTypeActive() == CardType.Noble && !gameState.isCardSideA()) {
-						Player currentPlayer = gameState.getBoard().getPlayers().get(model.getPlayerIndex());
-						int meeples = currentPlayer.getMeeples();
 						meeples -= index; // pay for the card, index = cost
 						meeples += card.getMeeples(); // add meeples you get from card
 						int points = currentPlayer.getPoints();
