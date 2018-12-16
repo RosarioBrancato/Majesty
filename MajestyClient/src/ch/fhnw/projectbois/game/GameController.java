@@ -286,7 +286,7 @@ public class GameController extends Controller<GameModel, GameView> {
 			Platform.runLater(() -> {
 				pnlDisplayCard.getStyleClass().clear();
 				pnlDisplayCard.getStyleClass().add("pnlImage");
-				
+
 				if (index <= meeples && isTurnPlayer) {
 					pnlDisplayCard.getStyleClass().add("displayToHover");
 				}
@@ -339,23 +339,30 @@ public class GameController extends Controller<GameModel, GameView> {
 					pane.setMinWidth(50);
 					pane.setPrefWidth(50);
 					pane.setMaxWidth(50);
-					pane.setStyle("-fx-background-color: black;");
 
 					String style = "-fx-background-size: contain ; ";
 					style += "-fx-background-position: top ; ";
 					style += "-fx-background-repeat: stretch ; ";
 
 					String url;
-					if(index == Location.INFIRMARY) {
+					if (index == Location.INFIRMARY) {
 						url = resourceHelper.getUrlByCardBack(card.getCardBack());
+						style += "-fx-background-image: url('" + url + "'); ";
 					} else {
 						url = resourceHelper.getUrlByCard(card);
+						style += "-fx-background-image: url('" + url + "'); ";
+
+						// display active split card part on top
+						if (k != Location.INFIRMARY && card.getActiveCardType() == 2) {
+							style += "-fx-rotate: 180; ";
+							style += "-fx-background-position: bottom ; ";
+						}
 					}
-					pane.setStyle(style + "-fx-background-image: url('" + url + "'); ");
 
 					stackPane.getChildren().add(pane);
 					StackPane.setAlignment(pane, Pos.TOP_RIGHT);
 					StackPane.setMargin(pane, new Insets(0, k * 20, 0, 0));
+					pane.setStyle(style);
 				}
 			});
 		}

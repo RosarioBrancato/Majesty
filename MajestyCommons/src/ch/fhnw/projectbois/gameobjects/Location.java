@@ -36,29 +36,14 @@ public class Location {
 	public static final int B7 = 16;
 	public static final int B8 = 17;
 
-	private boolean majorityWinner;
-
 	private ArrayList<Card> cards;
 
 	public Location() {
 		this.cards = new ArrayList<>();
-		this.majorityWinner = false;
 	}
 
 	public ArrayList<Card> getCards() {
 		return this.cards;
-	}
-
-	public boolean getMajorityWinner() {
-		return majorityWinner;
-	}
-
-	public void setMajorityWinner() {
-		this.majorityWinner = true;
-	}
-
-	public void unsetMajorityWinner() {
-		this.majorityWinner = false;
 	}
 
 	@JsonIgnore
