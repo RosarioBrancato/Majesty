@@ -173,8 +173,6 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 			pnlRoot.setMinHeight(20);
 			pnlRoot.setMaxHeight(20);
 			pnlRoot.setPrefHeight(20);
-
-			imgNotification.setVisible(false);
 			
 			imgArrow.setRotate(0);
 
@@ -193,7 +191,8 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 			
 			isClosed = false;
 		}
-
+		
+		imgNotification.setVisible(false);
 	}
 	
 	private void showNotification() {
