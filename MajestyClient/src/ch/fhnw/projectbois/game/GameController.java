@@ -277,11 +277,14 @@ public class GameController extends Controller<GameModel, GameView> {
 		for (int i = 0; i < displayCards.size(); i++) {
 			Card card = displayCards.get(i);
 			Pane pnlDisplayCard = (Pane) view.getRoot().lookup("#pnlDisplayCard" + (i + 1));
+			Label lblCardMeeples = (Label)view.getRoot().lookup("#lblCardMeeples" + (i + 1));
 
 			final Integer index = new Integer(i);
 			final int meeples = player.getMeeples();
 			final boolean isTurnPlayer = isTurnPlayer();
 			final String url = this.resourceHelper.getUrlByCard(card);
+			
+			final int cardMeeples = card.getMeeples();
 
 			Platform.runLater(() -> {
 				pnlDisplayCard.getStyleClass().clear();
@@ -291,6 +294,8 @@ public class GameController extends Controller<GameModel, GameView> {
 					pnlDisplayCard.getStyleClass().add("displayToHover");
 				}
 				pnlDisplayCard.setStyle("-fx-background-image: url('" + url + "');");
+				
+				lblCardMeeples.setText(String.valueOf(cardMeeples));
 			});
 		}
 
