@@ -28,7 +28,6 @@ import ch.fhnw.projectbois.time.Time;
 import ch.fhnw.projectbois.utils.DialogUtils;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -370,7 +369,8 @@ public class GameController extends Controller<GameModel, GameView> {
 
 					stackPane.getChildren().add(pane);
 					StackPane.setAlignment(pane, Pos.TOP_RIGHT);
-					StackPane.setMargin(pane, new Insets(0, k * 20, 0, 0));
+					int marginLeft = (k * 20) + 3;
+					StackPane.setMargin(pane, new Insets(3, marginLeft, 0, 0));
 					pane.setStyle(style);
 					//hover a location card -> show in highlighted box
 					pane.hoverProperty().addListener((observable, oldValue, newValue) -> {
