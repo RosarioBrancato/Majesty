@@ -131,7 +131,7 @@
             </AnchorPane>
             <AnchorPane styleClass="pnlCardTable" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="4">
                <children>
-                  <Pane id="pnlHover" fx:id="pnlDisplayCardDetailed" layoutX="69.0" layoutY="45.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <Pane id="pnlHover" fx:id="pnlHover" layoutX="69.0" layoutY="45.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <styleClass>
                         <String fx:value="pnlImage" />
                         <String fx:value="pnlDisplaySelectedCard" />

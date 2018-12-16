@@ -28,6 +28,7 @@ import ch.fhnw.projectbois.time.Time;
 import ch.fhnw.projectbois.utils.DialogUtils;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -62,6 +63,9 @@ public class GameController extends Controller<GameModel, GameView> {
 
 	@FXML
 	private StackPane pnlDisplayCardStack;
+
+	@FXML
+	private Pane pnlHover;
 
 	public GameController(GameModel model, GameView view) {
 		super(model, view);
@@ -277,13 +281,13 @@ public class GameController extends Controller<GameModel, GameView> {
 		for (int i = 0; i < displayCards.size(); i++) {
 			Card card = displayCards.get(i);
 			Pane pnlDisplayCard = (Pane) view.getRoot().lookup("#pnlDisplayCard" + (i + 1));
-			Label lblCardMeeples = (Label)view.getRoot().lookup("#lblCardMeeples" + (i + 1));
+			Label lblCardMeeples = (Label) view.getRoot().lookup("#lblCardMeeples" + (i + 1));
 
 			final Integer index = new Integer(i);
 			final int meeples = player.getMeeples();
 			final boolean isTurnPlayer = isTurnPlayer();
 			final String url = this.resourceHelper.getUrlByCard(card);
-			
+
 			final int cardMeeples = card.getMeeples();
 
 			Platform.runLater(() -> {
@@ -294,7 +298,7 @@ public class GameController extends Controller<GameModel, GameView> {
 					pnlDisplayCard.getStyleClass().add("displayToHover");
 				}
 				pnlDisplayCard.setStyle("-fx-background-image: url('" + url + "');");
-				
+
 				lblCardMeeples.setText(String.valueOf(cardMeeples));
 			});
 		}
@@ -368,6 +372,12 @@ public class GameController extends Controller<GameModel, GameView> {
 					StackPane.setAlignment(pane, Pos.TOP_RIGHT);
 					StackPane.setMargin(pane, new Insets(0, k * 20, 0, 0));
 					pane.setStyle(style);
+					//hover a location card -> show in highlighted box
+					pane.hoverProperty().addListener((observable, oldValue, newValue) -> {
+						if (newValue) {
+							pnlHover.setStyle(pane.getStyle());
+						}
+					});
 				}
 			});
 		}
