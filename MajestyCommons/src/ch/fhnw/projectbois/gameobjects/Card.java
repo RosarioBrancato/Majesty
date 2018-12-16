@@ -4,10 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Card {
 
+	public static final int BACK_NONE = 0;
+	public static final int BACK_TIER1 = 1;
+	public static final int BACK_TIER2 = 2;
+
 	private boolean splitCard = false;
 	private CardType cardType1;
 	private CardType cardType2;
 	private int activeCardType = 1;
+	private int cardBack = -1;
 	private int meeples = 0;
 
 	/**
@@ -17,13 +22,14 @@ public class Card {
 
 	}
 
-	public Card(CardType cardType) {
-		this(cardType, null);
+	public Card(CardType cardType, int cardBack) {
+		this(cardType, null, cardBack);
 	}
 
-	public Card(CardType cardType1, CardType cardType2) {
+	public Card(CardType cardType1, CardType cardType2, int cardBack) {
 		this.cardType1 = cardType1;
 		this.cardType2 = cardType2;
+		this.cardBack = cardBack;
 
 		if (this.cardType2 != null) {
 			this.splitCard = true;
@@ -44,6 +50,14 @@ public class Card {
 
 	public int getActiveCardType() {
 		return this.activeCardType;
+	}
+
+	public int getCardBack() {
+		return cardBack;
+	}
+
+	public void setCardBack(int cardBack) {
+		this.cardBack = cardBack;
 	}
 
 	public int getMeeples() {
