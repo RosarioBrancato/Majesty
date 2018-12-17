@@ -28,6 +28,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -68,6 +69,9 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 
 	@FXML
 	private Button btn_Login_register;
+	
+	@FXML
+	private Hyperlink link_Login_OpenSourceResources;
 
 	@FXML
 	private TextField txt_Login_username;
@@ -435,6 +439,7 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 			this.acc_Login_serverInfo.setText(translator.getTranslation("acc_Login_serverInfo"));
 			this.lbl_Login_serverInfo.setText(translator.getTranslation("lbl_Login_serverInfo"));
 			this.lbl_Login_username.setText(translator.getTranslation("lbl_Login_username"));
+			this.link_Login_OpenSourceResources.setText(translator.getTranslation("link_Login_OpenSourceResources"));
 		});
 	}
 
