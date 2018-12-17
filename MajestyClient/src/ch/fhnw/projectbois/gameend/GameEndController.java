@@ -1,7 +1,9 @@
+/*
+ * Controller for the GameEnd View
+ */
 package ch.fhnw.projectbois.gameend;
 
 import java.util.ArrayList;
-
 import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._interfaces.IDialog;
 import ch.fhnw.projectbois._mvc.Controller;
@@ -15,6 +17,11 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+
+/**
+ * @author Dario Stoeckli
+ * 
+ */
 
 public class GameEndController extends Controller<GameEndModel, GameEndView> implements IDialog {
 
@@ -47,27 +54,47 @@ public class GameEndController extends Controller<GameEndModel, GameEndView> imp
 	private Label lblOverallPoints;
 	@FXML
 	private Label lblDatabase;
-
+	
+	/**
+	 * Instantiates a new game end controller.
+	 *
+	 * @param model the model
+	 * @param view the view
+	 */
 	public GameEndController(GameEndModel model, GameEndView view) {
 		super(model, view);
 	}
-
+	
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois.interfaces.IDialog#showAndWait()
+	 */
 	public void showAndWait() {
 		this.stage = DialogUtils.getStageModal(MetaContainer.getInstance().getMainStage());
 		this.stage.setTitle(translator.getTranslation("ttl_GameEndView_Title"));
 		this.stage.setScene(new Scene(this.getViewRoot()));
 
+		// Gets the player ranking of this game from the gameState and sorts it
+		// with the determineRanking method, then to updates the labels
 		ArrayList<Player> ranking = model.determineRanking(gameState.getBoard().getPlayers());
+		// Update labels
 		setLocalInformation(ranking);
 		
 		this.stage.showAndWait();
 	}
-
+	
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois._mvc.Controller#initialize()
+	 */
 	@Override
 	protected void initialize() {
 		super.initialize();
 	}
-
+	
+	/**
+	 * Closes the stage with the GameEnd Information
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	private void btnConfirm_Click(ActionEvent event) {
 		Platform.runLater(() -> {
@@ -75,6 +102,14 @@ public class GameEndController extends Controller<GameEndModel, GameEndView> imp
 		});
 	}
 
+	/**
+	 * Sets the local information - according to each player
+	 * 
+	 * Displays a ranking, tells the player what rank he/she is on and shows
+	 * statistics
+	 *
+	 * @param ranking the ArrayList consisting of Player objects ordered according to gained points
+	 */	
 	private void setLocalInformation(ArrayList<Player> ranking) {
 		this.lblPlayerRanking1.setVisible(false);
 		this.lblPlayerRanking2.setVisible(false);
@@ -83,6 +118,7 @@ public class GameEndController extends Controller<GameEndModel, GameEndView> imp
 
 		int index = 0;
 
+		// List the player on the corresponding position and make the Label visible
 		for (Player player : ranking) {
 			if (index == 0) {
 				this.lblPlayerRanking1.setVisible(true);
@@ -101,6 +137,7 @@ public class GameEndController extends Controller<GameEndModel, GameEndView> imp
 				this.lblPlayerRanking4.setText("4) " + player.getUsername() + " - " + player.getPoints());
 			}
 
+			// Determine the rank of the player and show according Label
 			if (player.getUsername().equals(Session.getCurrentUsername())) {
 				thisplayer = player;
 
@@ -125,6 +162,7 @@ public class GameEndController extends Controller<GameEndModel, GameEndView> imp
 			index++;
 		}
 
+		// Update all the statistics with player information that is assigned to the client
 		Platform.runLater(() -> {
 			this.lblGamePoints.setText(translator.getTranslation("lbl_GameEndView_GamePoints") + " "
 					+ thisplayer.getFinalCalculation().getGameCount());
@@ -141,10 +179,20 @@ public class GameEndController extends Controller<GameEndModel, GameEndView> imp
 		});
 	}
 
+	/**
+	 * Gets the game state.
+	 *
+	 * @return the game state
+	 */
 	public GameState getGameState() {
 		return gameState;
 	}
 
+	/**
+	 * Sets the game state.
+	 *
+	 * @param gameState the new game state
+	 */
 	public void setGameState(GameState gameState) {
 		this.gameState = gameState;
 	}
