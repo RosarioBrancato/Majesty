@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -96,21 +97,55 @@ public class Main {
 		Server server = new Server();
 		boolean success = server.startServer(8200);
 		
-		System.out.println("You will now be prompted to type in the database parameters. \nTo reuse previous parameters (in brackets), simply leave the line empty and press ENTER.");
-		dbSetParam("DB_SERVER");
-		dbSetParam("DB_PORT");
-		dbSetParam("DB_NAME");
-		dbSetParam("DB_USER");
-		dbSetParam("DB_PASS");
-		dbSetParam("DB_PARAM");
-		
-		try {
-			Connection conn = DbAccess.getConnectionWithExceptions();
-			conn.close();
-		}catch(SQLException e) {
-			success = false;
-			logger.severe("Connection to the database failed: " + e.getMessage());
+		if(success) {
+			ArrayList<String> dbParam = new ArrayList<>();
+			dbParam.add("DB_SERVER");
+			dbParam.add("DB_PORT");
+			dbParam.add("DB_NAME");
+			dbParam.add("DB_USER");
+			dbParam.add("DB_PASS");
+			dbParam.add("DB_PARAM");
+			int length = dbParam.size();
+			
+			boolean resetDbParam = false;
+			
+			if(UserPrefs.getInstance().getBoolean("DBParamWorking", false)) {
+				@SuppressWarnings("resource")
+				Scanner in = new Scanner(System.in);
+				boolean ans = false;
+				System.out.println("You already set working DB parameters. Would you like to change them? [yN]");
+				while(!ans) {
+					String tmp = in.nextLine();
+					if(tmp.equals("") || tmp.equals("n") || tmp.equals("N")) {
+						ans = true;
+					}else if(tmp.equals("y") || tmp.equals("Y")) {
+						resetDbParam = true;
+						ans = true;
+					}
+				}
+			}else {
+				resetDbParam = true;
+			}
+			
+			if(resetDbParam) {
+				System.out.println("You will now be prompted to type in the database parameters. \nTo reuse previous parameters (in brackets), simply leave the line empty and press ENTER.");
+				for(int i=0; i<length; i++) {
+					dbSetParam(dbParam.get(i));
+				}
+			}			
+			
+			try {
+				Connection conn = DbAccess.getConnectionWithExceptions();
+				conn.close();
+				UserPrefs.getInstance().putBoolean("DBParamWorking", true);
+			}catch(SQLException e) {
+				UserPrefs.getInstance().putBoolean("DBParamWorking", false);
+				success = false;
+				logger.severe("Connection to the database failed: " + e.getMessage());
+			}
 		}
+		
+		
 
 		if (success) {
 			System.out.println("Server started!");
