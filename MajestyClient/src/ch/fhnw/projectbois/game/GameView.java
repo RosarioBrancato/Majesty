@@ -119,8 +119,6 @@ public class GameView extends View<GameModel> {
 			GridPane pnlField = (GridPane) this.root.lookup("#pnlField");
 
 			if (playerCount == 3) {
-				// pnlField.getRowConstraints().remove(3);
-
 				pnlField.getRowConstraints().get(3).setPercentHeight(-1);
 				pnlField.getRowConstraints().get(2).setPercentHeight(18);
 				pnlField.getRowConstraints().get(1).setPercentHeight(18);
@@ -128,9 +126,6 @@ public class GameView extends View<GameModel> {
 						.removeIf(node -> GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) == 3);
 
 			} else if (playerCount == 2) {
-				// pnlField.getRowConstraints().remove(3);
-				// pnlField.getRowConstraints().remove(2);
-
 				pnlField.getRowConstraints().get(3).setPercentHeight(-1);
 				pnlField.getRowConstraints().get(2).setPercentHeight(-1);
 				pnlField.getRowConstraints().get(1).setPercentHeight(36);
@@ -191,6 +186,44 @@ public class GameView extends View<GameModel> {
 		Platform.runLater(() -> {
 			String css = this.getClass().getResource(cssFileName).toExternalForm();
 			this.root.getStylesheets().add(css);
+		});
+	}
+
+	public void highlightPlayerTurn() {
+		GameState gameState = model.getGameState();
+		int pTurn = gameState.getPlayersTurn();
+
+		if (pTurn == model.getPlayerIndex()) {
+			this.setBorderColorOfPlayer(this.playerContainer.getPlayerRow(), true);
+			for (GamePlayerContainer gamePlayerContainer : opponentContainers) {
+				this.setBorderColorOfPlayer(gamePlayerContainer.getPlayerRow(), false);
+			}
+
+		} else {
+			Player player = gameState.getBoard().getPlayers().get(pTurn);
+
+			this.setBorderColorOfPlayer(this.playerContainer.getPlayerRow(), false);
+			for (GamePlayerContainer gamePlayerContainer : opponentContainers) {
+				this.setBorderColorOfPlayer(gamePlayerContainer.getPlayerRow(),
+						gamePlayerContainer.getUsername().equals(player.getUsername()));
+			}
+		}
+	}
+
+	private void setBorderColorOfPlayer(int row, boolean isTurn) {
+		GridPane pnlField = (GridPane) this.root.lookup("#pnlField");
+
+		pnlField.getChildren().forEach(f -> {
+			if (GridPane.getRowIndex(f) != null && GridPane.getRowIndex(f) == row) {
+				if (isTurn) {
+					if (!f.getStyleClass().contains("pnlRowPlayersTurn")) {
+						f.getStyleClass().add("pnlRowPlayersTurn");
+					}
+
+				} else if (f.getStyleClass().contains("pnlRowPlayersTurn")) {
+					f.getStyleClass().remove("pnlRowPlayersTurn");
+				}
+			}
 		});
 	}
 

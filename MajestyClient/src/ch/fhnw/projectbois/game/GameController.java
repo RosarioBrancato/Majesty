@@ -133,6 +133,7 @@ public class GameController extends Controller<GameModel, GameView> {
 		}
 
 		this.drawGui();
+		view.highlightPlayerTurn();
 	}
 
 	/**
