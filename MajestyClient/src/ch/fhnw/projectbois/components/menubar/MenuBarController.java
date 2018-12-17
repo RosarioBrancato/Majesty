@@ -88,7 +88,12 @@ public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 
 		this.switchCenter(controller);
 	}
-
+	
+	/**
+	 * Logout the client and get back to the Login MVC
+	 * 
+	 * @param event
+	 */
 	@FXML
 	private void btnLogout_Click(ActionEvent event) {
 		Network.getInstance().stopConnection();
@@ -96,6 +101,11 @@ public class MenuBarController extends Controller<MenuBarModel, MenuBarView> {
 		Controller.initMVCAsRoot(LoginController.class, LoginModel.class, LoginView.class);
 	}
 	
+	/**
+	 * Get to the Manual in corresponding Language
+	 * 
+	 * @param event
+	 */
 	@FXML
 	private void btnManual_Click(ActionEvent event) {
 		model.openManual();
