@@ -16,9 +16,9 @@ import ch.fhnw.projectbois.time.Time;
 import javafx.beans.value.ChangeListener;
 
 /**
- * 
- * @author Rosario Brancato
+ * The Class Lobby.
  *
+ * @author Rosario Brancato
  */
 public class Lobby {
 
@@ -40,11 +40,20 @@ public class Lobby {
 	private GameState gameState;
 	private GameStateServer gameStateServer;
 
+	/**
+	 * Instantiates a new lobby.
+	 */
 	public Lobby() {
 		this.id = IdFactory.getInstance().getNewId(this.getClass().getName());
 		this.clients = new ArrayList<>();
 	}
 
+	/**
+	 * Adds the client.
+	 *
+	 * @param client the client
+	 * @return true, if successful
+	 */
 	public synchronized boolean addClient(ServerClient client) {
 		boolean success = false;
 
@@ -57,6 +66,12 @@ public class Lobby {
 		return success;
 	}
 
+	/**
+	 * Removes the client.
+	 *
+	 * @param client the client
+	 * @return true, if successful
+	 */
 	public synchronized boolean removeClient(ServerClient client) {
 		boolean success = this.clients.removeIf(f -> f.getUser().getId() == client.getUser().getId());
 
@@ -84,6 +99,11 @@ public class Lobby {
 		return this.clients.size() <= 0;
 	}
 
+	/**
+	 * Start lifetimer.
+	 *
+	 * @param lifetime the lifetime
+	 */
 	public void startLifetimer(int lifetime) {
 		this.lifetime = lifetime;
 
@@ -93,6 +113,9 @@ public class Lobby {
 		this.lifetimer.getPeriodCounterProperty().addListener(this.lifetimerPropertyListener);
 	}
 
+	/**
+	 * Stop lifetimer.
+	 */
 	public void stopLifetimer() {
 		if (this.lifetimer != null) {
 			this.lifetimer.stop();
@@ -101,6 +124,9 @@ public class Lobby {
 		}
 	}
 
+	/**
+	 * Start turn timer.
+	 */
 	public void startTurnTimer() {
 		if (this.gameStarted && !this.gameState.isGameEnded()) {
 			this.gameState.setTurntimer(GameStateServer.TURN_TIMER);
@@ -116,6 +142,9 @@ public class Lobby {
 		}
 	}
 
+	/**
+	 * Stop turn timer.
+	 */
 	public void stopTurnTimer() {
 		if (this.turnTimer != null) {
 			this.turnTimer.stop();
@@ -124,6 +153,11 @@ public class Lobby {
 		}
 	}
 
+	/**
+	 * To lobby DTO.
+	 *
+	 * @return the lobby DTO
+	 */
 	public LobbyDTO toLobbyDTO() {
 		LobbyDTO dto = new LobbyDTO();
 		dto.setId(this.id);
@@ -137,11 +171,17 @@ public class Lobby {
 		return dto;
 	}
 
+	/**
+	 * Destroy.
+	 */
 	public void destroy() {
 		this.stopLifetimer();
 		this.stopTurnTimer();
 	}
 
+	/**
+	 * Inits the periodic counter property listener.
+	 */
 	private void initPeriodicCounterPropertyListener() {
 		this.lifetimerPropertyListener = (observer, oldValue, newValue) -> {
 			if (lifetime > 0) {
@@ -150,6 +190,9 @@ public class Lobby {
 		};
 	}
 
+	/**
+	 * Inits the period counter property listener.
+	 */
 	private void initPeriodCounterPropertyListener() {
 		this.turnTimerPropertyListener = (observer, oldValue, newValue) -> {
 			if (gameState.getTurntimer() > 0) {
@@ -162,6 +205,9 @@ public class Lobby {
 		};
 	}
 
+	/**
+	 * Send response to players left.
+	 */
 	private void sendResponseToPlayersLeft() {
 		Response response = null;
 
@@ -193,6 +239,9 @@ public class Lobby {
 		}
 	}
 
+	/**
+	 * Send response turn time over.
+	 */
 	private void sendResponseTurnTimeOver() {
 		if (this.gameStarted && !this.gameState.isGameEnded()) {
 			this.stopTurnTimer();

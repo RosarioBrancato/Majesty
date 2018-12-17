@@ -15,16 +15,26 @@ import ch.fhnw.projectbois.network.Server;
 import ch.fhnw.projectbois.network.ServerClient;
 
 /**
- * 
- * @author Rosario
+ * The Class GameRequestHandler.
  *
+ * @author Rosario Brancato
  */
 public class GameRequestHandler extends RequestHandler {
 
+	/**
+	 * Instantiates a new game request handler.
+	 *
+	 * @param request the request
+	 * @param server the server
+	 * @param client the client
+	 */
 	public GameRequestHandler(Request request, Server server, ServerClient client) {
 		super(request, server, client);
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois.requesthandlers.RequestHandler#handleRequest()
+	 */
 	@Override
 	protected void handleRequest() {
 		if (request.getRequestId() == RequestId.GET_GAMESTATE) {
@@ -41,6 +51,9 @@ public class GameRequestHandler extends RequestHandler {
 		}
 	}
 
+	/**
+	 * Update game state.
+	 */
 	private void updateGameState() {
 		Lobby lobby = client.getLobby();
 		if (lobby != null && lobby.isGameStarted()) {
@@ -55,6 +68,9 @@ public class GameRequestHandler extends RequestHandler {
 		}
 	}
 
+	/**
+	 * Do move.
+	 */
 	private void doMove() {
 		Lobby lobby = client.getLobby();
 		if (lobby != null && lobby.isGameStarted() && !lobby.getGameState().isGameEnded()) {
@@ -93,6 +109,9 @@ public class GameRequestHandler extends RequestHandler {
 		}
 	}
 
+	/**
+	 * Start game.
+	 */
 	private void startGame() {
 		Lobby lobby = client.getLobby();
 		if (lobby != null && !lobby.isGameStarted()) {
@@ -125,6 +144,9 @@ public class GameRequestHandler extends RequestHandler {
 		}
 	}
 
+	/**
+	 * Leave game.
+	 */
 	private void leaveGame() {
 		server.removeClientFromLobby(client);
 	}

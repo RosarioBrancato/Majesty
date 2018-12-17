@@ -1,4 +1,4 @@
-package ch.fhnw.projectbois.interfaces;
+package ch.fhnw.projectbois._interfaces;
 
 public interface IDialog {
 

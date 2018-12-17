@@ -11,22 +11,22 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
 /**
- * Based on example from course Java 2
- * 
+ * Based on example from course Java 2.
+ *
  * @author Rosario Brancato
+ * @param <M> the generic type
  */
 public abstract class View<M extends Model> {
+	
 	protected Logger logger;
 	protected Translator translator;
-
 	protected Parent root;
 	protected M model;
 
 	/**
-	 * Set any options for the stage in the subclass constructor
-	 * 
-	 * @param stage
-	 * @param model
+	 * Set any options for the stage in the subclass constructor.
+	 *
+	 * @param model the model
 	 */
 	public View(M model) {
 		this.logger = LoggerFactory.getLogger(this.getClass());
@@ -35,10 +35,21 @@ public abstract class View<M extends Model> {
 		this.model = model;
 	}
 
+	/**
+	 * Gets the root.
+	 *
+	 * @return the root
+	 */
 	public Parent getRoot() {
 		return this.root;
 	}
 
+	/**
+	 * Load root.
+	 *
+	 * @param <T> the generic type
+	 * @param controller the controller
+	 */
 	public <T extends Controller<M, ? extends View<M>>> void loadRoot(T controller) {
 		URL url = this.getFXML();
 
@@ -54,10 +65,18 @@ public abstract class View<M extends Model> {
 		}
 	}
 
+	/**
+	 * Destroy.
+	 */
 	public void destroy() {
 
 	}
 
+	/**
+	 * Gets the fxml.
+	 *
+	 * @return the fxml
+	 */
 	protected abstract URL getFXML();
 
 }
