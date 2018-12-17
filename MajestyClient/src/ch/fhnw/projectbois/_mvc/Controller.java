@@ -5,11 +5,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import ch.fhnw.projectbois._application.MetaContainer;
+import ch.fhnw.projectbois._interfaces.IDialog;
+import ch.fhnw.projectbois._utils.DialogUtils;
 import ch.fhnw.projectbois.dto.ReportDTO;
-import ch.fhnw.projectbois.interfaces.IDialog;
 import ch.fhnw.projectbois.log.LoggerFactory;
 import ch.fhnw.projectbois.translate.Translator;
-import ch.fhnw.projectbois.utils.DialogUtils;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;

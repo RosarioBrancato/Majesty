@@ -7,12 +7,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * 
- * @author Rosario Brancato
+ * A factory for creating Logger objects.
  *
+ * @author Rosario Brancato
  */
 public class LoggerFactory {
 
+	/**
+	 * Gets the logger.
+	 *
+	 * @param <T> the generic type
+	 * @param classType the class type
+	 * @return the logger
+	 */
 	public static <T> Logger getLogger(Class<T> classType) {
 		String className = classType.getName();
 		Logger logger = Logger.getLogger(className);

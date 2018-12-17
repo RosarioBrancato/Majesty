@@ -9,10 +9,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ch.fhnw.projectbois.log.LoggerFactory;
 
+/**
+ * The Class JsonUtils.
+ * 
+ * @author Rosario Brancato
+ */
 public class JsonUtils {
 
 	private static Logger logger = LoggerFactory.getLogger(JsonUtils.class);
 
+	/**
+	 * Serialize.
+	 *
+	 * @param <T> the generic type
+	 * @param state the state
+	 * @return the string
+	 */
 	public static <T> String Serialize(T state) {
 		String json = null;
 
@@ -27,6 +39,14 @@ public class JsonUtils {
 		return json;
 	}
 
+	/**
+	 * Deserialize.
+	 *
+	 * @param <T> the generic type
+	 * @param json the json
+	 * @param valueType the value type
+	 * @return the t
+	 */
 	public static <T> T Deserialize(String json, Class<T> valueType) {
 		T state = null;
 

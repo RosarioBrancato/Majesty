@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import ch.fhnw.projectbois._application.MetaContainer;
 import ch.fhnw.projectbois._mvc.Controller;
+import ch.fhnw.projectbois._utils.DialogUtils;
 import ch.fhnw.projectbois.components.menubar.MenuBarController;
 import ch.fhnw.projectbois.components.menubar.MenuBarModel;
 import ch.fhnw.projectbois.components.menubar.MenuBarView;
@@ -25,7 +26,6 @@ import ch.fhnw.projectbois.gameobjects.Location;
 import ch.fhnw.projectbois.gameobjects.Player;
 import ch.fhnw.projectbois.session.Session;
 import ch.fhnw.projectbois.time.Time;
-import ch.fhnw.projectbois.utils.DialogUtils;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
