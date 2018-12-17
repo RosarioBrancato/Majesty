@@ -14,18 +14,29 @@ import ch.fhnw.projectbois.network.Lobby;
 import ch.fhnw.projectbois.network.Server;
 import ch.fhnw.projectbois.network.ServerClient;
 
+// TODO: Auto-generated Javadoc
 /**
- * 
- * @author Leeroy Koller
+ * The Class ChatRequestHandler.
  *
+ * @author Leeroy Koller
  */
 
 public class ChatRequestHandler extends RequestHandler {
 
+	/**
+	 * Instantiates a new chat request handler.
+	 *
+	 * @param request the request
+	 * @param server the server
+	 * @param client the client
+	 */
 	public ChatRequestHandler(Request request, Server server, ServerClient client) {
 		super(request, server, client);
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois.requesthandlers.RequestHandler#handleRequest()
+	 */
 	@Override
 	protected void handleRequest() {
 		if (request.getRequestId() == RequestId.CHAT_SEND_MSG) {
@@ -33,6 +44,9 @@ public class ChatRequestHandler extends RequestHandler {
 		}
 	}
 
+	/**
+	 * Send message.
+	 */
 	private void sendMessage() {
 		Lobby lobby = client.getLobby();
 
@@ -114,6 +128,12 @@ public class ChatRequestHandler extends RequestHandler {
 		}
 	}
 
+	/**
+	 * Gets the username by chatmember.
+	 *
+	 * @param member the member
+	 * @return the username by chatmember
+	 */
 	private String getUsernameByChatmember(ChatMember member) {
 		String username = "";
 		ArrayList<ServerClient> clients = client.getLobby().getClients();
