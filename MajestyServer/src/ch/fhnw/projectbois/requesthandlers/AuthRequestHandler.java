@@ -5,17 +5,12 @@
  */
 package ch.fhnw.projectbois.requesthandlers;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import ch.fhnw.projectbois.access.DbAccess;
 import ch.fhnw.projectbois.auth.TokenFactory;
 import ch.fhnw.projectbois.communication.Request;
 import ch.fhnw.projectbois.communication.RequestId;
 import ch.fhnw.projectbois.communication.Response;
 import ch.fhnw.projectbois.communication.ResponseId;
+import ch.fhnw.projectbois.dto.AuthDTO;
 import ch.fhnw.projectbois.dto.LoginDTO;
 import ch.fhnw.projectbois.dto.RegistrationDTO;
 import ch.fhnw.projectbois.dto.UserDTO;
@@ -54,42 +49,32 @@ public class AuthRequestHandler extends RequestHandler {
 		// Case: Login
 		
 		if(request.getRequestId() == RequestId.LOGIN) {
-			int DBuid = 0;
-			String DBpassword = null;
-			String DBsalt = null;
-			String DBemail = null;
-			TokenFactory token = null;
-			UserDTO user = null;
 			Response response = null;
 			String json = "";
 			LoginDTO loginRequest = JsonUtils.Deserialize(request.getJsonDataObject(), LoginDTO.class);
-			String getUserString = "SELECT `uid`, `email`, `password`, `salt` FROM `user` WHERE `nickname` = ? LIMIT 1;";
-			Connection con = null;
-			PreparedStatement getUser = null;
+			UserHandler uh = UserHandler.getInstance();
+			AuthDTO authUser = new AuthDTO();
 			
 			try {
-				con = DbAccess.getConnection();
-				getUser = con.prepareStatement(getUserString);
-				getUser.setString(1, loginRequest.getUsername());
-				ResultSet dbUsers = getUser.executeQuery();
-				while(dbUsers.next()) {
-					DBuid = dbUsers.getInt(1);
-					DBemail = dbUsers.getString(2);
-					DBpassword = dbUsers.getString(3);
-					DBsalt = dbUsers.getString(4);
-				}
-				getUser.close();
-				if(DBuid == 0) {
-					logger.warning("Login failed. The requested user does not exist.");
-					response = new Response(ResponseId.AUTH_ERROR_CREDENTIALS, request.getRequestId(), json);
-				}
-			}catch(SQLException e) {
+				authUser = uh.authGetUserFromDB(loginRequest.getUsername());
+			}catch(Exception e) {
 				logger.severe("Login failed due to database error: " + e.toString());
 				response = new Response(ResponseId.AUTH_ERROR_SERVER, request.getRequestId(), json);
 			}
 			
+			if(authUser.getUid() == 0) {
+				logger.warning("Login failed. The requested user does not exist.");
+				response = new Response(ResponseId.AUTH_ERROR_CREDENTIALS, request.getRequestId(), json);
+			}
+			
+			int DBuid = authUser.getUid();
+			String DBpassword = authUser.getPassword();
+			String DBsalt = authUser.getSalt();
+			String DBemail = authUser.getEmail();
+			TokenFactory token = null;
+			UserDTO user = null;
+			
 			if(response == null) {
-				
 				boolean isLoggedIn = server.getClients().stream()
 						.filter(f -> f.getUser() != null && f.getUser().getUsername().equals(loginRequest.getUsername())).findAny().isPresent();
 				

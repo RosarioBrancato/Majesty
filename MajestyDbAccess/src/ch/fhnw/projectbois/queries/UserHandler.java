@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import ch.fhnw.projectbois.access.DbAccess;
+import ch.fhnw.projectbois.dto.AuthDTO;
 
 public class UserHandler {
 	static UserHandler uh = null;
@@ -31,6 +32,35 @@ public class UserHandler {
 	 * Instantiates a new user handler.
 	 */
 	private UserHandler() {}
+	
+	/**
+	 * Tries to get a user from the database 
+	 *
+	 * @param username the username to check
+	 * @return an AuthDTO containing the uid, email address, hashed password and salt
+	 * @throws Exception in case something goes wrong in the database connection
+	 */
+	public AuthDTO authGetUserFromDB(String username) throws Exception {
+		AuthDTO authUser = new AuthDTO();
+		
+		String getUserString = "SELECT `uid`, `email`, `password`, `salt` FROM `user` WHERE `nickname` = ? LIMIT 1;";
+		Connection con = null;
+		PreparedStatement getUser = null;
+		
+		con = DbAccess.getConnection();
+		getUser = con.prepareStatement(getUserString);
+		getUser.setString(1, username);
+		ResultSet dbUsers = getUser.executeQuery();
+		while(dbUsers.next()) {
+			authUser.setUid(dbUsers.getInt(1));
+			authUser.setEmail(dbUsers.getString(2));
+			authUser.setPassword(dbUsers.getString(3));
+			authUser.setSalt(dbUsers.getString(4));
+		}
+		getUser.close();
+		
+		return authUser;
+	}
 	
 	/**
 	 * Check if the given user exists in the database
