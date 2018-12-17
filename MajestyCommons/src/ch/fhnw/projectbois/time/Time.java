@@ -10,6 +10,8 @@ import javafx.beans.property.SimpleIntegerProperty;
  * Some concepts were inspired by
  * https://stackoverflow.com/questions/6118922/convert-seconds-value-to-hours-minutes-seconds
  *
+ *@author Rosario Brancato & Dario Stoeckli
+ *
  */
 
 public class Time {
@@ -20,10 +22,18 @@ public class Time {
 	private int counter = 0;
 	private IntegerProperty periodCounter = null;
 
+	/**
+	 * Instantiates a new time.
+	 */
 	public Time() {
 		this.periodCounter = new SimpleIntegerProperty(0);
 	}
 
+	/**
+	 * Start timer.
+	 *
+	 * @param period the period
+	 */
 	public void startTimer(long period) {
 		this.timer = new Timer();
 
@@ -39,6 +49,11 @@ public class Time {
 		this.timer.schedule(this.task, period, period);
 	}
 
+	/**
+	 * Start countdown.
+	 *
+	 * @param seconds the seconds
+	 */
 	public void startCountdown(int seconds) {
 		this.counter = seconds;
 		this.timer = new Timer();
@@ -55,6 +70,9 @@ public class Time {
 		this.timer.schedule(this.task, 1000, 1000);
 	}
 
+	/**
+	 * Stop.
+	 */
 	public void stop() {
 		if (this.timer != null) {
 			this.task.cancel();
@@ -85,6 +103,12 @@ public class Time {
 		this.counter = seconds;
 	}
 
+	/**
+	 * Gets the two digit values.
+	 *
+	 * @param number the number
+	 * @return the two digit values
+	 */
 	// Double digit formatting
 	private String getTwoDigitValues(int number) {
 		if (number == 0) {

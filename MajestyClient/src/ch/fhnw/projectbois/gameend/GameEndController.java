@@ -3,12 +3,12 @@ package ch.fhnw.projectbois.gameend;
 import java.util.ArrayList;
 
 import ch.fhnw.projectbois._application.MetaContainer;
+import ch.fhnw.projectbois._interfaces.IDialog;
 import ch.fhnw.projectbois._mvc.Controller;
+import ch.fhnw.projectbois._utils.DialogUtils;
 import ch.fhnw.projectbois.gameobjects.GameState;
 import ch.fhnw.projectbois.gameobjects.Player;
-import ch.fhnw.projectbois.interfaces.IDialog;
 import ch.fhnw.projectbois.session.Session;
-import ch.fhnw.projectbois.utils.DialogUtils;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

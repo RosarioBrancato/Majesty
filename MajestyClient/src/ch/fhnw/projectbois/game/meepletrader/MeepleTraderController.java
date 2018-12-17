@@ -1,10 +1,10 @@
 package ch.fhnw.projectbois.game.meepletrader;
 
 import ch.fhnw.projectbois._application.MetaContainer;
+import ch.fhnw.projectbois._interfaces.IDialog;
 import ch.fhnw.projectbois._mvc.Controller;
+import ch.fhnw.projectbois._utils.DialogUtils;
 import ch.fhnw.projectbois.gameobjects.GameMove;
-import ch.fhnw.projectbois.interfaces.IDialog;
-import ch.fhnw.projectbois.utils.DialogUtils;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
