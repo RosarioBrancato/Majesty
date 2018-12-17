@@ -47,8 +47,8 @@
 }
 
 .lblMeeplesOnCard {
-	-fx-font-weight: bold;	
-	-fx-font-size: 40px;
+	-fx-font-weight: bolder;	
+	-fx-font-size: 70px;
 	-fx-text-fill: yellow;
 	-fx-font-family: "Blackadder ITC";
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.8, 0 , 2 );
@@ -78,20 +78,15 @@
 	-fx-border-color: yellow;
 }
 
-.pnlPlayersTurnLeft {
-	-fx-border-color: yellow;
-}
-
-.pnlPlayersTurnRight {
-	-fx-border-color: yellow;
-}
-
 .pnlDisplaySelectedCard {
 	-fx-background-color: #EBD58B;
 	-fx-background-radius: 75;
 }
 
-
+#lblTimer {
+	-fx-text-fill: yellow;
+ 	-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.8, 0 , 2 );	
+}
 
 
 
