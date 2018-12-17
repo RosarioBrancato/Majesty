@@ -22,23 +22,35 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
+// TODO: Auto-generated Javadoc
 /**
- * 
- * @author Leeroy Koller
+ * The Class ChatModel.
  *
+ * @author Leeroy Koller
  */
 
 public class ChatModel extends Model {
 
+	/** The chat property. */
 	private SimpleObjectProperty<MessageDTO> chatProperty = null;
+	
+	/** The username map. */
 	private HashMap<String, ChatMember> usernameMap = null;
 
+	/**
+	 * Instantiates a new chat model.
+	 */
 	public ChatModel() {
 		this.chatProperty = new SimpleObjectProperty<>();
 		this.usernameMap = new HashMap<>();
 		this.initResponseListener();
 	}
 
+	/**
+	 * Send message.
+	 *
+	 * @param message the message
+	 */
 	public void sendMessage(MessageDTO message) {
 		String json = JsonUtils.Serialize(message);
 
@@ -49,11 +61,19 @@ public class ChatModel extends Model {
 		Network.getInstance().sendRequest(request);
 	}
 
+	/**
+	 * Gets the lobby info.
+	 *
+	 * @return the lobby info
+	 */
 	public void getLobbyInfo() {
 		Request request = new Request(Session.getCurrentUserToken(), RequestId.GET_LOBBY_OF_CLIENT, null);
 		Network.getInstance().sendRequest(request);
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois._mvc.Model#getChangeListener()
+	 */
 	// receive response from server
 	@Override
 	protected ChangeListener<Response> getChangeListener() {
@@ -97,14 +117,29 @@ public class ChatModel extends Model {
 		};
 	}
 
+	/**
+	 * Gets the chat property.
+	 *
+	 * @return the chat property
+	 */
 	public SimpleObjectProperty<MessageDTO> getChatProperty() {
 		return this.chatProperty;
 	}
 
+	/**
+	 * Gets the username map.
+	 *
+	 * @return the username map
+	 */
 	public HashMap<String, ChatMember> getUsernameMap() {
 		return this.usernameMap;
 	}
 
+	/**
+	 * Gets the current user chat member.
+	 *
+	 * @return the current user chat member
+	 */
 	public ChatMember getCurrentUserChatMember() {
 		String username = Session.getCurrentUsername();
 		ChatMember ownChatMember = usernameMap.get(username);
@@ -112,6 +147,12 @@ public class ChatModel extends Model {
 		return ownChatMember;
 	}
 
+	/**
+	 * Gets the username by chatmember.
+	 *
+	 * @param chatMember the chat member
+	 * @return the username by chatmember
+	 */
 	public String getUsernameByChatmember(ChatMember chatMember) {
 		String username = "System";
 		username = translator.getTranslation("txt_ChatMember_System");
@@ -131,6 +172,11 @@ public class ChatModel extends Model {
 		return username;
 	}
 
+	/**
+	 * Map usernames.
+	 *
+	 * @param lobbyInfo the lobby info
+	 */
 	private void mapUsernames(LobbyDTO lobbyInfo) {
 		usernameMap.clear();
 		ArrayList<String> players = lobbyInfo.getPlayers();
