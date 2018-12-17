@@ -3,7 +3,7 @@
  * @author Alexandre Miccoli
  * 
  */
-package ch.fhnw.projectbois._application;
+package ch.fhnw.projectbois.preferences;
 
 import java.util.prefs.Preferences;
 

@@ -10,6 +10,7 @@ import ch.fhnw.projectbois.login.LoginController;
 import ch.fhnw.projectbois.login.LoginModel;
 import ch.fhnw.projectbois.login.LoginView;
 import ch.fhnw.projectbois.network.Network;
+import ch.fhnw.projectbois.preferences.UserPrefs;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
