@@ -3,12 +3,23 @@ package ch.fhnw.projectbois.game;
 import ch.fhnw.projectbois.gameobjects.Card;
 import ch.fhnw.projectbois.gameobjects.CardType;
 
+/**
+ * The Class GameResourceHelper.
+ * 
+ * @author Rosario Brancato
+ */
 public class GameResourceHelper {
 
 	private final String PATH_TO_CARD = "game/cards/character%20cards/";
 	private final String PATH_TO_SPLIT_CARD = "game/cards/split%20cards/";
 	private final String PATH_TO_CARDBACKS = "game/cards/backs/";
 
+	/**
+	 * Gets the url by card.
+	 *
+	 * @param card the card
+	 * @return the url by card
+	 */
 	public String getUrlByCard(Card card) {
 		String url = "";
 
@@ -81,6 +92,12 @@ public class GameResourceHelper {
 		return url;
 	}
 
+	/**
+	 * Gets the url by card back.
+	 *
+	 * @param deckBack the deck back
+	 * @return the url by card back
+	 */
 	public String getUrlByCardBack(int deckBack) {
 		String url = "";
 

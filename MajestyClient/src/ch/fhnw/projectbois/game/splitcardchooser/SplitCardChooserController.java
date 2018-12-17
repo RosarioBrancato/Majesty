@@ -14,6 +14,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * The Class SplitCardChooserController.
+ * 
+ * @author Rosario Brancato
+ */
 public class SplitCardChooserController extends Controller<SplitCardChooserModel, SplitCardChooserView> implements IDialog {
 
 	private Stage stage = null;
@@ -29,10 +34,22 @@ public class SplitCardChooserController extends Controller<SplitCardChooserModel
 	@FXML
 	private Pane pnlRight;
 
+	/**
+	 * Instantiates a new split card chooser controller.
+	 *
+	 * @param model the model
+	 * @param view the view
+	 */
 	public SplitCardChooserController(SplitCardChooserModel model, SplitCardChooserView view) {
 		super(model, view);
 	}
 
+	/**
+	 * Load split card.
+	 *
+	 * @param splitCard the split card
+	 * @param splitCardInfo the split card info
+	 */
 	public void loadSplitCard(Card splitCard, String splitCardInfo) {
 		if (splitCard.isSplitCard()) {
 			GameResourceHelper helper = new GameResourceHelper();
@@ -53,6 +70,9 @@ public class SplitCardChooserController extends Controller<SplitCardChooserModel
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois.interfaces.IDialog#showAndWait()
+	 */
 	public void showAndWait() {
 		this.stage = DialogUtils.getStageModal(MetaContainer.getInstance().getMainStage());
 		this.stage.setTitle("Split Card");
@@ -65,6 +85,11 @@ public class SplitCardChooserController extends Controller<SplitCardChooserModel
 		return this.decision;
 	}
 
+	/**
+	 * Pnl left click.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	private void pnlLeft_Click(MouseEvent event) {
 		this.decision = 1;
@@ -74,6 +99,11 @@ public class SplitCardChooserController extends Controller<SplitCardChooserModel
 		});
 	}
 
+	/**
+	 * Pnl right click.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	private void pnlRight_Click(MouseEvent event) {
 		this.decision = 2;

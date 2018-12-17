@@ -17,12 +17,15 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
- * 
- * @author Rosario Brancato
+ * The Class Main.
  *
+ * @author Rosario Brancato
  */
 public class Main extends Application {
 
+	/* (non-Javadoc)
+	 * @see javafx.application.Application#start(javafx.stage.Stage)
+	 */
 	@Override
 	public void start(Stage primaryStage) {
 		Logger logger = LoggerFactory.getLogger(Main.class);
@@ -51,11 +54,19 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		Locale.setDefault(new Locale(UserPrefs.getInstance().get("LANG", "en")));
 		launch(args);
 	}
 	
+	/* (non-Javadoc)
+	 * @see javafx.application.Application#stop()
+	 */
 	@Override
 	public void stop() throws Exception {
 		super.stop();
