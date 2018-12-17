@@ -75,7 +75,7 @@ public class ProfileModel extends Model {
 	 * Used when a new request is sent to the server
 	 */
 	public void resetStatus() {
-		this.profUpdateStat.set(null);
+		profUpdateStat.set(null);
 	}
 	
 	/**

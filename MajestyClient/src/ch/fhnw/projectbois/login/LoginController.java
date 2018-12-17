@@ -270,6 +270,14 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	protected void initialize() {
 		super.initialize();
 
+		Platform.runLater(() -> {
+			if(!(this.pref_user.equals("") || this.pref_user == null))
+				this.txt_Login_username.setText(pref_user);
+				this.txt_Login_password.requestFocus();
+			this.txt_Login_serverServer.setText(pref_server);
+			this.txt_Login_serverPort.setText(pref_port);
+		});
+		
 		this.initUserPropertyListener();
 		model.getLoggedInUser().addListener(userPropertyListener);
 
@@ -285,14 +293,6 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 		});
 
 		this.fillChoiceBox();
-		
-		Platform.runLater(() -> {
-			if(this.pref_user != null)
-				this.txt_Login_username.setText(pref_user);
-				this.txt_Login_password.requestFocus();
-			this.txt_Login_serverServer.setText(pref_server);
-			this.txt_Login_serverPort.setText(pref_port);
-		});
 		
 		cmb_Login_language.getSelectionModel().selectedItemProperty()
 				.addListener((ObservableValue, oldValue, newValue) -> {
