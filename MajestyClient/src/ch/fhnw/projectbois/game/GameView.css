@@ -38,7 +38,7 @@
 }
 
 .pnlCardTable {
-	-fx-background-color: #85542D;
+	-fx-background-color: #2464ab;
 	-fx-padding: 5px;
 }
 
@@ -78,6 +78,14 @@
 	-fx-border-color: yellow;
 }
 
+.pnlPlayersTurnLeft {
+	-fx-border-color: yellow;
+}
+
+.pnlPlayersTurnRight {
+	-fx-border-color: yellow;
+}
+
 .pnlDisplaySelectedCard {
 	-fx-background-color: #EBD58B;
 	-fx-background-radius: 75;
@@ -95,7 +103,10 @@
 }
 
 .displayToHover {
-	-fx-background-color: #ffff7a;
+	-fx-border-style: solid;
+	-fx-border-color: yellow;
+	-fx-border-width: 3.0px;
+	
 }
 
 .displayToHover:hover {
