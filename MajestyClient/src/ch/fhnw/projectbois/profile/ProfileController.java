@@ -161,7 +161,15 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 		boolean pwd_ok = cv.passwordStrengthIsSufficient(pwd);
 		boolean pwd_match = (pwd.length() > 0 && pwd.equals(pwd_repeat));
 		
-		changeFieldColor(this.txt_Profile_email, email_ok);
+		if(Session.getCurrentEmail().equals(email)) {
+			Platform.runLater(() -> {
+				this.txt_Profile_email.getStyleClass().removeAll("field_error");
+				this.txt_Profile_email.getStyleClass().removeAll("field_ok");
+			});
+		}else {
+			changeFieldColor(this.txt_Profile_email, email_ok);
+		}
+		
 		changeFieldColor(this.txt_Profile_pwd, pwd_ok);
 		changeFieldColor(this.txt_Profile_pwdRepeat, pwd_match);
 				
@@ -228,26 +236,28 @@ public class ProfileController extends Controller<ProfileModel, ProfileView> {
 			
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if(newValue.equals("OK")) {
-					Platform.runLater(() -> {
-						lbl_Profile_msg.setTextFill(Paint.valueOf("GREEN"));
-						lbl_Profile_msg.setText(translator.getTranslation("lbl_Profile_Response_Success"));
-					});
-					
-				}else if(newValue.equals("DELETED")){
-					Network.getInstance().stopConnection();
-					UserPrefs.getInstance().put("USERNAME", "");
-					LoginController controller = Controller.initMVCAsRoot(LoginController.class, LoginModel.class, LoginView.class);
-					controller.LoginSetMessage("msg_Profile_Deleted");
-				}else {
-					Platform.runLater(() -> {
-						lbl_Profile_msg.setTextFill(Paint.valueOf("RED"));
-						lbl_Profile_msg.setText(translator.getTranslation(newValue.toString()));
-					});
-				}
 				timer.getPeriodCounterProperty().removeListener(timerPropertyListener);
 				timer.stop();
-				switchLoaderDisplay(false);
+				if(newValue != null) {
+					if(newValue.equals("OK")) {
+						Platform.runLater(() -> {
+							lbl_Profile_msg.setTextFill(Paint.valueOf("GREEN"));
+							lbl_Profile_msg.setText(translator.getTranslation("lbl_Profile_Response_Success"));
+						});
+						
+					}else if(newValue.equals("DELETED")){
+						Network.getInstance().stopConnection();
+						UserPrefs.getInstance().put("USERNAME", "");
+						LoginController controller = Controller.initMVCAsRoot(LoginController.class, LoginModel.class, LoginView.class);
+						controller.LoginSetMessage("msg_Profile_Deleted");
+					}else {
+						Platform.runLater(() -> {
+							lbl_Profile_msg.setTextFill(Paint.valueOf("RED"));
+							lbl_Profile_msg.setText(translator.getTranslation(newValue.toString()));
+						});
+					}
+					switchLoaderDisplay(false);
+				}
 			}
 		};	
 	}
