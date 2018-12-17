@@ -11,12 +11,17 @@ import ch.fhnw.projectbois.log.LoggerFactory;
 import ch.fhnw.projectbois.network.Server;
 
 /**
- * 
- * @author Rosario Brancato
+ * The Class Main.
  *
+ * @author Rosario Brancato
  */
 public class Main {
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		System.out.println("Starting Majesty...");
 		

@@ -7,6 +7,11 @@ package ch.fhnw.projectbois.auth;
 
 import java.util.UUID;
 
+/**
+ * 
+ * @author Rosario Brancato
+ *
+ */
 public class TokenFactory {
 
 	private static TokenFactory instance = null;

@@ -23,9 +23,9 @@ import ch.fhnw.projectbois.requesthandlers.LobbyRequestHandler;
 import ch.fhnw.projectbois.requesthandlers.ProfileRequestHandler;
 
 /**
- * 
- * @author Rosario Brancato
+ * The Class ServerClient.
  *
+ * @author Rosario Brancato
  */
 public class ServerClient {
 
@@ -36,6 +36,12 @@ public class ServerClient {
 
 	private Lobby lobby = null;
 
+	/**
+	 * Instantiates a new server client.
+	 *
+	 * @param server the server
+	 * @param socket the socket
+	 */
 	public ServerClient(Server server, Socket socket) {
 		this.logger = LoggerFactory.getLogger(this.getClass());
 		this.socket = socket;
@@ -111,6 +117,9 @@ public class ServerClient {
 		t.start();
 	}
 
+	/**
+	 * Close.
+	 */
 	public void close() {
 		try {
 			this.socket.close();
@@ -118,6 +127,11 @@ public class ServerClient {
 		}
 	}
 
+	/**
+	 * Send response.
+	 *
+	 * @param response the response
+	 */
 	public void sendResponse(Response response) {
 		try {
 			String json = JsonUtils.Serialize(response);
@@ -134,6 +148,8 @@ public class ServerClient {
 		}
 	}
 
+	// GETTERS AND SETTERS
+	
 	public void setLobby(Lobby lobby) {
 		this.lobby = lobby;
 	}
