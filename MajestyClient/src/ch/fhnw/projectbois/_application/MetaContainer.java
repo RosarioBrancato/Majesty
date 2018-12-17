@@ -84,7 +84,6 @@ public class MetaContainer {
 	 */
 	public void addController(Controller<? extends Model, ? extends View<? extends Model>> controller) {
 		this.controllers.add(controller);
-		System.out.println("Controllers: " + controllers.size());
 	}
 
 	/**
@@ -97,7 +96,6 @@ public class MetaContainer {
 			controller.destroy();
 			this.controllers.remove(controller);
 		}
-		System.out.println("Controllers: " + controllers.size());
 	}
 
 	/**
@@ -109,7 +107,6 @@ public class MetaContainer {
 		}
 
 		this.controllers.clear();
-		System.out.println("Controllers: " + controllers.size());
 	}
 
 }
