@@ -30,85 +30,85 @@ public class ChatRequestHandler extends RequestHandler {
 	protected void handleRequest() {
 		if (request.getRequestId() == RequestId.CHAT_SEND_MSG) {
 			this.sendMessage();
-
-		} else {
-
 		}
 	}
 
 	private void sendMessage() {
-		String json = request.getJsonDataObject();
-		MessageDTO messageDTO = JsonUtils.Deserialize(json, MessageDTO.class);
-
-		ChatMember author = messageDTO.getAuthor();
-		ChatMember receiver = messageDTO.getReceiver();
-
-		// send response to client
-		int id = IdFactory.getInstance().getNewId(MessageDTO.class.getName());
-		messageDTO.setId(id);
-
-		json = JsonUtils.Serialize(messageDTO);
-		Response response = new Response(ResponseId.RECEIVE_MSG, request.getRequestId(), json);
-
 		Lobby lobby = client.getLobby();
-		ArrayList<ServerClient> clients = lobby.getClients();
 
-		if (receiver == ChatMember.All) {
-			for (ServerClient c : clients) {
-				c.sendResponse(response);
-			}
+		if (lobby != null) {
+			String json = request.getJsonDataObject();
+			MessageDTO messageDTO = JsonUtils.Deserialize(json, MessageDTO.class);
 
-		} else {
-			// see own post
-			client.sendResponse(response);
-			if (receiver == ChatMember.Player1) {
-				clients.get(0).sendResponse(response);
+			ChatMember author = messageDTO.getAuthor();
+			ChatMember receiver = messageDTO.getReceiver();
 
-			} else if (receiver == ChatMember.Player2) {
-				if (clients.size() >= 2) {
-					clients.get(1).sendResponse(response);
+			// send response to client
+			int id = IdFactory.getInstance().getNewId(MessageDTO.class.getName());
+			messageDTO.setId(id);
+
+			json = JsonUtils.Serialize(messageDTO);
+			Response response = new Response(ResponseId.RECEIVE_MSG, request.getRequestId(), json);
+
+			ArrayList<ServerClient> clients = lobby.getClients();
+
+			if (receiver == ChatMember.All) {
+				for (ServerClient c : clients) {
+					c.sendResponse(response);
 				}
 
-			} else if (receiver == ChatMember.Player3) {
-				if (clients.size() >= 3) {
-					clients.get(2).sendResponse(response);
+			} else {
+				// see own post
+				client.sendResponse(response);
+				if (receiver == ChatMember.Player1) {
+					clients.get(0).sendResponse(response);
+
+				} else if (receiver == ChatMember.Player2) {
+					if (clients.size() >= 2) {
+						clients.get(1).sendResponse(response);
+					}
+
+				} else if (receiver == ChatMember.Player3) {
+					if (clients.size() >= 3) {
+						clients.get(2).sendResponse(response);
+					}
+
+				} else if (receiver == ChatMember.Player4) {
+					if (clients.size() >= 4) {
+						clients.get(3).sendResponse(response);
+					}
 				}
 
-			} else if (receiver == ChatMember.Player4) {
-				if (clients.size() >= 4) {
-					clients.get(3).sendResponse(response);
+				// System notification
+				MessageDTO whisperMessage = new MessageDTO();
+				id = IdFactory.getInstance().getNewId(MessageDTO.class.getName());
+				whisperMessage.setId(id);
+				whisperMessage.setAuthor(ChatMember.System);
+				whisperMessage.setTranslationKey("msg_System_Whisper");
+				whisperMessage.getFormatVariables().add(getUsernameByChatmember(author));
+				whisperMessage.getFormatVariables().add(getUsernameByChatmember(receiver));
+
+				json = JsonUtils.Serialize(whisperMessage);
+				Response whisperNotification = new Response(ResponseId.RECEIVE_MSG, request.getRequestId(), json);
+
+				if (messageDTO.getAuthor() != ChatMember.Player1 && messageDTO.getReceiver() != ChatMember.Player1) {
+					clients.get(0).sendResponse(whisperNotification);
+
 				}
-			}
-
-			// System notification
-			MessageDTO whisperMessage = new MessageDTO();
-			id = IdFactory.getInstance().getNewId(MessageDTO.class.getName());
-			whisperMessage.setId(id);
-			whisperMessage.setAuthor(ChatMember.System);
-			whisperMessage.setTranslationKey("msg_System_Whisper");
-			whisperMessage.getFormatVariables().add(getUsernameByChatmember(author));
-			whisperMessage.getFormatVariables().add(getUsernameByChatmember(receiver));
-
-			json = JsonUtils.Serialize(whisperMessage);
-			Response whisperNotification = new Response(ResponseId.RECEIVE_MSG, request.getRequestId(), json);
-
-			if (messageDTO.getAuthor() != ChatMember.Player1 && messageDTO.getReceiver() != ChatMember.Player1) {
-				clients.get(0).sendResponse(whisperNotification);
-
-			}
-			if (messageDTO.getAuthor() != ChatMember.Player2 && messageDTO.getReceiver() != ChatMember.Player2) {
-				if (clients.size() >= 2) {
-					clients.get(1).sendResponse(whisperNotification);
+				if (messageDTO.getAuthor() != ChatMember.Player2 && messageDTO.getReceiver() != ChatMember.Player2) {
+					if (clients.size() >= 2) {
+						clients.get(1).sendResponse(whisperNotification);
+					}
 				}
-			}
-			if (messageDTO.getAuthor() != ChatMember.Player3 && messageDTO.getReceiver() != ChatMember.Player3) {
-				if (clients.size() >= 3) {
-					clients.get(2).sendResponse(whisperNotification);
+				if (messageDTO.getAuthor() != ChatMember.Player3 && messageDTO.getReceiver() != ChatMember.Player3) {
+					if (clients.size() >= 3) {
+						clients.get(2).sendResponse(whisperNotification);
+					}
 				}
-			}
-			if (messageDTO.getAuthor() != ChatMember.Player4 && messageDTO.getReceiver() != ChatMember.Player4) {
-				if (clients.size() >= 4) {
-					clients.get(3).sendResponse(whisperNotification);
+				if (messageDTO.getAuthor() != ChatMember.Player4 && messageDTO.getReceiver() != ChatMember.Player4) {
+					if (clients.size() >= 4) {
+						clients.get(3).sendResponse(whisperNotification);
+					}
 				}
 			}
 		}

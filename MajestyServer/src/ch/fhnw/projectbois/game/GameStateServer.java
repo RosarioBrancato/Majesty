@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 import ch.fhnw.projectbois.gameobjects.Card;
 
+/**
+ * 
+ * @author Rosario Brancato
+ *
+ */
 public class GameStateServer {
 
 	public static final int TURN_TIMER = 60;

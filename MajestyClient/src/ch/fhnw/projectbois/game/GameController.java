@@ -43,11 +43,16 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
+/**
+ * The Class GameController.
+ * 
+ * @author Rosario Brancato
+ */
 public class GameController extends Controller<GameModel, GameView> {
 
 	private GameResourceHelper resourceHelper = null;
-
 	private boolean firstLoading = true;
+	
 	private Time turntimer = null;
 	private ChangeListener<Number> turntimerPropertyListener = null;
 
@@ -66,12 +71,21 @@ public class GameController extends Controller<GameModel, GameView> {
 	@FXML
 	private Pane pnlHover;
 
+	/**
+	 * Instantiates a new game controller.
+	 *
+	 * @param model the model
+	 * @param view the view
+	 */
 	public GameController(GameModel model, GameView view) {
 		super(model, view);
 
 		this.resourceHelper = new GameResourceHelper();
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois._mvc.Controller#initialize()
+	 */
 	@Override
 	protected void initialize() {
 		super.initialize();
@@ -87,6 +101,9 @@ public class GameController extends Controller<GameModel, GameView> {
 		this.model.requestGameState();
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois._mvc.Controller#destroy()
+	 */
 	@Override
 	public void destroy() {
 		super.destroy();
@@ -98,6 +115,11 @@ public class GameController extends Controller<GameModel, GameView> {
 		}
 	}
 
+	/**
+	 * Load game state.
+	 *
+	 * @param gameState the game state
+	 */
 	private void loadGameState(GameState gameState) {
 		if (firstLoading) {
 			model.definePlayersIndex();
@@ -113,8 +135,30 @@ public class GameController extends Controller<GameModel, GameView> {
 		this.drawGui();
 	}
 
+	/**
+	 * Show game end view.
+	 *
+	 * @param gameState the game state
+	 */
+	private void showGameEndView(GameState gameState) {
+		Platform.runLater(() -> {
+			GameEndController controller = Controller.initMVC(GameEndController.class, GameEndModel.class,
+					GameEndView.class);
+
+			controller.setGameState(gameState);
+			controller.showAndWait();
+
+			MetaContainer.getInstance().destroyController(controller);
+		});
+	}
+
 	// SET UP
 
+	/**
+	 * Inits the turntimer.
+	 *
+	 * @param seconds the seconds
+	 */
 	private void initTurntimer(int seconds) {
 		this.turntimer = new Time();
 		this.initTurntimerPropertyListener();
@@ -122,12 +166,18 @@ public class GameController extends Controller<GameModel, GameView> {
 		this.turntimer.startCountdown(seconds);
 	}
 
+	/**
+	 * Inits the turntimer property listener.
+	 */
 	private void initTurntimerPropertyListener() {
 		this.turntimerPropertyListener = (observer, oldValue, newValue) -> {
 			updateInfoBar();
 		};
 	}
 
+	/**
+	 * Inits the display card click event.
+	 */
 	private void initDisplayCardClickEvent() {
 		for (int i = 0; i < 6; i++) {
 			Pane pnlDisplayCard = (Pane) view.getRoot().lookup("#pnlDisplayCard" + (i + 1));
@@ -135,6 +185,12 @@ public class GameController extends Controller<GameModel, GameView> {
 		}
 	}
 
+	/**
+	 * Adds the display click event.
+	 *
+	 * @param pnlDisplayCard the pnl display card
+	 * @param displayIndex the display index
+	 */
 	private void addDisplayClickEvent(Pane pnlDisplayCard, int displayIndex) {
 		pnlDisplayCard.setOnMouseClicked(new EventHandler<Event>() {
 
@@ -206,12 +262,18 @@ public class GameController extends Controller<GameModel, GameView> {
 
 	// MAIN METHODS
 
+	/**
+	 * Draw gui.
+	 */
 	private void drawGui() {
 		this.loadGameInfos();
 		this.drawDisplay();
 		this.drawLocationCards();
 	}
 
+	/**
+	 * Load game infos.
+	 */
 	private void loadGameInfos() {
 		GameState gameState = model.getGameState();
 		ArrayList<Player> players = gameState.getBoard().getPlayers();
@@ -246,6 +308,9 @@ public class GameController extends Controller<GameModel, GameView> {
 		}
 	}
 
+	/**
+	 * Update info bar.
+	 */
 	private void updateInfoBar() {
 		final String timer = translator.getTranslation("lbl_Timer", this.turntimer.getCounter());
 		final String round = translator.getTranslation("lbl_Round", model.getGameState().getRound());
@@ -256,6 +321,13 @@ public class GameController extends Controller<GameModel, GameView> {
 		});
 	}
 
+	/**
+	 * Load game info player.
+	 *
+	 * @param player the player
+	 * @param container the container
+	 * @param isStartingPlayer the is starting player
+	 */
 	private void loadGameInfoPlayer(Player player, GamePlayerContainer container, boolean isStartingPlayer) {
 		String username;
 		if (isStartingPlayer) {
@@ -274,6 +346,9 @@ public class GameController extends Controller<GameModel, GameView> {
 		});
 	}
 
+	/**
+	 * Draw display.
+	 */
 	private void drawDisplay() {
 		GameState gameState = model.getGameState();
 		ArrayList<Card> displayCards = gameState.getBoard().getDisplay();
@@ -310,6 +385,9 @@ public class GameController extends Controller<GameModel, GameView> {
 		this.pnlDisplayCardStack.setStyle("-fx-background-image: url('" + url + "');");
 	}
 
+	/**
+	 * Draw location cards.
+	 */
 	private void drawLocationCards() {
 		ArrayList<Player> players = model.getGameState().getBoard().getPlayers();
 
@@ -325,6 +403,12 @@ public class GameController extends Controller<GameModel, GameView> {
 		}
 	}
 
+	/**
+	 * Draw location of player.
+	 *
+	 * @param player the player
+	 * @param container the container
+	 */
 	private void drawLocationOfPlayer(Player player, GamePlayerContainer container) {
 		final int playerRow = container.getPlayerRow();
 
@@ -385,6 +469,13 @@ public class GameController extends Controller<GameModel, GameView> {
 		}
 	}
 
+	/**
+	 * Show split card chooser.
+	 *
+	 * @param splitCard the split card
+	 * @param splitCardInfo the split card info
+	 * @return the int
+	 */
 	private int showSplitCardChooser(Card splitCard, String splitCardInfo) {
 		int decision = -1;
 
@@ -403,18 +494,11 @@ public class GameController extends Controller<GameModel, GameView> {
 		return decision;
 	}
 
-	private void showGameEndView(GameState gameState) {
-		Platform.runLater(() -> {
-			GameEndController controller = Controller.initMVC(GameEndController.class, GameEndModel.class,
-					GameEndView.class);
-
-			controller.setGameState(gameState);
-			controller.showAndWait();
-
-			MetaContainer.getInstance().destroyController(controller);
-		});
-	}
-
+	/**
+	 * Checks if is turn player.
+	 *
+	 * @return true, if is turn player
+	 */
 	private boolean isTurnPlayer() {
 		GameState gameState = model.getGameState();
 		int playersTurn = gameState.getPlayersTurn();
@@ -426,6 +510,11 @@ public class GameController extends Controller<GameModel, GameView> {
 
 	// EVENT METHODS
 
+	/**
+	 * Btn leave click.
+	 *
+	 * @param e the e
+	 */
 	@FXML
 	private void btnLeave_Click(ActionEvent e) {
 		String alertText = translator.getTranslation("inf_Leave_Game");
