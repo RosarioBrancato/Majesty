@@ -1,3 +1,9 @@
+/**
+ * Instantiates MySQL Database connections
+ * 
+ * @author Rosario Brancato, Alexandre Miccoli
+ */
+
 package ch.fhnw.projectbois.access;
 
 import java.sql.Connection;
@@ -27,6 +33,12 @@ public class DbAccess {
 		return connection;
 	}
 	
+	/**
+	 * Sends back a connection instance. Used to check whether the connection parameters in the preferences are correct or not (Main).
+	 * 
+	 * @return Connection instance
+	 * @throws SQLException
+	 */
 	public static Connection getConnectionWithExceptions() throws SQLException{
 		Connection connection = null;
 		connection = DriverManager.getConnection(CONNECTION_STRING);
