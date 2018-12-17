@@ -14,7 +14,6 @@ import ch.fhnw.projectbois.network.Lobby;
 import ch.fhnw.projectbois.network.Server;
 import ch.fhnw.projectbois.network.ServerClient;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ChatRequestHandler.
  *
@@ -65,7 +64,8 @@ public class ChatRequestHandler extends RequestHandler {
 			Response response = new Response(ResponseId.RECEIVE_MSG, request.getRequestId(), json);
 
 			ArrayList<ServerClient> clients = lobby.getClients();
-
+			
+			// normal message
 			if (receiver == ChatMember.All) {
 				for (ServerClient c : clients) {
 					c.sendResponse(response);
@@ -74,6 +74,7 @@ public class ChatRequestHandler extends RequestHandler {
 			} else {
 				// see own post
 				client.sendResponse(response);
+				// whisper message
 				if (receiver == ChatMember.Player1) {
 					clients.get(0).sendResponse(response);
 
@@ -93,7 +94,7 @@ public class ChatRequestHandler extends RequestHandler {
 					}
 				}
 
-				// System notification
+				// System notification to all other players
 				MessageDTO whisperMessage = new MessageDTO();
 				id = IdFactory.getInstance().getNewId(MessageDTO.class.getName());
 				whisperMessage.setId(id);

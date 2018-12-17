@@ -22,7 +22,6 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ChatModel.
  *
@@ -31,10 +30,8 @@ import javafx.beans.value.ObservableValue;
 
 public class ChatModel extends Model {
 
-	/** The chat property. */
 	private SimpleObjectProperty<MessageDTO> chatProperty = null;
 	
-	/** The username map. */
 	private HashMap<String, ChatMember> usernameMap = null;
 
 	/**
@@ -48,14 +45,14 @@ public class ChatModel extends Model {
 
 	/**
 	 * Send message.
+	 * Create and sends request. 
+	 * UserToken: identify user, RequestId: knows which logic to use, json: has all the info.
 	 *
 	 * @param message the message
 	 */
 	public void sendMessage(MessageDTO message) {
 		String json = JsonUtils.Serialize(message);
 
-		// create and send request. UserToken: identify user,
-		// RequestId: knows which logic to use, json: has all the infos
 		Request request = new Request(Session.getCurrentUserToken(), RequestId.CHAT_SEND_MSG, json);
 
 		Network.getInstance().sendRequest(request);
@@ -73,8 +70,9 @@ public class ChatModel extends Model {
 
 	/* (non-Javadoc)
 	 * @see ch.fhnw.projectbois._mvc.Model#getChangeListener()
+	 * 
+	 * Receives response from server.
 	 */
-	// receive response from server
 	@Override
 	protected ChangeListener<Response> getChangeListener() {
 		return new ChangeListener<Response>() {
@@ -157,7 +155,6 @@ public class ChatModel extends Model {
 		String username = "System";
 		username = translator.getTranslation("txt_ChatMember_System");
 		
-
 		Set<String> usernames = usernameMap.keySet();
 
 		for (String name : usernames) {
