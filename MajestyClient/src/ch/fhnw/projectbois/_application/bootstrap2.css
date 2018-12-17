@@ -893,7 +893,7 @@ VBox > .split-menu-button.last > .arrow-button {
 	-fx-background-insets: 3 2 1 2;
 }
 .radio-button:selected > .radio,.radio-button:hover > .radio {
-	-fx-fill-color: #0087cb;
+	-fx-background-color: #0087cb;
 }
 .radio-button:pressed > .radio {
 	-fx-background-color: #0087cb;
