@@ -15,7 +15,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ChatController.
  *
@@ -24,43 +23,32 @@ import javafx.scene.layout.AnchorPane;
 
 public class ChatController extends Controller<ChatModel, ChatView> {
 
-	/** The chat property listener. */
 	private ChangeListener<MessageDTO> chatPropertyListener = null;
 
-	/** The txt chat. */
-	// declaration of things I need need in code
 	@FXML
 	private TextArea txtChat;
 
-	/** The txt message. */
 	@FXML
 	private TextField txtMessage;
 
-	/** The btn send. */
 	@FXML
 	private Button btnSend;
 
-	/** The img send. */
 	@FXML
 	private ImageView imgSend;
 
-	/** The img arrow. */
 	@FXML
 	private ImageView imgArrow;
 
-	/** The img notification. */
 	@FXML
 	private ImageView imgNotification;
 
-	/** The btn close. */
 	@FXML
 	private Button btnClose;
 
-	/** The pnl root. */
 	@FXML
 	private AnchorPane pnlRoot;
 
-	/** The is closed. */
 	private boolean isClosed = false;
 
 	/**
@@ -131,22 +119,24 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 
 	/**
 	 * Update chat view.
+	 * Posts the messages/whispers with the corresponding author
 	 *
 	 * @param message the message
 	 */
 	private void updateChatView(MessageDTO message) {
-		// check if author is Player1-4, then post message as globally
 		String username = model.getUsernameByChatmember(message.getAuthor());
-
+		
 		String messageText = "";
 		String key = message.getTranslationKey();
 		if (key != null) {
 			messageText = translator.getTranslation(key, message.getFormatVariablesAsArray());
 		}
+		
 		if (messageText == null || messageText == "") {
 			messageText = message.getMessage();
 		}
 
+		// show notification if chat is closed
 		if (isClosed == true) {
 			showNotification();
 		}
@@ -164,6 +154,8 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 
 	/**
 	 * Btn send click.
+	 * Handles the "send" button. Sends message/whisper to server.
+	 * Checks if author is whispering and handles it.
 	 *
 	 * @param event the event
 	 */
@@ -218,6 +210,7 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 
 	/**
 	 * Btn minimize click.
+	 * Handles minimize and maximize button.
 	 *
 	 * @param event the event
 	 */

@@ -4,16 +4,13 @@ import java.net.URL;
 
 import ch.fhnw.projectbois._mvc.View;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ChatView.
  */
 public class ChatView extends View<ChatModel> {
 	
-	/** The Constant PREF_HEIGHT. */
 	public static final double PREF_HEIGHT = 300;
 
-	/** The pref height open. */
 	private double prefHeightOpen = 0;
 	
 	
