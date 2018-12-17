@@ -76,9 +76,8 @@ public class RegistrationModel extends Model {
 	 * @param email the requested email
 	 */
 	protected void RegistrationProcessInput(String server, int port, String username, String password, String email) {
-		try {
-			Network.getInstance().initConnection(server, port);
-		}catch(Exception e) {
+		boolean success = Network.getInstance().initConnection(server, port);
+		if(!success) {
 			this.regStat.set("lbl_Login_loginMsg_ServerError");
 		}
 		
