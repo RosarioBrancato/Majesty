@@ -48,7 +48,7 @@
 
 .lblMeeplesOnCard {
 	-fx-font-weight: bolder;	
-	-fx-font-size: 70px;
+	-fx-font-size: 50px;
 	-fx-text-fill: yellow;
 	-fx-font-family: "Blackadder ITC";
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.8, 0 , 2 );
