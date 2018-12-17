@@ -183,7 +183,7 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 						newMessage += ":";
 					}
 				}
-				message.setMessage(newMessage);
+				message.setMessage("*" + newMessage+" *");
 				message.setReceiver(receiver);
 			} else {
 				message.setReceiver(ChatMember.All);
