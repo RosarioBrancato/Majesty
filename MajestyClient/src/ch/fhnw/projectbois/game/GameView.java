@@ -1,3 +1,4 @@
+
 package ch.fhnw.projectbois.game;
 
 import java.net.URL;
@@ -19,22 +20,43 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
+/**
+ * The Class GameView.
+ * 
+ * @author Rosario Brancato
+ */
 public class GameView extends View<GameModel> {
 
 	private GamePlayerContainer playerContainer = null;
 	private ArrayList<GamePlayerContainer> opponentContainers = null;
 
+	/**
+	 * Instantiates a new game view.
+	 *
+	 * @param model the model
+	 */
 	public GameView(GameModel model) {
 		super(model);
 
 		this.opponentContainers = new ArrayList<>();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.fhnw.projectbois._mvc.View#getFXML()
+	 */
 	@Override
 	protected URL getFXML() {
 		return this.getClass().getResource("GameView.fxml");
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.fhnw.projectbois._mvc.View#loadRoot(ch.fhnw.projectbois._mvc.Controller)
+	 */
 	@Override
 	public <T extends Controller<GameModel, ? extends View<GameModel>>> void loadRoot(T controller) {
 		super.loadRoot(controller);
@@ -61,6 +83,9 @@ public class GameView extends View<GameModel> {
 		this.root = stackpane;
 	}
 
+	/**
+	 * Inits the game player containers.
+	 */
 	public void initGamePlayerContainers() {
 		GameState gameState = model.getGameState();
 		int playerIndex = model.getPlayerIndex();
@@ -117,6 +142,13 @@ public class GameView extends View<GameModel> {
 		});
 	}
 
+	/**
+	 * Inits the game player container opponent.
+	 *
+	 * @param opponentNr      the opponent nr
+	 * @param player          the player
+	 * @param isCurrentPlayer the is current player
+	 */
 	public void initGamePlayerContainerOpponent(int opponentNr, Player player, boolean isCurrentPlayer) {
 		GamePlayerContainer container = new GamePlayerContainer();
 		container.setUsername(player.getUsername());
@@ -144,6 +176,9 @@ public class GameView extends View<GameModel> {
 		});
 	}
 
+	/**
+	 * Inits the locations.
+	 */
 	public void initLocations() {
 		String cssFileName;
 
@@ -161,18 +196,38 @@ public class GameView extends View<GameModel> {
 
 	// GETTER AND SETTER
 
+	/**
+	 * Gets the player container.
+	 *
+	 * @return the player container
+	 */
 	public GamePlayerContainer getPlayerContainer() {
 		return playerContainer;
 	}
 
+	/**
+	 * Sets the player container.
+	 *
+	 * @param playerContainer the new player container
+	 */
 	public void setPlayerContainer(GamePlayerContainer playerContainer) {
 		this.playerContainer = playerContainer;
 	}
 
+	/**
+	 * Gets the opponent containers.
+	 *
+	 * @return the opponent containers
+	 */
 	public ArrayList<GamePlayerContainer> getOpponentContainers() {
 		return opponentContainers;
 	}
 
+	/**
+	 * Sets the opponent containers.
+	 *
+	 * @param opponentContainers the new opponent containers
+	 */
 	public void setOpponentContainers(ArrayList<GamePlayerContainer> opponentContainers) {
 		this.opponentContainers = opponentContainers;
 	}

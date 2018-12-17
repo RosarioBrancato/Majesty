@@ -18,19 +18,27 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 /**
- * Based on example from course Java 2
- * 
+ * Based on example from course Java 2.
+ *
  * @author Rosario Brancato
+ * @param <M> the generic type
+ * @param <V> the value type
  */
 public abstract class Controller<M extends Model, V extends View<M>> {
+	
 	protected Logger logger;
 	protected Translator translator;
-
 	protected M model;
 	protected V view;
 
 	private ChangeListener<ReportDTO> reportPropertyListener = null;
 
+	/**
+	 * Instantiates a new controller.
+	 *
+	 * @param model the model
+	 * @param view the view
+	 */
 	public Controller(M model, V view) {
 		this.logger = LoggerFactory.getLogger(this.getClass());
 		this.translator = Translator.getTranslator();
@@ -42,10 +50,13 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 	/**
 	 * Calls the default constructors of the MVC-Classes and returns the instance of
 	 * the Controller subclass.
-	 * 
-	 * @param controllerClass
-	 * @param modelClass
-	 * @param viewClass
+	 *
+	 * @param <C> the generic type
+	 * @param <V> the value type
+	 * @param <M> the generic type
+	 * @param controllerClass the controller class
+	 * @param modelClass the model class
+	 * @param viewClass the view class
 	 * @return instance of the Controller subclass
 	 */
 	public static <C extends Controller<M, V>, V extends View<M>, M extends Model> C initMVC(Class<C> controllerClass,
@@ -73,6 +84,17 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 		return controller;
 	}
 
+	/**
+	 * Inits the MVC as root.
+	 *
+	 * @param <C> the generic type
+	 * @param <V> the value type
+	 * @param <M> the generic type
+	 * @param controllerClass the controller class
+	 * @param modelClass the model class
+	 * @param viewClass the view class
+	 * @return the c
+	 */
 	public static <C extends Controller<M, V>, V extends View<M>, M extends Model> C initMVCAsRoot(
 			Class<C> controllerClass, Class<M> modelClass, Class<V> viewClass) {
 
@@ -85,6 +107,17 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 		return controller;
 	}
 
+	/**
+	 * Inits the MVC as dlg.
+	 *
+	 * @param <C> the generic type
+	 * @param <V> the value type
+	 * @param <M> the generic type
+	 * @param controllerClass the controller class
+	 * @param modelClass the model class
+	 * @param viewClass the view class
+	 * @return the c
+	 */
 	public static <C extends Controller<M, V>, V extends View<M>, M extends Model> C initMVCAsDlg(
 			Class<C> controllerClass, Class<M> modelClass, Class<V> viewClass) {
 
@@ -99,10 +132,18 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 		return controller;
 	}
 
+	/**
+	 * Gets the view root.
+	 *
+	 * @return the view root
+	 */
 	public Parent getViewRoot() {
 		return this.view.getRoot();
 	}
 
+	/**
+	 * Destroy.
+	 */
 	public void destroy() {
 		if (this.reportPropertyListener != null) {
 			this.model.getReportProperty().removeListener(this.reportPropertyListener);
@@ -112,6 +153,9 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 		this.model.destroy();
 	}
 
+	/**
+	 * Initialize.
+	 */
 	@FXML
 	protected void initialize() {
 
@@ -123,6 +167,11 @@ public abstract class Controller<M extends Model, V extends View<M>> {
 		model.getReportProperty().addListener(this.reportPropertyListener);
 	}
 
+	/**
+	 * Handle report.
+	 *
+	 * @param report the report
+	 */
 	protected void handleReport(ReportDTO report) {
 		Platform.runLater(() -> {
 			// AlertType

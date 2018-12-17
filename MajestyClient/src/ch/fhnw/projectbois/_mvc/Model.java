@@ -11,19 +11,23 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 
 /**
- * Based on example from course Java 2
- * 
+ * Based on example from course Java 2.
+ *
  * @author Rosario Brancato
  */
 public abstract class Model {
+	
 	protected Logger logger;
 	protected Translator translator;
-
+	
 	private SimpleObjectProperty<Response> responseProperty;
 	private SimpleObjectProperty<ReportDTO> reportProperty;
-
+	
 	private ChangeListener<Response> responsePropertyListener = null;
 
+	/**
+	 * Instantiates a new model.
+	 */
 	public Model() {
 		this.logger = LoggerFactory.getLogger(this.getClass());
 		this.translator = Translator.getTranslator();
@@ -32,20 +36,36 @@ public abstract class Model {
 		this.reportProperty = new SimpleObjectProperty<>();
 	}
 
+	/**
+	 * Destroy.
+	 */
 	public void destroy() {
 		if (this.responsePropertyListener != null) {
 			this.responseProperty.removeListener(this.responsePropertyListener);
 		}
 	}
 
+	/**
+	 * Gets the report property.
+	 *
+	 * @return the report property
+	 */
 	public SimpleObjectProperty<ReportDTO> getReportProperty() {
 		return this.reportProperty;
 	}
 
+	/**
+	 * Gets the change listener.
+	 *
+	 * @return the change listener
+	 */
 	protected ChangeListener<Response> getChangeListener() {
 		return null;
 	}
 
+	/**
+	 * Inits the response listener.
+	 */
 	protected void initResponseListener() {
 		this.responsePropertyListener = this.getChangeListener();
 		if (this.responsePropertyListener != null) {
