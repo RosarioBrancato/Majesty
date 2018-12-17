@@ -15,48 +15,68 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
+// TODO: Auto-generated Javadoc
 /**
- * 
- * @author Leeroy Koller
+ * The Class ChatController.
  *
+ * @author Leeroy Koller
  */
 
 public class ChatController extends Controller<ChatModel, ChatView> {
 
+	/** The chat property listener. */
 	private ChangeListener<MessageDTO> chatPropertyListener = null;
 
+	/** The txt chat. */
 	// declaration of things I need need in code
 	@FXML
 	private TextArea txtChat;
 
+	/** The txt message. */
 	@FXML
 	private TextField txtMessage;
 
+	/** The btn send. */
 	@FXML
 	private Button btnSend;
 
+	/** The img send. */
 	@FXML
 	private ImageView imgSend;
 
+	/** The img arrow. */
 	@FXML
 	private ImageView imgArrow;
 	
+	/** The img notification. */
 	@FXML
 	private ImageView imgNotification;
 
+	/** The btn close. */
 	@FXML
 	private Button btnClose;
 
+	/** The pnl root. */
 	@FXML
 	private AnchorPane pnlRoot;
 
+	/** The is closed. */
 	private boolean isClosed = false;	
 	
 
+	/**
+	 * Instantiates a new chat controller.
+	 *
+	 * @param model the model
+	 * @param view the view
+	 */
 	public ChatController(ChatModel model, ChatView view) {
 		super(model, view);
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois._mvc.Controller#initialize()
+	 */
 	@Override
 	protected void initialize() {
 		super.initialize();
@@ -70,6 +90,9 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 		model.getChatProperty().addListener(this.chatPropertyListener);
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois._mvc.Controller#destroy()
+	 */
 	@Override
 	public void destroy() {
 		super.destroy();
@@ -77,23 +100,37 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 		model.getChatProperty().removeListener(this.chatPropertyListener);
 	}
 	
+	/**
+	 * Open chat.
+	 */
 	public void openChat() {
 		isClosed = true;
 		btnMinimize_Click(new ActionEvent());
 	}
 	
+	/**
+	 * Close chat.
+	 */
 	public void closeChat() {
 		isClosed = false;
 		btnMinimize_Click(new ActionEvent());
 		
 	}
 
+	/**
+	 * Inits the chat property listener.
+	 */
 	private void initChatPropertyListener() {
 		this.chatPropertyListener = (observer2, oldValue2, newValue2) -> {
 			updateChatView(newValue2);
 		};
 	}
 
+	/**
+	 * Update chat view.
+	 *
+	 * @param message the message
+	 */
 	private void updateChatView(MessageDTO message) {
 		// check if author is Player1-4, then post message as globally
 		String username = model.getUsernameByChatmember(message.getAuthor());
@@ -117,6 +154,11 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 		});
 	}
 
+	/**
+	 * Btn send click.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	private void btnSend_Click(ActionEvent event) {
 		MessageDTO message = new MessageDTO();
@@ -153,6 +195,11 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 		txtMessage.clear();
 	}
 
+	/**
+	 * On enter key.
+	 *
+	 * @param e the e
+	 */
 	@FXML
 	private void onEnterKey(KeyEvent e) {
 		KeyCode key = e.getCode();
@@ -161,6 +208,11 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 		}
 	}
 
+	/**
+	 * Btn minimize click.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	private void btnMinimize_Click(ActionEvent event) {
 
@@ -195,10 +247,18 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 		imgNotification.setVisible(false);
 	}
 	
+	/**
+	 * Show notification.
+	 */
 	private void showNotification() {
 		imgNotification.setVisible(true);	
 	}
 	
+	/**
+	 * Sets the pref height open.
+	 *
+	 * @param height the new pref height open
+	 */
 	public void setPrefHeightOpen(double height)  {
 		view.setPrefHeightOpen(height);
 	}
