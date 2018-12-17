@@ -7,8 +7,15 @@ import java.util.Locale;
 
 import ch.fhnw.projectbois._mvc.Model;
 
+/**
+ * The Class MenuBarModel.
+ * @author Dario Stoeckli
+ */
 public class MenuBarModel extends Model {
 
+	/**
+	 * Open manual.
+	 */
 	public void openManual() {
 		if (Desktop.isDesktopSupported()) {
 			File manual;
