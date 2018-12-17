@@ -1,4 +1,4 @@
-package ch.fhnw.projectbois.utils;
+package ch.fhnw.projectbois._utils;
 
 import ch.fhnw.projectbois._application.MetaContainer;
 import javafx.scene.control.Alert;
