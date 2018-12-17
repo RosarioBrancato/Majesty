@@ -14,9 +14,9 @@ import ch.fhnw.projectbois.json.JsonUtils;
 import ch.fhnw.projectbois.log.LoggerFactory;
 
 /**
- * 
- * @author Rosario Brancato
+ * The Class Server.
  *
+ * @author Rosario Brancato
  */
 public class Server {
 
@@ -28,10 +28,19 @@ public class Server {
 	private ArrayList<ServerClient> clients = new ArrayList<>();
 	private ArrayList<Lobby> lobbies = new ArrayList<>();
 
+	/**
+	 * Instantiates a new server.
+	 */
 	public Server() {
 		this.logger = LoggerFactory.getLogger(this.getClass());
 	}
 
+	/**
+	 * Start server.
+	 *
+	 * @param port the port
+	 * @return true, if successful
+	 */
 	public boolean startServer(int port) {
 		this.logger.info("Starting server...");
 		boolean success = true;
@@ -68,6 +77,9 @@ public class Server {
 		return success;
 	}
 
+	/**
+	 * Stop server.
+	 */
 	public void stopServer() {
 		this.logger.info("Server.stopServer()");
 
@@ -87,6 +99,11 @@ public class Server {
 		}
 	}
 
+	/**
+	 * Removes the client.
+	 *
+	 * @param client the client
+	 */
 	public synchronized void removeClient(ServerClient client) {
 		// remove client
 		this.removeClientFromLobby(client);
@@ -96,6 +113,11 @@ public class Server {
 		this.printInfos();
 	}
 
+	/**
+	 * Removes the client from lobby.
+	 *
+	 * @param client the client
+	 */
 	public synchronized void removeClientFromLobby(ServerClient client) {
 		// remove client from his lobby
 		Lobby lobby = client.getLobby();
@@ -111,20 +133,11 @@ public class Server {
 		}
 	}
 
-	public int getClientsCount() {
-		return this.clients.size();
-	}
-
-	public ArrayList<ServerClient> getClients() {
-		return this.clients;
-	}
-
-	public ArrayList<Lobby> getLobbies() {
-		return this.lobbies;
-	}
-
 	// TEST METHODS
 
+	/**
+	 * Broadcast game msg.
+	 */
 	public void broadcastGameMsg() {
 		// info
 		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "inf_Broadcast_Game_Msg");
@@ -137,6 +150,9 @@ public class Server {
 		}
 	}
 
+	/**
+	 * Broadcast lobby msg.
+	 */
 	public void broadcastLobbyMsg() {
 		// info
 		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "inf_Broadcast_Lobby_Msg");
@@ -149,6 +165,9 @@ public class Server {
 		}
 	}
 
+	/**
+	 * Broadcast play screen msg.
+	 */
 	public void broadcastPlayScreenMsg() {
 		// info
 		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "inf_Broadcast_Play_Screen_Msg");
@@ -161,6 +180,9 @@ public class Server {
 		}
 	}
 
+	/**
+	 * Broadcast login msg.
+	 */
 	public void broadcastLoginMsg() {
 		// info
 		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "inf_Broadcast_Login_Msg");
@@ -173,6 +195,9 @@ public class Server {
 		}
 	}
 
+	/**
+	 * Broadcast profile.
+	 */
 	public void broadcastProfile() {
 		// info
 		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "inf_Broadcast_Profile_Msg");
@@ -185,6 +210,9 @@ public class Server {
 		}
 	}
 
+	/**
+	 * Broadcast login leaderboard.
+	 */
 	public void broadcastLoginLeaderboard() {
 		// info
 		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "inf_Broadcast_Leaderboard_Msg");
@@ -197,6 +225,9 @@ public class Server {
 		}
 	}
 
+	/**
+	 * Broadcast login chat.
+	 */
 	public void broadcastLoginChat() {
 		// info
 		ReportDTO report = new ReportDTO(ReportSeverity.INFO, "inf_Broadcast_Chat_Msg");
@@ -209,8 +240,24 @@ public class Server {
 		}
 	}
 
+	/**
+	 * Prints the infos.
+	 */
 	private void printInfos() {
 		logger.info("Server - Clients: " + clients.size() + " Lobbies: " + this.lobbies.size());
 	}
 
+	// GETTERS AND SETTERS
+
+	public int getClientsCount() {
+		return this.clients.size();
+	}
+
+	public ArrayList<ServerClient> getClients() {
+		return this.clients;
+	}
+
+	public ArrayList<Lobby> getLobbies() {
+		return this.lobbies;
+	}
 }

@@ -20,19 +20,29 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
+/**
+ * The Class GameModel.
+ * 
+ * @author Rosario Brancato
+ */
 public class GameModel extends Model {
 
 	private int playerIndex = -1;
-
 	private SimpleObjectProperty<GameState> gameStateProperty = null;
 	private SimpleBooleanProperty gameEndProperty;
 
+	/**
+	 * Instantiates a new game model.
+	 */
 	public GameModel() {
 		this.gameStateProperty = new SimpleObjectProperty<>();
 		this.gameEndProperty = new SimpleBooleanProperty();
 		this.initResponseListener();
 	}
 
+	/**
+	 * Define players index.
+	 */
 	public void definePlayersIndex() {
 		ArrayList<Player> players = gameStateProperty.getValue().getBoard().getPlayers();
 
@@ -44,11 +54,19 @@ public class GameModel extends Model {
 		}
 	}
 
+	/**
+	 * Request game state.
+	 */
 	public void requestGameState() {
 		Request request = new Request(Session.getCurrentUserToken(), RequestId.GET_GAMESTATE, null);
 		Network.getInstance().sendRequest(request);
 	}
 
+	/**
+	 * Send move.
+	 *
+	 * @param move the move
+	 */
 	public void sendMove(GameMove move) {
 		String json = JsonUtils.Serialize(move);
 		Request request = new Request(Session.getCurrentUserToken(), RequestId.DO_MOVE, json);
@@ -56,11 +74,17 @@ public class GameModel extends Model {
 		Network.getInstance().sendRequest(request);
 	}
 
+	/**
+	 * Leave game.
+	 */
 	public void leaveGame() {
 		Request request = new Request(Session.getCurrentUserToken(), RequestId.lEAVE_GAME, null);
 		Network.getInstance().sendRequest(request);
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois._mvc.Model#getChangeListener()
+	 */
 	@Override
 	protected ChangeListener<Response> getChangeListener() {
 		return new ChangeListener<Response>() {
@@ -111,18 +135,38 @@ public class GameModel extends Model {
 
 	// GETTER AND SETTER
 
+	/**
+	 * Gets the player index.
+	 *
+	 * @return the player index
+	 */
 	public int getPlayerIndex() {
 		return playerIndex;
 	}
 
+	/**
+	 * Gets the game state.
+	 *
+	 * @return the game state
+	 */
 	public GameState getGameState() {
 		return this.gameStateProperty.getValue();
 	}
 
+	/**
+	 * Gets the game state property.
+	 *
+	 * @return the game state property
+	 */
 	public SimpleObjectProperty<GameState> getGameStateProperty() {
 		return this.gameStateProperty;
 	}
 
+	/**
+	 * Gets the game end property.
+	 *
+	 * @return the game end property
+	 */
 	public SimpleBooleanProperty getGameEndProperty() {
 		return this.gameEndProperty;
 	}
