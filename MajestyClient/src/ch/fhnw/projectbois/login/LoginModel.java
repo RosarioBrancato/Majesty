@@ -103,10 +103,9 @@ public class LoginModel extends Model {
 	 */
 	protected void LoginProcessCredentials(String server, String port_in, String username, String password) {
 		int port = Integer.parseInt(port_in);
-				
-		try {
-			Network.getInstance().initConnection(server, port);
-		}catch(Exception e) {
+		
+		boolean success = Network.getInstance().initConnection(server, port);
+		if(!success) {
 			this.responseMsg.set("lbl_Login_loginMsg_ServerError");
 		}
 		
