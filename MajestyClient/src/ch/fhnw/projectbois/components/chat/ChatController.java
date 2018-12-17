@@ -47,7 +47,7 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 	/** The img arrow. */
 	@FXML
 	private ImageView imgArrow;
-	
+
 	/** The img notification. */
 	@FXML
 	private ImageView imgNotification;
@@ -61,20 +61,21 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 	private AnchorPane pnlRoot;
 
 	/** The is closed. */
-	private boolean isClosed = false;	
-	
+	private boolean isClosed = false;
 
 	/**
 	 * Instantiates a new chat controller.
 	 *
 	 * @param model the model
-	 * @param view the view
+	 * @param view  the view
 	 */
 	public ChatController(ChatModel model, ChatView view) {
 		super(model, view);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.fhnw.projectbois._mvc.Controller#initialize()
 	 */
 	@Override
@@ -82,7 +83,7 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 		super.initialize();
 
 		view.setPrefHeightOpen(ChatView.PREF_HEIGHT);
-		imgNotification.setVisible(false); 
+		imgNotification.setVisible(false);
 
 		model.getLobbyInfo();
 
@@ -90,7 +91,9 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 		model.getChatProperty().addListener(this.chatPropertyListener);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.fhnw.projectbois._mvc.Controller#destroy()
 	 */
 	@Override
@@ -99,7 +102,7 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 
 		model.getChatProperty().removeListener(this.chatPropertyListener);
 	}
-	
+
 	/**
 	 * Open chat.
 	 */
@@ -107,14 +110,14 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 		isClosed = true;
 		btnMinimize_Click(new ActionEvent());
 	}
-	
+
 	/**
 	 * Close chat.
 	 */
 	public void closeChat() {
 		isClosed = false;
 		btnMinimize_Click(new ActionEvent());
-		
+
 	}
 
 	/**
@@ -143,14 +146,19 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 		if (messageText == null || messageText == "") {
 			messageText = message.getMessage();
 		}
-		
+
 		if (isClosed == true) {
 			showNotification();
 		}
-		
+
 		final String messageToPrint = messageText;
 		Platform.runLater(() -> {
-			txtChat.appendText(username + ": " + messageToPrint + "\n");
+			if (message.getReceiver() == ChatMember.Player1 || message.getReceiver() == ChatMember.Player2
+					|| message.getReceiver() == ChatMember.Player3 || message.getReceiver() == ChatMember.Player4) {
+				txtChat.appendText("<w> " + username + ": " + messageToPrint + "\n");
+			} else {
+				txtChat.appendText(username + ": " + messageToPrint + "\n");
+			}
 		});
 	}
 
@@ -183,7 +191,7 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 						newMessage += ":";
 					}
 				}
-				message.setMessage("*" + newMessage+" *");
+				message.setMessage(newMessage);
 				message.setReceiver(receiver);
 			} else {
 				message.setReceiver(ChatMember.All);
@@ -225,7 +233,7 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 			pnlRoot.setMinHeight(20);
 			pnlRoot.setMaxHeight(20);
 			pnlRoot.setPrefHeight(20);
-			
+
 			imgArrow.setRotate(0);
 
 			isClosed = true;
@@ -234,32 +242,31 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 			txtMessage.setVisible(true);
 			btnSend.setVisible(true);
 			imgSend.setVisible(true);
-			
 
 			pnlRoot.setMaxHeight(view.getPrefHeightOpen());
 			pnlRoot.setPrefHeight(view.getPrefHeightOpen());
 
 			imgArrow.setRotate(180);
-			
+
 			isClosed = false;
 		}
-		
+
 		imgNotification.setVisible(false);
 	}
-	
+
 	/**
 	 * Show notification.
 	 */
 	private void showNotification() {
-		imgNotification.setVisible(true);	
+		imgNotification.setVisible(true);
 	}
-	
+
 	/**
 	 * Sets the pref height open.
 	 *
 	 * @param height the new pref height open
 	 */
-	public void setPrefHeightOpen(double height)  {
+	public void setPrefHeightOpen(double height) {
 		view.setPrefHeightOpen(height);
 	}
 
