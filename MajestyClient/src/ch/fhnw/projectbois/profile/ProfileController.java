@@ -5,12 +5,12 @@
  */
 package ch.fhnw.projectbois.profile;
 
-import ch.fhnw.projectbois._application.UserPrefs;
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.login.LoginController;
 import ch.fhnw.projectbois.login.LoginModel;
 import ch.fhnw.projectbois.login.LoginView;
 import ch.fhnw.projectbois.network.Network;
+import ch.fhnw.projectbois.preferences.UserPrefs;
 import ch.fhnw.projectbois.session.Session;
 import ch.fhnw.projectbois.time.Time;
 import ch.fhnw.projectbois.validation.CredentialsValidator;
