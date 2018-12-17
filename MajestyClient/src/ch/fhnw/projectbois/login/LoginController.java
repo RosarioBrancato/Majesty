@@ -10,12 +10,12 @@ import java.io.File;
 import java.util.Locale;
 
 import ch.fhnw.projectbois._application.MetaContainer;
-import ch.fhnw.projectbois._application.UserPrefs;
 import ch.fhnw.projectbois._mvc.Controller;
 import ch.fhnw.projectbois.components.menubar.MenuBarController;
 import ch.fhnw.projectbois.components.menubar.MenuBarModel;
 import ch.fhnw.projectbois.components.menubar.MenuBarView;
 import ch.fhnw.projectbois.dto.UserDTO;
+import ch.fhnw.projectbois.preferences.UserPrefs;
 import ch.fhnw.projectbois.registration.RegistrationController;
 import ch.fhnw.projectbois.registration.RegistrationModel;
 import ch.fhnw.projectbois.registration.RegistrationView;
