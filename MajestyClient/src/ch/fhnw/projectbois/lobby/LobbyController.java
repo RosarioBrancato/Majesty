@@ -20,6 +20,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 
+/**
+ * The LobbyController Class.
+ *
+ * @author Dario Stoeckli
+ * 
+ * The Lobby can contain at max 4 players from here the game will be launched
+ * once the owner wants to
+ */
+
 public class LobbyController extends Controller<LobbyModel, LobbyView> {
 
 	private LobbyDTO lobby = null;
@@ -47,10 +56,24 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 	@FXML
 	private Button btnStart;
 
+	/**
+	 * Instantiates a new lobby controller.
+	 *
+	 * @param model the model
+	 * @param view the view
+	 */
 	public LobbyController(LobbyModel model, LobbyView view) {
 		super(model, view);
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois._mvc.Controller#initialize()
+	 * Additionally:
+	 * Adds a LobbyProperty Listener that updates the GUI on events like player joined,left
+	 * Determines which user is associated with the session
+	 * Determines which lobby the user is associated with so the "latest" information can be loaded
+	 * 
+	 */
 	@Override
 	protected void initialize() {
 		super.initialize();
@@ -60,15 +83,24 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 		model.getLobbyProperty().addListener((observer, oldValue, newValue) -> {
 			setLobby(newValue);
 		});
-
+		
 		model.getLobbyOfUser();
 	}
 
+	/**
+	 * Sets the lobby.
+	 *
+	 * @param lobby the new lobby
+	 */
 	public void setLobby(LobbyDTO lobby) {
 		this.lobby = lobby;
 		updateLobby(lobby);
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois._mvc.Controller#destroy()
+	 * Additionally stops the running countdown
+	 */
 	@Override
 	public void destroy() {
 		super.destroy();
@@ -76,7 +108,12 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 		this.stopCountdown();
 	}
 
-	// Handles all the dynamic fields and conditions in the lobby
+	/**
+	 * Update lobby.
+	 * Handles all the dynamic fields and conditions in the lobby and releases functions accordingly
+	 *
+	 * @param lobby the lobby
+	 */
 	private void updateLobby(LobbyDTO lobby) {
 		Platform.runLater(() -> {
 			if (lobby.getPlayers().size() == 1)
@@ -94,8 +131,9 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 		this.startCountdown(lobby.getLifetime());
 	}
 
-	// Handles Player related matters and determines the owner of the lobby with
-	// elevated privileges
+	/**
+	 * Shows Label with currently logged in user
+	 */
 	private void updateUser() {
 		Platform.runLater(() -> {
 			this.lblPlayerInformation.setText(
@@ -103,7 +141,14 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 		});
 	}
 
-	// Lobby Timer
+	/**
+	 * Start countdown.
+	 * This is the Lobby Timer
+	 * When a lobby is launched this is set to 360 seconds
+	 * When a player joins the DTO contains the current lifetime of the lobby and sets it accordingly
+	 *
+	 * @param seconds the seconds
+	 */
 	private void startCountdown(int seconds) {
 		if (this.timer == null) {
 			this.timer = new Time();
@@ -116,6 +161,10 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 		}
 	}
 
+	/**
+	 * Stop countdown.
+	 * Used when the lobby gets destroyed
+	 */
 	private void stopCountdown() {
 		if (this.timer != null) {
 			this.timer.getPeriodCounterProperty().removeListener(this.periodCounterPropertyListener);
@@ -123,10 +172,13 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 		}
 	}
 
+	/**
+	 * Inits the period counter property listener.
+	 * Once the lifetime has expired the owner will be asked to extend or kill the lobby
+	 */
 	private void initPeriodCounterPropertyListener() {
 		this.periodCounterPropertyListener = (observer, oldValue, newValue) -> {
 			if (newValue.intValue() == 0) {
-				// timer.stop();
 				if (model.isLobbyOwner(lobby)) {
 					Platform.runLater(() -> {
 						// Create Alert
@@ -157,6 +209,9 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 		};
 	}
 
+	/**
+	 * Update countdown in the GUI
+	 */
 	private void updateCountdownGUI() {
 		int counter = timer.getCounter();
 
@@ -168,12 +223,24 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 		}
 	}
 
+	/**
+	 * One player in the lobby.
+	 * Set labels and information accordingly
+	 * 
+	 * Do not allow the owner to start the game
+	 */
 	private void onePlayerLobby() {
 		this.lblInformation_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InformationDynamic1"));
 		this.lblInstructions_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InstructionsDynamic1"));
 		disableStartButton();
 	}
 
+	/**
+	 * Two or three players in the lobby.
+	 * Set labels and information accordingly
+	 * 
+	 * Allow the owner to start the game
+	 */
 	private void twothreePlayerLobby() {
 		this.lblInformation_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InformationDynamic2"));
 		this.lblInstructions_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InstructionsDynamic2"));
@@ -183,6 +250,12 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 			disableStartButton();
 	}
 
+	/**
+	 * Four players in the lobby.
+	 * Set labels and information accordingly
+	 * 
+	 * Allow the owner to start the game (but do not force even though lobby is full)
+	 */
 	private void fourPlayerLobby() {
 		this.lblInformation_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InformationDynamic2"));
 		this.lblInstructions_Dynamic.setText(translator.getTranslation("lbl_LobbyView_InstructionsDynamic3"));
@@ -192,19 +265,38 @@ public class LobbyController extends Controller<LobbyModel, LobbyView> {
 			disableStartButton();
 	}
 
+	/**
+	 * Disables the start button.
+	 */
 	private void disableStartButton() {
 		btnStart.setDisable(true);
 	}
 
+	/**
+	 * Enables the start button.
+	 */
 	private void enableStartButton() {
 		btnStart.setDisable(false);
 	}
 
+	/**
+	 * Btn start game click.
+	 * Launches the boardgame with all the players in the lobby
+	 *
+	 * @param e the e
+	 */
 	@FXML
 	private void btnStartGame_Click(ActionEvent e) {
 		model.startGame();
 	}
 
+	/**
+	 * Btn exit game click.
+	 * Prompts the user with an alert window to confirm
+	 * Either exits the game or stays
+	 *
+	 * @param e the e
+	 */
 	@FXML
 	private void btnExitGame_Click(ActionEvent e) {
 		Alert alert = DialogUtils.getAlert(MetaContainer.getInstance().getMainStage(), AlertType.CONFIRMATION,

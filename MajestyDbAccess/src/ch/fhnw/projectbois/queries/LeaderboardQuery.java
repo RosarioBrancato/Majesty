@@ -11,6 +11,10 @@ import ch.fhnw.projectbois.dto.LeaderboardDTO;
 import ch.fhnw.projectbois.dto.LeaderboardPlayerDTO;
 import ch.fhnw.projectbois.log.LoggerFactory;
 
+/**
+ * The Class LeaderboardQuery.
+ * @author Dario Stoeckli
+ */
 public class LeaderboardQuery {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -19,13 +23,21 @@ public class LeaderboardQuery {
 	private LeaderboardPlayerDTO currentuser = new LeaderboardPlayerDTO();
 	private int rank = 1;
 
+	/**
+	 * Gets the leaderboard from the MySQL DB instance defined in the DbAccess class
+	 *
+	 * @return the leaderboard  as LeaderboardDTO object
+	 */
 	public LeaderboardDTO getLeaderboard() {
 
 		try {
 			Connection connection = DbAccess.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet rs;
-
+			
+	        // calls the predefined view in the MySQL DB and writes each tuple into a separate LeaderboardPlayerDBO
+	        // which is added to a LeaderboardDTO object that holds an ArrayList of LeaderboardPlayerDTO objects
+	        // limit the query to the first 100 players
 			rs = statement.executeQuery("SELECT * FROM fhnw_majesty.leaderboard");
 			while (rs.next()) {
 				LeaderboardPlayerDTO player = new LeaderboardPlayerDTO();
@@ -44,7 +56,13 @@ public class LeaderboardQuery {
 
 		return leaderboard;
 	}
-
+	
+	/**
+	 * Gets the player info from the MySQL DB instance
+	 *
+	 * @param username the username of the currently associated ServerClient user
+	 * @return the player info
+	 */
 	public LeaderboardPlayerDTO getPlayerInfo(String username) {
 
 		try {
