@@ -9,13 +9,24 @@ import ch.fhnw.projectbois.access.DbAccess;
 import ch.fhnw.projectbois.gameobjects.Player;
 import ch.fhnw.projectbois.log.LoggerFactory;
 
+/**
+ * The Class UpdatePointsQuery.
+ * @author Dario Stoeckli
+ */
 public class UpdatePointsQuery {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+	/**
+	 * Writes the points calculated in the final calculations of the game to the MySQL DB
+	 *
+	 * @param players the players from the finished game associated to a specific lobby
+	 * @return true, if successful
+	 */
 	public boolean setPoints(ArrayList<Player> players) {
 		boolean success = false;
-
+		
+		// create prepared statement to write points to DB
 		try {
 			Connection connection = DbAccess.getConnection();
 			PreparedStatement preparedstatement = connection
