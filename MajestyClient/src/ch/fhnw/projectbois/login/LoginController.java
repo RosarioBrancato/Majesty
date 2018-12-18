@@ -308,7 +308,7 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 						locale = new Locale("it");
 						UserPrefs.getInstance().put("LANG", "it");
 					} else {
-						locale = new Locale("de");
+						locale = new Locale("en");
 						UserPrefs.getInstance().put("LANG", "en");
 					}
 					translator.setResourceBundle(locale);

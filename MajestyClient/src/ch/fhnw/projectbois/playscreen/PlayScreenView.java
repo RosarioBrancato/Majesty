@@ -5,8 +5,8 @@ import java.net.URL;
 import ch.fhnw.projectbois._mvc.View;
 
 /**
- * 
- * @author Dario Stöckli
+ * The PlayScreenView Class
+ * @author Dario Stoeckli
  *
  */
 
