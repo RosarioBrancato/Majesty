@@ -39,37 +39,43 @@ public class Main {
 		
 		String param_name = null;
 		String param_regex = null;
-		String param_default = up.get(param, "");
+		String param_default = null;
 		
 		switch(param){
 			case "DB_SERVER":
 				param_name = "server address";
 				param_regex = "^[a-zA-Z0-9.]+$";
+				param_default = up.get(param, "***REMOVED***");
 				break;
 			case "DB_PORT":
 				param_name = "server port";
 				param_regex = "^[0-9]+$";
+				param_default = up.get(param, "3306");
 				break;
 			case "DB_NAME":
 				param_name = "name";
 				param_regex = null;
+				param_default = up.get(param, "***REMOVED***");
 				break;
 			case "DB_USER":
 				param_name = "username";
 				param_regex = null;
+				param_default = up.get(param, "***REMOVED***");
 				break;
 			case "DB_PASS":
 				param_name = "password";
 				param_regex = null;
+				param_default = up.get(param, "***REMOVED***");
 				break;
 			case "DB_PARAM":
 				param_name = "additional parameters";
 				param_regex = null;
+				param_default = up.get(param, "serverTimezone=UTC");
 				break;
 		}
 		
 		do {
-			System.out.println("Please enter the DB " + param_name + " or press enter to reuse the latest setting [" + param_default + "]:");
+			System.out.println("Please enter the DB " + param_name + " or press ENTER to reuse the latest setting [" + param_default + "]:");
 			String tmp = in.nextLine();
 			if(tmp.equals(""))
 				tmp = param_default;
@@ -109,12 +115,13 @@ public class Main {
 			
 			boolean resetDbParam = false;
 			
-			if(UserPrefs.getInstance().getBoolean("DBParamWorking", false)) {
+			if(UserPrefs.getInstance().getBoolean("DBParamWorking", true)) {
 				@SuppressWarnings("resource")
 				Scanner in = new Scanner(System.in);
 				boolean ans = false;
-				System.out.println("You already set working DB parameters. Would you like to change them? [yN]");
+				
 				while(!ans) {
+					System.out.println("Either you are using default DB parameters or your custom settings have been working last time. Would you like to update them? [yN]");
 					String tmp = in.nextLine();
 					if(tmp.equals("") || tmp.equals("n") || tmp.equals("N")) {
 						ans = true;
