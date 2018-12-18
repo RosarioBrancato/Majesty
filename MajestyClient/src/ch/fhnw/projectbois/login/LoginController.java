@@ -122,53 +122,11 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 			processCredentials();
 		} else {
 			Platform.runLater(() -> {
-				
 				this.lbl_Login_loginMsg.setText(translator.getTranslation("lbl_Login_loginMsg_BadInputBoth"));
 			});
 		}
 	}
 	
-	/* START: DELETE AFTER DEVELOPMENT PHASE */
-	@FXML
-	private void btn_Login_logInAlexClicked(ActionEvent event) {
-		model.LoginProcessCredentials(txt_Login_serverServer.getText(), txt_Login_serverPort.getText(), "alex",
-				"ABCDEFGH12345678");
-	}
-
-	/**
-	 * Btn login log in dario clicked.
-	 *
-	 * @param event the event
-	 */
-	@FXML
-	private void btn_Login_logInDarioClicked(ActionEvent event) {
-		model.LoginProcessCredentials(txt_Login_serverServer.getText(), txt_Login_serverPort.getText(), "dario",
-				"ABCDEFGH12345678");
-	}
-
-	/**
-	 * Btn login log in lee clicked.
-	 *
-	 * @param event the event
-	 */
-	@FXML
-	private void btn_Login_logInLeeClicked(ActionEvent event) {
-		model.LoginProcessCredentials(txt_Login_serverServer.getText(), txt_Login_serverPort.getText(), "lee",
-				"ABCDEFGH12345678");
-	}
-
-	/**
-	 * Btn login log in rosario clicked.
-	 *
-	 * @param event the event
-	 */
-	@FXML
-	private void btn_Login_logInRosarioClicked(ActionEvent event) {
-		model.LoginProcessCredentials(txt_Login_serverServer.getText(), txt_Login_serverPort.getText(), "rosario",
-				"ABCDEFGH12345678");
-	}
-	/* END: DELETE AFTER DEVELOPMENT PHASE */
-
 	/**
 	 * Asks the model to handle the login request once the login button is clicked.
 	 *
@@ -269,13 +227,14 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	@Override
 	protected void initialize() {
 		super.initialize();
-
+		
 		Platform.runLater(() -> {
 			if(!(this.pref_user.equals("") || this.pref_user == null))
 				this.txt_Login_username.setText(pref_user);
 				this.txt_Login_password.requestFocus();
 			this.txt_Login_serverServer.setText(pref_server);
 			this.txt_Login_serverPort.setText(pref_port);
+			super.getViewRoot().getStyleClass().add("bgPane");
 		});
 		
 		this.initUserPropertyListener();
@@ -373,6 +332,8 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 				UserPrefs.getInstance().put("SERVER", txt_Login_serverServer.getText());
 				UserPrefs.getInstance().put("SERVER_PORT", txt_Login_serverPort.getText());
 				UserPrefs.getInstance().put("LANG", translator.getLocale().getLanguage());
+				
+				MetaContainer.getInstance().removeStyleClass("bgPane");
 
 				destroy();
 				

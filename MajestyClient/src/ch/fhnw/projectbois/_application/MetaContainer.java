@@ -65,7 +65,6 @@ public class MetaContainer {
 	 */
 	public void setRoot(Parent root) {
 		this.mainStage.getScene().setRoot(root);
-		root.setId("pane");
 	}
 
 	/**
@@ -84,6 +83,24 @@ public class MetaContainer {
 	 */
 	public void addController(Controller<? extends Model, ? extends View<? extends Model>> controller) {
 		this.controllers.add(controller);
+	}
+	
+	/**
+	 * Adds a style class to the pane
+	 *
+	 *@param className The name of the class to add
+	 */
+	public void addStyleClass(String className) {
+		mainStage.getScene().getRoot().getStyleClass().add(className);
+	}
+	
+	/**
+	 * Removes a style class from the pane
+	 *
+	 *@param className The name of the class to remove
+	 */
+	public void removeStyleClass(String className) {
+		this.mainStage.getScene().getRoot().getStyleClass().removeAll(className);
 	}
 
 	/**
