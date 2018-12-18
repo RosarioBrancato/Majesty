@@ -74,30 +74,6 @@
                               <Insets bottom="5.0" />
                            </VBox.margin>
                         </HBox>
-                        <VBox>
-                           <children>
-                              <Button fx:id="btn_Login_logInAlex" mnemonicParsing="false" onAction="#btn_Login_logInAlexClicked" prefWidth="300.0" text="Alex" VBox.vgrow="ALWAYS">
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" />
-                                 </VBox.margin>
-                              </Button>
-                              <Button fx:id="btn_Login_logInDario" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#btn_Login_logInDarioClicked" prefWidth="300.0" text="Dario" VBox.vgrow="ALWAYS">
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" />
-                                 </VBox.margin>
-                              </Button>
-                              <Button fx:id="btn_Login_logInLee" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#btn_Login_logInLeeClicked" prefWidth="300.0" text="Lee" VBox.vgrow="ALWAYS">
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" />
-                                 </VBox.margin>
-                              </Button>
-                              <Button fx:id="btn_Login_logInRosario" layoutX="10.0" layoutY="45.0" mnemonicParsing="false" onAction="#btn_Login_logInRosarioClicked" prefWidth="300.0" text="Rosario" VBox.vgrow="ALWAYS">
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" />
-                                 </VBox.margin>
-                              </Button>
-                           </children>
-                        </VBox>
                         <HBox fillHeight="false" layoutX="10.0" layoutY="70.0" VBox.vgrow="ALWAYS">
                            <children>
                               <HBox>
