@@ -11,12 +11,27 @@ import ch.fhnw.projectbois.network.Server;
 import ch.fhnw.projectbois.network.ServerClient;
 import ch.fhnw.projectbois.queries.LeaderboardQuery;
 
+/**
+ * The Class LeaderboardRequestHandler.
+ * @author Dario Stoeckli
+ */
 public class LeaderboardRequestHandler extends RequestHandler {
 
+	/**
+	 * Instantiates a new leaderboard request handler.
+	 *
+	 * @param request the request
+	 * @param server the server
+	 * @param client the client
+	 */
 	public LeaderboardRequestHandler(Request request, Server server, ServerClient client) {
 		super(request, server, client);
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.fhnw.projectbois.requesthandlers.RequestHandler#handleRequest()
+	 * Listens to request from client
+	 */
 	@Override
 	protected void handleRequest() {
 		if(request.getRequestId() == RequestId.GET_LEADERBOARD) {
@@ -24,6 +39,12 @@ public class LeaderboardRequestHandler extends RequestHandler {
 		}
 	}
 	
+	/**
+	 * Gets the leaderboard from the DB and sends player specific information and a ranking list
+	 * back to the client
+	 *
+	 * @return the leaderboard
+	 */
 	private void getLeaderboard() {
 		LeaderboardQuery leaderboardquery = new LeaderboardQuery();
 		LeaderboardDTO leaderboardDTO = leaderboardquery.getLeaderboard();

@@ -21,7 +21,7 @@ import ch.fhnw.projectbois.network.ServerClient;
 
 /**
  * 
- * @author Rosario Brancato
+ * @author Rosario Brancato & Dario Stoeckli
  *
  */
 public class LobbyRequestHandler extends RequestHandler {
