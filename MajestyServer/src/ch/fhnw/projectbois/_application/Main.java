@@ -42,6 +42,13 @@ public class Main {
 		System.out.println("Starting Majesty...");
 
 		Locale.setDefault(new Locale("en"));
+		//set start up property
+		//https://stackoverflow.com/questions/15961483/setting-djava-library-path-programmatically-or-alternatives
+		if(args != null && args.length > 0) {
+			System.setProperty("dev", args[0]);
+		} else {
+			System.setProperty("dev", "true");
+		}
 
 		Main main = new Main();
 		main.run();
@@ -136,8 +143,8 @@ public class Main {
 		try {
 			String file;
 			//https://stackoverflow.com/questions/1109019/determine-if-a-java-application-is-in-debug-mode-in-eclipse
-			boolean isDebug = Boolean.getBoolean("debug");
-			if(isDebug) {
+			boolean isDevEnvironment = Boolean.getBoolean("dev");
+			if(isDevEnvironment) {
 				URL url = this.getClass().getResource("MajestyServer.config.xml");
 				file = url.toURI().getPath();
 			} else {
@@ -148,7 +155,6 @@ public class Main {
 				//Combine paths: https://stackoverflow.com/questions/412380/how-to-combine-paths-in-java
 				file = Paths.get(file, "MajestyServer.config.xml").toString();
 			}
-			System.out.println("File: " + file);
 			
 			File fXmlFile = new File(file);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
