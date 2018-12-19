@@ -15,7 +15,7 @@ import ch.fhnw.projectbois.queries.UpdatePointsQuery;
 
 /**
  * 
- * @author Rosario
+ * @author Rosario Brancato
  *
  */
 public class GameLogic {

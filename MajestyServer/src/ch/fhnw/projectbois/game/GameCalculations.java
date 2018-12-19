@@ -11,7 +11,7 @@ import ch.fhnw.projectbois.gameobjects.Player;
 
 /**
  * 
- * @author Rosario
+ * @author Leeroy Koller & Dario Stoeckli
  *
  */
 public class GameCalculations {
@@ -123,7 +123,12 @@ public class GameCalculations {
 		currentPlayer.setMeeples(meeples);
 		currentPlayer.setPoints(points);
 	}
-
+	
+	/**
+	 * This handles all the final scoring when the game ended,
+	 * which is the case if only one player is left or 12 rounds have been played
+	 *
+	 */
 	public void distributeFinalScoring() {
 		// final scoring
 		for (Player player : players) {

@@ -18,7 +18,7 @@ import javafx.beans.value.ChangeListener;
 /**
  * The Class Lobby.
  *
- * @author Rosario Brancato
+ * @author Rosario Brancato & Dario Stoeckli
  */
 public class Lobby {
 

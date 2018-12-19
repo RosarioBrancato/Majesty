@@ -10,7 +10,7 @@ import ch.fhnw.projectbois.log.LoggerFactory;
 
 /**
  * The Class Translator.
- * @author Dario Stöckli
+ * @author Dario Stoeckli
  */
 public class Translator {
 
