@@ -189,6 +189,9 @@ public class GameView extends View<GameModel> {
 		});
 	}
 
+	/**
+	 * Sets the highlighting for the player, who has his current turn. 
+	 */
 	public void highlightPlayerTurn() {
 		GameState gameState = model.getGameState();
 		int pTurn = gameState.getPlayersTurn();
@@ -210,6 +213,11 @@ public class GameView extends View<GameModel> {
 		}
 	}
 
+	/**
+	 * Sets the border color for the player'r row in the main grid pane.
+	 * @param row
+	 * @param isTurn
+	 */
 	private void setBorderColorOfPlayer(int row, boolean isTurn) {
 		GridPane pnlField = (GridPane) this.root.lookup("#pnlField");
 
