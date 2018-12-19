@@ -1,48 +1,76 @@
-/**
- * Instantiates MySQL Database connections
- * 
- * @author Rosario Brancato, Alexandre Miccoli
- */
 
 package ch.fhnw.projectbois.access;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import ch.fhnw.projectbois.preferences.UserPrefs;
+import ch.fhnw.projectbois.log.LoggerFactory;
 
+/**
+ * The Class DbAccess.
+ * 
+ * @author Rosario Brancato, Alexandre Miccoli
+ */
 public class DbAccess {
-	private final static String db_server = UserPrefs.getInstance().get("DB_SERVER", "");
-	private final static String db_port = UserPrefs.getInstance().get("DB_PORT", "");
-	private final static String db_name = UserPrefs.getInstance().get("DB_NAME", "");
-	private final static String db_user = UserPrefs.getInstance().get("DB_USER", "");
-	private final static String db_pass = UserPrefs.getInstance().get("DB_PASS", "");
-	private final static String db_param = UserPrefs.getInstance().get("DB_PARAM", "");
-	private final static String CONNECTION_STRING = "jdbc:mysql://" + db_server + ":" + db_port + "/" + db_name + "?user=" + db_user + "&password=" + db_pass + "&" + db_param;
-	
+
+	private static String CONNECTION_STRING = "";
+
+	/**
+	 * Sets up the connection string.
+	 *
+	 * @param server   servername
+	 * @param port     port
+	 * @param dbName   database name
+	 * @param username username
+	 * @param password password
+	 * @param timezone timezone
+	 */
+	public static void setUp(String server, int port, String dbName, String username, String password,
+			String timezone) {
+
+		CONNECTION_STRING = "jdbc:mysql://" + server + ":" + port + "/" + dbName + "?user=" + username + "&password="
+				+ password + "&serverTimezone=" + timezone;
+	}
+
+	/**
+	 * Gets a new instance of the database connection.
+	 *
+	 * @return the connection
+	 */
 	public static Connection getConnection() {
 		Connection connection = null;
-		
+		Logger logger = LoggerFactory.getLogger(DbAccess.class);
+
 		try {
 			connection = DriverManager.getConnection(CONNECTION_STRING);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.log(Level.SEVERE, "DBAccess.getConnection()", e);
 		}
-		
+
 		return connection;
 	}
-	
+
 	/**
-	 * Sends back a connection instance. Used to check whether the connection parameters in the preferences are correct or not (Main).
-	 * 
-	 * @return Connection instance
-	 * @throws SQLException
+	 * Tests connection.
+	 *
+	 * @return true, if successful
 	 */
-	public static Connection getConnectionWithExceptions() throws SQLException{
-		Connection connection = null;
-		connection = DriverManager.getConnection(CONNECTION_STRING);
-		return connection;
+	public static boolean testConnection() {
+		boolean success = false;
+
+		Connection connection = getConnection();
+		if (connection != null) {
+			try {
+				connection.close();
+				success = true;
+			} catch (SQLException e) {
+			}
+		}
+
+		return success;
 	}
-	
+
 }

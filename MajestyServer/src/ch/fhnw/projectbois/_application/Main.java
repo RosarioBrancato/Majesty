@@ -1,94 +1,38 @@
 package ch.fhnw.projectbois._application;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.net.URI;
+import java.net.URL;
 import java.util.Locale;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.prefs.Preferences;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import ch.fhnw.projectbois.access.DbAccess;
-import ch.fhnw.projectbois.log.LoggerFactory;
 import ch.fhnw.projectbois.network.Server;
-import ch.fhnw.projectbois.preferences.UserPrefs;
 
 /**
  * The Class Main.
  *
- * @author Rosario Brancato, Alexandre Miccoli
+ * @author Rosario Brancato
  */
 public class Main {
-	
-	
+
+	private Logger logger = null;
+
 	/**
-	 * Asks for DB parameters and writes them into preferences for later use.
-	 * 
-	 * @param param the preferences key string
+	 * Instantiates a new main.
 	 */
-	@SuppressWarnings("resource")
-	private static void dbSetParam(String param) {
-		String res = null;
-		
-		Preferences up = UserPrefs.getInstance();
-		Scanner in = new Scanner(System.in);
-		
-		String param_name = null;
-		String param_regex = null;
-		String param_default = null;
-		
-		switch(param){
-			case "DB_SERVER":
-				param_name = "server address";
-				param_regex = "^[a-zA-Z0-9.]+$";
-				param_default = up.get(param, "***REMOVED***");
-				break;
-			case "DB_PORT":
-				param_name = "server port";
-				param_regex = "^[0-9]+$";
-				param_default = up.get(param, "3306");
-				break;
-			case "DB_NAME":
-				param_name = "name";
-				param_regex = null;
-				param_default = up.get(param, "***REMOVED***");
-				break;
-			case "DB_USER":
-				param_name = "username";
-				param_regex = null;
-				param_default = up.get(param, "***REMOVED***");
-				break;
-			case "DB_PASS":
-				param_name = "password";
-				param_regex = null;
-				param_default = up.get(param, "***REMOVED***");
-				break;
-			case "DB_PARAM":
-				param_name = "additional parameters";
-				param_regex = null;
-				param_default = up.get(param, "serverTimezone=UTC");
-				break;
-		}
-		
-		do {
-			System.out.println("Please enter the DB " + param_name + " or press ENTER to reuse the latest setting [" + param_default + "]:");
-			String tmp = in.nextLine();
-			if(tmp.equals(""))
-				tmp = param_default;
-			if(param_regex == null || tmp.matches(param_regex))
-				res = tmp;
-		}while(res == null);
-		
-		System.out.println("Using \"" + res + "\" as DB " + param_name);
-		
-		if(!res.equals(param_default))
-			up.put(param, res);
+	public Main() {
+		this.logger = Logger.getLogger(this.getClass().getName());
 	}
-	
+
 	/**
 	 * The main method.
 	 *
@@ -96,64 +40,50 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		System.out.println("Starting Majesty...");
-		
-		Locale.setDefault(new Locale("en"));
-		Logger logger = LoggerFactory.getLogger(Main.class);
-		
-		Server server = new Server();
-		boolean success = server.startServer(8200);
-		
-		if(success) {
-			ArrayList<String> dbParam = new ArrayList<>();
-			dbParam.add("DB_SERVER");
-			dbParam.add("DB_PORT");
-			dbParam.add("DB_NAME");
-			dbParam.add("DB_USER");
-			dbParam.add("DB_PASS");
-			dbParam.add("DB_PARAM");
-			int length = dbParam.size();
-			
-			boolean resetDbParam = false;
-			
-			if(UserPrefs.getInstance().getBoolean("DBParamWorking", true)) {
-				@SuppressWarnings("resource")
-				Scanner in = new Scanner(System.in);
-				boolean ans = false;
-				
-				while(!ans) {
-					System.out.println("Either you are using default DB parameters or your custom settings have been working last time. Would you like to update them? [yN]");
-					String tmp = in.nextLine();
-					if(tmp.equals("") || tmp.equals("n") || tmp.equals("N")) {
-						ans = true;
-					}else if(tmp.equals("y") || tmp.equals("Y")) {
-						resetDbParam = true;
-						ans = true;
-					}
-				}
-			}else {
-				resetDbParam = true;
-			}
-			
-			if(resetDbParam) {
-				System.out.println("You will now be prompted to type in the database parameters. \nTo reuse previous parameters (in brackets), simply leave the line empty and press ENTER.");
-				for(int i=0; i<length; i++) {
-					dbSetParam(dbParam.get(i));
-				}
-			}			
-			
-			try {
-				Connection conn = DbAccess.getConnectionWithExceptions();
-				conn.close();
-				UserPrefs.getInstance().putBoolean("DBParamWorking", true);
-			}catch(SQLException e) {
-				UserPrefs.getInstance().putBoolean("DBParamWorking", false);
-				success = false;
-				logger.severe("Connection to the database failed: " + e.getMessage());
-			}
-		}
-		
-		
 
+		Locale.setDefault(new Locale("en"));
+
+		Main main = new Main();
+		main.run();
+	}
+
+	/**
+	 * Runs the main routine of the server.
+	 */
+	public void run() {
+		boolean success = false;
+		Server server = null;
+
+		try {
+			Document docConfig = this.readConfig();
+			//Server config
+			Element eServer = (Element)docConfig.getElementsByTagName("Server").item(0);
+			int serverPort = Integer.valueOf(eServer.getElementsByTagName("Port").item(0).getTextContent());
+			
+			//DB config
+			Element eDb = (Element)docConfig.getElementsByTagName("Database").item(0);
+			String dbHost = eDb.getElementsByTagName("Hostname").item(0).getTextContent();
+			int dbPort =  Integer.valueOf(eDb.getElementsByTagName("Port").item(0).getTextContent());
+			String dbName = eDb.getElementsByTagName("DbName").item(0).getTextContent();
+			String dbUsername = eDb.getElementsByTagName("Username").item(0).getTextContent();
+			String dbPassword = eDb.getElementsByTagName("Password").item(0).getTextContent();
+			String dbTimezone = eDb.getElementsByTagName("Timezone").item(0).getTextContent();
+
+			//set up DB
+			DbAccess.setUp(dbHost, dbPort, dbName, dbUsername, dbPassword, dbTimezone);
+			success = DbAccess.testConnection();
+
+			//start server
+			if (success) {
+				server = new Server();
+				success = server.startServer(serverPort);
+			}
+
+		} catch (Exception ex) {
+			logger.log(Level.SEVERE, "Main.run()", ex);
+		}
+
+		// main loop
 		if (success) {
 			System.out.println("Server started!");
 
@@ -168,8 +98,8 @@ public class Main {
 					if (input.equals("SHUTDOWN")) {
 						server.stopServer();
 						shutdown = true;
-						
-					} else if(input.equals("test")) {
+
+					} else if (input.equals("test")) {
 						server.broadcastGameMsg();
 						server.broadcastLobbyMsg();
 						server.broadcastPlayScreenMsg();
@@ -182,12 +112,39 @@ public class Main {
 			} catch (IOException e) {
 				logger.log(Level.SEVERE, "Main (Server)", e);
 			}
-			
+
 		} else {
 			logger.severe("Server could not be started.");
 		}
-		
+
 		logger.info("Majesty (Server) ended.");
+	}
+
+	/**
+	 * Read config file of the application.
+	 *
+	 * @return Document of the config file
+	 */
+	private Document readConfig() {
+		// read from config:
+		// https://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser/
+
+		Document document = null;
+
+		try {
+			URL url = this.getClass().getResource("MajestyServer.config.xml");
+			URI uri = url.toURI();
+			File fXmlFile = new File(uri);
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			document = dBuilder.parse(fXmlFile);
+			document.getDocumentElement().normalize();
+
+		} catch (Exception ex) {
+			logger.log(Level.SEVERE, "Main.readConfig()", ex);
+		}
+
+		return document;
 	}
 
 }
