@@ -264,7 +264,7 @@ public class GameController extends Controller<GameModel, GameView> {
 	// MAIN METHODS
 
 	/**
-	 * Draw gui.
+	 * Draw GUI
 	 */
 	private void drawGui() {
 		this.loadGameInfos();
@@ -327,7 +327,7 @@ public class GameController extends Controller<GameModel, GameView> {
 	 *
 	 * @param player the player
 	 * @param container the container
-	 * @param isStartingPlayer the is starting player
+	 * @param isStartingPlayer is the starting player?
 	 */
 	private void loadGameInfoPlayer(Player player, GamePlayerContainer container, boolean isStartingPlayer) {
 		String username;
@@ -405,7 +405,7 @@ public class GameController extends Controller<GameModel, GameView> {
 	}
 
 	/**
-	 * Draw location of player.
+	 * Draw cads in location of player.
 	 *
 	 * @param player the player
 	 * @param container the container
@@ -512,7 +512,7 @@ public class GameController extends Controller<GameModel, GameView> {
 	// EVENT METHODS
 
 	/**
-	 * Btn leave click.
+	 * Click event for button leave.
 	 *
 	 * @param e the e
 	 */
