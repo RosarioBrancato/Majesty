@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Server>
+		<Port>8200</Port>
+	</Server>
+	<Database>
+		<Hostname>pan.kreativmedia.ch</Hostname>
+		<Port>3306</Port>
+		<DbName>fhnw_majesty</DbName>
+		<Username>majAdmin</Username>
+		<Password>Vpiw405$</Password>
+		<Timezone>UTC</Timezone>
+	</Database>
+</Configuration>
