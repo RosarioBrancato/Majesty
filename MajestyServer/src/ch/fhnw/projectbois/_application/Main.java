@@ -4,8 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URI;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,27 +56,29 @@ public class Main {
 
 		try {
 			Document docConfig = this.readConfig();
-			//Server config
-			Element eServer = (Element)docConfig.getElementsByTagName("Server").item(0);
-			int serverPort = Integer.valueOf(eServer.getElementsByTagName("Port").item(0).getTextContent());
-			
-			//DB config
-			Element eDb = (Element)docConfig.getElementsByTagName("Database").item(0);
-			String dbHost = eDb.getElementsByTagName("Hostname").item(0).getTextContent();
-			int dbPort =  Integer.valueOf(eDb.getElementsByTagName("Port").item(0).getTextContent());
-			String dbName = eDb.getElementsByTagName("DbName").item(0).getTextContent();
-			String dbUsername = eDb.getElementsByTagName("Username").item(0).getTextContent();
-			String dbPassword = eDb.getElementsByTagName("Password").item(0).getTextContent();
-			String dbTimezone = eDb.getElementsByTagName("Timezone").item(0).getTextContent();
+			if (docConfig != null) {
+				// Server config
+				Element eServer = (Element) docConfig.getElementsByTagName("Server").item(0);
+				int serverPort = Integer.valueOf(eServer.getElementsByTagName("Port").item(0).getTextContent());
 
-			//set up DB
-			DbAccess.setUp(dbHost, dbPort, dbName, dbUsername, dbPassword, dbTimezone);
-			success = DbAccess.testConnection();
+				// DB config
+				Element eDb = (Element) docConfig.getElementsByTagName("Database").item(0);
+				String dbHost = eDb.getElementsByTagName("Hostname").item(0).getTextContent();
+				int dbPort = Integer.valueOf(eDb.getElementsByTagName("Port").item(0).getTextContent());
+				String dbName = eDb.getElementsByTagName("DbName").item(0).getTextContent();
+				String dbUsername = eDb.getElementsByTagName("Username").item(0).getTextContent();
+				String dbPassword = eDb.getElementsByTagName("Password").item(0).getTextContent();
+				String dbTimezone = eDb.getElementsByTagName("Timezone").item(0).getTextContent();
 
-			//start server
-			if (success) {
-				server = new Server();
-				success = server.startServer(serverPort);
+				// set up DB
+				DbAccess.setUp(dbHost, dbPort, dbName, dbUsername, dbPassword, dbTimezone);
+				success = DbAccess.testConnection();
+
+				// start server
+				if (success) {
+					server = new Server();
+					success = server.startServer(serverPort);
+				}
 			}
 
 		} catch (Exception ex) {
@@ -132,9 +134,23 @@ public class Main {
 		Document document = null;
 
 		try {
-			URL url = this.getClass().getResource("MajestyServer.config.xml");
-			URI uri = url.toURI();
-			File fXmlFile = new File(uri);
+			String file;
+			//https://stackoverflow.com/questions/1109019/determine-if-a-java-application-is-in-debug-mode-in-eclipse
+			boolean isDebug = Boolean.getBoolean("debug");
+			if(isDebug) {
+				URL url = this.getClass().getResource("MajestyServer.config.xml");
+				file = url.toURI().getPath();
+			} else {
+				//Get directory of jar file
+				//https://stackoverflow.com/questions/15359702/get-location-of-jar-file/15359999
+				file = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getParent();
+				
+				//Combine paths: https://stackoverflow.com/questions/412380/how-to-combine-paths-in-java
+				file = Paths.get(file, "MajestyServer.config.xml").toString();
+			}
+			System.out.println("File: " + file);
+			
+			File fXmlFile = new File(file);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			document = dBuilder.parse(fXmlFile);
@@ -142,6 +158,7 @@ public class Main {
 
 		} catch (Exception ex) {
 			logger.log(Level.SEVERE, "Main.readConfig()", ex);
+			document = null;
 		}
 
 		return document;
