@@ -141,16 +141,14 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 					RegistrationModel.class, RegistrationView.class);
 			controller.setServerParam(txt_Login_serverServer.getText(), port);
 			controller.showAndWait();
-				this.txt_Login_username.setText(controller.getUsername());
-				this.txt_Login_password.setText(controller.getPassword());
-				this.txt_Login_username.requestFocus();
+			this.txt_Login_username.setText(controller.getUsername());
+			this.txt_Login_password.setText(controller.getPassword());
+			this.txt_Login_username.requestFocus();
 			MetaContainer.getInstance().destroyController(controller);
-			if (!this.txt_Login_username.getText().equals("") && !this.txt_Login_password.getText().equals("")) {
+			if(!(this.txt_Login_username.getText() == null || this.txt_Login_password.getText() == null || this.txt_Login_username.getText().equals("") || this.txt_Login_password.getText().equals("")))
 				processCredentials();
-			}
 		} else {
 			Platform.runLater(() -> {
-
 				this.lbl_Login_loginMsg.setText(translator.getTranslation("lbl_Login_loginMsg_BadInputBoth"));
 			});
 		}
