@@ -3,37 +3,38 @@ package ch.fhnw.projectbois.game;
 import javafx.scene.control.Label;
 
 /**
- * The Class GamePlayerContainer.
+ * This class holds the most relevant references to controls in the GUI, to make
+ * its changes more accessible in the code.
  */
 public class GamePlayerContainer {
 
 	private String username = null;
 	private int playerRow = -1;
-	
+
 	private Label lblUsername = null;
 	private Label lblPoints = null;
 	private Label lblMeeples = null;
 
 	/**
-	 * Gets the username.
+	 * Gets the username of the player.
 	 *
-	 * @return the username
+	 * @return username of the player
 	 */
 	public String getUsername() {
 		return username;
 	}
 
 	/**
-	 * Sets the username.
+	 * Sets the username of the player.
 	 *
-	 * @param username the new username
+	 * @param new username of the player
 	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
 	/**
-	 * Gets the player row.
+	 * Gets the player row int the main grid component.
 	 *
 	 * @return the player row
 	 */
@@ -42,36 +43,36 @@ public class GamePlayerContainer {
 	}
 
 	/**
-	 * Sets the player row.
+	 * Sets the player row int the main grid component.
 	 *
-	 * @param playerRow the new player row
+	 * @param new player row
 	 */
 	public void setPlayerRow(int playerRow) {
 		this.playerRow = playerRow;
 	}
 
 	/**
-	 * Gets the lbl username.
+	 * Gets the label username.
 	 *
-	 * @return the lbl username
+	 * @return the label username
 	 */
 	public Label getLblUsername() {
 		return lblUsername;
 	}
 
 	/**
-	 * Sets the lbl username.
+	 * Sets the label username.
 	 *
-	 * @param lblUsername the new lbl username
+	 * @param lblUsername the new label username
 	 */
 	public void setLblUsername(Label lblUsername) {
 		this.lblUsername = lblUsername;
 	}
 
 	/**
-	 * Gets the lbl points.
+	 * Gets the label points.
 	 *
-	 * @return the lbl points
+	 * @return the label points
 	 */
 	public Label getLblPoints() {
 		return lblPoints;
@@ -87,18 +88,18 @@ public class GamePlayerContainer {
 	}
 
 	/**
-	 * Gets the lbl meeples.
+	 * Gets the label meeples.
 	 *
-	 * @return the lbl meeples
+	 * @return the label meeples
 	 */
 	public Label getLblMeeples() {
 		return lblMeeples;
 	}
 
 	/**
-	 * Sets the lbl meeples.
+	 * Sets the label meeples.
 	 *
-	 * @param lblMeeples the new lbl meeples
+	 * @param lblMeeples the new label meeples
 	 */
 	public void setLblMeeples(Label lblMeeples) {
 		this.lblMeeples = lblMeeples;
