@@ -349,15 +349,11 @@ public class LoginController extends Controller<LoginModel, LoginView> {
 	 */
 	@FXML
 	private void link_Login_OpenSourceResourcesClicked(ActionEvent event) {
-		String tmp_path = System.getProperty("user.dir") + "/resources/manuals/opensource.html";
+		String path = "files/declaration/opensource.html";
 		
-		if(tmp_path.indexOf("\\") > -1)
-			tmp_path = tmp_path.replace("/", "\\");
-		
-		String path = tmp_path;
-		File file = new File(path);
 		try {
-			Desktop.getDesktop().browse(file.toURI());
+			File file = new File(path);
+			Desktop.getDesktop().open(file);
 		} catch (Exception e) {
 			Platform.runLater(() -> {
 				this.lbl_Login_loginMsg.setText(translator.getTranslation("lbl_Login_loginMsg_OpenSourceDeclNotFound") + " " + path);
