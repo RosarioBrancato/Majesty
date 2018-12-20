@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URL;
-import java.nio.file.Paths;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,15 +38,8 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		System.out.println("Starting Majesty...");
-
+		
 		Locale.setDefault(new Locale("en"));
-		//set start up property
-		//https://stackoverflow.com/questions/15961483/setting-djava-library-path-programmatically-or-alternatives
-		if(args != null && args.length > 0) {
-			System.setProperty("dev", args[0]);
-		} else {
-			System.setProperty("dev", "true");
-		}
 
 		Main main = new Main();
 		main.run();
@@ -141,22 +132,7 @@ public class Main {
 		Document document = null;
 
 		try {
-			String file;
-			//https://stackoverflow.com/questions/1109019/determine-if-a-java-application-is-in-debug-mode-in-eclipse
-			boolean isDevEnvironment = Boolean.getBoolean("dev");
-			if(isDevEnvironment) {
-				URL url = this.getClass().getResource("MajestyServer.config.xml");
-				file = url.toURI().getPath();
-			} else {
-				//Get directory of jar file
-				//https://stackoverflow.com/questions/15359702/get-location-of-jar-file/15359999
-				file = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getParent();
-				
-				//Combine paths: https://stackoverflow.com/questions/412380/how-to-combine-paths-in-java
-				file = Paths.get(file, "MajestyServer.config.xml").toString();
-			}
-			
-			File fXmlFile = new File(file);
+			File fXmlFile = new File("MajestyServer.config.xml");
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			document = dBuilder.parse(fXmlFile);
