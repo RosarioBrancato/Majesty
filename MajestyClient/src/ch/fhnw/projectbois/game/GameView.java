@@ -222,7 +222,7 @@ public class GameView extends View<GameModel> {
 		GridPane pnlField = (GridPane) this.root.lookup("#pnlField");
 
 		pnlField.getChildren().forEach(f -> {
-			if (GridPane.getRowIndex(f) != null && GridPane.getRowIndex(f) == row) {
+			if (f != null && GridPane.getRowIndex(f) != null && GridPane.getRowIndex(f) == row) {
 				if (isTurn) {
 					if (!f.getStyleClass().contains("pnlRowPlayersTurn")) {
 						f.getStyleClass().add("pnlRowPlayersTurn");
