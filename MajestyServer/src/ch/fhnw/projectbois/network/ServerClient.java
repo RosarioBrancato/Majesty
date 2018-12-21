@@ -1,9 +1,11 @@
 package ch.fhnw.projectbois.network;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.logging.Level;
@@ -52,7 +54,7 @@ public class ServerClient {
 			@Override
 			public void run() {
 				try {
-					BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+					BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
 					String json;
 
 					while ((json = reader.readLine()) != null && !socket.isClosed()) {
@@ -106,6 +108,7 @@ public class ServerClient {
 						}
 
 					}
+					
 				} catch (Exception ex) {
 				}
 
@@ -137,7 +140,7 @@ public class ServerClient {
 			String json = JsonUtils.Serialize(response);
 
 			OutputStream stream = this.socket.getOutputStream();
-			PrintWriter writer = new PrintWriter(stream);
+			PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(stream, "UTF-8")));
 
 			this.logger.info("S to C: " + json);
 
