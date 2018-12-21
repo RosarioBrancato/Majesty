@@ -1,9 +1,11 @@
 package ch.fhnw.projectbois.network;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.logging.Level;
@@ -42,7 +44,7 @@ public class Network {
 			this.logger.info("Network.sendRequest() - " + json);
 
 			OutputStream stream = this.socket.getOutputStream();
-			PrintWriter writer = new PrintWriter(stream);
+			PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(stream, "UTF-8")));
 
 			writer.println(json);
 			writer.flush();
@@ -53,7 +55,7 @@ public class Network {
 
 	public boolean initConnection(String host, int port) {
 		boolean success = false;
-		
+
 		try {
 			this.stopConnection();
 
@@ -63,7 +65,8 @@ public class Network {
 				@Override
 				public void run() {
 					try {
-						BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+						BufferedReader reader = new BufferedReader(
+								new InputStreamReader(socket.getInputStream(), "UTF-8"));
 						String json;
 						while ((json = reader.readLine()) != null && !socket.isClosed()) {
 							try {
@@ -76,6 +79,7 @@ public class Network {
 								logger.log(Level.SEVERE, "Network.Runnable()", ex);
 							}
 						}
+
 					} catch (Exception ex) {
 					}
 				}
@@ -83,13 +87,13 @@ public class Network {
 
 			Thread t = new Thread(r);
 			t.start();
-			
+
 			success = true;
 
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Network.initConnection()", e);
 		}
-		
+
 		return success;
 	}
 
