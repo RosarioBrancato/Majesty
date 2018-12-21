@@ -23,16 +23,14 @@ public class LoggerFactory {
 	public static <T> Logger getLogger(Class<T> classType) {
 		String className = classType.getName();
 		Logger logger = Logger.getLogger(className);
+		logger.setLevel(Level.WARNING);
 
 		Handler[] handlers = logger.getHandlers();
-		if (handlers.length == 1) {
-			handlers[0].setLevel(Level.SEVERE);
-
+		if (handlers.length == 0) {
 			Handler fileHandler;
 			try {
 				fileHandler = new FileHandler("%t/" + className + "_%u" + "_%g" + ".log", 1000000, 9);
 				fileHandler.setLevel(Level.SEVERE);
-
 				logger.addHandler(fileHandler);
 
 			} catch (SecurityException | IOException e) {

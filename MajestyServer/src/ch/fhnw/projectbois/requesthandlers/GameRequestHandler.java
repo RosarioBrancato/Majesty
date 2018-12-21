@@ -90,7 +90,6 @@ public class GameRequestHandler extends RequestHandler {
 				boolean gameOver = logic.startNextTurn();
 
 				Response response;
-				//Response response1;
 
 				if (!gameOver) {
 					lobby.startTurnTimer();

@@ -66,7 +66,9 @@ public class GameLogic {
 		// add new card to display
 		display.remove(selectedIndex);
 		Card newCard = this.drawACard();
-		display.add(newCard);
+		if (newCard != null) {
+			display.add(newCard);
+		}
 
 		// card special effect
 		switch (currentCardType) {
@@ -311,7 +313,7 @@ public class GameLogic {
 	}
 
 	public void setCardsAside() {
-		int totalTier1Cards = 33;
+		int totalTier1Cards = gameStateServer.getDeckTier1().size();
 
 		int cardsToRemove = 0;
 
