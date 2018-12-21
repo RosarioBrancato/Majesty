@@ -52,7 +52,7 @@ public class GameController extends Controller<GameModel, GameView> {
 
 	private GameResourceHelper resourceHelper = null;
 	private boolean firstLoading = true;
-	
+
 	private Time turntimer = null;
 	private ChangeListener<Number> turntimerPropertyListener = null;
 
@@ -75,7 +75,7 @@ public class GameController extends Controller<GameModel, GameView> {
 	 * Instantiates a new game controller.
 	 *
 	 * @param model the model
-	 * @param view the view
+	 * @param view  the view
 	 */
 	public GameController(GameModel model, GameView view) {
 		super(model, view);
@@ -83,7 +83,9 @@ public class GameController extends Controller<GameModel, GameView> {
 		this.resourceHelper = new GameResourceHelper();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.fhnw.projectbois._mvc.Controller#initialize()
 	 */
 	@Override
@@ -101,7 +103,9 @@ public class GameController extends Controller<GameModel, GameView> {
 		this.model.requestGameState();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.fhnw.projectbois._mvc.Controller#destroy()
 	 */
 	@Override
@@ -190,7 +194,7 @@ public class GameController extends Controller<GameModel, GameView> {
 	 * Adds the display click event.
 	 *
 	 * @param pnlDisplayCard the pnl display card
-	 * @param displayIndex the display index
+	 * @param displayIndex   the display index
 	 */
 	private void addDisplayClickEvent(Pane pnlDisplayCard, int displayIndex) {
 		pnlDisplayCard.setOnMouseClicked(new EventHandler<Event>() {
@@ -202,7 +206,7 @@ public class GameController extends Controller<GameModel, GameView> {
 				GameState gameState = model.getGameState();
 				Player currentPlayer = gameState.getBoard().getPlayers().get(model.getPlayerIndex());
 				int meeples = currentPlayer.getMeeples();
-				
+
 				boolean allowMove = isTurnPlayer();
 				allowMove &= (index <= meeples);
 
@@ -325,8 +329,8 @@ public class GameController extends Controller<GameModel, GameView> {
 	/**
 	 * Load game info player.
 	 *
-	 * @param player the player
-	 * @param container the container
+	 * @param player           the player
+	 * @param container        the container
 	 * @param isStartingPlayer is the starting player?
 	 */
 	private void loadGameInfoPlayer(Player player, GamePlayerContainer container, boolean isStartingPlayer) {
@@ -379,11 +383,27 @@ public class GameController extends Controller<GameModel, GameView> {
 				lblCardMeeples.setText(String.valueOf(cardMeeples));
 			});
 		}
+		
+		// empty display slots
+		for(int i = displayCards.size(); i < 6; i++ ) {
+			Pane pnlDisplayCard = (Pane) view.getRoot().lookup("#pnlDisplayCard" + (i + 1));
+			Label lblCardMeeples = (Label) view.getRoot().lookup("#lblCardMeeples" + (i + 1));
+			
+			Platform.runLater(() -> {
+				pnlDisplayCard.getStyleClass().clear();
+				pnlDisplayCard.setStyle("");
+				lblCardMeeples.setText("");
+			});
+		}
 
 		// Deck
 		int deckBack = gameState.getBoard().getDeckBack();
-		String url = this.resourceHelper.getUrlByCardBack(deckBack);
-		this.pnlDisplayCardStack.setStyle("-fx-background-image: url('" + url + "');");
+		if (deckBack != Card.BACK_NONE) {
+			String url = this.resourceHelper.getUrlByCardBack(deckBack);
+			this.pnlDisplayCardStack.setStyle("-fx-background-image: url('" + url + "');");
+		} else {
+			this.pnlDisplayCardStack.setStyle("");
+		}
 	}
 
 	/**
@@ -407,7 +427,7 @@ public class GameController extends Controller<GameModel, GameView> {
 	/**
 	 * Draw cads in location of player.
 	 *
-	 * @param player the player
+	 * @param player    the player
 	 * @param container the container
 	 */
 	private void drawLocationOfPlayer(Player player, GamePlayerContainer container) {
@@ -459,7 +479,7 @@ public class GameController extends Controller<GameModel, GameView> {
 					int marginLeft = (k * 20) + 3;
 					StackPane.setMargin(pane, new Insets(3, marginLeft, 0, 0));
 					pane.setStyle(style);
-					//hover a location card -> show in highlighted box
+					// hover a location card -> show in highlighted box
 					pane.hoverProperty().addListener((observable, oldValue, newValue) -> {
 						if (newValue) {
 							pnlHover.setStyle(pane.getStyle());
@@ -473,7 +493,7 @@ public class GameController extends Controller<GameModel, GameView> {
 	/**
 	 * Show split card chooser.
 	 *
-	 * @param splitCard the split card
+	 * @param splitCard     the split card
 	 * @param splitCardInfo the split card info
 	 * @return the int
 	 */

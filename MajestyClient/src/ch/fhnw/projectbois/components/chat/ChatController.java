@@ -173,7 +173,6 @@ public class ChatController extends Controller<ChatModel, ChatView> {
 			String part1 = parts[0];
 
 			ChatMember receiver = model.getUsernameMap().get(part1);
-			System.out.println(receiver);
 			if (receiver != null && receiver != model.getCurrentUserChatMember()) {
 				String newMessage = "";
 				for (int i = 1; i < parts.length; i++) {
