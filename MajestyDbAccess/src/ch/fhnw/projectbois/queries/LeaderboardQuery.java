@@ -38,7 +38,7 @@ public class LeaderboardQuery {
 	        // calls the predefined view in the MySQL DB and writes each tuple into a separate LeaderboardPlayerDBO
 	        // which is added to a LeaderboardDTO object that holds an ArrayList of LeaderboardPlayerDTO objects
 	        // limit the query to the first 100 players
-			rs = statement.executeQuery("SELECT * FROM ***REMOVED***.leaderboard");
+			rs = statement.executeQuery("SELECT * FROM fhnw_majesty.leaderboard");
 			while (rs.next()) {
 				LeaderboardPlayerDTO player = new LeaderboardPlayerDTO();
 				player.setRank(rank++);
