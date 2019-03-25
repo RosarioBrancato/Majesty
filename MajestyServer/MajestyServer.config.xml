@@ -1,14 +1,14 @@
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Server>
+		<Port></Port>
+	</Server>
+	<Database>
+		<Hostname></Hostname>
+		<Port></Port>
+		<DbName></DbName>
+		<Username></Username>
+		<Password></Password>
+		<Timezone></Timezone>
+	</Database>
+</Configuration>
